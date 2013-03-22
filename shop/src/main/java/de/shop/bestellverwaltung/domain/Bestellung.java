@@ -7,9 +7,13 @@ import java.util.Set;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+
 import javax.validation.constraints.Min;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonProperty;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import static de.shop.util.Konstante.KEINE_ID;
@@ -18,14 +22,14 @@ import static de.shop.util.Konstante.LONG_ANZ_ZIFFERN;
 import static javax.persistence.CascadeType.PERSIST;
 import static javax.persistence.CascadeType.REMOVE;
 import static javax.persistence.TemporalType.DATE;
-
 import de.shop.util.PreExistingGroup;
 import de.shop.util.IdGroup;
 /**/
 import static java.util.logging.Level.FINER;
-
 import static javax.persistence.FetchType.EAGER;
  
+
+
 
 import java.lang.invoke.MethodHandles;
 import java.net.URI;
@@ -94,7 +98,6 @@ import de.shop.kundenverwaltung.domain.Kunde;
 	@NamedQuery(name = Bestellung.FINDE_ALLE_BESTELLUNGEN_NACH_ID_SORTIERT,
 				query = "Select b From Bestellung b Order By b.id")
 })
-@XmlRootElement
 public class Bestellung implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
@@ -117,27 +120,26 @@ public class Bestellung implements Serializable {
 	@GeneratedValue
 	@Column(name = "b_id", nullable = false, unique = true, updatable = false, precision = LONG_ANZ_ZIFFERN)
 	@Min(value = MIN_ID, message = "{bestellverwaltung.bestellung.id.min}", groups = IdGroup.class)
-	@XmlAttribute
 	private Long id = KEINE_ID;
 
 	@Temporal(DATE)
 	@Column(name = "b_aktualisiert", nullable = false)
-	@XmlTransient
+	@JsonIgnore
 	private Date aktualisiert;
 
 	@Temporal(DATE)
 	@Column(name = "b_erzeugt", nullable = false)
-	@XmlTransient
+	@JsonIgnore
 	private Date erzeugt;
 
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "b_kunde_fk", nullable = false, insertable = false, updatable = false)
 	@NotNull(message = "{bestellverwaltung.bestellung.kunde.notNull}", groups = PreExistingGroup.class)
-	@XmlTransient
+	@JsonIgnore
 	private Kunde kunde;
 	
 	@Transient
-	@XmlElement(name = "kunde", required = true)
+	@JsonProperty("kunde")
 	private URI kundeUri;
 	
 	@OneToMany(fetch = EAGER, cascade = {PERSIST, REMOVE })
@@ -146,21 +148,20 @@ public class Bestellung implements Serializable {
 	@NotEmpty(message = "{bestellverwaltung.bestellung.bestellpositionen.notEmpty}")
 	@Valid
 	@XmlElementWrapper(name = "bestellpositionen", required = true)
-	@XmlElement(name = "bestellposition", required = true)
+	@JsonProperty("bestellposition")
 	private List<Bestellposition> bestellpositionen;
 	
 	@ManyToMany
 	@JoinTable(name = "bestellung_lieferung", joinColumns = @JoinColumn(name = "bl_bestellung_fk"),
 				inverseJoinColumns = @JoinColumn(name = "bl_lieferung_fk"))
-	@XmlTransient
+	@JsonIgnore
 	private Set<Lieferung> lieferungen;
 	
 	@Transient
-	@XmlElement(name = "lieferungen")
+	@JsonProperty("lieferungen")
 	private URI lieferungenUri;
 	
 	@Column(name = "b_offenAbgeschlossen", nullable = false)
-	@XmlElement
 	private boolean offenAbgeschlossen;
 	
 	public void setWerte(Bestellung bestellung) {

@@ -17,6 +17,8 @@ import java.util.List;
 import java.util.logging.Logger;
 
 
+
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -47,6 +49,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 
+
+
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonProperty;
 import org.hibernate.validator.constraints.Email;
 
 import de.shop.bestellverwaltung.domain.Bestellung;
@@ -105,7 +111,6 @@ import de.shop.util.IdGroup;
             query = "FROM Kunde k WHERE k.newsletter = TRUE")
             			        
 })
-@XmlRootElement
 public class Kunde implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
@@ -172,12 +177,11 @@ public class Kunde implements Serializable {
 	@GeneratedValue
 	@Column(name = "k_id", unique = true, nullable = false, updatable = false)
 	@Min(value = MIN_ID, message = "{kundenverwaltung.kunde.id.min}", groups = IdGroup.class)
-	@XmlAttribute
 	private Long id = KEINE_ID;
 
 	@Temporal(DATE)
 	@Column(name = "k_aktualisiert", nullable = false)
-	@XmlTransient
+	@JsonIgnore
 	private Date aktualisiert;
 
 	@Column(name = "k_art")
@@ -189,7 +193,7 @@ public class Kunde implements Serializable {
 
 	@Temporal(DATE)
 	@Column(name = "k_erzeugt", nullable = false)
-	@XmlTransient
+	@JsonIgnore
 	private Date erzeugt;
 
 	@Column(name = "k_familienstand")
@@ -242,17 +246,16 @@ public class Kunde implements Serializable {
 	@JoinColumn(name = "k_adresse_fk")
 	@Valid
 	@NotNull(message = "{kundenverwaltung.kunde.adresse.notNull}")
-	@XmlElement(required = true)
 	private Adresse adresse;
 	
 	@OneToMany
 	@JoinColumn(name = "b_kunde_fk", nullable = false)
 	@OrderColumn(name = "b_idx", nullable = false)
-	@XmlTransient
+	@JsonIgnore
 	private List<Bestellung> bestellungen;
 	
 	@Transient
-	@XmlElement(name = "bestellungen")
+	@JsonProperty("bestellungen")
 	private URI bestellungenUri;
 	
 	@PrePersist

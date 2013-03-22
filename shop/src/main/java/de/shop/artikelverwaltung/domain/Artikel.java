@@ -28,9 +28,11 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlTransient;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonProperty;
+
 import de.shop.util.IdGroup;
 import de.shop.util.PreExistingGroup;
-
 import static de.shop.util.Konstante.KEINE_ID;
 import static de.shop.util.Konstante.MIN_ID;
 import static java.util.logging.Level.FINER;
@@ -56,7 +58,6 @@ import static javax.persistence.CascadeType.REMOVE;
 	@NamedQuery(name = Artikel.FINDE_ARTIKEL_NACH_ARTIKELGRUPPE_ID,
 				query = "Select a From Artikel a JOIN a.artikelgruppe ag WHERE ag.id = :" + Artikel.PARAM_ID)
 })
-@XmlRootElement
 public class Artikel implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
@@ -82,41 +83,37 @@ public class Artikel implements Serializable {
 	@GeneratedValue
 	@Column(name = "a_id")
 	@Min(value = MIN_ID, message = "{artikelverwaltung.artikel.id.min}", groups = IdGroup.class)
-	@XmlAttribute
 	private Long id = KEINE_ID;
 
 	@Temporal(DATE)
 	@Column(name = "a_aktualisiert", nullable = false)
-	@XmlTransient
+	@JsonIgnore
 	private Date aktualisiert;
 
 	@Column(name = "a_bezeichnung")
 	@NotNull(message = "{artikelverwaltung.artikel.bezeichnung.notNull}")
 	@Size(max = BEZEICHNUNG_LENGTH_MAX, message = "{artikelverwaltung.artikel.bezeichnung.length}")
-	@XmlElement(required = true)
 	private String bezeichnung;
 
 	@Column(name = "a_erhaeltlich")
-	@XmlElement
 	private boolean erhaeltlich;
 
 	@Temporal(DATE)
 	@Column(name = "a_erzeugt", nullable = false)
-	@XmlTransient
+	@JsonIgnore
 	private Date erzeugt;
 
 	@Column(name = "a_preis")
-	@XmlElement
 	private double preis;
 	
 	@ManyToOne(optional = false, cascade = { PERSIST, REMOVE })
 	@JoinColumn(name = "a_artikelgruppe_fk", nullable = false, insertable = false, updatable = false)
 	@NotNull(message = "{artikelverwaltung.artikel.artikelgruppe.notNull}", groups = PreExistingGroup.class)
-	@XmlTransient
+	@JsonIgnore
 	private Artikelgruppe artikelgruppe;
 	
 	@Transient
-	@XmlElement(name = "artikelgruppe")
+	@JsonProperty("artikelgruppe")
 	private URI artikelgruppeUri;
 
 	public Artikel() {

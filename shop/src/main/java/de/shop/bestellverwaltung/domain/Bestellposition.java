@@ -1,6 +1,7 @@
 package de.shop.bestellverwaltung.domain;
 
 import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,11 +15,10 @@ import javax.validation.constraints.NotNull;
 
 import static de.shop.util.Konstante.KEINE_ID;
 import static de.shop.util.Konstante.MIN_ID;
-
 import de.shop.artikelverwaltung.domain.Artikel;
 import de.shop.util.IdGroup;
-
 import static java.util.logging.Level.FINER;
+
 
 
 import java.lang.invoke.MethodHandles;
@@ -26,12 +26,14 @@ import java.net.URI;
 import java.util.logging.Logger;
 
 
-import javax.persistence.Transient;
 
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
  * The persistent class for the bestellposition database table.
@@ -39,7 +41,6 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name = "bestellposition")
-@XmlRootElement
 public class Bestellposition implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
@@ -49,24 +50,22 @@ public class Bestellposition implements Serializable {
 	@Id
 	@GeneratedValue
 	@Column(name = "bp_id")
-	@XmlAttribute
 	@Min(value = MIN_ID, message = "{bestellverwaltung.bestellung.id.min}", groups = IdGroup.class)
 	private Long id = KEINE_ID;
 
 	@Column(name = "bp_anzahl")
-	@XmlElement(required = true)
 	@Min(value = ANZAHL_MIN, message = "{bestellverwaltung.bestellposition.anzahl.min}")
 	private short anzahl;
 
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "bp_artikel_fk", nullable = false)
 	@NotNull(message = "{bestellverwaltung.bestellposition.artikel.notNull}")
-	@XmlTransient
+	@JsonIgnore
 	private Artikel artikel;
 	
 	
 	@Transient
-	@XmlElement(name = "artikel", required = true)
+	@JsonProperty("artikel")
 	private URI artikelUri;
 
 	public Bestellposition() {

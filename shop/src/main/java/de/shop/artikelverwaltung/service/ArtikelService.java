@@ -31,7 +31,7 @@ import com.google.common.base.Strings;
 import de.shop.artikelverwaltung.domain.Artikel;
 import de.shop.artikelverwaltung.domain.Artikelgruppe;
 import de.shop.util.Log;
-import de.shop.util.ValidationService;
+import de.shop.util.ValidationProvider;
 import de.shop.bestellverwaltung.service.BestellungService;
 import de.shop.bestellverwaltung.domain.Bestellung;
 import de.shop.bestellverwaltung.domain.Bestellposition;
@@ -42,7 +42,7 @@ public class ArtikelService implements Serializable {
 	private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 	
 	@Inject
-	private ValidationService validationService;
+	private ValidationProvider validationService;
 	
 	@Inject
 	private BestellungService bs;

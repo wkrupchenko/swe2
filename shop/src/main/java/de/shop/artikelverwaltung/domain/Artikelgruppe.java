@@ -1,11 +1,12 @@
 package de.shop.artikelverwaltung.domain;
 
 import java.io.Serializable;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
 import de.shop.util.IdGroup;
+
 import java.net.URI;
 
 import javax.persistence.Column;
@@ -27,6 +28,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 import static de.shop.util.Konstante.KEINE_ID;
 import static de.shop.util.Konstante.MIN_ID;
 
@@ -40,7 +43,6 @@ import static de.shop.util.Konstante.MIN_ID;
 	@NamedQuery(name = Artikelgruppe.FINDE_ARTIKELGRUPPE_NACH_NAME,
 				query = "From Artikelgruppe ag Where ag.name = :" + Artikelgruppe.PARAM_NAME)
 })
-@XmlRootElement
 public class Artikelgruppe implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
@@ -58,23 +60,20 @@ public class Artikelgruppe implements Serializable {
 	@GeneratedValue
 	@Column(name = "ag_id")
 	@Min(value = MIN_ID, message = "{artikelverwaltung.artikelgruppe.id.min}", groups = IdGroup.class)
-	@XmlAttribute
 	private Long id = KEINE_ID;
 
 	@Column(name = "ag_name")
 	@NotNull(message = "{artikelverwaltung.artikelgruppe.bezeichnung.notNull}")
 	@Size(max = BEZEICHNUNG_LENGTH_MAX, message = "{artikelverwaltung.artikelgruppe.bezeichnung.length}")
-	@XmlElement(required = true)
 	private String name;
 	
 	@OneToMany
 	@JoinColumn(name = "a_artikelgruppe_fk", nullable = false)
 	@OrderColumn(name = "a_idx")
-	@XmlTransient
+	@JsonIgnore
 	private List<Artikel> artikel;
 	
 	@Transient
-	@XmlElement
 	private URI artikelUri;
 
 	public Artikelgruppe() {

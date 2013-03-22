@@ -1,14 +1,19 @@
 package de.shop.bestellverwaltung.domain;
 
 import java.io.Serializable;
+
 import javax.validation.constraints.Min;
+
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.hibernate.validator.constraints.NotEmpty;
+
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -20,16 +25,17 @@ import javax.persistence.Table;
 
 import de.shop.util.IdGroup;
 import de.shop.util.PreExistingGroup;
-
 import static de.shop.util.Konstante.KEINE_ID;
 import static de.shop.util.Konstante.MIN_ID;
 /**/
  
  
 import static java.util.logging.Level.FINER;
+
 import java.lang.invoke.MethodHandles;
 import java.net.URI;
 import java.util.logging.Logger;
+
 import javax.persistence.PostPersist;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
@@ -50,7 +56,6 @@ import javax.xml.bind.annotation.XmlTransient;
    @NamedQuery(name = Lieferung.FINDE_LIEFERUNGEN_NACH_BESTELLUNG_ID,
    			query = "Select l from Lieferung l join l.bestellungen b Where b.id = :" + Lieferung.PARAM_ID)
 })
-@XmlRootElement
 public class Lieferung implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
@@ -64,37 +69,33 @@ public class Lieferung implements Serializable {
 	@Id
 	@GeneratedValue
 	@Column(name = "l_id", nullable = false)
-	@XmlAttribute
 	@Min(value = MIN_ID, message = "{bestellverwaltung.bestellung.id.min}", groups = IdGroup.class)
 	private Long id = KEINE_ID;
 
 	@Column(name = "l_aktualisiert", nullable = false)
-	@XmlTransient
+	@JsonIgnore
 	private Date aktualisiert;
 
 	@Column(name = "l_erzeugt", nullable = false)
-	@XmlTransient
+	@JsonIgnore
 	private Date erzeugt;
 
 	@Column(name = "l_inlandOderAusland")
-	@XmlElement
 	private String inlandOderAusland;
 
 	@Column(name = "l_liefernr", nullable = false)
-	@XmlElement(required = true)
 	private String liefernr;
 
 	@Column(name = "l_transport_art")
-	@XmlElement
 	private String transportArt;
 	
 	@ManyToMany(mappedBy = "lieferungen")
 	@NotEmpty(message = "{bestellverwaltung.lieferung.bestellungen.notEmpty}", groups = PreExistingGroup.class)
-	@XmlTransient
+	@JsonIgnore
 	private Set<Bestellung> bestellungen;
 	
 	@Transient
-	@XmlElement(name = "bestellungen", required = true)
+	@JsonProperty("bestellungen")
 	private URI bestellungenUri;
 
 	public Lieferung() {
