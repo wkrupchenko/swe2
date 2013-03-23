@@ -9,6 +9,7 @@ import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
+import javax.inject.Inject;
 import javax.mail.Message.RecipientType;
 import javax.mail.MessagingException;
 import javax.mail.Session;
@@ -20,23 +21,30 @@ import de.shop.bestellverwaltung.domain.Bestellposition;
 import de.shop.bestellverwaltung.domain.Bestellung;
 import de.shop.bestellverwaltung.service.NeueBestellung;
 import de.shop.kundenverwaltung.domain.Kunde;
+import de.shop.util.Config;
 import de.shop.util.Log;
 
 @ApplicationScoped
 @Log
 public class BestellungObserver implements Serializable {
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -1567643645881819340L;
 	private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 	private static final String NEWLINE = System.getProperty("line.separator");
 	
 	@Resource(lookup = "java:jboss/mail/Default")
 	private transient Session mailSession;
 	
-	private String mailAbsender;   // in META-INF\seam-beans.xml setzen
-	private String nameAbsender;   // in META-INF\seam-beans.xml setzen
+	@Inject
+	private Config config;
+	
+	private String mailAbsender;   
+	private String nameAbsender; 
 
 	@PostConstruct
 	private void init() {
+		mailAbsender = config.getAbsenderMail();
+		nameAbsender = config.getAbsenderName();
+		
 		if (mailAbsender == null) {
 			LOGGER.warning("Der Absender fuer Bestellung-Emails ist nicht gesetzt.");
 			return;

@@ -36,7 +36,7 @@ import de.shop.kundenverwaltung.domain.Kunde_;
 import de.shop.kundenverwaltung.domain.PasswordGroup;
 import de.shop.util.IdGroup;
 import de.shop.util.Log;
-import de.shop.util.ValidationProvider;
+import de.shop.util.ValidatorProvider;
 
 @Log
 public class KundeService implements Serializable {
@@ -57,7 +57,7 @@ public class KundeService implements Serializable {
 	private transient EntityManager em;
 	
 	@Inject
-	private ValidationProvider validationService;
+	private ValidatorProvider validationService;
 	
 	@PostConstruct
 	private void postConstruct() {

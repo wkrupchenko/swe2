@@ -43,12 +43,14 @@ import de.shop.kundenverwaltung.service.KundeService;
 import de.shop.kundenverwaltung.service.KundeService.FetchType;
 import de.shop.util.Log;
 import de.shop.util.NotFoundException;
+import de.shop.util.Transactional;
 
 
 @Path("/bestellungen")
-@Produces({ APPLICATION_XML, TEXT_XML, APPLICATION_JSON })
+@Produces(APPLICATION_JSON)
 @Consumes
 @RequestScoped
+@Transactional
 @Log
 public class BestellverwaltungResource {
 	private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());

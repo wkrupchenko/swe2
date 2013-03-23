@@ -44,12 +44,14 @@ import de.shop.util.Log;
 import de.shop.util.NotFoundException;
 import de.shop.util.RestLongWrapper;
 import de.shop.util.RestStringWrapper;
+import de.shop.util.Transactional;
 
 
 @Path("/kunden")
-@Produces({ APPLICATION_XML, TEXT_XML, APPLICATION_JSON })
+@Produces(APPLICATION_JSON)
 @Consumes
 @RequestScoped
+@Transactional
 @Log
 
 public class KundeResource {

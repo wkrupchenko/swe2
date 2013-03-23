@@ -37,7 +37,7 @@ import de.shop.kundenverwaltung.service.KundeService;
 import de.shop.kundenverwaltung.service.KundeService.FetchType;
 import de.shop.util.IdGroup;
 import de.shop.util.Log;
-import de.shop.util.ValidationProvider;
+import de.shop.util.ValidatorProvider;
 
 @Log
 public class BestellungServiceImpl implements Serializable, BestellungService {
@@ -51,7 +51,7 @@ public class BestellungServiceImpl implements Serializable, BestellungService {
 	private KundeService ks;
 	
 	@Inject
-	private ValidationProvider validationService;
+	private ValidatorProvider validationService;
 	
 	@Inject
 	@NeueBestellung

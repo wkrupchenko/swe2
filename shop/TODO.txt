@@ -1,8 +1,8 @@
 1)  ValidationService -> ValidatorProvider ERLEDIGT
 2) REST: @JsonIgnore, @JsonProperty ERLEDIGT
-3) Verzicht auf JBoss Solder und Seam Faces
-3a) JBoss Solder: ersetzt durch die Klasse Config mit @Resource und web.xml
-3b) Seam Faces: Annotation @Transactional mit Interceptor-Klasse TransactionalInterceptor (zzgl. Eintrag in beans.xml)
+3) Verzicht auf JBoss Solder und Seam Faces ERLEDIGT
+3a) JBoss Solder: ersetzt durch die Klasse Config mit @Resource und web.xml ERLEDIGT
+3b) Seam Faces: Annotation @Transactional mit Interceptor-Klasse TransactionalInterceptor (zzgl. Eintrag in beans.xml) ERLEDIGT
 4) Keine Tests für Awk und DB-Zugriffsschicht
 5) CSV-Dateien -> SQL-Skripte
 6) Kein DbUnit
