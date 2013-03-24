@@ -1,4 +1,4 @@
-package de.shop.kundenverwaltung.service;
+/*package de.shop.kundenverwaltung.service;
 
 import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.CoreMatchers.both;
@@ -418,3 +418,4 @@ public class KundeServiceTest extends AbstractTest {
 		assertThat(kunde.getNachname(), is(neuerNachname));
 	}
 }
+*/

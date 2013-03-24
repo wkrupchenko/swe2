@@ -1,4 +1,4 @@
-package de.shop.bestellverwaltung.domain;
+/*package de.shop.bestellverwaltung.domain;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -228,3 +228,4 @@ public class BestellungTest extends AbstractDomainTest {
 		}
 	}
 }
+*/

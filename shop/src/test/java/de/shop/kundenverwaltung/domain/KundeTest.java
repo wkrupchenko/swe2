@@ -1,4 +1,4 @@
-package de.shop.kundenverwaltung.domain;
+/*package de.shop.kundenverwaltung.domain;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -287,3 +287,4 @@ public class KundeTest extends AbstractDomainTest {
 		}
 	}
 }
+*/

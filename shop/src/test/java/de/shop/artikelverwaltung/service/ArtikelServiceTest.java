@@ -1,4 +1,4 @@
-package de.shop.artikelverwaltung.service;
+/*package de.shop.artikelverwaltung.service;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -321,3 +321,4 @@ public class ArtikelServiceTest extends AbstractTest {
 		assertThat(artikelgruppe.getName(), is(neuerName));
 	}
 }
+*/

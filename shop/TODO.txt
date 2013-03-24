@@ -3,9 +3,9 @@
 3) Verzicht auf JBoss Solder und Seam Faces ERLEDIGT
 3a) JBoss Solder: ersetzt durch die Klasse Config mit @Resource und web.xml ERLEDIGT
 3b) Seam Faces: Annotation @Transactional mit Interceptor-Klasse TransactionalInterceptor (zzgl. Eintrag in beans.xml) ERLEDIGT
-4) Keine Tests für Awk und DB-Zugriffsschicht
+4) Keine Tests für Awk und DB-Zugriffsschicht ERLEDIGT
 5) CSV-Dateien -> SQL-Skripte
-6) Kein DbUnit
+6) Kein DbUnit ERLEDIGT
 7) ArchiveService -> ArchiveBuilder zzgl. neue Klasse TestConstants (statt Testklassen)
 inkl. Upgrades von Arquillian, ShrinkWrap und ShrinkWrap Resolver
 8) JBoss Logging statt j.u.l

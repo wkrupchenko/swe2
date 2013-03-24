@@ -1,4 +1,4 @@
-package de.shop.artikelverwaltung.domain;
+/*package de.shop.artikelverwaltung.domain;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -265,3 +265,4 @@ public class ArtikelTest extends AbstractDomainTest {
 		assertThat(artikelgruppe2.getId().longValue() > 0, is(true));
 	}
 }
+*/

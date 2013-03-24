@@ -1,4 +1,4 @@
-package de.shop.bestellverwaltung.service;
+/*package de.shop.bestellverwaltung.service;
 
 
 import static org.hamcrest.CoreMatchers.anyOf;
@@ -299,3 +299,4 @@ public class BestellungServiceTest extends AbstractTest {
 		}
 	}
 }
+*/
