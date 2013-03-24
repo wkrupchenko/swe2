@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="ISO-8859-1" standalone="yes"?>
-<artikel xmlns="urn:shop:artikelverwaltung">
-	<bezeichnung>NeuerTestArtikel</bezeichnung>
-	<erhaeltlich>true</erhaeltlich>
-	<preis>99.99</preis>
-	<artikelgruppe>localhost:8080/shop/rest/artikel/artikelgruppe/400</artikelgruppe>
-</artikel>

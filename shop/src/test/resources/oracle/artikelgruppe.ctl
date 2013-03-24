@@ -1,7 +1,0 @@
-OPTIONS(direct=true)
-UNRECOVERABLE LOAD DATA
-INTO TABLE artikelgruppe
-APPEND
-FIELDS TERMINATED BY ';' OPTIONALLY ENCLOSED BY '"' (
-	ag_id,
-	ag_name)
