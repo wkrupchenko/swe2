@@ -1,8 +1,3 @@
--- ===============================================================================
--- Jede SQL-Anweisung muss in genau 1 Zeile
--- Kommentare durch -- am Zeilenanfang
--- ===============================================================================
-
 INSERT INTO artikelgruppe (id, name) VALUES (400,'Wintermode');
 INSERT INTO artikelgruppe (id, name) VALUES (401,'Sommermode');
 INSERT INTO artikelgruppe (id, name) VALUES (402,'Herbstmode');

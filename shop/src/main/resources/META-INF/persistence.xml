@@ -16,25 +16,26 @@
 		
 		<properties>
 			<!-- http://docs.jboss.org/hibernate/orm/4.1/manual/en-US/html/ch03.html -->
+			<!-- neue, effizientere Strategie fuer generierte Primaerschluessel: -->
 			
-			<!-- Keine proprietaeren Erweiterungen von HQL nutzen -->
+			<!-- Sequence-aehnliche Tabelle -->
+			<property name="hibernate.id.new_generator_mappings" value="true"/>
+			
+			<!-- Nur "Java Persistence query language" (siehe Kap. 5.7) nutzen, -->
+			<!-- keine proprietaeren Erweiterungen von HQL nutzen -->
 			<property name="hibernate.query.jpaql_strict_compliance" value="true"/>
-
-			<!-- SQL-Anweisungen lesbar protokollieren -->
+			
+			<!-- In der Log-Datei die SQL-Anweisungen lesbarer rausschreiben -->
 			<property name="hibernate.format_sql" value="true"/>
-
+			
 			<!-- Kommentare zu den generierten SQL-Anweisungen hinzufuegen -->
 			<property name="hibernate.use_sql_comments" value="true"/>
 			
-			<!-- Ab Hibernate 4.1: Tabelle fuer eine emulierte Sequenz anstatt z.B. auto_increment -->
-			<property name="hibernate.id.new_generator_mappings" value="true"/>
-			
 			<!-- Tabellen loeschen und neu generieren beim Laden der Anwendung -->
 			<property name="hibernate.hbm2ddl.auto" value="create"/>
-
+			
 			<!-- SQL-Skript ausfuehren beim Laden der Anwendung -->
 			<property name="hibernate.hbm2ddl.import_files" value="sql/01_table.sql,sql/02_another.sql"/>
-			
 		</properties>
 	</persistence-unit>
 </persistence>

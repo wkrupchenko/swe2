@@ -1,8 +1,3 @@
--- ===============================================================================
--- Jede SQL-Anweisung muss in genau 1 Zeile
--- Kommentare durch -- am Zeilenanfang
--- ===============================================================================
-
 INSERT INTO artikel (id, version, bezeichnung, erhaeltlich, preis, artikelgruppe, erzeugt, aktualisiert) VALUES (500,0,'Schlauchschal',0,38.89,'01.01.2007 00:00:00.000','01.01.2007 00:00:00.000',400,0);
 INSERT INTO artikel (id, version, bezeichnung, erhaeltlich, preis, artikelgruppe, erzeugt, aktualisiert) VALUES (501,0,'T-Shirt Helios',1,59.99,'21.04.2007 00:00:00.000','21.04.2007 00:00:00.000',401,0);
 INSERT INTO artikel (id, version, bezeichnung, erhaeltlich, preis, artikelgruppe, erzeugt, aktualisiert) VALUES (502,0,'Socken',1,19.89,'02.01.2008 00:00:00.000','02.01.2008 00:00:00.000',401,1);
