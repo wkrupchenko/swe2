@@ -2,10 +2,10 @@ package de.shop.artikelverwaltung.domain;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.logging.Logger;
+import org.jboss.logging.Logger;
 import java.lang.invoke.MethodHandles;
 import java.net.URI;
-
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,29 +14,26 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.PostPersist;
+import javax.persistence.PostUpdate;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.NamedQuery;
 import javax.persistence.Temporal;
 import javax.persistence.Transient;
+import javax.persistence.Version;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlTransient;
-
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
-
 import de.shop.util.IdGroup;
 import de.shop.util.PreExistingGroup;
+
 import static de.shop.util.Konstante.KEINE_ID;
 import static de.shop.util.Konstante.MIN_ID;
-import static java.util.logging.Level.FINER;
-import static javax.persistence.TemporalType.DATE;
+import static de.shop.util.Konstante.ERSTE_VERSION;
+import static javax.persistence.TemporalType.TIMESTAMP;
 import static javax.persistence.CascadeType.PERSIST;
 import static javax.persistence.CascadeType.REMOVE;
 
@@ -60,7 +57,7 @@ import static javax.persistence.CascadeType.REMOVE;
 })
 public class Artikel implements Serializable {
 	private static final long serialVersionUID = 1L;
-	private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
+	private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass());
 	
 	private static final String PREFIX = "Artikel.";
 	public static final String FINDE_ARTIKEL_NACH_BEZ = PREFIX + "findeArtikelNachBezeichnung";
@@ -81,33 +78,27 @@ public class Artikel implements Serializable {
 	
 	@Id
 	@GeneratedValue
-	@Column(name = "a_id")
+	@Column(nullable = false, updatable = false)
 	@Min(value = MIN_ID, message = "{artikelverwaltung.artikel.id.min}", groups = IdGroup.class)
 	private Long id = KEINE_ID;
+	
+	@Version
+	@Basic(optional = false)
+	private int version = ERSTE_VERSION;
 
-	@Temporal(DATE)
-	@Column(name = "a_aktualisiert", nullable = false)
-	@JsonIgnore
-	private Date aktualisiert;
-
-	@Column(name = "a_bezeichnung")
+	@Column(length = BEZEICHNUNG_LENGTH_MAX, nullable = false)
 	@NotNull(message = "{artikelverwaltung.artikel.bezeichnung.notNull}")
 	@Size(max = BEZEICHNUNG_LENGTH_MAX, message = "{artikelverwaltung.artikel.bezeichnung.length}")
 	private String bezeichnung;
 
-	@Column(name = "a_erhaeltlich")
+	@Column
 	private boolean erhaeltlich;
 
-	@Temporal(DATE)
-	@Column(name = "a_erzeugt", nullable = false)
-	@JsonIgnore
-	private Date erzeugt;
-
-	@Column(name = "a_preis")
+	@Column(nullable = false, precision = 10, scale = 2)
 	private double preis;
 	
 	@ManyToOne(optional = false, cascade = { PERSIST, REMOVE })
-	@JoinColumn(name = "a_artikelgruppe_fk", nullable = false, insertable = false, updatable = false)
+	@JoinColumn(name = "artikelgruppe_fk", nullable = false, insertable = false, updatable = false)
 	@NotNull(message = "{artikelverwaltung.artikel.artikelgruppe.notNull}", groups = PreExistingGroup.class)
 	@JsonIgnore
 	private Artikelgruppe artikelgruppe;
@@ -115,6 +106,16 @@ public class Artikel implements Serializable {
 	@Transient
 	@JsonProperty("artikelgruppe")
 	private URI artikelgruppeUri;
+	
+	@Temporal(TIMESTAMP)
+	@Column(nullable = false)
+	@JsonIgnore
+	private Date erzeugt;
+	
+	@Temporal(TIMESTAMP)
+	@Column(nullable = false)
+	@JsonIgnore
+	private Date aktualisiert;
 
 	public Artikel() {
 		super();
@@ -135,7 +136,12 @@ public class Artikel implements Serializable {
 	
 	@PostPersist
 	private void postPersist() {
-		LOGGER.log(FINER, "Neuer Artikel mit ID={0}", id);
+		LOGGER.debugf("Neuer Artikel mit ID=%s", id);
+	}
+	
+	@PostUpdate
+	private void postUpdate() {
+		LOGGER.debugf("Artikel mit ID=%s aktualisiert: version=%d", id, version);
 	}
 	
 	@PreUpdate
@@ -150,13 +156,13 @@ public class Artikel implements Serializable {
 	public void setId(Long id) {
 		this.id = id;
 	}
-
-	public Date getAktualisiert() {
-		return this.aktualisiert == null ? null : (Date) this.aktualisiert.clone();
+	
+	public int getVersion() {
+		return version;
 	}
 
-	public void setAktualisiert(Date aktualisiert) {
-		this.aktualisiert = aktualisiert == null ? null : (Date) aktualisiert.clone();
+	public void setVersion(int version) {
+		this.version = version;
 	}
 
 	public String getBezeichnung() {
@@ -173,14 +179,6 @@ public class Artikel implements Serializable {
 
 	public void setErhaeltlich(boolean erhaeltlich) {
 		this.erhaeltlich = erhaeltlich;
-	}
-
-	public Date getErzeugt() {
-		return this.erzeugt == null ? null : (Date) this.erzeugt.clone();
-	}
-
-	public void setErzeugt(Date erzeugt) {
-		this.erzeugt = erzeugt == null ? null : (Date) erzeugt.clone();
 	}
 
 	public double getPreis() {
@@ -205,6 +203,22 @@ public class Artikel implements Serializable {
 	
 	public void setArtikelgruppeUri(URI artikelgruppeUri) {
 		this.artikelgruppeUri = artikelgruppeUri;
+	}
+	
+	public Date getErzeugt() {
+		return this.erzeugt == null ? null : (Date) this.erzeugt.clone();
+	}
+
+	public void setErzeugt(Date erzeugt) {
+		this.erzeugt = erzeugt == null ? null : (Date) erzeugt.clone();
+	}
+
+	public Date getAktualisiert() {
+		return this.aktualisiert == null ? null : (Date) this.aktualisiert.clone();
+	}
+
+	public void setAktualisiert(Date aktualisiert) {
+		this.aktualisiert = aktualisiert == null ? null : (Date) aktualisiert.clone();
 	}
 	
 	public void setWerte(Artikel a) {

@@ -8,4 +8,11 @@
 6) Kein DbUnit ERLEDIGT
 7) ArchiveService -> ArchiveBuilder zzgl. neue Klasse TestConstants (statt Testklassen)
 inkl. Upgrades von Arquillian, ShrinkWrap und ShrinkWrap Resolver
-8) JBoss Logging statt j.u.l
+8) JBoss Logging statt j.u.l ERLEDIGT FÜR DOMAINKLASSEN, SERVICE UND RESOURCE NOCH OFFEN
+
+
+ZUSÄTZLICH:
+
+- JPA Annotationen überprüfen und ggf. anpassen, da Hibernate Tabellen anlegt! ERLEDIGT
+- Parallele Transationen beachten --> VERSION einfügen ERLEDIGT
+- BestellungService und BestellungServiceImpl ändern --> kein Interface

@@ -1,7 +1,7 @@
 package de.shop.bestellverwaltung.domain;
 
 import java.io.Serializable;
-
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,31 +9,23 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.PostPersist;
+import javax.persistence.PostUpdate;
 import javax.persistence.Table;
+import javax.persistence.Version;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import de.shop.artikelverwaltung.domain.Artikel;
+import de.shop.util.IdGroup;
+import java.lang.invoke.MethodHandles;
+import java.net.URI;
+import org.jboss.logging.Logger;
+import javax.persistence.Transient;
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonProperty;
 
 import static de.shop.util.Konstante.KEINE_ID;
 import static de.shop.util.Konstante.MIN_ID;
-import de.shop.artikelverwaltung.domain.Artikel;
-import de.shop.util.IdGroup;
-import static java.util.logging.Level.FINER;
-
-
-
-import java.lang.invoke.MethodHandles;
-import java.net.URI;
-import java.util.logging.Logger;
-
-
-
-import javax.persistence.Transient;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
-
-import org.codehaus.jackson.annotate.JsonIgnore;
+import static de.shop.util.Konstante.ERSTE_VERSION;
 
 /**
  * The persistent class for the bestellposition database table.
@@ -43,22 +35,26 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 @Table(name = "bestellposition")
 public class Bestellposition implements Serializable {
 	private static final long serialVersionUID = 1L;
-	private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
+	private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass());
 	
 	private static final int ANZAHL_MIN = 1;
 
 	@Id
 	@GeneratedValue
-	@Column(name = "bp_id")
+	@Column(nullable = false, updatable = false)
 	@Min(value = MIN_ID, message = "{bestellverwaltung.bestellung.id.min}", groups = IdGroup.class)
 	private Long id = KEINE_ID;
+	
+	@Version
+	@Basic(optional = false)
+	private int version = ERSTE_VERSION;
 
-	@Column(name = "bp_anzahl")
+	@Column(nullable = false)
 	@Min(value = ANZAHL_MIN, message = "{bestellverwaltung.bestellposition.anzahl.min}")
 	private short anzahl;
 
 	@ManyToOne(optional = false)
-	@JoinColumn(name = "bp_artikel_fk", nullable = false)
+	@JoinColumn(name = "artikel_fk", nullable = false)
 	@NotNull(message = "{bestellverwaltung.bestellposition.artikel.notNull}")
 	@JsonIgnore
 	private Artikel artikel;
@@ -86,7 +82,12 @@ public class Bestellposition implements Serializable {
 	
 	@PostPersist
 	private void postPersist() {
-		LOGGER.log(FINER, "Neue Bestellposition mit ID={0}", id);
+		LOGGER.debugf("Neue Bestellposition mit ID=%s", id);
+	}
+	
+	@PostUpdate
+	private void postUpdate() {
+		LOGGER.debugf("Bestellposition mit ID=%s aktualisiert: version=%d", id, version);
 	}
 	
 	public Long getId() {
@@ -95,6 +96,14 @@ public class Bestellposition implements Serializable {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+	
+	public int getVersion() {
+		return version;
+	}
+
+	public void setVersion(int version) {
+		this.version = version;
 	}
 
 	public short getAnzahl() {

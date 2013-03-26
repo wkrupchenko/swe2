@@ -2,23 +2,21 @@ package de.shop.kundenverwaltung.domain;
 
 import static de.shop.util.Konstante.KEINE_ID;
 import static de.shop.util.Konstante.MIN_ID;
-import static java.util.logging.Level.FINER;
+import static de.shop.util.Konstante.ERSTE_VERSION;
 import static javax.persistence.CascadeType.PERSIST;
 import static javax.persistence.CascadeType.REMOVE;
 import static javax.persistence.TemporalType.DATE;
-
+import static javax.persistence.TemporalType.TIMESTAMP;
 import java.io.Serializable;
 import java.lang.invoke.MethodHandles;
+import java.math.BigDecimal;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Logger;
-
-
-
-
+import org.jboss.logging.Logger;
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -31,11 +29,13 @@ import javax.persistence.OneToOne;
 import javax.persistence.OrderColumn;
 import javax.persistence.PostLoad;
 import javax.persistence.PostPersist;
+import javax.persistence.PostUpdate;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.Transient;
+import javax.persistence.Version;
 import javax.validation.Valid;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.Min;
@@ -43,11 +43,9 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.hibernate.validator.constraints.Email;
-
 import de.shop.bestellverwaltung.domain.Bestellung;
 import de.shop.util.IdGroup;
 
@@ -161,6 +159,7 @@ public class Kunde implements Serializable {
 	public static final int EMAIL_LAENGE_MAX = 128;
 	public static final int DETAILS_LAENGE_MAX = 128 * 1024;
 	public static final int PASSWORT_LAENGE_MAX = 256;
+	public static final int ART_LAENGE_MIN_MAX = 1;
 	
 	public static final String PRIVATKUNDE = "P";
 	public static final String FIRMENKUNDE = "F";
@@ -168,51 +167,48 @@ public class Kunde implements Serializable {
 	
 	@Id
 	@GeneratedValue
-	@Column(name = "k_id", unique = true, nullable = false, updatable = false)
+	@Column(nullable = false, updatable = false)
 	@Min(value = MIN_ID, message = "{kundenverwaltung.kunde.id.min}", groups = IdGroup.class)
 	private Long id = KEINE_ID;
+	
+	@Version
+	@Basic(optional = false)
+	private int version = ERSTE_VERSION;
 
-	@Temporal(DATE)
-	@Column(name = "k_aktualisiert", nullable = false)
-	@JsonIgnore
-	private Date aktualisiert;
-
-	@Column(name = "k_art")
+	@Column(length = ART_LAENGE_MIN_MAX)
+	@Size(min = ART_LAENGE_MIN_MAX, max = ART_LAENGE_MIN_MAX, message = "{kundenverwaltung.kunde.art.length}")
 	private String art;
 
-	@Column(name = "k_email", length = EMAIL_LAENGE_MAX, nullable = false, unique = true)
+	@Column(length = EMAIL_LAENGE_MAX, unique = true)
 	@Email(message = "{kundenverwaltung.kunde.email.pattern}")
 	private String email;
 
-	@Temporal(DATE)
-	@Column(name = "k_erzeugt", nullable = false)
-	@JsonIgnore
-	private Date erzeugt;
-
-	@Column(name = "k_familienstand")
+	@Column(name = "familienstand_fk")
 	private FamilienstandTyp familienstand;
 
-	@Column(name = "k_geschlecht")
+	@Column(name = "geschlecht_fk")
 	private GeschlechtTyp geschlecht;
 
-	@Column(name = "k_nachname", length = NACHNAME_LAENGE_MAX, nullable = false)
+	@Column(length = NACHNAME_LAENGE_MAX, nullable = false)
 	@NotNull(message = "{kundenverwaltung.kunde.nachname.notNull}")
 	@Size(min = NACHNAME_LAENGE_MIN, max = NACHNAME_LAENGE_MAX,
 	      message = "{kundenverwaltung.kunde.nachname.length}")
 	@Pattern(regexp = NACHNAME_PATTERN, message = "{kundenverwaltung.kunde.nachname.pattern}")
 	private String nachname;
 	
-	@Column(name = "k_vorname", length = VORNAME_LAENGE_MAX, nullable = false)
+	@Column(length = VORNAME_LAENGE_MAX, nullable = false)
 	@Size(max = VORNAME_LAENGE_MAX, message = "{kundenverwaltung.kunde.vorname.length}")
 	private String vorname;
 
-	@Column(name = "k_newsletter")
+	@Column
 	private boolean newsletter;
 
-	@Column(name = "k_passwort", nullable = false, length = PASSWORT_LAENGE_MAX)
+	@Column(length = PASSWORT_LAENGE_MAX, nullable = false)
+	@Size(max = PASSWORT_LAENGE_MAX, message = "{kundenverwaltung.kunde.password.length}")
 	private String passwort;
 	
 	@Transient
+	@JsonIgnore
 	private String passwortWdh;
 	
 	@AssertTrue(groups = PasswordGroup.class, message = "{kundenverwaltung.kunde.passwort.notEqual}")
@@ -223,33 +219,41 @@ public class Kunde implements Serializable {
 		return passwort.equals(passwortWdh);
 	}
 
-	@Column(name = "k_rabatt")
-	private double rabatt;
+	@Column(nullable = false, precision = 5, scale = 4)
+	private BigDecimal rabatt;
 
+	@Column(nullable = false, precision = 15, scale = 3)
+	private BigDecimal umsatz;
+	
 	@Temporal(DATE)
-	@Column(name = "k_seit")
+	@Column
 	@Past(message = "{kundenverwaltung.kunde.seit.past}")
 	private Date seit;
-
-	@Column(name = "k_umsatz")
-	private double umsatz;
 	
-	
-	@OneToOne(cascade = {PERSIST, REMOVE })
-	@JoinColumn(name = "k_adresse_fk")
+	@OneToOne(mappedBy = "kunde", cascade = { PERSIST, REMOVE })
 	@Valid
 	@NotNull(message = "{kundenverwaltung.kunde.adresse.notNull}")
 	private Adresse adresse;
 	
 	@OneToMany
-	@JoinColumn(name = "b_kunde_fk", nullable = false)
-	@OrderColumn(name = "b_idx", nullable = false)
+	@JoinColumn(name = "kunde_fk", nullable = false)
+	@OrderColumn(name = "idx", nullable = false)
 	@JsonIgnore
 	private List<Bestellung> bestellungen;
 	
 	@Transient
 	@JsonProperty("bestellungen")
 	private URI bestellungenUri;
+	
+	@Temporal(TIMESTAMP)
+	@Column(nullable = false)
+	@JsonIgnore
+	private Date aktualisiert;
+	
+	@Temporal(TIMESTAMP)
+	@Column(nullable = false)
+	@JsonIgnore
+	private Date erzeugt;
 	
 	@PrePersist
 	protected void prePersist() {
@@ -259,7 +263,12 @@ public class Kunde implements Serializable {
 	
 	@PostPersist
 	protected void postPersist() {
-		LOGGER.log(FINER, "Neuer Kunde mit ID={0}", id);
+		LOGGER.debugf("Neuer Kunde mit ID=%d", id);
+	}
+	
+	@PostUpdate
+	protected void postUpdate() {
+		LOGGER.debugf("Kunde mit ID=%d aktualisiert: version=%d", id, version);
 	}
 	
 	@PreUpdate
@@ -295,13 +304,12 @@ public class Kunde implements Serializable {
 	public void setId(Long id) {
 		this.id = id;
 	}
-
-	public Date getAktualisiert() {
-		return this.aktualisiert == null ? null : (Date) this.aktualisiert.clone();
+	
+	public int getVersion() {
+		return version;
 	}
-
-	public void setAktualisiert(Date aktualisiert) {
-		this.aktualisiert = aktualisiert == null ? null : (Date) aktualisiert.clone();
+	public void setVersion(int version) {
+		this.version = version;
 	}
 
 	public String getArt() {
@@ -318,14 +326,6 @@ public class Kunde implements Serializable {
 
 	public void setEmail(String email) {
 		this.email = email;
-	}
-
-	public Date getErzeugt() {
-		return this.erzeugt == null ? null : (Date) this.erzeugt.clone();
-	}
-
-	public void setErzeugt(Date erzeugt) {
-		this.erzeugt = erzeugt == null ? null : (Date) erzeugt.clone();
 	}
 
 	public FamilienstandTyp getFamilienstand() {
@@ -376,27 +376,19 @@ public class Kunde implements Serializable {
 		this.passwortWdh = passwortWdh;
 	}
 
-	public double getRabatt() {
+	public BigDecimal getRabatt() {
 		return this.rabatt;
 	}
 
-	public void setRabatt(double rabatt) {
+	public void setRabatt(BigDecimal rabatt) {
 		this.rabatt = rabatt;
 	}
 
-	public Date getSeit() {
-		return this.seit == null ? null : (Date) this.seit.clone();
-	}
-
-	public void setSeit(Date seit) {
-		this.seit = seit == null ? null : (Date) seit.clone();
-	}
-
-	public double getUmsatz() {
+	public BigDecimal getUmsatz() {
 		return this.umsatz;
 	}
 
-	public void setUmsatz(double umsatz) {
+	public void setUmsatz(BigDecimal umsatz) {
 		this.umsatz = umsatz;
 	}
 
@@ -408,12 +400,36 @@ public class Kunde implements Serializable {
 		this.vorname = vorname;
 	}
 	
+	public Date getSeit() {
+		return this.seit == null ? null : (Date) this.seit.clone();
+	}
+
+	public void setSeit(Date seit) {
+		this.seit = seit == null ? null : (Date) seit.clone();
+	}
+	
 	public Adresse getAdresse() {
 		return this.adresse;
 	}
 	
 	public void setAdresse(Adresse adresse) {
 		this.adresse = adresse;
+	}
+	
+	public Date getAktualisiert() {
+		return this.aktualisiert == null ? null : (Date) this.aktualisiert.clone();
+	}
+
+	public void setAktualisiert(Date aktualisiert) {
+		this.aktualisiert = aktualisiert == null ? null : (Date) aktualisiert.clone();
+	}
+
+	public Date getErzeugt() {
+		return this.erzeugt == null ? null : (Date) this.erzeugt.clone();
+	}
+
+	public void setErzeugt(Date erzeugt) {
+		this.erzeugt = erzeugt == null ? null : (Date) erzeugt.clone();
 	}
 	
 	public List<Bestellung> getBestellungen() {

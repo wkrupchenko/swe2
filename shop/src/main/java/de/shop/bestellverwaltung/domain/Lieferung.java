@@ -2,9 +2,13 @@ package de.shop.bestellverwaltung.domain;
 
 import java.io.Serializable;
 
+import javax.validation.Valid;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonProperty;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import java.util.Date;
@@ -14,37 +18,40 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OrderBy;
+import javax.persistence.PostUpdate;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.Version;
 
 import de.shop.util.IdGroup;
 import de.shop.util.PreExistingGroup;
-import static de.shop.util.Konstante.KEINE_ID;
-import static de.shop.util.Konstante.MIN_ID;
-/**/
- 
- 
-import static java.util.logging.Level.FINER;
+import de.shop.bestellverwaltung.domain.TransportTyp;
 
 import java.lang.invoke.MethodHandles;
 import java.net.URI;
-import java.util.logging.Logger;
+
+import org.jboss.logging.Logger;
 
 import javax.persistence.PostPersist;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Transient;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
+import static de.shop.util.Konstante.KEINE_ID;
+import static de.shop.util.Konstante.MIN_ID; 
+import static de.shop.util.Konstante.ERSTE_VERSION;
+import static javax.persistence.CascadeType.PERSIST;
+import static javax.persistence.TemporalType.TIMESTAMP;
 
 @Entity
 @Table(name = "lieferung")
@@ -58,7 +65,10 @@ import javax.xml.bind.annotation.XmlTransient;
 })
 public class Lieferung implements Serializable {
 	private static final long serialVersionUID = 1L;
-	private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
+	
+	private static final int LIEFERNR_LAENGE_MAX = 12;
+	
+	private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass());
 	public static final String PARAM_ID = "id";
 	public static final String PARAM_LIEFERNR = "liefernr";
 	private static final String PREFIX = "Lieferung.";
@@ -68,41 +78,52 @@ public class Lieferung implements Serializable {
 
 	@Id
 	@GeneratedValue
-	@Column(name = "l_id", nullable = false)
+	@Column(nullable = false, updatable = false)
 	@Min(value = MIN_ID, message = "{bestellverwaltung.bestellung.id.min}", groups = IdGroup.class)
 	private Long id = KEINE_ID;
-
-	@Column(name = "l_aktualisiert", nullable = false)
-	@JsonIgnore
-	private Date aktualisiert;
-
-	@Column(name = "l_erzeugt", nullable = false)
-	@JsonIgnore
-	private Date erzeugt;
+	
+	@Version
+	@Basic(optional = false)
+	private int version = ERSTE_VERSION;
 
 	@Column(name = "l_inlandOderAusland")
 	private String inlandOderAusland;
 
-	@Column(name = "l_liefernr", nullable = false)
+	@Column(length = LIEFERNR_LAENGE_MAX, nullable = false, unique = true)
+	@NotNull(message = "{bestellverwaltung.lieferung.lieferNr.notNull}")
+	@Size(max = LIEFERNR_LAENGE_MAX, message = "{bestellverwaltung.lieferung.lieferNr.length}")
 	private String liefernr;
 
-	@Column(name = "l_transport_art")
-	private String transportArt;
+	@Column(name = "transport_art_fk")
+	@Enumerated
+	private TransportTyp transportArt;
 	
-	@ManyToMany(mappedBy = "lieferungen")
+	@ManyToMany(mappedBy = "lieferungen", cascade = PERSIST)
+	@OrderBy("id ASC")
 	@NotEmpty(message = "{bestellverwaltung.lieferung.bestellungen.notEmpty}", groups = PreExistingGroup.class)
+	@Valid
 	@JsonIgnore
 	private Set<Bestellung> bestellungen;
 	
 	@Transient
 	@JsonProperty("bestellungen")
 	private URI bestellungenUri;
+	
+	@Temporal(TIMESTAMP)
+	@Column(nullable = false)
+	@JsonIgnore
+	private Date aktualisiert;
+
+	@Temporal(TIMESTAMP)
+	@Column(nullable = false)
+	@JsonIgnore
+	private Date erzeugt;
 
 	public Lieferung() {
 		super();
 	}
 	
-	public Lieferung(String lieferNr, String transportArt) {
+	public Lieferung(String lieferNr, TransportTyp transportArt) {
 		super();
 		this.liefernr = lieferNr;
 		this.transportArt = transportArt;
@@ -116,8 +137,14 @@ public class Lieferung implements Serializable {
 	
 	@PostPersist
 	private void postPersist() {
-		LOGGER.log(FINER, "Neue Lieferung mit ID={0}", id);
+		LOGGER.debugf("Neue Lieferung mit ID=%d", id);
 	}
+	
+	@PostUpdate
+	private void postUpdate() {
+		LOGGER.debugf("Lieferung mit ID=%d aktualisiert: version=%d", id, version);
+	}
+
 	
 	@PreUpdate
 	private void preUpdate() {
@@ -131,21 +158,12 @@ public class Lieferung implements Serializable {
 	public void setId(Long id) {
 		this.id = id;
 	}
-
-	public Date getAktualisiert() {
-		return this.aktualisiert == null ? null : (Date) this.aktualisiert.clone();
+	
+	public int getVersion() {
+		return version;
 	}
-
-	public void setAktualisiert(Date aktualisiert) {
-		this.aktualisiert = aktualisiert == null ? null : (Date) aktualisiert.clone();
-	}
-
-	public Date getErzeugt() {
-		return this.erzeugt == null ? null : (Date) this.erzeugt.clone();
-	}
-
-	public void setErzeugt(Date erzeugt) {
-		this.erzeugt = erzeugt == null ? null : (Date) erzeugt.clone();
+	public void setVersion(int version) {
+		this.version = version;
 	}
 
 	public String getInlandOderAusland() {
@@ -164,11 +182,11 @@ public class Lieferung implements Serializable {
 		this.liefernr = liefernr;
 	}
 
-	public String getTransportArt() {
+	public TransportTyp getTransportArt() {
 		return this.transportArt;
 	}
 
-	public void setTransportArt(String transportArt) {
+	public void setTransportArt(TransportTyp transportArt) {
 		this.transportArt = transportArt;
 	}
 	
@@ -209,6 +227,23 @@ public class Lieferung implements Serializable {
 	public void setBestellungenUri(URI bestellungenUri) {
 		this.bestellungenUri = bestellungenUri;
 	}
+	
+	public Date getAktualisiert() {
+		return this.aktualisiert == null ? null : (Date) this.aktualisiert.clone();
+	}
+
+	public void setAktualisiert(Date aktualisiert) {
+		this.aktualisiert = aktualisiert == null ? null : (Date) aktualisiert.clone();
+	}
+
+	public Date getErzeugt() {
+		return this.erzeugt == null ? null : (Date) this.erzeugt.clone();
+	}
+
+	public void setErzeugt(Date erzeugt) {
+		this.erzeugt = erzeugt == null ? null : (Date) erzeugt.clone();
+	}
+
 	
 	@Override
 	public String toString() {

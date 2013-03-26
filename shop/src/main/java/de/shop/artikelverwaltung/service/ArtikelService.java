@@ -232,9 +232,9 @@ public class ArtikelService implements Serializable {
 	}
 	
 	public List<Artikelgruppe> findeArtikelgruppeNachName(String name) {
-		final List<Artikelgruppe> artikelgruppe = em.createNamedQuery(Artikelgruppe.FINDE_ARTIKELGRUPPE_NACH_NAME, 
+		final List<Artikelgruppe> artikelgruppe = em.createNamedQuery(Artikelgruppe.FINDE_ARTIKELGRUPPE_NACH_BEZEICHNUNG, 
 																	  Artikelgruppe.class)
-								  .setParameter(Artikelgruppe.PARAM_NAME, name)
+								  .setParameter(Artikelgruppe.PARAM_BEZEICHNUNG, name)
 								  .getResultList();
 		return artikelgruppe;
 	}

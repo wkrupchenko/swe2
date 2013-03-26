@@ -16,26 +16,15 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.hibernate.validator.constraints.NotEmpty;
 
-import static de.shop.util.Konstante.KEINE_ID;
-import static de.shop.util.Konstante.MIN_ID;
-import static de.shop.util.Konstante.LONG_ANZ_ZIFFERN;
-import static javax.persistence.CascadeType.PERSIST;
-import static javax.persistence.CascadeType.REMOVE;
-import static javax.persistence.TemporalType.DATE;
 import de.shop.util.PreExistingGroup;
 import de.shop.util.IdGroup;
-/**/
-import static java.util.logging.Level.FINER;
-import static javax.persistence.FetchType.EAGER;
- 
-
-
 
 import java.lang.invoke.MethodHandles;
 import java.net.URI;
- 
-import java.util.logging.Logger;
 
+import org.jboss.logging.Logger;
+
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -49,20 +38,24 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderColumn;
 import javax.persistence.PostPersist;
+import javax.persistence.PostUpdate;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.Transient;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
-
+import javax.persistence.Version;
 import de.shop.kundenverwaltung.domain.Kunde;
- 
 
+import static javax.persistence.FetchType.EAGER;
+import static de.shop.util.Konstante.KEINE_ID;
+import static de.shop.util.Konstante.MIN_ID;
+import static de.shop.util.Konstante.ERSTE_VERSION;
+import static de.shop.util.Konstante.LONG_ANZ_ZIFFERN;
+import static javax.persistence.CascadeType.PERSIST;
+import static javax.persistence.CascadeType.REMOVE;
+import static javax.persistence.TemporalType.TIMESTAMP;
+  
 
 /**
  * The persistent class for the bestellung database table.
@@ -100,7 +93,7 @@ import de.shop.kundenverwaltung.domain.Kunde;
 })
 public class Bestellung implements Serializable {
 	private static final long serialVersionUID = 1L;
-	private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
+	private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass());
 	private static final String PREFIX = "Bestellung.";
 	public static final String FINDE_ALLE_OFFENEN_BESTELLUNGEN = PREFIX + "findeAlleOffenenBestellungen";
 	public static final String FINDE_ALLE_GESCHLOSSENEN_BESTELLUNGEN = PREFIX + "findeAlleGeschlossenenBestellungen";
@@ -118,22 +111,16 @@ public class Bestellung implements Serializable {
 	
 	@Id
 	@GeneratedValue
-	@Column(name = "b_id", nullable = false, unique = true, updatable = false, precision = LONG_ANZ_ZIFFERN)
+	@Column(nullable = false, unique = true, updatable = false, precision = LONG_ANZ_ZIFFERN)
 	@Min(value = MIN_ID, message = "{bestellverwaltung.bestellung.id.min}", groups = IdGroup.class)
 	private Long id = KEINE_ID;
-
-	@Temporal(DATE)
-	@Column(name = "b_aktualisiert", nullable = false)
-	@JsonIgnore
-	private Date aktualisiert;
-
-	@Temporal(DATE)
-	@Column(name = "b_erzeugt", nullable = false)
-	@JsonIgnore
-	private Date erzeugt;
+	
+	@Version
+	@Basic(optional = false)
+	private int version = ERSTE_VERSION;
 
 	@ManyToOne(optional = false)
-	@JoinColumn(name = "b_kunde_fk", nullable = false, insertable = false, updatable = false)
+	@JoinColumn(name = "kunde_fk", nullable = false, insertable = false, updatable = false)
 	@NotNull(message = "{bestellverwaltung.bestellung.kunde.notNull}", groups = PreExistingGroup.class)
 	@JsonIgnore
 	private Kunde kunde;
@@ -143,17 +130,16 @@ public class Bestellung implements Serializable {
 	private URI kundeUri;
 	
 	@OneToMany(fetch = EAGER, cascade = {PERSIST, REMOVE })
-	@JoinColumn(name = "bp_bestellung_fk", nullable = false)
-	@OrderColumn(name = "bp_idx", nullable = false)
+	@JoinColumn(name = "bestellung_fk", nullable = false)
+	@OrderColumn(name = "idx", nullable = false)
 	@NotEmpty(message = "{bestellverwaltung.bestellung.bestellpositionen.notEmpty}")
 	@Valid
-	@XmlElementWrapper(name = "bestellpositionen", required = true)
-	@JsonProperty("bestellposition")
 	private List<Bestellposition> bestellpositionen;
 	
 	@ManyToMany
-	@JoinTable(name = "bestellung_lieferung", joinColumns = @JoinColumn(name = "bl_bestellung_fk"),
-				inverseJoinColumns = @JoinColumn(name = "bl_lieferung_fk"))
+	@JoinTable(name = "bestellung_lieferung", joinColumns = @JoinColumn(name = "bestellung_fk"),
+				inverseJoinColumns = @JoinColumn(name = "lieferung_fk"))
+	@OrderColumn(name = "idx", nullable = false)
 	@JsonIgnore
 	private Set<Lieferung> lieferungen;
 	
@@ -161,8 +147,18 @@ public class Bestellung implements Serializable {
 	@JsonProperty("lieferungen")
 	private URI lieferungenUri;
 	
-	@Column(name = "b_offenAbgeschlossen", nullable = false)
+	@Column(nullable = false)
 	private boolean offenAbgeschlossen;
+	
+	@Temporal(TIMESTAMP)
+	@Column(nullable = false)
+	@JsonIgnore
+	private Date aktualisiert;
+
+	@Temporal(TIMESTAMP)
+	@Column(nullable = false)
+	@JsonIgnore
+	private Date erzeugt;
 	
 	public void setWerte(Bestellung bestellung) {
 		aktualisiert = bestellung.aktualisiert;
@@ -190,7 +186,12 @@ public class Bestellung implements Serializable {
 	
 	@PostPersist
 	private void postPersist() {
-		LOGGER.log(FINER, "Neue Bestellung mit ID={0}", id);
+		LOGGER.debugf("Neue Bestellund mit ID=%d", id);
+	}
+	
+	@PostUpdate
+	private void postUpdate() {
+		LOGGER.debugf("Bestellung mit ID=%d aktualisiert: version=%d", id, version);
 	}
 	
 	@PreUpdate
@@ -204,22 +205,6 @@ public class Bestellung implements Serializable {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public Date getAktualisiert() {
-		return this.aktualisiert == null ? null : (Date) this.aktualisiert.clone();
-	}
-
-	public void setAktualisiert(Date aktualisiert) {
-		this.aktualisiert = aktualisiert == null ? null : (Date) aktualisiert.clone();
-	}
-
-	public Date getErzeugt() {
-		return this.erzeugt == null ? null : (Date) this.erzeugt.clone();
-	}
-
-	public void setErzeugt(Date erzeugt) {
-		this.erzeugt = erzeugt == null ? null : (Date) erzeugt.clone();
 	}
 
 	public Kunde getKunde() {
@@ -304,6 +289,22 @@ public class Bestellung implements Serializable {
 
 	public void setOffenAbgeschlossen(boolean offenAbgeschlossen) {
 		this.offenAbgeschlossen = offenAbgeschlossen;
+	}
+	
+	public Date getAktualisiert() {
+		return this.aktualisiert == null ? null : (Date) this.aktualisiert.clone();
+	}
+
+	public void setAktualisiert(Date aktualisiert) {
+		this.aktualisiert = aktualisiert == null ? null : (Date) aktualisiert.clone();
+	}
+
+	public Date getErzeugt() {
+		return this.erzeugt == null ? null : (Date) this.erzeugt.clone();
+	}
+
+	public void setErzeugt(Date erzeugt) {
+		this.erzeugt = erzeugt == null ? null : (Date) erzeugt.clone();
 	}
 
 	@Override
