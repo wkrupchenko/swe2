@@ -1,0 +1,5 @@
+INSERT INTO lieferung (l_id, l_liefernr, l_transport_art, l_inlandOderAusland,	l_erzeugt,	l_aktualisiert) VALUES (700,'500123-001','Straﬂe','I','22.02.2010 00:00:00','22.02.2010 00:00:00');
+INSERT INTO lieferung (l_id, l_liefernr, l_transport_art, l_inlandOderAusland,	l_erzeugt,	l_aktualisiert) VALUES (701,'500123-002','Straﬂe','I','12.04.2010 00:00:00','12.04.2010 00:00:00');
+INSERT INTO lieferung (l_id, l_liefernr, l_transport_art, l_inlandOderAusland,	l_erzeugt,	l_aktualisiert) VALUES (702,'500123-003','Luft','I','10.09.2010 00:00:00','10.09.2010 00:00:00');
+INSERT INTO lieferung (l_id, l_liefernr, l_transport_art, l_inlandOderAusland,	l_erzeugt,	l_aktualisiert) VALUES (703,'500123-004','Meer','A','22.02.2011 00:00:00','22.02.2011 00:00:00');
+INSERT INTO lieferung (l_id, l_liefernr, l_transport_art, l_inlandOderAusland,	l_erzeugt,	l_aktualisiert) VALUES (704,'500123-005','Straﬂe','I','21.02.2012 00:00:00','21.02.2012 00:00:00');
