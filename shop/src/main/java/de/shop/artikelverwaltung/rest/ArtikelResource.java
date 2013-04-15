@@ -1,13 +1,11 @@
 package de.shop.artikelverwaltung.rest;
 
-import static java.util.logging.Level.FINER;
-import static java.util.logging.Level.FINEST;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static javax.ws.rs.core.MediaType.APPLICATION_XML;
 import static javax.ws.rs.core.MediaType.TEXT_XML;
 
 import java.lang.invoke.MethodHandles;
-import java.util.logging.Logger;
+import org.jboss.logging.Logger;
 import java.util.Collection;
 import java.util.Locale;
 import java.util.List;
@@ -47,7 +45,7 @@ import de.shop.util.Transactional;
 @Transactional
 @Log
 public class ArtikelResource {
-	private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
+	private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass());
 	
 	@Inject
 	private ArtikelService as;
@@ -60,12 +58,12 @@ public class ArtikelResource {
 	
 	@PostConstruct
 	private void postConstruct() {
-		LOGGER.log(FINER, "CDI-faehiges Bean {0} wurde erzeugt", this);
+		LOGGER.debugf("CDI-faehiges Bean %s wurde erzeugt", this);
 	}
 	
 	@PreDestroy
 	private void preDestroy() {
-		LOGGER.log(FINER, "CDI-faehiges Bean {0} wird geloescht", this);
+		LOGGER.debugf("CDI-faehiges Bean %s wird geloescht", this);
 	}
 	
 	/* rest/artikel
@@ -149,7 +147,7 @@ public class ArtikelResource {
 		artikel.setArtikelgruppe(artikelgruppe);
 		artikelgruppe.addArtikel(artikel);
 		artikel = as.createArtikel(artikel, locale);
-		LOGGER.log(FINEST, "Artikel: {0}", artikel);
+		LOGGER.debugf("Artikel: %s", artikel);
 		
 		final URI artikelUri = uriHelperArtikel.getUriArtikel(artikel, uriInfo);
 		return Response.created(artikelUri).build();
@@ -171,11 +169,11 @@ public class ArtikelResource {
 			final String msg = "Keinen Artikel gefunden mit der ID " + artikel.getId();
 			throw new NotFoundException(msg);
 		}
-		LOGGER.log(FINEST, "Artikel vorher: %s", origArtikel);
+		LOGGER.debugf("Artikel vorher: %s", origArtikel);
 	
 		// Daten des vorhandenen Artikel ueberschreiben
 		origArtikel.setWerte(artikel);
-		LOGGER.log(FINEST, "Artikel nachher: %s", origArtikel);
+		LOGGER.debugf("Artikel nachher: %s", origArtikel);
 		
 		// Update durchfuehren
 		artikel = as.updateArtikel(origArtikel, locale);
@@ -270,7 +268,7 @@ public class ArtikelResource {
 		final List<Locale> locales = headers.getAcceptableLanguages();
 		final Locale locale = locales.isEmpty() ? Locale.getDefault() : locales.get(0);
 		artikelgruppe = as.createArtikelgruppe(artikelgruppe, locale);
-		LOGGER.log(FINEST, "Artikelgruppe: {0}", artikelgruppe);
+		LOGGER.debugf("Artikelgruppe: %s", artikelgruppe);
 		
 		final URI artikelgruppeUri = uriHelperArtikelgruppe.getUriArtikelgruppe(artikelgruppe, uriInfo);
 		return Response.created(artikelgruppeUri).build();
@@ -294,11 +292,11 @@ public class ArtikelResource {
 			final String msg = "Keine Artikelgruppe gefunden mit der ID " + artikelgruppe.getId();
 			throw new NotFoundException(msg);
 		}
-		LOGGER.log(FINEST, "Artikelgruppe vorher: %s", origArtikelgruppe);
+		LOGGER.debugf("Artikelgruppe vorher: %s", origArtikelgruppe);
 	
 		// Daten der vorhandenen Artikelgruppe ueberschreiben
 		origArtikelgruppe.setWerte(artikelgruppe);
-		LOGGER.log(FINEST, "Artikelgruppe nachher: %s", origArtikelgruppe);
+		LOGGER.debugf("Artikelgruppe nachher: %s", origArtikelgruppe);
 		
 		// Update durchfuehren
 		artikelgruppe = as.updateArtikelgruppe(origArtikelgruppe, locale);

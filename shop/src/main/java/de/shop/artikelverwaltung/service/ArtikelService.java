@@ -1,13 +1,12 @@
 package de.shop.artikelverwaltung.service;
 
-import static java.util.logging.Level.FINER;
 import static de.shop.util.Konstante.KEINE_ID;
 
 import java.io.Serializable;
 import java.lang.invoke.MethodHandles;
 import java.util.Collections;
 import java.util.List;
-import java.util.logging.Logger;
+import org.jboss.logging.Logger;
 import java.util.Locale;
 import java.util.Set;
 
@@ -39,7 +38,7 @@ import de.shop.bestellverwaltung.domain.Bestellposition;
 @Log
 public class ArtikelService implements Serializable {
 	private static final long serialVersionUID = 1L;
-	private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
+	private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass());
 	
 	@Inject
 	private ValidatorProvider validationService;
@@ -52,12 +51,12 @@ public class ArtikelService implements Serializable {
 	
 	@PostConstruct
 	private void postConstruct() {
-		LOGGER.log(FINER, "CDI-faehiges Bean {0} wurde erzeugt", this);
+		LOGGER.debugf("CDI-faehiges Bean %s wurde erzeugt", this);
 	}
 	
 	@PreDestroy
 	private void preDestroy() {
-		LOGGER.log(FINER, "CDI-faehiges Bean {0} wird geloescht", this);
+		LOGGER.debugf("CDI-faehiges Bean %s wird geloescht", this);
 	}
 	
 	public List<Artikel> findeVerfuegbareArtikel() {

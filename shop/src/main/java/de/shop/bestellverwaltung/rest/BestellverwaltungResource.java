@@ -1,6 +1,5 @@
 package de.shop.bestellverwaltung.rest;
 
-import static java.util.logging.Level.FINER;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static javax.ws.rs.core.MediaType.APPLICATION_XML;
 import static javax.ws.rs.core.MediaType.TEXT_XML;
@@ -11,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
-import java.util.logging.Logger;
+import org.jboss.logging.Logger;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -53,7 +52,7 @@ import de.shop.util.Transactional;
 @Transactional
 @Log
 public class BestellverwaltungResource {
-	private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
+	private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass());
 	
 	@Inject
 	private BestellungService bs;
@@ -75,12 +74,12 @@ public class BestellverwaltungResource {
 	
 	@PostConstruct
 	private void postConstruct() {
-		LOGGER.log(FINER, "CDI-faehiges Bean {0} wurde erzeugt", this);
+		LOGGER.debugf("CDI-faehiges Bean %s wurde erzeugt", this);
 	}
 	
 	@PreDestroy
 	private void preDestroy() {
-		LOGGER.log(FINER, "CDI-faehiges Bean {0} wird geloescht", this);
+		LOGGER.debugf("CDI-faehiges Bean %s wird geloescht", this);
 	}
 	
 	/**
@@ -331,7 +330,7 @@ public class BestellverwaltungResource {
 
 		final URI bestellungUri = uriHelperBestellung.getUriBestellung(bestellung, uriInfo);
 		final Response response = Response.created(bestellungUri).build();
-		LOGGER.finest(bestellungUri.toString());
+		LOGGER.debugf(bestellungUri.toString());
 		
 		return response;
 	}
