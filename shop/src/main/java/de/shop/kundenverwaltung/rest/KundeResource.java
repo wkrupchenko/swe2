@@ -43,6 +43,7 @@ import de.shop.util.NotFoundException;
 import de.shop.util.RestLongWrapper;
 import de.shop.util.RestStringWrapper;
 import de.shop.util.Transactional;
+import de.shop.util.LocaleHelper;
 
 
 @Path("/kunden")
@@ -68,6 +69,9 @@ public class KundeResource {
 	
 	@Inject
 	private UriHelperBestellung uriHelperBestellung;
+	
+	@Inject
+	private LocaleHelper localeHelper;
 	
 	@PostConstruct
 	private void postConstruct() {
@@ -98,8 +102,7 @@ public class KundeResource {
 	public Kunde findeKundeNachId(@PathParam("id") Long id,
 			                           @Context UriInfo uriInfo,
 			                           @Context HttpHeaders headers) {
-		final List<Locale> locales = headers.getAcceptableLanguages();
-		final Locale locale = locales.isEmpty() ? Locale.getDefault() : locales.get(0);
+		final Locale locale = localeHelper.getLocale(headers);
 		final Kunde kunde = ks.findeKundeNachId(id, FetchType.NUR_KUNDE, locale);
 		if (kunde == null) {
 			final String msg = "Kein Kunde gefunden mit der ID " + id;
@@ -131,8 +134,7 @@ public class KundeResource {
 			}
 		}
 		else {
-			final List<Locale> locales = headers.getAcceptableLanguages();
-			final Locale locale = locales.isEmpty() ? Locale.getDefault() : locales.get(0);
+			final Locale locale = localeHelper.getLocale(headers);
 			kunden = ks.findeKundeNachNachname(nachname, FetchType.NUR_KUNDE, locale);
 			if (kunden.isEmpty()) {
 				final String msg = "Kein Kunde gefunden mit Nachname " + nachname;
@@ -230,8 +232,7 @@ public class KundeResource {
 	@Consumes({ APPLICATION_XML, TEXT_XML })
 	@Produces
 	public Response createKunde(Kunde kunde, @Context UriInfo uriInfo, @Context HttpHeaders headers) {
-		final List<Locale> locales = headers.getAcceptableLanguages();
-		final Locale locale = locales.isEmpty() ? Locale.getDefault() : locales.get(0);
+		final Locale locale = localeHelper.getLocale(headers);
 		kunde = ks.createKunde(kunde, locale);
 		LOGGER.debugf("Kunde: %s", kunde);
 		
@@ -249,8 +250,7 @@ public class KundeResource {
 	@Consumes({ APPLICATION_XML, TEXT_XML })
 	@Produces
 	public void updateKunde(Kunde kunde, @Context UriInfo uriInfo, @Context HttpHeaders headers) {
-		final List<Locale> locales = headers.getAcceptableLanguages();
-		final Locale locale = locales.isEmpty() ? Locale.getDefault() : locales.get(0);
+		final Locale locale = localeHelper.getLocale(headers);
 		Kunde origKunde = ks.findeKundeNachId(kunde.getId(), FetchType.NUR_KUNDE, locale);
 		if (origKunde == null) {
 			final String msg = "Kein Kunde gefunden mit der ID " + kunde.getId();
@@ -279,8 +279,7 @@ public class KundeResource {
 	@DELETE
 	@Produces
 	public void deleteKunde(@PathParam("id") Long kundeId, @Context HttpHeaders headers) {
-		final List<Locale> locales = headers.getAcceptableLanguages();
-		final Locale locale = locales.isEmpty() ? Locale.getDefault() : locales.get(0);
+		final Locale locale = localeHelper.getLocale(headers);
 		final Kunde kunde = ks.findeKundeNachId(kundeId, FetchType.NUR_KUNDE, locale);
 		ks.deleteKunde(kunde);
 	}

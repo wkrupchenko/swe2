@@ -16,14 +16,14 @@ ZUSƒTZLICH:
 - JPA Annotationen ¸berpr¸fen und ggf. anpassen, da Hibernate Tabellen anlegt! ERLEDIGT
 - BestellungService und BestellungServiceImpl ‰ndern --> kein Interface ERLEDIGT
 - TransactionalInterceptor ERLEDIGT
-- LocaleHelper einbauen
-- Hibernate konfigurieren, damit es DB anhand der Annotationen erstellt
+- LocaleHelper einbauen ERLEDIGT
+- Hibernate konfigurieren, damit es DB anhand der Annotationen erstellt ERLEDIGT
 
 M1:
 
 - Parallele Transaktionen beachten --> VERSION einf¸gen ERLEDIGT
 - Parallele Transaktionen pr¸fen --> Exception werfen bei konkurrierendem Update ERLEDIGT
 - Keystore f¸r DB Passwort
-- WebService Tests
+- WebService Tests --> Dabei noch Migration 7) beachten ArchiveBuilder, TestKonstanten etc.
 - Authentifizierung und Authorisierung bei WebService-Tester
 - Security Maﬂnahmen

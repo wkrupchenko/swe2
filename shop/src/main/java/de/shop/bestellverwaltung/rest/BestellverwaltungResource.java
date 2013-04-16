@@ -43,6 +43,7 @@ import de.shop.kundenverwaltung.service.KundeService.FetchType;
 import de.shop.util.Log;
 import de.shop.util.NotFoundException;
 import de.shop.util.Transactional;
+import de.shop.util.LocaleHelper;
 
 
 @Path("/bestellungen")
@@ -71,6 +72,9 @@ public class BestellverwaltungResource {
 	
 	@Inject
 	private UriHelperLieferung uriHelperLieferung;
+	
+	@Inject
+	private LocaleHelper localeHelper;
 	
 	@PostConstruct
 	private void postConstruct() {
@@ -324,8 +328,7 @@ public class BestellverwaltungResource {
 		// Dann wuerde aber der Kunde mit einer *transienten* Bestellung modifiziert werden,
 		// was zwangslaeufig zu einer Inkonsistenz fuehrt!
 		// Das ist die Konsequenz einer Transaktion (im Gegensatz zu den Action-Methoden von JSF!).
-		final List<Locale> locales = headers.getAcceptableLanguages();
-		final Locale locale = locales.isEmpty() ? Locale.getDefault() : locales.get(0);
+		final Locale locale = localeHelper.getLocale(headers);
 		bestellung = bs.createBestellung(bestellung, kunde, locale);
 
 		final URI bestellungUri = uriHelperBestellung.getUriBestellung(bestellung, uriInfo);

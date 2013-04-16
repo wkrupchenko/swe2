@@ -36,6 +36,7 @@ import de.shop.artikelverwaltung.service.ArtikelService;
 import de.shop.util.Log;
 import de.shop.util.NotFoundException;
 import de.shop.util.Transactional;
+import de.shop.util.LocaleHelper;
 
 
 @Path("/artikel")
@@ -55,6 +56,9 @@ public class ArtikelResource {
 	
 	@Inject
 	private UriHelperArtikelgruppe uriHelperArtikelgruppe;
+	
+	@Inject
+	private LocaleHelper localeHelper;
 	
 	@PostConstruct
 	private void postConstruct() {
@@ -141,8 +145,7 @@ public class ArtikelResource {
 	@Consumes({ APPLICATION_XML, TEXT_XML })
 	@Produces
 	public Response createArtikel(Artikel artikel, @Context UriInfo uriInfo, @Context HttpHeaders headers) {
-		final List<Locale> locales = headers.getAcceptableLanguages();
-		final Locale locale = locales.isEmpty() ? Locale.getDefault() : locales.get(0);
+		final Locale locale = localeHelper.getLocale(headers);
 		Artikelgruppe artikelgruppe = uriHelperArtikelgruppe.getArtikelgruppe(artikel.getArtikelgruppeUri());
 		artikel.setArtikelgruppe(artikelgruppe);
 		artikelgruppe.addArtikel(artikel);
@@ -162,8 +165,7 @@ public class ArtikelResource {
 	@Produces
 	public void updateArtikel(Artikel artikel, @Context UriInfo uriInfo, @Context HttpHeaders headers) {
 		// Vorhandenen Artikel ermitteln
-		final List<Locale> locales = headers.getAcceptableLanguages();
-		final Locale locale = locales.isEmpty() ? Locale.getDefault() : locales.get(0);
+		final Locale locale = localeHelper.getLocale(headers);
 		Artikel origArtikel = as.findeArtikelNachId(artikel.getId());
 		if (origArtikel == null) {
 			final String msg = "Keinen Artikel gefunden mit der ID " + artikel.getId();
@@ -265,8 +267,7 @@ public class ArtikelResource {
 	@Path("artikelgruppe")
 	public Response createArtikelgruppe(Artikelgruppe artikelgruppe, 
 										@Context UriInfo uriInfo, @Context HttpHeaders headers) {
-		final List<Locale> locales = headers.getAcceptableLanguages();
-		final Locale locale = locales.isEmpty() ? Locale.getDefault() : locales.get(0);
+		final Locale locale = localeHelper.getLocale(headers);
 		artikelgruppe = as.createArtikelgruppe(artikelgruppe, locale);
 		LOGGER.debugf("Artikelgruppe: %s", artikelgruppe);
 		
@@ -285,8 +286,7 @@ public class ArtikelResource {
 	public void updateArtikelgruppe(Artikelgruppe artikelgruppe, 
 									@Context UriInfo uriInfo, @Context HttpHeaders headers) {
 		// Vorhandenen Artikelgruppe ermitteln
-		final List<Locale> locales = headers.getAcceptableLanguages();
-		final Locale locale = locales.isEmpty() ? Locale.getDefault() : locales.get(0);
+		final Locale locale = localeHelper.getLocale(headers);
 		Artikelgruppe origArtikelgruppe = as.findeArtikelgruppeNachId(artikelgruppe.getId());
 		if (origArtikelgruppe == null) {
 			final String msg = "Keine Artikelgruppe gefunden mit der ID " + artikelgruppe.getId();
