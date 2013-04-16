@@ -6,7 +6,9 @@ import java.io.Serializable;
 import java.lang.invoke.MethodHandles;
 import java.util.Collections;
 import java.util.List;
+
 import org.jboss.logging.Logger;
+
 import java.util.Locale;
 import java.util.Set;
 
@@ -29,11 +31,13 @@ import com.google.common.base.Strings;
 
 import de.shop.artikelverwaltung.domain.Artikel;
 import de.shop.artikelverwaltung.domain.Artikelgruppe;
+import de.shop.util.ConcurrentDeletedException;
 import de.shop.util.Log;
 import de.shop.util.ValidatorProvider;
 import de.shop.bestellverwaltung.service.BestellungService;
 import de.shop.bestellverwaltung.domain.Bestellung;
 import de.shop.bestellverwaltung.domain.Bestellposition;
+import de.shop.kundenverwaltung.domain.Kunde;
 
 @Log
 public class ArtikelService implements Serializable {
@@ -200,8 +204,20 @@ public class ArtikelService implements Serializable {
 		}
 
 		validateArtikel(artikel, locale, Default.class);
-
-		em.merge(artikel);
+		
+		// Artikel  vom EntityManager trennen
+		em.detach(artikel);
+		
+		// Wurde Artikel gelöscht?
+		Artikel tmp = findeArtikelNachId(artikel.getId());
+		if(tmp == null) {
+			throw new ConcurrentDeletedException(artikel.getId());
+		}
+		
+		// Artikel erneut vom EntityManager trennen
+		em.detach(tmp);
+		
+		artikel = em.merge(artikel); //OptimisticLockException ggf. geworfen
 		return artikel;
 	}
 	
@@ -271,9 +287,22 @@ public class ArtikelService implements Serializable {
 		}
 
 		validateArtikelgruppe(artikelgruppe, locale, Default.class);
-
-		em.merge(artikelgruppe);
+		
+		// Artikelgruppe  vom EntityManager trennen
+		em.detach(artikelgruppe);
+				
+		// Wurde Artikelgruppe gelöscht?
+		Artikelgruppe tmp = findeArtikelgruppeNachId(artikelgruppe.getId());
+		if(tmp == null) {
+			throw new ConcurrentDeletedException(artikelgruppe.getId());
+		}
+				
+		// Artikel erneut vom EntityManager trennen
+		em.detach(tmp);
+				
+		artikelgruppe = em.merge(artikelgruppe); //OptimisticLockException ggf. geworfen
 		return artikelgruppe;
+
 	}
 	
 	public void deleteArtikelgruppe(Artikelgruppe artikelgruppe) {

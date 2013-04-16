@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
+
 import org.jboss.logging.Logger;
 
 import javax.annotation.PostConstruct;
@@ -33,6 +34,7 @@ import de.shop.bestellverwaltung.domain.Lieferung;
 import de.shop.kundenverwaltung.domain.Kunde;
 import de.shop.kundenverwaltung.service.KundeService;
 import de.shop.kundenverwaltung.service.KundeService.FetchType;
+import de.shop.util.ConcurrentDeletedException;
 import de.shop.util.IdGroup;
 import de.shop.util.Log;
 import de.shop.util.ValidatorProvider;
@@ -135,8 +137,20 @@ public class BestellungService implements Serializable {
 		}
 
 		validateBestellung(bestellung, locale, Default.class, IdGroup.class);
+		
+		// Bestellung vom EntityManager trennen, weil anschliessend z.B. nach Id gesucht wird
+		em.detach(bestellung);
+		
+		// Wurde das Objekt konkurrierend geloescht?
+		Bestellung tmp = findeBestellungNachId(bestellung.getId());
+		if(tmp == null) {
+			throw new ConcurrentDeletedException(bestellung.getId());
+		}
+		
+		// Bestellung erneut vom EntityManager trennen
+		em.detach(bestellung);
 			
-		em.merge(bestellung);
+		bestellung = em.merge(bestellung); // OptimisticLockException ggf. geworfen
 		return bestellung;
 	}
 	
@@ -214,8 +228,20 @@ public class BestellungService implements Serializable {
 		}
 
 		validateLieferung(lieferung, locale, Default.class, IdGroup.class);
+		
+		// Lieferung vom EntityManager trennen, weil anschliessend z.B. nach Id und Email gesucht wird
+		em.detach(lieferung);
+		
+		// Wurde das Objekt konkurrierend geloescht?
+		Lieferung tmp = findeLieferungNachId(lieferung.getId());
+		if(tmp == null) {
+			throw new ConcurrentDeletedException(lieferung.getId());
+		}
+		
+		// Lieferung erneut vom EntityManager trennen
+		em.detach(tmp);
 			
-		em.merge(lieferung);
+		lieferung = em.merge(lieferung); // OptimisticLockException ggf. geworfen
 		return lieferung;
 	}
 	

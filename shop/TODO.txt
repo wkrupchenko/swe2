@@ -14,6 +14,16 @@ inkl. Upgrades von Arquillian, ShrinkWrap und ShrinkWrap Resolver
 ZUSÄTZLICH:
 
 - JPA Annotationen überprüfen und ggf. anpassen, da Hibernate Tabellen anlegt! ERLEDIGT
-- Parallele Transaktionen beachten --> VERSION einfügen ERLEDIGT
-- Parallele Transaktionen prüfen --> Exception werfen
 - BestellungService und BestellungServiceImpl ändern --> kein Interface ERLEDIGT
+- TransactionalInterceptor ERLEDIGT
+- LocaleHelper einbauen
+- Hibernate konfigurieren, damit es DB anhand der Annotationen erstellt
+
+M1:
+
+- Parallele Transaktionen beachten --> VERSION einfügen ERLEDIGT
+- Parallele Transaktionen prüfen --> Exception werfen bei konkurrierendem Update ERLEDIGT
+- Keystore für DB Passwort
+- WebService Tests
+- Authentifizierung und Authorisierung bei WebService-Tester
+- Security Maßnahmen

@@ -36,6 +36,7 @@ import de.shop.kundenverwaltung.domain.PasswordGroup;
 import de.shop.util.IdGroup;
 import de.shop.util.Log;
 import de.shop.util.ValidatorProvider;
+import de.shop.util.ConcurrentDeletedException;
 
 @Log
 public class KundeService implements Serializable {
@@ -266,21 +267,26 @@ public class KundeService implements Serializable {
 
 		validateKunde(kunde, locale, Default.class, PasswordGroup.class, IdGroup.class);
 		
-		try {
-			final Kunde vorhandenerKunde = em.createNamedQuery(Kunde.FINDE_KUNDE_NACH_EMAIL,
-					                                                   Kunde.class)
-					                                 .setParameter(Kunde.PARAM_EMAIL, kunde.getEmail())
-					                                 .getSingleResult();
-			
-			if (vorhandenerKunde.getId().longValue() != kunde.getId().longValue()) {
+		// Kunde vom EntityManager trennen, weil anschliessend z.B. nach Id und Email gesucht wird
+		em.detach(kunde);
+		
+		// Wurde das Objekt konkurrierend geloescht?
+		Kunde tmp = findeKundeNachEmail(kunde.getEmail(), locale);
+		if(tmp == null) {
+			throw new ConcurrentDeletedException(kunde.getId());
+		}
+		
+		// Kunde erneut vom EntityManager trennen
+		em.detach(tmp);
+		
+		tmp = findeKundeNachEmail(kunde.getEmail(), locale);
+		if(tmp != null) {
+			em.detach(tmp);
+			if(tmp.getId().longValue() != kunde.getId().longValue())
 				throw new EmailExistsException(kunde.getEmail());
-			}
 		}
-		catch (NoResultException e) {
-			LOGGER.debugf("Neue Email-Adresse");
-		}
-
-		em.merge(kunde);
+		
+		kunde = em.merge(kunde); //OptimisticLockException ggf. geworfen!
 		return kunde;
 	}
 
