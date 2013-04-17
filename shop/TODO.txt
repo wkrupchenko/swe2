@@ -1,3 +1,5 @@
+MIGRATION:
+
 1)  ValidationService -> ValidatorProvider ERLEDIGT
 2) REST: @JsonIgnore, @JsonProperty ERLEDIGT
 3) Verzicht auf JBoss Solder und Seam Faces ERLEDIGT

@@ -3,12 +3,16 @@ package de.shop.kundenverwaltung.domain;
 import java.io.Serializable;
 import java.lang.invoke.MethodHandles;
 import java.util.Date;
+
 import org.jboss.logging.Logger;
+
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.PostPersist;
 import javax.persistence.PostUpdate;
 import javax.persistence.PrePersist;
@@ -20,9 +24,10 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-import org.codehaus.jackson.annotate.JsonIgnore;
-import de.shop.util.IdGroup;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
+import de.shop.util.IdGroup;
 import static de.shop.util.Konstante.KEINE_ID;
 import static de.shop.util.Konstante.MIN_ID;
 import static de.shop.util.Konstante.ERSTE_VERSION;
@@ -73,6 +78,11 @@ public class Adresse implements Serializable {
 	@NotNull(message = "{kundenverwaltung.adresse.ort.notNull}")
 	@Size(min = ORT_LAENGE_MIN, max = ORT_LAENGE_MAX, message = "{kundenverwaltung.adresse.ort.length}")
 	private String ort;
+	
+	@OneToOne
+	@JoinColumn(name = "kunde_fk", nullable = false)
+	@JsonIgnore
+	private Kunde kunde;
 	
 	@Temporal(TIMESTAMP)
 	@Column(nullable = false)
