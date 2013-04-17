@@ -8,10 +8,12 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
+
 import org.jboss.logging.Logger;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import javax.enterprise.event.Event;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -58,6 +60,10 @@ public class KundeService implements Serializable {
 	
 	@Inject
 	private ValidatorProvider validationService;
+	
+	@Inject
+	@NeuerKunde
+	private Event<Kunde> event;
 	
 	@PostConstruct
 	private void postConstruct() {
@@ -248,6 +254,7 @@ public class KundeService implements Serializable {
 		
 		kunde.setId(KEINE_ID);
 		em.persist(kunde);
+		event.fire(kunde);
 		return kunde;		
 	}
 	
