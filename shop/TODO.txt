@@ -7,7 +7,7 @@
 5) CSV-Dateien -> SQL-Skripte ERLEDIGT
 6) Kein DbUnit ERLEDIGT
 7) ArchiveService -> ArchiveBuilder zzgl. neue Klasse TestConstants (statt Testklassen)
-inkl. Upgrades von Arquillian, ShrinkWrap und ShrinkWrap Resolver
+inkl. Upgrades von Arquillian, ShrinkWrap und ShrinkWrap Resolver ERLEDIGT
 8) JBoss Logging statt j.u.l ERLEDIGT
 
 
@@ -23,7 +23,9 @@ M1:
 
 - Parallele Transaktionen beachten --> VERSION einfügen ERLEDIGT
 - Parallele Transaktionen prüfen --> Exception werfen bei konkurrierendem Update ERLEDIGT
+- Eventuell ExceptionMapper für Meldung als HTTP Response
 - Keystore für DB Passwort
-- WebService Tests --> Dabei noch Migration 7) beachten ArchiveBuilder, TestKonstanten etc.
+- Hilfsklassen für WebService Tests erstellen ERLEDIGT
+- WebService Tests 
 - Authentifizierung und Authorisierung bei WebService-Tester
 - Security Maßnahmen

@@ -6,11 +6,11 @@ import java.io.Serializable;
 import java.lang.invoke.MethodHandles;
 import java.util.Collections;
 import java.util.List;
-
-import org.jboss.logging.Logger;
-
 import java.util.Locale;
 import java.util.Set;
+
+import org.jboss.logging.Logger;
+import com.google.common.base.Strings;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -27,8 +27,6 @@ import javax.validation.groups.Default;
 import javax.inject.Inject;
 import javax.validation.ConstraintViolation;
 
-import com.google.common.base.Strings;
-
 import de.shop.artikelverwaltung.domain.Artikel;
 import de.shop.artikelverwaltung.domain.Artikelgruppe;
 import de.shop.util.ConcurrentDeletedException;
@@ -37,7 +35,7 @@ import de.shop.util.ValidatorProvider;
 import de.shop.bestellverwaltung.service.BestellungService;
 import de.shop.bestellverwaltung.domain.Bestellung;
 import de.shop.bestellverwaltung.domain.Bestellposition;
-import de.shop.kundenverwaltung.domain.Kunde;
+import de.shop.util.IdGroup;
 
 @Log
 public class ArtikelService implements Serializable {
@@ -203,7 +201,7 @@ public class ArtikelService implements Serializable {
 			return null;
 		}
 
-		validateArtikel(artikel, locale, Default.class);
+		validateArtikel(artikel, locale, Default.class, IdGroup.class);
 		
 		// Artikel  vom EntityManager trennen
 		em.detach(artikel);
