@@ -1,6 +1,6 @@
 MIGRATION:
 
-1)  ValidationService -> ValidatorProvider ERLEDIGT
+1) ValidationService -> ValidatorProvider ERLEDIGT
 2) REST: @JsonIgnore, @JsonProperty ERLEDIGT
 3) Verzicht auf JBoss Solder und Seam Faces ERLEDIGT
 3a) JBoss Solder: ersetzt durch die Klasse Config mit @Resource und web.xml ERLEDIGT
@@ -27,12 +27,18 @@ ZUSÄTZLICH:
 | umgesetzt!!!                                                                                                            |
 ---------------------------------------------------------------------------------------------------------------------------
 
+Aufteilung:
+
+Artikelverwaltung Ingo
+Kundenverwaltung Sebastian
+Bestellverwaltung Wladik
+
 M1:
 
 - Parallele Transaktionen beachten --> VERSION einfügen ERLEDIGT
 - Parallele Transaktionen prüfen --> Exception werfen bei konkurrierendem Update ERLEDIGT
 - Eventuell ExceptionMapper für Meldung als HTTP Response
-- Keystore für DB Passwort
+- Keystore für DB Passwort ERLEDIGT (muss jeder selbst an seinem Laptop machen)
 - Hilfsklassen für WebService Tests erstellen ERLEDIGT
 - WebService Tests 
 - Authentifizierung und Authorisierung bei WebService-Tester
