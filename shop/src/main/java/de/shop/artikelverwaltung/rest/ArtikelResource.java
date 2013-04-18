@@ -141,7 +141,7 @@ public class ArtikelResource {
 	 * @param artikel neuer Artikel
 	 */
 	@POST
-	@Consumes({ APPLICATION_XML, TEXT_XML })
+	@Consumes(APPLICATION_JSON)
 	@Produces
 	public Response createArtikel(Artikel artikel, @Context UriInfo uriInfo, @Context HttpHeaders headers) {
 		final Locale locale = localeHelper.getLocale(headers);
@@ -160,7 +160,7 @@ public class ArtikelResource {
 	 * @param artikel zu aktualisierende Daten des Artikel
 	 */
 	@PUT
-	@Consumes({ APPLICATION_XML, TEXT_XML })
+	@Consumes(APPLICATION_JSON)
 	@Produces
 	public void updateArtikel(Artikel artikel, @Context UriInfo uriInfo, @Context HttpHeaders headers) {
 		// Vorhandenen Artikel ermitteln
@@ -229,7 +229,7 @@ public class ArtikelResource {
 	
 	@GET
 	@Path("artikelgruppe/{id:[1-9][0-9]*}")
-	public Artikelgruppe findeArtikelgruppe(@PathParam("id") Long id, @Context UriInfo uriInfo) {
+	public Artikelgruppe findeArtikelgruppeNachId(@PathParam("id") Long id, @Context UriInfo uriInfo) {
 		final Artikelgruppe artikelgruppe = as.findeArtikelgruppeNachId(id);
 		if (artikelgruppe == null) {
 			final String msg = "Kein Artikelgruppe gefunden mit der ID " + id;
@@ -261,7 +261,7 @@ public class ArtikelResource {
 	 * @param artikelgruppe neue Artikelgruppe
 	 */
 	@POST
-	@Consumes({ APPLICATION_XML, TEXT_XML })
+	@Consumes(APPLICATION_JSON)
 	@Produces
 	@Path("artikelgruppe")
 	public Response createArtikelgruppe(Artikelgruppe artikelgruppe, 
@@ -279,7 +279,7 @@ public class ArtikelResource {
 	 * @param artikelgruppe zu aktualisierende Daten der Artikelgruppe
 	 */
 	@PUT
-	@Consumes({ APPLICATION_XML, TEXT_XML })
+	@Consumes(APPLICATION_JSON)
 	@Produces
 	@Path("artikelgruppe")
 	public void updateArtikelgruppe(Artikelgruppe artikelgruppe, 

@@ -15,7 +15,7 @@ public final class TestKonstanten {
 	static {
 		BASEURI = System.getProperty("baseuri", "http://localhost");
 		PORT = Integer.parseInt(System.getProperty("port", "8080"));
-		BASEPATH = System.getProperty("basepath", "/shop2/rest");
+		BASEPATH = System.getProperty("basepath", "/shop/rest");
 	}
 	
 	public static final String KUNDEN_PATH = "/kunden";
@@ -31,6 +31,8 @@ public final class TestKonstanten {
 	public static final String BESTELLUNGEN_ID_KUNDE_PATH = BESTELLUNGEN_ID_PATH + "/kunde";
 	
 	public static final String ARTIKEL_PATH = "/artikel";
+	public static final String ARTIKELGRUPPE_PATH = "/artikelgruppe";
+	public static final String ARTIKELGRUPPE_URI = BASEURI + ":" + PORT + BASEPATH + ARTIKEL_PATH + ARTIKELGRUPPE_PATH;
 	public static final String ARTIKEL_URI = BASEURI + ":" + PORT + BASEPATH + ARTIKEL_PATH;
 	
 	// Testklassen fuer Service- und Domain-Tests
