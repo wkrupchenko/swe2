@@ -8,7 +8,6 @@ import java.lang.invoke.MethodHandles;
 import org.jboss.logging.Logger;
 import java.util.Collection;
 import java.util.Locale;
-import java.util.List;
 import java.net.URI;
 
 import javax.annotation.PostConstruct;

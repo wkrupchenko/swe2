@@ -3,7 +3,6 @@ package de.shop.kundenverwaltung.service;
 import static de.shop.util.Konstante.KEINE_ID;
 
 import java.io.Serializable;
-import java.lang.invoke.MethodHandles;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -43,7 +42,6 @@ import de.shop.util.ConcurrentDeletedException;
 @Log
 public class KundeService implements Serializable {
 	private static final long serialVersionUID = 1L;
-	private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass());
 	
 	public enum FetchType {
 		NUR_KUNDE,
@@ -62,17 +60,20 @@ public class KundeService implements Serializable {
 	private ValidatorProvider validationService;
 	
 	@Inject
+	private transient Logger logger;
+	
+	@Inject
 	@NeuerKunde
 	private Event<Kunde> event;
 	
 	@PostConstruct
 	private void postConstruct() {
-		LOGGER.debugf("CDI-faehiges Bean %s wurde erzeugt", this);
+		logger.debugf("CDI-faehiges Bean %s wurde erzeugt", this);
 	}
 	
 	@PreDestroy
 	private void preDestroy() {
-		LOGGER.debugf("CDI-faehiges Bean %s wird geloescht", this);
+		logger.debugf("CDI-faehiges Bean %s wird geloescht", this);
 	}
 
 	public List<Kunde> findeAlleKunden(FetchType fetch, OrderType order) {
@@ -249,7 +250,7 @@ public class KundeService implements Serializable {
 			throw new EmailExistsException(kunde.getEmail());
 		}
 		catch (NoResultException e) {
-			LOGGER.debugf("Email-Adresse existiert noch nicht");
+			logger.debugf("Email-Adresse existiert noch nicht");
 		}
 		
 		kunde.setId(KEINE_ID);

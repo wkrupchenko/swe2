@@ -3,7 +3,6 @@ package de.shop.bestellverwaltung.service;
 import static de.shop.util.Konstante.KEINE_ID;
 
 import java.io.Serializable;
-import java.lang.invoke.MethodHandles;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -42,7 +41,6 @@ import de.shop.util.ValidatorProvider;
 @Log
 public class BestellungService implements Serializable {
 	private static final long serialVersionUID = -9145947650157430928L;
-	private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass());
 	
 	@PersistenceContext
 	private transient EntityManager em;
@@ -54,17 +52,20 @@ public class BestellungService implements Serializable {
 	private ValidatorProvider validationService;
 	
 	@Inject
+	private Logger logger;
+	
+	@Inject
 	@NeueBestellung
 	private transient Event<Bestellung> event;
 	
 	@PostConstruct
 	private void postConstruct() {
-		LOGGER.debugf("CDI-faehiges Bean %s wurde erzeugt", this);
+		logger.debugf("CDI-faehiges Bean %s wurde erzeugt", this);
 	}
 	
 	@PreDestroy
 	private void preDestroy() {
-		LOGGER.debugf("CDI-faehiges Bean %s wird geloescht", this);
+		logger.debugf("CDI-faehiges Bean %s wird geloescht", this);
 	}
 	
 	public Bestellung findeBestellungNachId(Long id) {
@@ -110,7 +111,7 @@ public class BestellungService implements Serializable {
 		}
 		
 		for (Bestellposition bp : bestellung.getBestellpositionen()) {
-			LOGGER.debugf("Bestellposition: %s", bp);				
+			logger.debugf("Bestellposition: %s", bp);				
 		}
 		
 		// damit "kunde" dem EntityManager bekannt ("managed") ist
@@ -177,7 +178,7 @@ public class BestellungService implements Serializable {
 		
 		final Set<ConstraintViolation<Bestellung>> violations = validator.validate(bestellung);
 		if (violations != null && !violations.isEmpty()) {
-			LOGGER.debugf("BestellungService", "createBestellung", violations);
+			logger.debugf("BestellungService", "createBestellung", violations);
 			throw new BestellungValidationException(bestellung, violations);
 		}
 	}
@@ -196,7 +197,7 @@ public class BestellungService implements Serializable {
 		
 		final Set<ConstraintViolation<Lieferung>> violations = validator.validate(lieferung);
 		if (violations != null && !violations.isEmpty()) {
-			LOGGER.debugf("BestellungService", "createLieferung", violations);
+			logger.debugf("BestellungService", "createLieferung", violations);
 			throw new LieferungValidationException(lieferung, violations);
 		}
 	}

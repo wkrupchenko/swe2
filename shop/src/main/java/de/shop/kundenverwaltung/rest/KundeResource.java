@@ -9,7 +9,6 @@ import java.lang.invoke.MethodHandles;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.Locale;
 import org.jboss.logging.Logger;
 
@@ -52,7 +51,6 @@ import de.shop.util.LocaleHelper;
 @RequestScoped
 @Transactional
 @Log
-
 public class KundeResource {
 	private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass());
 	private static final String VERSION = "1.0";
