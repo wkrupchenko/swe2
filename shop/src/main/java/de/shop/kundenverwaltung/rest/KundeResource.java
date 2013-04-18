@@ -39,8 +39,6 @@ import de.shop.kundenverwaltung.service.KundeService;
 import de.shop.kundenverwaltung.service.KundeService.FetchType;
 import de.shop.util.Log;
 import de.shop.util.NotFoundException;
-import de.shop.util.RestLongWrapper;
-import de.shop.util.RestStringWrapper;
 import de.shop.util.Transactional;
 import de.shop.util.LocaleHelper;
 
@@ -151,28 +149,20 @@ public class KundeResource {
 	
 	@GET
 	@Path("/prefix/id/{id:[1-9][0-9]*}")
-	public Collection<RestLongWrapper> findeIdsNachPrefix(@PathParam("id") String idPrefix, 
+	public Collection<Long> findeIdsNachPrefix(@PathParam("id") String idPrefix, 
 			@Context UriInfo uriInfo) {
 		final Collection<Long> ids = ks.findeIdsNachPrefix(idPrefix);
-		final Collection<RestLongWrapper> result = new ArrayList<>(ids.size());
-		for (Long id : ids) {
-			result.add(new RestLongWrapper(id));
-		}
-		return result;
+		return ids;
 	}
 	
 	
 	
 	@GET
 	@Path("/prefix/nachname/{nachname}")
-	public Collection<RestStringWrapper> findeNachnamenNachPrefix(@PathParam("nachname") String nachnamePrefix,
+	public Collection<String> findeNachnamenNachPrefix(@PathParam("nachname") String nachnamePrefix,
 			                                                   @Context UriInfo uriInfo) {
 		final Collection<String> nachnamen = ks.findeNachnamenNachPrefix(nachnamePrefix);
-		final Collection<RestStringWrapper> wrapperColl = new ArrayList<>(nachnamen.size());
-		for (String n : nachnamen) {
-			wrapperColl.add(new RestStringWrapper(n));
-		}
-		return wrapperColl;
+		return nachnamen;
 	}
 	
 
@@ -202,7 +192,7 @@ public class KundeResource {
 
 	@GET
 	@Path("{id:[1-9][0-9]*}/bestellungenIds")
-	public Collection<RestLongWrapper> findeBestellungenIdsNachKundeId(@PathParam("id") Long kundeId,  
+	public Collection<Long> findeBestellungenIdsNachKundeId(@PathParam("id") Long kundeId,  
 			@Context UriInfo uriInfo) {
 		final Collection<Bestellung> bestellungen = bs.findeBestellungenNachKundeId(kundeId);
 		if (bestellungen.isEmpty()) {
@@ -211,9 +201,9 @@ public class KundeResource {
 		}
 		
 		final int anzahl = bestellungen.size();
-		final Collection<RestLongWrapper> bestellungenIds = new ArrayList<>(anzahl);
+		final Collection<Long> bestellungenIds = new ArrayList<>(anzahl);
 		for (Bestellung bestellung : bestellungen) {
-			bestellungenIds.add(new RestLongWrapper(bestellung.getId()));
+			bestellungenIds.add(new Long(bestellung.getId()));
 		}
 		
 		return bestellungenIds;
