@@ -37,7 +37,7 @@ M1:
 
 - Parallele Transaktionen beachten --> VERSION einfügen ERLEDIGT
 - Parallele Transaktionen prüfen --> Exception werfen bei konkurrierendem Update ERLEDIGT
-- Eventuell ExceptionMapper für Meldung als HTTP Response
+- ExceptionMapper für Meldung als HTTP Response ERLEDIGT (ConcurrentDelete, NotFound und OptimisticLock)
 - Keystore für DB Passwort ERLEDIGT (muss jeder selbst an seinem Laptop machen)
 - Hilfsklassen für WebService Tests erstellen ERLEDIGT
 - WebService Tests 
