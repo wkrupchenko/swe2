@@ -21,6 +21,12 @@ ZUSÄTZLICH:
 - LocaleHelper einbauen ERLEDIGT
 - Hibernate konfigurieren, damit es DB anhand der Annotationen erstellt ERLEDIGT
 
+---------------------------------------------------------------------------------------------------------------------------
+| Migration erfolgreich, Web Service läuft nun wie im letzten Semester ohne Probleme. Allerdings wurden alle vorgegebenen |
+| Restriktionen wie zum Beispiel das Beladen und Befüllen der Datenbank durch Hibernate, JBoss Logging, etc. bereits      |
+| umgesetzt!!!                                                                                                            |
+---------------------------------------------------------------------------------------------------------------------------
+
 M1:
 
 - Parallele Transaktionen beachten --> VERSION einfügen ERLEDIGT
