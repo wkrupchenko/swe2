@@ -3,7 +3,7 @@ package de.shop.mail;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.lang.invoke.MethodHandles;
-import java.util.logging.Logger;
+import org.jboss.logging.Logger;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
@@ -28,7 +28,7 @@ import de.shop.util.Log;
 @Log
 public class BestellungObserver implements Serializable {
 	private static final long serialVersionUID = -1567643645881819340L;
-	private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
+	private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass());
 	private static final String NEWLINE = System.getProperty("line.separator");
 	
 	@Resource(lookup = "java:jboss/mail/Default")
@@ -46,7 +46,7 @@ public class BestellungObserver implements Serializable {
 		nameAbsender = config.getAbsenderName();
 		
 		if (mailAbsender == null) {
-			LOGGER.warning("Der Absender fuer Bestellung-Emails ist nicht gesetzt.");
+			LOGGER.debugf("Der Absender fuer Bestellung-Emails ist nicht gesetzt.");
 			return;
 		}
 		LOGGER.info("Absender fuer Bestellung-Emails: " + mailAbsender);
@@ -82,7 +82,7 @@ public class BestellungObserver implements Serializable {
 				sb.append(bp.getAnzahl() + "\t" + bp.getArtikel().getBezeichnung() + NEWLINE);
 			}
 			final String text = sb.toString();
-			LOGGER.finest(text);
+			LOGGER.debugf(text);
 			message.setText(text);
 
 			// Hohe Prioritaet einstellen
@@ -93,7 +93,7 @@ public class BestellungObserver implements Serializable {
 			Transport.send(message);
 		}
 		catch (MessagingException | UnsupportedEncodingException e) {
-			LOGGER.severe(e.getMessage());
+			LOGGER.debugf(e.getMessage());
 			return;
 		}
 	}

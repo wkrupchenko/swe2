@@ -36,10 +36,10 @@
 			
 			<!-- SQL-Skript ausfuehren beim Laden der Anwendung -->
 			<property name="hibernate.hbm2ddl.import_files" value="sql/01_enum.sql,sql/02_index.sql,
-			    sql/10_artikel.sql,sql/21_artikelgruppe.sql,
-			    sql/30_kunde.sql,sql/31_adresse.sql,
-			    sql/40_bestellung.sql,sql/41_bestellposition.sql,
-			    sql/50_lieferung.sql,sql/51_bestellung_lieferung.sql"/>
+			    sql/10_artikelgruppe.sql,sql/11_artikel.sql,
+			    sql/20_kunde.sql,sql/21_adresse.sql,
+			    sql/30_bestellung.sql,sql/31_bestellposition.sql,
+			    sql/40_lieferung.sql,sql/41_bestellung_lieferung.sql"/>
 		</properties>
 	</persistence-unit>
 </persistence>

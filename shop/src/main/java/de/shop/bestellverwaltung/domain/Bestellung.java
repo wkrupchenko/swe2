@@ -267,6 +267,7 @@ public class Bestellung implements Serializable {
 		lieferungen.add(lieferung);
 	}
 	
+	@JsonIgnore
 	public List<Lieferung> getLieferungenAsList() {
 		return lieferungen == null ? null : new ArrayList<>(lieferungen);
 	}

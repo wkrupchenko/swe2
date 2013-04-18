@@ -86,7 +86,7 @@ public class Lieferung implements Serializable {
 	@Basic(optional = false)
 	private int version = ERSTE_VERSION;
 
-	@Column(name = "l_inlandOderAusland")
+	@Column(name = "inlandOderAusland")
 	private String inlandOderAusland;
 
 	@Column(length = LIEFERNR_LAENGE_MAX, nullable = false, unique = true)
@@ -212,6 +212,7 @@ public class Lieferung implements Serializable {
 		this.bestellungen.add(bestellung);
 	}
 	
+	@JsonIgnore
 	public List<Bestellung> getBestellungenAsList() {
 		return this.bestellungen == null ? null : new ArrayList<>(bestellungen);
 	}
