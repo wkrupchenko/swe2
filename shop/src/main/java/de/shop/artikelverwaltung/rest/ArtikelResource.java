@@ -105,7 +105,7 @@ public class ArtikelResource {
 	 */
 	@GET
 	@Path("{id:[1-9][0-9]*}")
-	public Artikel findeArtikel(@PathParam("id") Long id, @Context UriInfo uriInfo) {
+	public Artikel findeArtikelnachId(@PathParam("id") Long id, @Context UriInfo uriInfo) {
 		final Artikel artikel = as.findeArtikelNachId(id);
 		if (artikel == null) {
 			final String msg = "Kein Artikel gefunden mit der ID " + id;
