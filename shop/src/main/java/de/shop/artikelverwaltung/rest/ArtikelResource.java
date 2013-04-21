@@ -200,10 +200,11 @@ public class ArtikelResource {
 	 */
 	@GET
 	@Path("artikelgruppe")
-	public Collection<Artikelgruppe> findeArtikelgruppeNachName(@QueryParam("name") @DefaultValue("") String name,
+	public Collection<Artikelgruppe> findeArtikelgruppeNachName(@QueryParam("bezeichnung") 
+																@DefaultValue("") String bezeichnung,
 														   		 @Context UriInfo uriInfo) {
 		Collection<Artikelgruppe> artikelgruppen = null;
-		if ("".equals(name)) {
+		if ("".equals(bezeichnung)) {
 			artikelgruppen = as.findeAlleArtikelgruppen();
 			if (artikelgruppen.isEmpty()) {
 				final String msg = "Keine Artikelgruppen vorhanden";
@@ -211,9 +212,9 @@ public class ArtikelResource {
 			}
 		}
 		else {
-			artikelgruppen = as.findeArtikelgruppeNachName(name);
+			artikelgruppen = as.findeArtikelgruppeNachName(bezeichnung);
 			if (artikelgruppen.isEmpty()) {
-				final String msg = "Keinen Artikelgruppe gefunden mit Bezeichnung " + name;
+				final String msg = "Keinen Artikelgruppe gefunden mit Bezeichnung " + bezeichnung;
 				throw new NotFoundException(msg);
 			}
 		}
