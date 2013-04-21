@@ -1,45 +1,14 @@
-MIGRATION:
+AUFTEILUNG:
 
-1) ValidationService -> ValidatorProvider ERLEDIGT
-2) REST: @JsonIgnore, @JsonProperty ERLEDIGT
-3) Verzicht auf JBoss Solder und Seam Faces ERLEDIGT
-3a) JBoss Solder: ersetzt durch die Klasse Config mit @Resource und web.xml ERLEDIGT
-3b) Seam Faces: Annotation @Transactional mit Interceptor-Klasse TransactionalInterceptor (zzgl. Eintrag in beans.xml) ERLEDIGT
-4) Keine Tests f¸r Awk und DB-Zugriffsschicht ERLEDIGT
-5) CSV-Dateien -> SQL-Skripte ERLEDIGT
-6) Kein DbUnit ERLEDIGT
-7) ArchiveService -> ArchiveBuilder zzgl. neue Klasse TestConstants (statt Testklassen)
-inkl. Upgrades von Arquillian, ShrinkWrap und ShrinkWrap Resolver ERLEDIGT
-8) JBoss Logging statt j.u.l ERLEDIGT
+Artikelverwaltung --> Ingo
+Kundenverwaltung  --> Sebastian
+Bestellverwaltung --> Wladik
 
+MEILENSTEIN 1:
 
-ZUSƒTZLICH:
-
-- JPA Annotationen ¸berpr¸fen und ggf. anpassen, da Hibernate Tabellen anlegt! ERLEDIGT
-- BestellungService und BestellungServiceImpl ‰ndern --> kein Interface ERLEDIGT
-- TransactionalInterceptor ERLEDIGT
-- LocaleHelper einbauen ERLEDIGT
-- Hibernate konfigurieren, damit es DB anhand der Annotationen erstellt ERLEDIGT
-
----------------------------------------------------------------------------------------------------------------------------
-| Migration erfolgreich, Web Service l‰uft nun wie im letzten Semester ohne Probleme. Allerdings wurden alle vorgegebenen |
-| Restriktionen wie zum Beispiel das Beladen und Bef¸llen der Datenbank durch Hibernate, JBoss Logging, etc. bereits      |
-| umgesetzt!!!                                                                                                            |
----------------------------------------------------------------------------------------------------------------------------
-
-Aufteilung:
-
-Artikelverwaltung Ingo
-Kundenverwaltung Sebastian
-Bestellverwaltung Wladik
-
-M1:
-
-- Parallele Transaktionen beachten --> VERSION einf¸gen ERLEDIGT
-- Parallele Transaktionen pr¸fen --> Exception werfen bei konkurrierendem Update ERLEDIGT
-- ExceptionMapper f¸r Meldung als HTTP Response ERLEDIGT (ConcurrentDelete, NotFound und OptimisticLock)
 - Keystore f¸r DB Passwort ERLEDIGT (muss jeder selbst an seinem Laptop machen)
-- Hilfsklassen f¸r WebService Tests erstellen ERLEDIGT
-- WebService Tests 
+- Tests: -> Artikelverwaltung: Bis auf Create/Update Artikel und Artikelgruppe sowie DeleteArtikelgruppeMitArtikel alles erledigt
+		 -> Kundenverwaltung: nichts
+		 -> Bestellverwaltung: nichts
 - Authentifizierung und Authorisierung bei WebService-Tester
 - Security Maﬂnahmen

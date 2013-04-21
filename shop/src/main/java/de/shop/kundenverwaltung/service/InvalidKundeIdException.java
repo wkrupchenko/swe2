@@ -8,7 +8,7 @@ import javax.validation.ConstraintViolation;
 import de.shop.kundenverwaltung.domain.Kunde;
 
 @ApplicationException(rollback = true)
-public class InvalidKundeIdException extends AbstractKundeServiceException {
+public class InvalidKundeIdException extends KundeServiceException {
 	private static final long serialVersionUID = 1L;
 	
 	private final Long kundeId;

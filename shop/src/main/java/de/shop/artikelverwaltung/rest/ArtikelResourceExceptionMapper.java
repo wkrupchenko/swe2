@@ -1,4 +1,4 @@
-package de.shop.bestellverwaltung.rest;
+package de.shop.artikelverwaltung.rest;
 
 import static javax.ws.rs.core.MediaType.TEXT_PLAIN;
 import static javax.ws.rs.core.Response.Status.CONFLICT;
@@ -8,14 +8,16 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
-import de.shop.bestellverwaltung.service.BestellungServiceException;
+import de.shop.artikelverwaltung.service.ArtikelServiceException;
+import de.shop.util.Log;
 
 
 @Provider
 @ApplicationScoped
-public class BestellverwaltungExceptionMapper implements ExceptionMapper<BestellungServiceException> {
+@Log
+public class ArtikelResourceExceptionMapper implements ExceptionMapper<ArtikelServiceException> {
 	@Override
-	public Response toResponse(BestellungServiceException e) {
+	public Response toResponse(ArtikelServiceException e) {
 		final String msg = e.getMessage();
 		final Response response = Response.status(CONFLICT)
 		                                  .type(TEXT_PLAIN)

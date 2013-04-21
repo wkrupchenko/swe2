@@ -1,14 +1,22 @@
 package de.shop.artikelverwaltung.rest;
 
 import static com.jayway.restassured.RestAssured.given;
+import static java.net.HttpURLConnection.HTTP_CONFLICT;
 import static java.net.HttpURLConnection.HTTP_CREATED;
 import static java.net.HttpURLConnection.HTTP_NOT_FOUND;
+import static java.net.HttpURLConnection.HTTP_NO_CONTENT;
 import static java.net.HttpURLConnection.HTTP_OK;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
+import static org.hamcrest.CoreMatchers.endsWith;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.startsWith;
 import static org.junit.Assert.assertThat;
 import static org.junit.runners.MethodSorters.NAME_ASCENDING;
 import static de.shop.util.TestKonstanten.ARTIKELGRUPPE_URI;
+import static de.shop.util.TestKonstanten.ARTIKEL_ID_PATH_PARAM;
+import static de.shop.util.TestKonstanten.ARTIKEL_ID_PATH;
+import static de.shop.util.TestKonstanten.ARTIKELGRUPPE_ID_PATH_PARAM;
+import static de.shop.util.TestKonstanten.ARTIKELGRUPPE_ID_PATH;
 
 import java.io.StringReader;
 import java.lang.invoke.MethodHandles;
@@ -55,6 +63,10 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 	private static final Long ARTIKEL1_ZU_ARTIKELGRUPPE_400 = Long.valueOf(500);
 	private static final Long ARTIKEL2_ZU_ARTIKELGRUPPE_400 = Long.valueOf(504);
 	private static final Long ARTIKEL3_ZU_ARTIKELGRUPPE_400 = Long.valueOf(505);
+	private static final Long ARTIKEL_ID_LÖSCHEN = Long.valueOf(504);
+	private static final Long ARTIKEL_ID_MIT_BESTELLUNGEN = Long.valueOf(501);
+	private static final Long ARTIKELGRUPPE_ID_MIT_ARTIKEL = Long.valueOf(404);
+	private static final Long ARTIKELGRUPPE_ID_LÖSCHEN = Long.valueOf(403);
 	
 	@Inject
 	private ArtikelService as;
@@ -72,10 +84,10 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 		LOGGER.debugf("BEGINN Test findeArtikelNachBezeichnungVorhanden");
 		
 		// GIVEN
-		final String artikelBezeichnung = ARTIKEL_BEZEICHNUNG_VORHANDEN;
+		final String bezeichnung = ARTIKEL_BEZEICHNUNG_VORHANDEN;
 		
 		// WHEN
-		Response response = given().header("Accept", APPLICATION_JSON).queryParam("bezeichnung", artikelBezeichnung)
+		Response response = given().header("Accept", APPLICATION_JSON).queryParam("bezeichnung", bezeichnung)
 									.get("/artikel");
 		
 		// THEN
@@ -84,7 +96,7 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 			assertThat(jsonArray.size() > 0, is(true));
 			List<JsonObject> jsonObjectList = jsonArray.getValuesAs(JsonObject.class);
 			for(JsonObject jsonObject : jsonObjectList)
-				assertThat(jsonObject.getString("bezeichnung"), is(artikelBezeichnung));
+				assertThat(jsonObject.getString("bezeichnung"), is(bezeichnung));
 		}
 		LOGGER.debugf("ENDE Test findeArtikelNachBezeichnungVorhanden");
 	}
@@ -204,10 +216,36 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 		// TODO
 	}
 	
-	@Ignore
+	@Test
+	public void deleteArtikelMitBestellungen() {
+		LOGGER.debugf("BEGINN deleteArtikelMitBestellungen");
+		
+		// GIVEN
+		final Long artikelId = ARTIKEL_ID_MIT_BESTELLUNGEN;
+		
+		// WHEN
+		final Response response = given().pathParameter(ARTIKEL_ID_PATH_PARAM, artikelId).delete(ARTIKEL_ID_PATH);
+		
+		// Then
+		assertThat(response.getStatusCode(), is(HTTP_CONFLICT));
+		final String errorMsg = response.asString();
+		assertThat(errorMsg, startsWith("Artikel mit ID=" + artikelId + " kann nicht geloescht werden, es sind Bestellungen vorhanden!"));
+		LOGGER.debugf("ENDE deleteArtikelMitBestellungen");
+	}
+	
 	@Test
 	public void deleteArtikel() {
-		// TODO
+		LOGGER.debugf("BEGINN deleteArtikel");
+		
+		// GIVEN
+		final Long artikelId = ARTIKEL_ID_LÖSCHEN;
+		
+		// WHEN
+		final Response response = given().pathParameter(ARTIKEL_ID_PATH_PARAM, artikelId).delete(ARTIKEL_ID_PATH);
+		
+		// Then
+		assertThat(response.getStatusCode(), is(HTTP_NO_CONTENT));
+		LOGGER.debugf("ENDE deleteArtikel");
 	}
 	
 	@Test
@@ -240,7 +278,7 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 		final String artikelgruppeName = ARTIKELGRUPPE_NAME_NICHT_VORHANDEN;
 		
 		// WHEN
-		Response response = given().header("Accept", APPLICATION_JSON).queryParam("name", artikelgruppeName)
+		Response response = given().header("Accept", APPLICATION_JSON).queryParam("bezeichnung", artikelgruppeName)
 									.get("/artikel/artikelgruppe");
 		
 		// THEN
@@ -338,8 +376,36 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 	
 	@Ignore
 	@Test
+	public void deleteArtikelgruppeMitArtikel() {
+		LOGGER.debugf("BEGINN deleteArtikelgruppeMitArtikel");
+		
+		// GIVEN
+		final Long artikelgruppeId = ARTIKELGRUPPE_ID_MIT_ARTIKEL;
+		
+		// WHEN
+		final Response response = given().pathParameter(ARTIKELGRUPPE_ID_PATH_PARAM, artikelgruppeId).delete(ARTIKELGRUPPE_ID_PATH);
+		
+		// Then
+		assertThat(response.getStatusCode(), is(HTTP_CONFLICT));
+		final String errorMsg = response.asString();
+		assertThat(errorMsg, startsWith("Artikelgruppe mit ID=" + artikelgruppeId + " kann nicht geloescht werden:"));
+		assertThat(errorMsg, endsWith("Artikel"));
+		LOGGER.debugf("ENDE deleteArtikelgruppeMitArtikel");
+	}
+	
+	@Test
 	public void deleteArtikelgruppe() {
-		// TODO
+		LOGGER.debugf("BEGINN deleteArtikelgruppe");
+		
+		// GIVEN
+		final Long artikelgruppeId = ARTIKELGRUPPE_ID_LÖSCHEN;
+		
+		// WHEN
+		final Response response = given().pathParameter(ARTIKELGRUPPE_ID_PATH_PARAM, artikelgruppeId).delete(ARTIKELGRUPPE_ID_PATH);
+		
+		// Then
+		assertThat(response.getStatusCode(), is(HTTP_NO_CONTENT));
+		LOGGER.debugf("ENDE deleteArtikelgruppe");
 	}
 }
 

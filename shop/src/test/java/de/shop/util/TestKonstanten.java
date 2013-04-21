@@ -34,6 +34,10 @@ public final class TestKonstanten {
 	public static final String ARTIKELGRUPPE_PATH = "/artikel/artikelgruppe";
 	public static final String ARTIKELGRUPPE_URI = BASEURI + ":" + PORT + BASEPATH + ARTIKEL_PATH + ARTIKELGRUPPE_PATH;
 	public static final String ARTIKEL_URI = BASEURI + ":" + PORT + BASEPATH + ARTIKEL_PATH;
+	public static final String ARTIKEL_ID_PATH_PARAM = "artikelId";
+	public static final String ARTIKEL_ID_PATH = ARTIKEL_PATH + "/{" + ARTIKEL_ID_PATH_PARAM + "}";
+	public static final String ARTIKELGRUPPE_ID_PATH_PARAM = "artikelgruppeId";
+	public static final String ARTIKELGRUPPE_ID_PATH = ARTIKELGRUPPE_PATH + "/{" + ARTIKELGRUPPE_ID_PATH_PARAM + "}";
 	
 	// Testklassen fuer Service- und Domain-Tests
 	public static final Class<?>[] TEST_CLASSES = { };
