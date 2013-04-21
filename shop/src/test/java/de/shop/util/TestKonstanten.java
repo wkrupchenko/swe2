@@ -31,7 +31,7 @@ public final class TestKonstanten {
 	public static final String BESTELLUNGEN_ID_KUNDE_PATH = BESTELLUNGEN_ID_PATH + "/kunde";
 	
 	public static final String ARTIKEL_PATH = "/artikel";
-	public static final String ARTIKELGRUPPE_PATH = "/artikelgruppe";
+	public static final String ARTIKELGRUPPE_PATH = "/artikel/artikelgruppe";
 	public static final String ARTIKELGRUPPE_URI = BASEURI + ":" + PORT + BASEPATH + ARTIKEL_PATH + ARTIKELGRUPPE_PATH;
 	public static final String ARTIKEL_URI = BASEURI + ":" + PORT + BASEPATH + ARTIKEL_PATH;
 	

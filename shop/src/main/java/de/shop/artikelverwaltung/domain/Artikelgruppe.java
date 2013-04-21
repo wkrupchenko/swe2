@@ -4,10 +4,14 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
 import org.jboss.logging.Logger;
+
 import de.shop.util.IdGroup;
+
 import java.lang.invoke.MethodHandles;
 import java.net.URI;
+
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -26,7 +30,9 @@ import javax.persistence.Version;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonProperty;
 
 import static de.shop.util.Konstante.ERSTE_VERSION;
 import static de.shop.util.Konstante.KEINE_ID;
@@ -78,6 +84,7 @@ public class Artikelgruppe implements Serializable {
 	private List<Artikel> artikel;
 	
 	@Transient
+	@JsonProperty("artikel")
 	private URI artikelUri;
 	
 	@PostPersist
