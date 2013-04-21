@@ -105,10 +105,12 @@ public class KundeResourceTest extends AbstractResourceTest {
 	
 	@Ignore
 	@Test
+	
 	public void notYetImplemented() {
 		fail();
 	}
 	
+	@Ignore
 	@Test
 	public void findKundeById() {
 		LOGGER.finer("BEGINN");
@@ -133,6 +135,7 @@ public class KundeResourceTest extends AbstractResourceTest {
 		LOGGER.finer("ENDE");
 	}
 	
+	@Ignore
 	@Test
 	public void findKundeByIdNichtVorhanden() {
 		LOGGER.finer("BEGINN");
@@ -149,7 +152,8 @@ public class KundeResourceTest extends AbstractResourceTest {
     	assertThat(response.getStatusCode(), is(HTTP_NOT_FOUND));
 		LOGGER.finer("ENDE");
 	}
-
+	
+	@Ignore
 	@Test
 	public void findKundenByNachnameVorhanden() {
 		LOGGER.finer("BEGINN");
@@ -177,6 +181,7 @@ public class KundeResourceTest extends AbstractResourceTest {
 		LOGGER.finer("ENDE");
 	}
 	
+	@Ignore
 	@Test
 	public void findKundenByNachnameNichtVorhanden() {
 		LOGGER.finer("BEGINN");
@@ -195,6 +200,7 @@ public class KundeResourceTest extends AbstractResourceTest {
 		LOGGER.finer("ENDE");
 	}
 	
+	@Ignore
 	@Test
 	public void createPrivatkunde() {
 		LOGGER.finer("BEGINN");
@@ -251,7 +257,7 @@ public class KundeResourceTest extends AbstractResourceTest {
 		LOGGER.finer("ENDE");
 	}
 	
-	
+	@Ignore
 	@Test
 	public void createPrivatkundeFalschesPassword() {
 		LOGGER.finer("BEGINN");
@@ -279,6 +285,7 @@ public class KundeResourceTest extends AbstractResourceTest {
 		LOGGER.finer("ENDE");
 	}
 	
+	@Ignore
 	@Test
 	public void createPrivatkundeInvalid() {
 		LOGGER.finer("BEGINN");
@@ -316,7 +323,8 @@ public class KundeResourceTest extends AbstractResourceTest {
 		
 		LOGGER.finer("ENDE");
 	}
-
+	
+	@Ignore
 	@Test
 	public void updateKunde() {
 		LOGGER.finer("BEGINN");
@@ -362,6 +370,7 @@ public class KundeResourceTest extends AbstractResourceTest {
 		assertThat(response.getStatusCode(), is(HTTP_NO_CONTENT));
    	}
 	
+	@Ignore	
 	@Test
 	public void deleteKunde() {
 		LOGGER.finer("BEGINN");
@@ -382,6 +391,7 @@ public class KundeResourceTest extends AbstractResourceTest {
 		LOGGER.finer("ENDE");
 	}
 	
+	@Ignore	
 	@Test
 	public void deleteKundeMitBestellung() {
 		LOGGER.finer("BEGINN");
@@ -406,7 +416,7 @@ public class KundeResourceTest extends AbstractResourceTest {
 		LOGGER.finer("ENDE");
 	}
 	
-	
+	@Ignore
 	@Test
 	public void deleteKundeFehlendeBerechtigung() {
 		LOGGER.finer("BEGINN");
@@ -428,6 +438,7 @@ public class KundeResourceTest extends AbstractResourceTest {
 		LOGGER.finer("ENDE");
 	}
 	
+	@Ignore
 	@Test
 	public void uploadDownload() throws IOException {
 		LOGGER.finer("BEGINN");

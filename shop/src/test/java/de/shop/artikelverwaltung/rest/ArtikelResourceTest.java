@@ -157,10 +157,10 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 	public void createArtikel() {
 		LOGGER.debugf("BEGINN Test createArtikel");
 		// GIVEN
-		final String bezeichnung = ARTIKEL_BEZEICHNUNG_NEU;
-		final Boolean erhaeltlich = ARTIKEL_ERHAELTLICH_NEU;
-		final double preis = ARTIKEL_PREIS_NEU;
-		final Long artikelgruppeId = ARTIKELGRUPPE_ID_VORHANDEN;
+		final String bezeichnung = ARTIKEL_BEZEICHNUNG_NEU; Gelbes Shirt
+		final Boolean erhaeltlich = ARTIKEL_ERHAELTLICH_NEU; true
+		final double preis = ARTIKEL_PREIS_NEU; 15.99
+		final Long artikelgruppeId = ARTIKELGRUPPE_ID_VORHANDEN; 400
 			
 		final JsonObject jsonObject = getJsonBuilderFactory().createObjectBuilder()
 								.add("bezeichnung", bezeichnung)

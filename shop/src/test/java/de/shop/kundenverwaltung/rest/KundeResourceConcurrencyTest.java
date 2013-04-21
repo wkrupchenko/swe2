@@ -28,6 +28,7 @@ import javax.json.JsonReader;
 
 import org.jboss.arquillian.junit.Arquillian;
 import org.junit.FixMethodOrder;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -48,6 +49,7 @@ public class KundeResourceConcurrencyTest extends AbstractResourceTest {
 	private static final Long KUNDE_ID_DELETE1 = Long.valueOf(122);
 	private static final Long KUNDE_ID_DELETE2 = Long.valueOf(124);
 
+	@Ignore 
 	@Test
 	public void updateUpdate() throws InterruptedException, ExecutionException {
 		LOGGER.finer("BEGINN");
@@ -114,6 +116,7 @@ public class KundeResourceConcurrencyTest extends AbstractResourceTest {
 		LOGGER.finer("ENDE");
 	}
 	
+	@Ignore
 	@Test
 	public void updateDelete() throws InterruptedException, ExecutionException {
 		LOGGER.finer("BEGINN");
@@ -167,6 +170,7 @@ public class KundeResourceConcurrencyTest extends AbstractResourceTest {
 		LOGGER.finer("ENDE");
 	}
 	
+	@Ignore
 	@Test
 	public void deleteUpdate() throws InterruptedException, ExecutionException {
 		LOGGER.finer("BEGINN");
