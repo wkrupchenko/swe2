@@ -26,6 +26,6 @@ INSERT INTO transport_art VALUES (3, 'WASSER');
 -- ===============================================================================
 -- Fremdschluessel in den bereits *generierten* Tabellen auf die obigen "Enum-Tabellen" anlegen
 -- ===============================================================================
-ALTER TABLE kunde ADD CONSTRAINT kunde__geschlecht_fk FOREIGN KEY (geschlecht_fk) REFERENCES geschlecht;
-ALTER TABLE kunde ADD CONSTRAINT kunde__familienstand_fk FOREIGN KEY (familienstand_fk) REFERENCES familienstand;
-ALTER TABLE lieferung ADD CONSTRAINT lieferung__transport_art_fk FOREIGN KEY (transport_art_fk) REFERENCES transport_art;
+ALTER TABLE kunde ADD CONSTRAINT kunde_geschlecht_fk FOREIGN KEY (geschlecht_fk) REFERENCES geschlecht;
+ALTER TABLE kunde ADD CONSTRAINT kunde_familienstand_fk FOREIGN KEY (familienstand_fk) REFERENCES familienstand;
+ALTER TABLE lieferung ADD CONSTRAINT lieferung_transport_art_fk FOREIGN KEY (transport_art_fk) REFERENCES transport_art;
