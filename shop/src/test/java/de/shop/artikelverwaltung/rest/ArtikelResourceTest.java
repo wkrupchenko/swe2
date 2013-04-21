@@ -20,6 +20,7 @@ import javax.json.JsonObject;
 import javax.json.JsonReader;
 
 import org.junit.FixMethodOrder;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -46,6 +47,7 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 	private static final Boolean ARTIKEL_ERHAELTLICH_NEU = true;
 	private static final double ARTIKEL_PREIS_NEU = 15.99;
 	private static final Long ARTIKELGRUPPE_ID_VORHANDEN = Long.valueOf(400);
+	private static final String ARTIKELGRUPPE_BEZEICHNUNG_NEU = "Unterwäsche";
 	
 	@Inject
 	private ArtikelService as;
@@ -153,6 +155,7 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 		LOGGER.debugf("ENDE Test findeArtikelgruppeNachArtikelVorhanden");
 	}
 	
+	@Ignore
 	@Test
 	public void createArtikel() {
 		LOGGER.debugf("BEGINN Test createArtikel");
@@ -180,5 +183,29 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 		final Long id = Long.valueOf(idStr);
 		assertThat(id.longValue() > 0, is(true));
 		LOGGER.debugf("ENDE Test createArtikel");
+	}
+	
+	@Ignore
+	@Test
+	public void createArtikelgruppe() {
+		LOGGER.debugf("BEGINN Test createArtikelgruppe");
+		// GIVEN
+		final String bezeichnung = ARTIKELGRUPPE_BEZEICHNUNG_NEU;
+		
+		final JsonObject jsonObject = getJsonBuilderFactory().createObjectBuilder()
+				.add("bezeichnung", bezeichnung)
+				.build();
+		
+		// WHEN
+		Response response = given().contentType(APPLICATION_JSON).body(jsonObject.toString()).post("ARTIKELGRUPPE_PATH");
+		
+		// THEN
+		assertThat(response.getStatusCode(), is(HTTP_CREATED));
+		final String location = response.getHeader("Location");
+		final int startPos = location.lastIndexOf('/');
+		final String idStr = location.substring(startPos + 1);
+		final Long id = Long.valueOf(idStr);
+		assertThat(id.longValue() > 0, is(true));
+		LOGGER.debugf("ENDE Test createArtikelgruppe");
 	}
 }
