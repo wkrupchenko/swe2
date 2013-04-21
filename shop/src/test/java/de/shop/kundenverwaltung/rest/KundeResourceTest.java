@@ -87,12 +87,8 @@ public class KundeResourceTest extends AbstractResourceTest {
 	private static final String NEUE_STRASSE = "Testweg";
 	private static final String NEUE_HAUSNR = "1";
 	
-	private static final String FILENAME = "image.gif";
-	//private static final String FILENAME = "video.mp4";
-	private static final String FILENAME_UPLOAD = "src/test/resources/rest/" + FILENAME;
-	private static final String FILENAME_DOWNLOAD = "target/" + FILENAME;
-	private static final CopyOption[] COPY_OPTIONS = { REPLACE_EXISTING };
-	private static final Long KUNDE_ID_UPLOAD = Long.valueOf(102);
+	 
+	 
 
 	 
 	 
@@ -438,77 +434,5 @@ public class KundeResourceTest extends AbstractResourceTest {
 		LOGGER.finer("ENDE");
 	}
 	
-	@Ignore
-	@Test
-	public void uploadDownload() throws IOException {
-		LOGGER.finer("BEGINN");
-		
-		// Given
-		final Long kundeId = KUNDE_ID_UPLOAD;
-		final String fileName = FILENAME_UPLOAD;
-		final String username = USERNAME;
-		final String password = PASSWORD;
-		
-		// Datei als byte[] einlesen
-		byte[] bytes;
-		try (ByteArrayOutputStream stream = new ByteArrayOutputStream()) {
-			Files.copy(Paths.get(fileName), stream);
-			bytes = stream.toByteArray();
-		}
-		
-		// byte[] als Inhalt eines JSON-Datensatzes mit Base64-Codierung
-		JsonObject jsonObject = getJsonBuilderFactory().createObjectBuilder()
-	                            .add("bytes", DatatypeConverter.printBase64Binary(bytes))
-	                            .build();
-		
-		// When
-		Response response = given().contentType(APPLICATION_JSON)
-				                   .body(jsonObject.toString())
-                                   .auth()
-                                   .basic(username, password)
-                                   .pathParameter(KUNDEN_ID_PATH_PARAM, kundeId)
-                                   .post(KUNDEN_ID_FILE_PATH);
-
-		// Then
-		assertThat(response.getStatusCode(), is(HTTP_CREATED));
-		// id extrahieren aus http://localhost:8080/shop2/rest/kunden/<id>/file
-		final String idStr = response.getHeader(LOCATION)
-				                     .replace(BASEURI + ":" + PORT + BASEPATH + KUNDEN_PATH + '/', "")
-				                     .replace("/file", "");
-		assertThat(idStr, is(kundeId.toString()));
-		
-		// When (2)
-		// Download der zuvor hochgeladenen Datei
-		response = given().header(ACCEPT, APPLICATION_JSON)
-				          .auth()
-                          .basic(username, password)
-                          .pathParameter(KUNDEN_ID_PATH_PARAM, kundeId)
-                          .get(KUNDEN_ID_FILE_PATH);
-		
-		try (final JsonReader jsonReader =
-				              getJsonReaderFactory().createReader(new StringReader(response.asString()))) {
-			jsonObject = jsonReader.readObject();
-		}
-		final String base64String = jsonObject.getString("bytes");
-		final byte[] downloaded = DatatypeConverter.parseBase64Binary(base64String);
-		
-		// Then (2)
-		// Dateigroesse vergleichen: hochgeladene Datei als byte[] einlesen
-		byte[] uploaded;
-		try (ByteArrayOutputStream stream = new ByteArrayOutputStream()) {
-			Files.copy(Paths.get(fileName), stream);
-			uploaded = stream.toByteArray();
-		}
-		assertThat(uploaded.length, is(downloaded.length));
-		
-		// Abspeichern der heruntergeladenen Datei im Unterverzeichnis target zur manuellen Inspektion
-		try (ByteArrayInputStream inputStream = new ByteArrayInputStream(downloaded)) {
-			Files.copy(inputStream, Paths.get(FILENAME_DOWNLOAD), COPY_OPTIONS);
-		}
-
-		LOGGER.info("Heruntergeladene Datei abgespeichert: " + FILENAME_DOWNLOAD);
-		LOGGER.finer("ENDE");
-	}
-	
- 
+	 
 }
