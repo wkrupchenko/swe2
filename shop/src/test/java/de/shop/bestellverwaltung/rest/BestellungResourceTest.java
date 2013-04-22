@@ -54,7 +54,7 @@ public class BestellungResourceTest extends AbstractResourceTest {
 	private static final Long ARTIKEL_ID_NICHT_VORHANDEN_1 = Long.valueOf(501);
 	 
 
-	@Ignore
+	 
 	@Test
 	public void findeBestellungNachIdVorhanden() {
 		LOGGER.debugf("BEGINN_FINDE_BESTELLUNGEN_NACH_ID_VORHANDEN");
@@ -77,10 +77,10 @@ public class BestellungResourceTest extends AbstractResourceTest {
 			assertThat(jsonObject.getString("kunde"), is(notNullValue()));
 		}
 
-		LOGGER.debugf("ENDE");
+		LOGGER.debugf("ENDE_FINDE_BESTELLUNGEN_NACH_ID_VORHANDEN");
 	}
 	
-	@Ignore
+	 
 	@Test
 	public void findeBestellungNachIdNichtVorhanden() {
 		LOGGER.debugf("BEGINN_FINDE_BESTELLUNGEN_NACH_ID_NICHT_VORHANDEN");
@@ -95,7 +95,7 @@ public class BestellungResourceTest extends AbstractResourceTest {
 		
 		// Then
 		assertThat(response.getStatusCode(), is(HTTP_NOT_FOUND));
-		LOGGER.debugf("ENDE");
+		LOGGER.debugf("ENDE_FINDE_BESTELLUNGEN_NACH_ID_NICHT_VORHANDEN");
 	}
 	
 		
@@ -122,10 +122,10 @@ public class BestellungResourceTest extends AbstractResourceTest {
 					   endsWith("/kunden/" + jsonObject.getInt("id") + "/bestellungen"));
 		}
 
-		LOGGER.debugf("ENDE");
+		LOGGER.debugf("ENDE_KUNDE_NACH_BESTELLUNG_ID_VORHANDEN");
 	}
 	
-	@Ignore
+	 
 	@Test
 	public void findeKundeNachBestellungIdNichtVorhanden() {
 		LOGGER.debugf("BEGINN_FINDE_KUNDE_NACH_BESTELLUNG_NICHT_VORHANDEN");
@@ -140,7 +140,7 @@ public class BestellungResourceTest extends AbstractResourceTest {
 		
 		// Then
 		assertThat(response.getStatusCode(), is(HTTP_NOT_FOUND));
-		LOGGER.debugf("ENDE");
+		LOGGER.debugf("ENDE_FINDE_KUNDE_NACH_BESTELLUNG_NICHT_VORHANDEN");
 	}
 	
 	@Ignore 
@@ -174,7 +174,7 @@ public class BestellungResourceTest extends AbstractResourceTest {
 		LOGGER.debugf("ENDE");
 	}
 
-	@Ignore
+	 
 	@Test
 	public void findeLieferungenNachBestellungIdNichtVorhanden() {
 		LOGGER.debugf("BEGINN_LIEFERUNGEN_NACH_BESTELLUNG_ID_NICHT_VORHANDEN");
@@ -189,7 +189,7 @@ public class BestellungResourceTest extends AbstractResourceTest {
 		
 		// Then
 		assertThat(response.getStatusCode(), is(HTTP_NOT_FOUND));
-		LOGGER.debugf("ENDE");
+		LOGGER.debugf("ENDE_LIEFERUNGEN_NACH_BESTELLUNG_ID_NICHT_VORHANDEN");
 	}
 	
 	@Ignore
