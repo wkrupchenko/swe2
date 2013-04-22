@@ -87,13 +87,6 @@ public class KundeResourceTest extends AbstractResourceTest {
 	private static final String NEUE_STRASSE = "Testweg";
 	private static final String NEUE_HAUSNR = "1";
 	
-	 
-	 
-
-	 
-	 
-	
-	
 	@Test
 	public void validate() {
 		assertThat(true, is(true));
@@ -101,7 +94,6 @@ public class KundeResourceTest extends AbstractResourceTest {
 	
 	@Ignore
 	@Test
-	
 	public void notYetImplemented() {
 		fail();
 	}
