@@ -17,15 +17,20 @@ import static de.shop.util.TestKonstanten.ARTIKEL_ID_PATH_PARAM;
 import static de.shop.util.TestKonstanten.ARTIKEL_ID_PATH;
 import static de.shop.util.TestKonstanten.ARTIKELGRUPPE_ID_PATH_PARAM;
 import static de.shop.util.TestKonstanten.ARTIKELGRUPPE_ID_PATH;
+import static de.shop.util.TestKonstanten.ACCEPT;
+import static de.shop.util.TestKonstanten.ARTIKELGRUPPE_PATH;
+import static de.shop.util.TestKonstanten.ARTIKEL_PATH;
 
 import java.io.StringReader;
 import java.lang.invoke.MethodHandles;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.inject.Inject;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
 import javax.json.JsonReader;
 
 import org.junit.FixMethodOrder;
@@ -47,7 +52,7 @@ import de.shop.util.AbstractResourceTest;
 public class ArtikelResourceTest extends AbstractResourceTest {
 	private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass());
 	
-	private static final String ARTIKEL_BEZEICHNUNG_VORHANDEN = "Pollunder";
+	private static final String ARTIKEL_BEZEICHNUNG_VORHANDEN = "Schlauchschaal";
 	private static final String ARTIKEL_BEZEICHNUNG_NICHT_VORHANDEN = "Rosa Shirt";
 	private static final Long ARTIKEL_ID_VORHANDEN = Long.valueOf(500);
 	private static final Long ARTIKEL_ID_NICHT_VORHANDEN = Long.valueOf(1000);
@@ -67,6 +72,10 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 	private static final Long ARTIKEL_ID_MIT_BESTELLUNGEN = Long.valueOf(501);
 	private static final Long ARTIKELGRUPPE_ID_MIT_ARTIKEL = Long.valueOf(404);
 	private static final Long ARTIKELGRUPPE_ID_LÖSCHEN = Long.valueOf(403);
+	private static final Long ARTIKELGRUPPE_ID_UPDATE = Long.valueOf(400);
+	private static final String ARTIKELGRUPPE_NEUE_BEZEICHNUNG = "Bezeichnungsänderung";
+	private static final Long ARTIKEL_ID_UPDATE = Long.valueOf(503);
+	private static final String ARTIKEL_NEUE_BEZEICHNUNG = "Neuer Name für Artikel";
 	
 	@Inject
 	private ArtikelService as;
@@ -79,6 +88,7 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 		assertThat(true, is(true));
 	}
 	
+	@Ignore
 	@Test
 	public void findeArtikelNachBezeichnungVorhanden() {
 		LOGGER.debugf("BEGINN Test findeArtikelNachBezeichnungVorhanden");
@@ -210,11 +220,48 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 		LOGGER.debugf("ENDE Test createArtikel");
 	}
 	
-	@Ignore
+	
 	@Test
 	public void updateArtikel() {
-		// TODO
-	}
+		LOGGER.debugf("BEGINN updateArtikel");
+		
+		// Given
+		final Long artikelId = ARTIKEL_ID_UPDATE;
+		final String neueBezeichnung = ARTIKEL_NEUE_BEZEICHNUNG;
+		
+		// When
+		Response response = given().header(ACCEPT, APPLICATION_JSON)
+				                   .pathParameter(ARTIKEL_ID_PATH_PARAM, artikelId)
+                                   .get(ARTIKEL_ID_PATH);
+		
+		JsonObject jsonObject;
+		try (final JsonReader jsonReader =
+				              getJsonReaderFactory().createReader(new StringReader(response.asString()))) {
+			jsonObject = jsonReader.readObject();
+		}
+    	assertThat(jsonObject.getJsonNumber("id").longValue(), is(artikelId.longValue()));
+    	
+    	// Aus den gelesenen JSON-Werten ein neues JSON-Objekt mit neuem Nachnamen bauen
+    	final JsonObjectBuilder job = getJsonBuilderFactory().createObjectBuilder();
+    	final Set<String> keys = jsonObject.keySet();
+    	for (String k : keys) {
+    		if ("bezeichnung".equals(k)) {
+    			job.add("bezeichnung", neueBezeichnung);
+    		}
+    		else {
+    			job.add(k, jsonObject.get(k));
+    		}
+    	}
+    	jsonObject = job.build();
+    	
+		response = given().contentType(APPLICATION_JSON)
+				          .body(jsonObject.toString())
+                          .put(ARTIKEL_PATH);
+		
+		// Then
+		assertThat(response.getStatusCode(), is(HTTP_NO_CONTENT));
+		LOGGER.debugf("ENDE updateArtikel");
+   	}
 	
 	@Test
 	public void deleteArtikelMitBestellungen() {
@@ -250,7 +297,7 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 	
 	@Test
 	public void findeArtikelgruppeNachBezeichnungVorhanden() {
-		LOGGER.debugf("BEGINN Test findeArtikelNachBezeichnungVorhanden");
+		LOGGER.debugf("BEGINN Test findeArtikelgruppeNachBezeichnungVorhanden");
 		
 		// GIVEN
 		final String bezeichnung = ARTIKELGRUPPE_NAME_VORHANDEN;
@@ -368,11 +415,47 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 		LOGGER.debugf("ENDE Test createArtikelgruppe");
 	}
 	
-	@Ignore
 	@Test
 	public void updateArtikelgruppe() {
-		// TODO
-	}
+		LOGGER.debugf("BEGINN updateArtikelgruppe");
+		
+		// Given
+		final Long artikelgruppeId = ARTIKELGRUPPE_ID_UPDATE;
+		final String neueBezeichnung = ARTIKELGRUPPE_NEUE_BEZEICHNUNG;
+		
+		// When
+		Response response = given().header(ACCEPT, APPLICATION_JSON)
+				                   .pathParameter(ARTIKELGRUPPE_ID_PATH_PARAM, artikelgruppeId)
+                                   .get(ARTIKELGRUPPE_ID_PATH);
+		
+		JsonObject jsonObject;
+		try (final JsonReader jsonReader =
+				              getJsonReaderFactory().createReader(new StringReader(response.asString()))) {
+			jsonObject = jsonReader.readObject();
+		}
+    	assertThat(jsonObject.getJsonNumber("id").longValue(), is(artikelgruppeId.longValue()));
+    	
+    	// Aus den gelesenen JSON-Werten ein neues JSON-Objekt mit neuem Nachnamen bauen
+    	final JsonObjectBuilder job = getJsonBuilderFactory().createObjectBuilder();
+    	final Set<String> keys = jsonObject.keySet();
+    	for (String k : keys) {
+    		if ("bezeichnung".equals(k)) {
+    			job.add("bezeichnung", neueBezeichnung);
+    		}
+    		else {
+    			job.add(k, jsonObject.get(k));
+    		}
+    	}
+    	jsonObject = job.build();
+    	
+		response = given().contentType(APPLICATION_JSON)
+				          .body(jsonObject.toString())
+                          .put(ARTIKELGRUPPE_PATH);
+		
+		// Then
+		assertThat(response.getStatusCode(), is(HTTP_NO_CONTENT));
+		LOGGER.debugf("ENDE updateArtikelgruppe");
+   	}
 	
 	@Ignore
 	@Test
