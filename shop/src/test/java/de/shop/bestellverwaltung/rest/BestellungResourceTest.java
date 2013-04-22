@@ -19,9 +19,12 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
 import static org.junit.runners.MethodSorters.NAME_ASCENDING;
 
+import java.util.ArrayList;
 import java.io.StringReader;
 import java.lang.invoke.MethodHandles;
-import java.util.logging.Logger;
+import java.util.List;
+
+import org.jboss.logging.Logger;
 
 import javax.json.JsonArray;
 import javax.json.JsonObject;
@@ -41,7 +44,7 @@ import de.shop.util.AbstractResourceTest;
 @RunWith(Arquillian.class)
 @FixMethodOrder(NAME_ASCENDING)
 public class BestellungResourceTest extends AbstractResourceTest {
-	private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
+	private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass());
 	
 	private static final Long BESTELLUNG_ID_VORHANDEN = Long.valueOf(300);
 	private static final Long BESTELLUNG_ID_NICHT_VORHANDEN = Long.valueOf(700);
@@ -51,10 +54,10 @@ public class BestellungResourceTest extends AbstractResourceTest {
 	private static final Long ARTIKEL_ID_NICHT_VORHANDEN_1 = Long.valueOf(501);
 	 
 
-	 
+	@Ignore
 	@Test
 	public void findeBestellungNachIdVorhanden() {
-		LOGGER.finer("BEGINN");
+		LOGGER.debugf("BEGINN_FINDE_BESTELLUNGEN_NACH_ID_VORHANDEN");
 		
 		// Given
 		final Long bestellungId = BESTELLUNG_ID_VORHANDEN;
@@ -74,13 +77,13 @@ public class BestellungResourceTest extends AbstractResourceTest {
 			assertThat(jsonObject.getString("kunde"), is(notNullValue()));
 		}
 
-		LOGGER.finer("ENDE");
+		LOGGER.debugf("ENDE");
 	}
 	
-	 
+	@Ignore
 	@Test
 	public void findeBestellungNachIdNichtVorhanden() {
-		LOGGER.finer("BEGINN");
+		LOGGER.debugf("BEGINN_FINDE_BESTELLUNGEN_NACH_ID_NICHT_VORHANDEN");
 		
 		// Given
 		final Long bestellungId = BESTELLUNG_ID_NICHT_VORHANDEN;
@@ -92,14 +95,14 @@ public class BestellungResourceTest extends AbstractResourceTest {
 		
 		// Then
 		assertThat(response.getStatusCode(), is(HTTP_NOT_FOUND));
-		LOGGER.finer("ENDE");
+		LOGGER.debugf("ENDE");
 	}
 	
 		
 	@Ignore 
 	@Test
 	public void findeKundeNachBestellungIdVorhanden() {
-		LOGGER.finer("BEGINN");
+		LOGGER.debugf("BEGINN_KUNDE_NACH_BESTELLUNG_ID_VORHANDEN");
 		
 		// Given
 		final Long bestellungId = BESTELLUNG_ID_VORHANDEN;
@@ -119,13 +122,13 @@ public class BestellungResourceTest extends AbstractResourceTest {
 					   endsWith("/kunden/" + jsonObject.getInt("id") + "/bestellungen"));
 		}
 
-		LOGGER.finer("ENDE");
+		LOGGER.debugf("ENDE");
 	}
 	
-	
+	@Ignore
 	@Test
 	public void findeKundeNachBestellungIdNichtVorhanden() {
-		LOGGER.finer("BEGINN");
+		LOGGER.debugf("BEGINN_FINDE_KUNDE_NACH_BESTELLUNG_NICHT_VORHANDEN");
 		
 		// Given
 		final Long bestellungId = BESTELLUNG_ID_NICHT_VORHANDEN;
@@ -137,13 +140,13 @@ public class BestellungResourceTest extends AbstractResourceTest {
 		
 		// Then
 		assertThat(response.getStatusCode(), is(HTTP_NOT_FOUND));
-		LOGGER.finer("ENDE");
+		LOGGER.debugf("ENDE");
 	}
 	
-	@Ignore
+	@Ignore 
 	@Test
 	public void findeLieferungenNachBestellungIdVorhanden() {
-		LOGGER.finer("BEGINN");
+		LOGGER.debugf("BEGINN_FINDE_LIEFERUNGEN_NACH_BESTELLUNG_ID_VORHANDEN");
 		
 		// Given
 		final Long bestellungId = BESTELLUNG_ID_VORHANDEN;
@@ -158,18 +161,23 @@ public class BestellungResourceTest extends AbstractResourceTest {
 		
 		try (final JsonReader jsonReader =
 				              getJsonReaderFactory().createReader(new StringReader(response.asString()))) {
-			final JsonObject jsonObject = jsonReader.readObject();			 
-			assertThat(jsonObject.getJsonNumber("id").longValue(), is(bestellungId.longValue()));
-			assertThat(jsonObject.getString("bestellungen"), is(notNullValue()));
-					   
+			JsonArray jsonArray = jsonReader.readArray();			 
+			assertThat(jsonArray.size() > 0, is(true));
+			List<JsonObject> jsonObjectList = jsonArray.getValuesAs(JsonObject.class);
+			for(JsonObject jsonObject : jsonObjectList)
+				assertThat(jsonObject.getJsonNumber("id").longValue(), is(bestellungId.longValue()));
+				final JsonObject jsonObject = jsonReader.readObject();
+				assertThat(jsonObject.getString("bestellungen"), is(notNullValue()));				
+				 
 		}
 
-		LOGGER.finer("ENDE");
+		LOGGER.debugf("ENDE");
 	}
 
+	@Ignore
 	@Test
 	public void findeLieferungenNachBestellungIdNichtVorhanden() {
-		LOGGER.finer("BEGINN");
+		LOGGER.debugf("BEGINN_LIEFERUNGEN_NACH_BESTELLUNG_ID_NICHT_VORHANDEN");
 		
 		// Given
 		final Long bestellungId = BESTELLUNG_ID_NICHT_VORHANDEN;
@@ -181,13 +189,13 @@ public class BestellungResourceTest extends AbstractResourceTest {
 		
 		// Then
 		assertThat(response.getStatusCode(), is(HTTP_NOT_FOUND));
-		LOGGER.finer("ENDE");
+		LOGGER.debugf("ENDE");
 	}
 	
 	@Ignore
 	@Test
 	public void createBestellung() {
-		LOGGER.finer("BEGINN");
+		LOGGER.debugf("BEGINN_CREATE_BESTELLUNG");
 		
 		// Given
 		final Long kundeId = KUNDE_ID_VORHANDEN;
@@ -215,6 +223,6 @@ public class BestellungResourceTest extends AbstractResourceTest {
 		final Long id = Long.valueOf(idStr);
 		assertThat(id.longValue() > 0, is(true));
 
-		LOGGER.finer("ENDE");
+		LOGGER.debugf("ENDE");
 	}
 }
