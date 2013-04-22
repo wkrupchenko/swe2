@@ -109,7 +109,7 @@ public class KundeResourceTest extends AbstractResourceTest {
 	 
 	@Test
 	public void findeKundeNachId() {
-		LOGGER.debugf("BEGINN_FINDE_KUNDE_NACH_ID");
+		LOGGER.debugf("BEGINN Test findeKundeNachId");
 		
 		// Given
 		final Long kundeId = KUNDE_ID_VORHANDEN;
@@ -128,13 +128,13 @@ public class KundeResourceTest extends AbstractResourceTest {
 			assertThat(jsonObject.getJsonNumber("id").longValue(), is(kundeId.longValue()));
 		}
 		
-		LOGGER.debugf("ENDE");
+		LOGGER.debugf("ENDE Test findeKundeNachId");
 	}
 	
 	 
 	@Test
 	public void findeKundeNachIdNichtVorhanden() {
-		LOGGER.debugf("BEGINN_FINDE_KUNDE_NACH_ID_NICH_VORHANDEN");
+		LOGGER.debugf("BEGINN Test findeKundeNachIdNichtVorhanden");
 		
 		// Given
 		final Long kundeId = KUNDE_ID_NICHT_VORHANDEN;
@@ -146,13 +146,13 @@ public class KundeResourceTest extends AbstractResourceTest {
 
     	// Then
     	assertThat(response.getStatusCode(), is(HTTP_NOT_FOUND));
-		LOGGER.debugf("ENDE");
+		LOGGER.debugf("ENDE Test findeKundeNachIdNichtVorhanden");
 	}
 	
 	 
 	@Test
 	public void findeKundenNachNachnameVorhanden() {
-		LOGGER.debugf("BEGINN_FINDE_KUNDEN_NACH_NACHNAME_VORHANDEN");
+		LOGGER.debugf("BEGINN Test findeKundenNachNachnameVorhanden");
 		
 		// Given
 		final String nachname = NACHNAME_VORHANDEN;
@@ -174,13 +174,13 @@ public class KundeResourceTest extends AbstractResourceTest {
 	    	}
 		}
 
-		LOGGER.debugf("ENDE");
+		LOGGER.debugf("ENDE Test findeKundenNachNachnameVorhanden");
 	}
 	
-	@Ignore
+	 
 	@Test
 	public void findeKundenNachNachnameNichtVorhanden() {
-		LOGGER.debugf("BEGINN_FINDE_KUNDEN_NACH_NACHNAMEN_NICHT_VORHANDEN");
+		LOGGER.debugf("BEGINN _FINDE_KUNDEN_NACH_NACHNAMEN_NICHT_VORHANDEN");
 		
 		// Given
 		final String nachname = NACHNAME_NICHT_VORHANDEN;
@@ -387,7 +387,7 @@ public class KundeResourceTest extends AbstractResourceTest {
 		LOGGER.debugf("ENDE");
 	}
 	
-	@Ignore	
+	 
 	@Test
 	public void deleteKundeMitBestellung() {
 		LOGGER.debugf("BEGINN");

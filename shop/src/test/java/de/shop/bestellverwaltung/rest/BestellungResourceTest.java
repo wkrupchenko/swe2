@@ -57,7 +57,7 @@ public class BestellungResourceTest extends AbstractResourceTest {
 	 
 	@Test
 	public void findeBestellungNachIdVorhanden() {
-		LOGGER.debugf("BEGINN_FINDE_BESTELLUNGEN_NACH_ID_VORHANDEN");
+		LOGGER.debugf("BEGINN Test findeBestellungNachIdVorhanden");
 		
 		// Given
 		final Long bestellungId = BESTELLUNG_ID_VORHANDEN;
@@ -77,13 +77,13 @@ public class BestellungResourceTest extends AbstractResourceTest {
 			assertThat(jsonObject.getString("kunde"), is(notNullValue()));
 		}
 
-		LOGGER.debugf("ENDE_FINDE_BESTELLUNGEN_NACH_ID_VORHANDEN");
+		LOGGER.debugf("ENDE Test findeBestellungNachIdVorhanden");
 	}
 	
 	 
 	@Test
 	public void findeBestellungNachIdNichtVorhanden() {
-		LOGGER.debugf("BEGINN_FINDE_BESTELLUNGEN_NACH_ID_NICHT_VORHANDEN");
+		LOGGER.debugf("BEGINN Test findeBestellungNachIdNichtVorhanden");
 		
 		// Given
 		final Long bestellungId = BESTELLUNG_ID_NICHT_VORHANDEN;
@@ -95,14 +95,14 @@ public class BestellungResourceTest extends AbstractResourceTest {
 		
 		// Then
 		assertThat(response.getStatusCode(), is(HTTP_NOT_FOUND));
-		LOGGER.debugf("ENDE_FINDE_BESTELLUNGEN_NACH_ID_NICHT_VORHANDEN");
+		LOGGER.debugf("ENDE Test findeBestellungNachIdNichtVorhanden");
 	}
 	
 		
 	@Ignore 
 	@Test
 	public void findeKundeNachBestellungIdVorhanden() {
-		LOGGER.debugf("BEGINN_KUNDE_NACH_BESTELLUNG_ID_VORHANDEN");
+		LOGGER.debugf("BEGINN Test findeKundeNachBestellungIdVorhanden");
 		
 		// Given
 		final Long bestellungId = BESTELLUNG_ID_VORHANDEN;
@@ -122,13 +122,13 @@ public class BestellungResourceTest extends AbstractResourceTest {
 					   endsWith("/kunden/" + jsonObject.getInt("id") + "/bestellungen"));
 		}
 
-		LOGGER.debugf("ENDE_KUNDE_NACH_BESTELLUNG_ID_VORHANDEN");
+		LOGGER.debugf("ENDE Test findeKundeNachBestellungIdVorhanden");
 	}
 	
 	 
 	@Test
 	public void findeKundeNachBestellungIdNichtVorhanden() {
-		LOGGER.debugf("BEGINN_FINDE_KUNDE_NACH_BESTELLUNG_NICHT_VORHANDEN");
+		LOGGER.debugf("BEGINN Test findeKundeNachBestellungIdNichtVorhanden");
 		
 		// Given
 		final Long bestellungId = BESTELLUNG_ID_NICHT_VORHANDEN;
@@ -140,13 +140,13 @@ public class BestellungResourceTest extends AbstractResourceTest {
 		
 		// Then
 		assertThat(response.getStatusCode(), is(HTTP_NOT_FOUND));
-		LOGGER.debugf("ENDE_FINDE_KUNDE_NACH_BESTELLUNG_NICHT_VORHANDEN");
+		LOGGER.debugf("ENDE Test findeKundeNachBestellungIdNichtVorhanden");
 	}
 	
 	@Ignore 
 	@Test
 	public void findeLieferungenNachBestellungIdVorhanden() {
-		LOGGER.debugf("BEGINN_FINDE_LIEFERUNGEN_NACH_BESTELLUNG_ID_VORHANDEN");
+		LOGGER.debugf("BEGINN Test findeLieferungenNachBestellungIdVorhanden");
 		
 		// Given
 		final Long bestellungId = BESTELLUNG_ID_VORHANDEN;
@@ -171,13 +171,13 @@ public class BestellungResourceTest extends AbstractResourceTest {
 				 
 		}
 
-		LOGGER.debugf("ENDE");
+		LOGGER.debugf("ENDE Test findeLieferungenNachBestellungIdVorhanden");
 	}
 
 	 
 	@Test
 	public void findeLieferungenNachBestellungIdNichtVorhanden() {
-		LOGGER.debugf("BEGINN_LIEFERUNGEN_NACH_BESTELLUNG_ID_NICHT_VORHANDEN");
+		LOGGER.debugf("BEGINN Test findeLieferungenNachBestellungIdNichtVorhanden");
 		
 		// Given
 		final Long bestellungId = BESTELLUNG_ID_NICHT_VORHANDEN;
@@ -189,13 +189,13 @@ public class BestellungResourceTest extends AbstractResourceTest {
 		
 		// Then
 		assertThat(response.getStatusCode(), is(HTTP_NOT_FOUND));
-		LOGGER.debugf("ENDE_LIEFERUNGEN_NACH_BESTELLUNG_ID_NICHT_VORHANDEN");
+		LOGGER.debugf("ENDE Test findeLieferungenNachBestellungIdNichtVorhanden");
 	}
 	
 	@Ignore
 	@Test
 	public void createBestellung() {
-		LOGGER.debugf("BEGINN_CREATE_BESTELLUNG");
+		LOGGER.debugf("BEGINN Test createBestellung");
 		
 		// Given
 		final Long kundeId = KUNDE_ID_VORHANDEN;
@@ -223,6 +223,6 @@ public class BestellungResourceTest extends AbstractResourceTest {
 		final Long id = Long.valueOf(idStr);
 		assertThat(id.longValue() > 0, is(true));
 
-		LOGGER.debugf("ENDE");
+		LOGGER.debugf("ENDE Test createBestellung");
 	}
 }
