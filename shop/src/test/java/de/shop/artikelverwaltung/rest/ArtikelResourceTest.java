@@ -49,7 +49,7 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 	private static final double ARTIKEL_PREIS_NEU = 15.99;
 	private static final Long ARTIKELGRUPPE_ID_VORHANDEN = Long.valueOf(400);
 	private static final String ARTIKELGRUPPE_BEZEICHNUNG_NEU = "Unterwäsche";
-	private static final String ARTIKELGRUPPE_NAME_VORHANDEN = "Sommermode";
+	private static final String ARTIKELGRUPPE_NAME_VORHANDEN = "Sommermode";	 
 	private static final String ARTIKELGRUPPE_NAME_NICHT_VORHANDEN = "XXX";
 	private static final Long ARTIKELGRUPPE_ID_NICHT_VORHANDEN = Long.valueOf(19392);
 	private static final Long ARTIKEL1_ZU_ARTIKELGRUPPE_400 = Long.valueOf(500);
@@ -232,6 +232,7 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 		LOGGER.debugf("ENDE Test findeArtikelgruppeNachBezeichnungVorhanden");
 	}
 	
+	@Ignore
 	@Test
 	public void findeArtikelgruppeNachBezeichnungNichtVorhanden() {
 		LOGGER.debugf("BEGINN Test findeArtikelgruppeNachBezeichnungNichtVorhanden");
@@ -268,6 +269,7 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 		LOGGER.debugf("ENDE Test findeArtikelgruppeNachIdVorhanden");
 	}
 	
+	@Ignore
 	@Test
 	public void findeArtikelgruppeNachIdNichtVorhanden() {
 		LOGGER.debugf("BEGINN Test findeArtikelgruppeNachIdNichtVorhanden");

@@ -10,6 +10,7 @@ import static de.shop.util.TestKonstanten.BESTELLUNGEN_PATH;
 import static de.shop.util.TestKonstanten.KUNDEN_URI;
 import static de.shop.util.TestKonstanten.LOCATION;
 import static java.net.HttpURLConnection.HTTP_CREATED;
+import static java.net.HttpURLConnection.HTTP_NOT_FOUND;
 import static java.net.HttpURLConnection.HTTP_OK;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static org.hamcrest.CoreMatchers.endsWith;
@@ -22,6 +23,7 @@ import java.io.StringReader;
 import java.lang.invoke.MethodHandles;
 import java.util.logging.Logger;
 
+import javax.json.JsonArray;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
 
@@ -41,14 +43,17 @@ import de.shop.util.AbstractResourceTest;
 public class BestellungResourceTest extends AbstractResourceTest {
 	private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 	
-	private static final Long BESTELLUNG_ID_VORHANDEN = Long.valueOf(400);
+	private static final Long BESTELLUNG_ID_VORHANDEN = Long.valueOf(300);
+	private static final Long BESTELLUNG_ID_NICHT_VORHANDEN = Long.valueOf(700);
 	private static final Long KUNDE_ID_VORHANDEN = Long.valueOf(101);
-	private static final Long ARTIKEL_ID_VORHANDEN_1 = Long.valueOf(300);
-	private static final Long ARTIKEL_ID_VORHANDEN_2 = Long.valueOf(301);
+	private static final Long KUNDE_ID_NICHT_VORHANDEN = Long.valueOf(1000);
+	private static final Long ARTIKEL_ID_VORHANDEN_1 = Long.valueOf(501);
+	private static final Long ARTIKEL_ID_NICHT_VORHANDEN_1 = Long.valueOf(501);
+	 
 
-	@Ignore
+	 
 	@Test
-	public void findBestellungById() {
+	public void findeBestellungNachIdVorhanden() {
 		LOGGER.finer("BEGINN");
 		
 		// Given
@@ -66,15 +71,34 @@ public class BestellungResourceTest extends AbstractResourceTest {
 				              getJsonReaderFactory().createReader(new StringReader(response.asString()))) {
 			final JsonObject jsonObject = jsonReader.readObject();
 			assertThat(jsonObject.getJsonNumber("id").longValue(), is(bestellungId.longValue()));
-			assertThat(jsonObject.getString("kundeUri"), is(notNullValue()));
+			assertThat(jsonObject.getString("kunde"), is(notNullValue()));
 		}
 
 		LOGGER.finer("ENDE");
 	}
 	
-	@Ignore
+	 
 	@Test
-	public void findKundeByBestellungId() {
+	public void findeBestellungNachIdNichtVorhanden() {
+		LOGGER.finer("BEGINN");
+		
+		// Given
+		final Long bestellungId = BESTELLUNG_ID_NICHT_VORHANDEN;
+		
+		// When
+		final Response response = given().header(ACCEPT, APPLICATION_JSON)
+				                         .pathParameter(BESTELLUNGEN_ID_PATH_PARAM, bestellungId)
+				                         .get(BESTELLUNGEN_ID_PATH);
+		
+		// Then
+		assertThat(response.getStatusCode(), is(HTTP_NOT_FOUND));
+		LOGGER.finer("ENDE");
+	}
+	
+		
+	@Ignore 
+	@Test
+	public void findeKundeNachBestellungIdVorhanden() {
 		LOGGER.finer("BEGINN");
 		
 		// Given
@@ -83,7 +107,7 @@ public class BestellungResourceTest extends AbstractResourceTest {
 		// When
 		final Response response = given().header(ACCEPT, APPLICATION_JSON)
 				                         .pathParameter(BESTELLUNGEN_ID_PATH_PARAM, bestellungId)
-                                         .get(BESTELLUNGEN_ID_KUNDE_PATH);
+                                         .get(BESTELLUNGEN_ID_PATH + "/kunde");
 		
 		// Then
 		assertThat(response.getStatusCode(), is(HTTP_OK));
@@ -91,13 +115,75 @@ public class BestellungResourceTest extends AbstractResourceTest {
 		try (final JsonReader jsonReader =
 				              getJsonReaderFactory().createReader(new StringReader(response.asString()))) {
 			final JsonObject jsonObject = jsonReader.readObject();
-			assertThat(jsonObject.getString("bestellungenUri"),
+			assertThat(jsonObject.getString("bestellungen"),
 					   endsWith("/kunden/" + jsonObject.getInt("id") + "/bestellungen"));
 		}
 
 		LOGGER.finer("ENDE");
 	}
+	
+	
+	@Test
+	public void findeKundeNachBestellungIdNichtVorhanden() {
+		LOGGER.finer("BEGINN");
+		
+		// Given
+		final Long bestellungId = BESTELLUNG_ID_NICHT_VORHANDEN;
+		
+		// When
+		final Response response = given().header(ACCEPT, APPLICATION_JSON)
+				                         .pathParameter("bestellungId", bestellungId)
+                                         .get(BESTELLUNGEN_ID_PATH + "/kunde");
+		
+		// Then
+		assertThat(response.getStatusCode(), is(HTTP_NOT_FOUND));
+		LOGGER.finer("ENDE");
+	}
+	
+	@Ignore
+	@Test
+	public void findeLieferungenNachBestellungIdVorhanden() {
+		LOGGER.finer("BEGINN");
+		
+		// Given
+		final Long bestellungId = BESTELLUNG_ID_VORHANDEN;
+		
+		// When
+		final Response response = given().header(ACCEPT, APPLICATION_JSON)
+				                         .pathParameter(BESTELLUNGEN_ID_PATH_PARAM, bestellungId)
+                                         .get(BESTELLUNGEN_ID_PATH + "/lieferungen");
+		
+		// Then
+		assertThat(response.getStatusCode(), is(HTTP_OK));
+		
+		try (final JsonReader jsonReader =
+				              getJsonReaderFactory().createReader(new StringReader(response.asString()))) {
+			final JsonObject jsonObject = jsonReader.readObject();			 
+			assertThat(jsonObject.getJsonNumber("id").longValue(), is(bestellungId.longValue()));
+			assertThat(jsonObject.getString("bestellungen"), is(notNullValue()));
+					   
+		}
 
+		LOGGER.finer("ENDE");
+	}
+
+	@Test
+	public void findeLieferungenNachBestellungIdNichtVorhanden() {
+		LOGGER.finer("BEGINN");
+		
+		// Given
+		final Long bestellungId = BESTELLUNG_ID_NICHT_VORHANDEN;
+		
+		// When
+		final Response response = given().header(ACCEPT, APPLICATION_JSON)
+				                         .pathParameter(BESTELLUNGEN_ID_PATH_PARAM, bestellungId)
+                                         .get(BESTELLUNGEN_ID_PATH + "/lieferungen");
+		
+		// Then
+		assertThat(response.getStatusCode(), is(HTTP_NOT_FOUND));
+		LOGGER.finer("ENDE");
+	}
+	
 	@Ignore
 	@Test
 	public void createBestellung() {
@@ -105,10 +191,8 @@ public class BestellungResourceTest extends AbstractResourceTest {
 		
 		// Given
 		final Long kundeId = KUNDE_ID_VORHANDEN;
-		final Long artikelId1 = ARTIKEL_ID_VORHANDEN_1;
-		final Long artikelId2 = ARTIKEL_ID_VORHANDEN_2;
-		final String username = USERNAME;
-		final String password = PASSWORD;
+		final Long artikelId1 = ARTIKEL_ID_VORHANDEN_1;		 
+		 
 		
 		// Neues, client-seitiges Bestellungsobjekt als JSON-Datensatz
 		final JsonObject jsonObject = getJsonBuilderFactory().createObjectBuilder()
@@ -116,17 +200,12 @@ public class BestellungResourceTest extends AbstractResourceTest {
 				                      .add("bestellpositionen", getJsonBuilderFactory().createArrayBuilder()
 				            		                            .add(getJsonBuilderFactory().createObjectBuilder()
 				            		                                 .add("artikelUri", ARTIKEL_URI + "/" + artikelId1)
-				            		                                 .add("anzahl", 1))
-				            		                            .add(getJsonBuilderFactory().createObjectBuilder()
-				            		                                 .add("artikelUri", ARTIKEL_URI + "/" + artikelId2)
-				            		                                 .add("anzahl", 2)))
+				            		                                 .add("anzahl", 1)))
 				                      .build();
 
 		// When
 		final Response response = given().contentType(APPLICATION_JSON)
-				                         .body(jsonObject.toString())
-				                         .auth()
-				                         .basic(username, password)
+				                         .body(jsonObject.toString())				                          
 				                         .post(BESTELLUNGEN_PATH);
 		
 		assertThat(response.getStatusCode(), is(HTTP_CREATED));

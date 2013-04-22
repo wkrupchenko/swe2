@@ -106,7 +106,7 @@ public class KundeResourceTest extends AbstractResourceTest {
 		fail();
 	}
 	
-	@Ignore
+	 
 	@Test
 	public void findKundeById() {
 		LOGGER.finer("BEGINN");
@@ -196,9 +196,9 @@ public class KundeResourceTest extends AbstractResourceTest {
 		LOGGER.finer("ENDE");
 	}
 	
-	@Ignore
+	@Ignore 
 	@Test
-	public void createPrivatkunde() {
+	public void createKunde() {
 		LOGGER.finer("BEGINN");
 		
 		// Given
