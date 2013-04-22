@@ -1,23 +1,36 @@
 package de.shop.artikelverwaltung.rest;
 
 import static com.jayway.restassured.RestAssured.given;
+import static java.net.HttpURLConnection.HTTP_CONFLICT;
 import static java.net.HttpURLConnection.HTTP_CREATED;
 import static java.net.HttpURLConnection.HTTP_NOT_FOUND;
+import static java.net.HttpURLConnection.HTTP_NO_CONTENT;
 import static java.net.HttpURLConnection.HTTP_OK;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
+import static org.hamcrest.CoreMatchers.endsWith;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.startsWith;
 import static org.junit.Assert.assertThat;
 import static org.junit.runners.MethodSorters.NAME_ASCENDING;
 import static de.shop.util.TestKonstanten.ARTIKELGRUPPE_URI;
+import static de.shop.util.TestKonstanten.ARTIKEL_ID_PATH_PARAM;
+import static de.shop.util.TestKonstanten.ARTIKEL_ID_PATH;
+import static de.shop.util.TestKonstanten.ARTIKELGRUPPE_ID_PATH_PARAM;
+import static de.shop.util.TestKonstanten.ARTIKELGRUPPE_ID_PATH;
+import static de.shop.util.TestKonstanten.ACCEPT;
+import static de.shop.util.TestKonstanten.ARTIKELGRUPPE_PATH;
+import static de.shop.util.TestKonstanten.ARTIKEL_PATH;
 
 import java.io.StringReader;
 import java.lang.invoke.MethodHandles;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.inject.Inject;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
 import javax.json.JsonReader;
 
 import org.junit.FixMethodOrder;
@@ -39,7 +52,7 @@ import de.shop.util.AbstractResourceTest;
 public class ArtikelResourceTest extends AbstractResourceTest {
 	private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass());
 	
-	private static final String ARTIKEL_BEZEICHNUNG_VORHANDEN = "Pollunder";
+	private static final String ARTIKEL_BEZEICHNUNG_VORHANDEN = "Schlauchschaal";
 	private static final String ARTIKEL_BEZEICHNUNG_NICHT_VORHANDEN = "Rosa Shirt";
 	private static final Long ARTIKEL_ID_VORHANDEN = Long.valueOf(500);
 	private static final Long ARTIKEL_ID_NICHT_VORHANDEN = Long.valueOf(1000);
@@ -55,6 +68,14 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 	private static final Long ARTIKEL1_ZU_ARTIKELGRUPPE_400 = Long.valueOf(500);
 	private static final Long ARTIKEL2_ZU_ARTIKELGRUPPE_400 = Long.valueOf(504);
 	private static final Long ARTIKEL3_ZU_ARTIKELGRUPPE_400 = Long.valueOf(505);
+	private static final Long ARTIKEL_ID_LÖSCHEN = Long.valueOf(504);
+	private static final Long ARTIKEL_ID_MIT_BESTELLUNGEN = Long.valueOf(501);
+	private static final Long ARTIKELGRUPPE_ID_MIT_ARTIKEL = Long.valueOf(404);
+	private static final Long ARTIKELGRUPPE_ID_LÖSCHEN = Long.valueOf(403);
+	private static final Long ARTIKELGRUPPE_ID_UPDATE = Long.valueOf(400);
+	private static final String ARTIKELGRUPPE_NEUE_BEZEICHNUNG = "Bezeichnungsänderung";
+	private static final Long ARTIKEL_ID_UPDATE = Long.valueOf(503);
+	private static final String ARTIKEL_NEUE_BEZEICHNUNG = "Neuer Name für Artikel";
 	
 	@Inject
 	private ArtikelService as;
@@ -67,15 +88,16 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 		assertThat(true, is(true));
 	}
 	
+	@Ignore
 	@Test
 	public void findeArtikelNachBezeichnungVorhanden() {
 		LOGGER.debugf("BEGINN Test findeArtikelNachBezeichnungVorhanden");
 		
 		// GIVEN
-		final String artikelBezeichnung = ARTIKEL_BEZEICHNUNG_VORHANDEN;
+		final String bezeichnung = ARTIKEL_BEZEICHNUNG_VORHANDEN;
 		
 		// WHEN
-		Response response = given().header("Accept", APPLICATION_JSON).queryParam("bezeichnung", artikelBezeichnung)
+		Response response = given().header("Accept", APPLICATION_JSON).queryParam("bezeichnung", bezeichnung)
 									.get("/artikel");
 		
 		// THEN
@@ -84,7 +106,7 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 			assertThat(jsonArray.size() > 0, is(true));
 			List<JsonObject> jsonObjectList = jsonArray.getValuesAs(JsonObject.class);
 			for(JsonObject jsonObject : jsonObjectList)
-				assertThat(jsonObject.getString("bezeichnung"), is(artikelBezeichnung));
+				assertThat(jsonObject.getString("bezeichnung"), is(bezeichnung));
 		}
 		LOGGER.debugf("ENDE Test findeArtikelNachBezeichnungVorhanden");
 	}
@@ -198,21 +220,84 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 		LOGGER.debugf("ENDE Test createArtikel");
 	}
 	
-	@Ignore
+	
 	@Test
 	public void updateArtikel() {
-		// TODO
+		LOGGER.debugf("BEGINN updateArtikel");
+		
+		// Given
+		final Long artikelId = ARTIKEL_ID_UPDATE;
+		final String neueBezeichnung = ARTIKEL_NEUE_BEZEICHNUNG;
+		
+		// When
+		Response response = given().header(ACCEPT, APPLICATION_JSON)
+				                   .pathParameter(ARTIKEL_ID_PATH_PARAM, artikelId)
+                                   .get(ARTIKEL_ID_PATH);
+		
+		JsonObject jsonObject;
+		try (final JsonReader jsonReader =
+				              getJsonReaderFactory().createReader(new StringReader(response.asString()))) {
+			jsonObject = jsonReader.readObject();
+		}
+    	assertThat(jsonObject.getJsonNumber("id").longValue(), is(artikelId.longValue()));
+    	
+    	// Aus den gelesenen JSON-Werten ein neues JSON-Objekt mit neuem Nachnamen bauen
+    	final JsonObjectBuilder job = getJsonBuilderFactory().createObjectBuilder();
+    	final Set<String> keys = jsonObject.keySet();
+    	for (String k : keys) {
+    		if ("bezeichnung".equals(k)) {
+    			job.add("bezeichnung", neueBezeichnung);
+    		}
+    		else {
+    			job.add(k, jsonObject.get(k));
+    		}
+    	}
+    	jsonObject = job.build();
+    	
+		response = given().contentType(APPLICATION_JSON)
+				          .body(jsonObject.toString())
+                          .put(ARTIKEL_PATH);
+		
+		// Then
+		assertThat(response.getStatusCode(), is(HTTP_NO_CONTENT));
+		LOGGER.debugf("ENDE updateArtikel");
+   	}
+	
+	@Test
+	public void deleteArtikelMitBestellungen() {
+		LOGGER.debugf("BEGINN deleteArtikelMitBestellungen");
+		
+		// GIVEN
+		final Long artikelId = ARTIKEL_ID_MIT_BESTELLUNGEN;
+		
+		// WHEN
+		final Response response = given().pathParameter(ARTIKEL_ID_PATH_PARAM, artikelId).delete(ARTIKEL_ID_PATH);
+		
+		// Then
+		assertThat(response.getStatusCode(), is(HTTP_CONFLICT));
+		final String errorMsg = response.asString();
+		assertThat(errorMsg, startsWith("Artikel mit ID=" + artikelId + " kann nicht geloescht werden, es sind Bestellungen vorhanden!"));
+		LOGGER.debugf("ENDE deleteArtikelMitBestellungen");
 	}
 	
-	@Ignore
 	@Test
 	public void deleteArtikel() {
-		// TODO
+		LOGGER.debugf("BEGINN deleteArtikel");
+		
+		// GIVEN
+		final Long artikelId = ARTIKEL_ID_LÖSCHEN;
+		
+		// WHEN
+		final Response response = given().pathParameter(ARTIKEL_ID_PATH_PARAM, artikelId).delete(ARTIKEL_ID_PATH);
+		
+		// Then
+		assertThat(response.getStatusCode(), is(HTTP_NO_CONTENT));
+		LOGGER.debugf("ENDE deleteArtikel");
 	}
 	
 	@Test
 	public void findeArtikelgruppeNachBezeichnungVorhanden() {
-		LOGGER.debugf("BEGINN Test findeArtikelNachBezeichnungVorhanden");
+		LOGGER.debugf("BEGINN Test findeArtikelgruppeNachBezeichnungVorhanden");
 		
 		// GIVEN
 		final String bezeichnung = ARTIKELGRUPPE_NAME_VORHANDEN;
@@ -241,7 +326,7 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 		final String artikelgruppeName = ARTIKELGRUPPE_NAME_NICHT_VORHANDEN;
 		
 		// WHEN
-		Response response = given().header("Accept", APPLICATION_JSON).queryParam("name", artikelgruppeName)
+		Response response = given().header("Accept", APPLICATION_JSON).queryParam("bezeichnung", artikelgruppeName)
 									.get("/artikel/artikelgruppe");
 		
 		// THEN
@@ -332,16 +417,80 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 		LOGGER.debugf("ENDE Test createArtikelgruppe");
 	}
 	
-	@Ignore
 	@Test
 	public void updateArtikelgruppe() {
-		// TODO
-	}
+		LOGGER.debugf("BEGINN updateArtikelgruppe");
+		
+		// Given
+		final Long artikelgruppeId = ARTIKELGRUPPE_ID_UPDATE;
+		final String neueBezeichnung = ARTIKELGRUPPE_NEUE_BEZEICHNUNG;
+		
+		// When
+		Response response = given().header(ACCEPT, APPLICATION_JSON)
+				                   .pathParameter(ARTIKELGRUPPE_ID_PATH_PARAM, artikelgruppeId)
+                                   .get(ARTIKELGRUPPE_ID_PATH);
+		
+		JsonObject jsonObject;
+		try (final JsonReader jsonReader =
+				              getJsonReaderFactory().createReader(new StringReader(response.asString()))) {
+			jsonObject = jsonReader.readObject();
+		}
+    	assertThat(jsonObject.getJsonNumber("id").longValue(), is(artikelgruppeId.longValue()));
+    	
+    	// Aus den gelesenen JSON-Werten ein neues JSON-Objekt mit neuem Nachnamen bauen
+    	final JsonObjectBuilder job = getJsonBuilderFactory().createObjectBuilder();
+    	final Set<String> keys = jsonObject.keySet();
+    	for (String k : keys) {
+    		if ("bezeichnung".equals(k)) {
+    			job.add("bezeichnung", neueBezeichnung);
+    		}
+    		else {
+    			job.add(k, jsonObject.get(k));
+    		}
+    	}
+    	jsonObject = job.build();
+    	
+		response = given().contentType(APPLICATION_JSON)
+				          .body(jsonObject.toString())
+                          .put(ARTIKELGRUPPE_PATH);
+		
+		// Then
+		assertThat(response.getStatusCode(), is(HTTP_NO_CONTENT));
+		LOGGER.debugf("ENDE updateArtikelgruppe");
+   	}
 	
 	@Ignore
 	@Test
+	public void deleteArtikelgruppeMitArtikel() {
+		LOGGER.debugf("BEGINN deleteArtikelgruppeMitArtikel");
+		
+		// GIVEN
+		final Long artikelgruppeId = ARTIKELGRUPPE_ID_MIT_ARTIKEL;
+		
+		// WHEN
+		final Response response = given().pathParameter(ARTIKELGRUPPE_ID_PATH_PARAM, artikelgruppeId).delete(ARTIKELGRUPPE_ID_PATH);
+		
+		// Then
+		assertThat(response.getStatusCode(), is(HTTP_CONFLICT));
+		final String errorMsg = response.asString();
+		assertThat(errorMsg, startsWith("Artikelgruppe mit ID=" + artikelgruppeId + " kann nicht geloescht werden:"));
+		assertThat(errorMsg, endsWith("Artikel"));
+		LOGGER.debugf("ENDE deleteArtikelgruppeMitArtikel");
+	}
+	
+	@Test
 	public void deleteArtikelgruppe() {
-		// TODO
+		LOGGER.debugf("BEGINN deleteArtikelgruppe");
+		
+		// GIVEN
+		final Long artikelgruppeId = ARTIKELGRUPPE_ID_LÖSCHEN;
+		
+		// WHEN
+		final Response response = given().pathParameter(ARTIKELGRUPPE_ID_PATH_PARAM, artikelgruppeId).delete(ARTIKELGRUPPE_ID_PATH);
+		
+		// Then
+		assertThat(response.getStatusCode(), is(HTTP_NO_CONTENT));
+		LOGGER.debugf("ENDE deleteArtikelgruppe");
 	}
 }
 
