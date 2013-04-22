@@ -20,7 +20,7 @@
   <env-entry>
     <env-entry-name>empfaengerMail</env-entry-name>
     <env-entry-type>java.lang.String</env-entry-type>
-    <env-entry-value>abcd0011@hs-karlsruhe.de</env-entry-value>
+    <env-entry-value>krvl1011@hs-karlsruhe.de</env-entry-value>
   </env-entry>
   <env-entry>
     <env-entry-name>empfaengerName</env-entry-name>

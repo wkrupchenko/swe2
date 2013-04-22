@@ -354,7 +354,6 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 		LOGGER.debugf("ENDE Test findeArtikelgruppeNachIdVorhanden");
 	}
 	
-	@Ignore
 	@Test
 	public void findeArtikelgruppeNachIdNichtVorhanden() {
 		LOGGER.debugf("BEGINN Test findeArtikelgruppeNachIdNichtVorhanden");
