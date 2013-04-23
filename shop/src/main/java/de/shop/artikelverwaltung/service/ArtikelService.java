@@ -67,6 +67,12 @@ public class ArtikelService implements Serializable {
 				                       .getResultList();
 		return result;
 	}
+	
+	public List<Artikel> findeNichtVerfuegbareArtikel() {
+		final List<Artikel> result = em.createNamedQuery(Artikel.FINDE_NICHT_VERFUEGBARE_ARTIKEL, Artikel.class)
+				                       .getResultList();
+		return result;
+	}
 
 	public Artikel findeArtikelNachId(Long id) {
 		final Artikel artikel = em.find(Artikel.class, id);

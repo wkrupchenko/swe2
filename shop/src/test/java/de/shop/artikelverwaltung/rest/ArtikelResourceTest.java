@@ -52,7 +52,7 @@ import de.shop.util.AbstractResourceTest;
 public class ArtikelResourceTest extends AbstractResourceTest {
 	private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass());
 	
-	private static final String ARTIKEL_BEZEICHNUNG_VORHANDEN = "Schlauchschaal";
+	private static final String ARTIKEL_BEZEICHNUNG_VORHANDEN = "Schlauchschal";
 	private static final String ARTIKEL_BEZEICHNUNG_NICHT_VORHANDEN = "Rosa Shirt";
 	private static final Long ARTIKEL_ID_VORHANDEN = Long.valueOf(500);
 	private static final Long ARTIKEL_ID_NICHT_VORHANDEN = Long.valueOf(1000);
@@ -75,6 +75,7 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 	private static final String ARTIKELGRUPPE_NEUE_BEZEICHNUNG = "Bezeichnungsänderung";
 	private static final Long ARTIKEL_ID_UPDATE = Long.valueOf(503);
 	private static final String ARTIKEL_NEUE_BEZEICHNUNG = "Neuer Name für Artikel";
+	private static final String VERFUEGBARKEIT = "true";
 	
 	@Inject
 	private ArtikelService as;
@@ -87,7 +88,6 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 		assertThat(true, is(true));
 	}
 	
-	@Ignore
 	@Test
 	public void findeArtikelNachBezeichnungVorhanden() {
 		LOGGER.debugf("BEGINN Test findeArtikelNachBezeichnungVorhanden");
@@ -97,7 +97,7 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 		
 		// WHEN
 		Response response = given().header("Accept", APPLICATION_JSON).queryParam("bezeichnung", bezeichnung)
-									.get("/artikel");
+									.get(ARTIKEL_PATH);
 		
 		// THEN
 		try (JsonReader jsonReader = getJsonReaderFactory().createReader( new StringReader(response.asString()))) {
@@ -186,8 +186,33 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 	}
 	
 	@Test
+	public void findeArtikelNachVerfuegbarkeit() {
+		LOGGER.debugf("BEGINN Test findeArtikelNachVerfuegbarkeit");
+		
+		// GIVEN
+		final String verfuegbarkeit = VERFUEGBARKEIT;
+		final boolean erhaeltlich;
+		if("true".equals(verfuegbarkeit))
+			erhaeltlich = true;
+		else
+			erhaeltlich = false;
+		
+		// WHEN
+		Response response = given().header("Accept", APPLICATION_JSON).pathParam("erhaeltlich", verfuegbarkeit)
+							.get("/artikel/{erhaeltlich}");
+		
+		// THEN
+		assertThat(response.getStatusCode(), is(HTTP_OK));
+		try (JsonReader jsonReader = getJsonReaderFactory().createReader( new StringReader(response.asString()))) {
+			JsonArray jsonArray = jsonReader.readArray();
+			for(int i = 0; i < jsonArray.size(); ++i)
+				assertThat(jsonArray.getJsonObject(i).getBoolean("erhaeltlich"), is(erhaeltlich));
+		}
+		LOGGER.debugf("ENDE Test findeArtikelNachVerfuegbarkeit");
+	}
+	
+	@Test
 	public void createArtikel() {
-		// TODO
 		
 		LOGGER.debugf("BEGINN Test createArtikel");
 		// GIVEN
@@ -313,7 +338,6 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 		LOGGER.debugf("ENDE Test findeArtikelgruppeNachBezeichnungVorhanden");
 	}
 	
-	@Ignore
 	@Test
 	public void findeArtikelgruppeNachBezeichnungNichtVorhanden() {
 		LOGGER.debugf("BEGINN Test findeArtikelgruppeNachBezeichnungNichtVorhanden");
@@ -350,7 +374,6 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 		LOGGER.debugf("ENDE Test findeArtikelgruppeNachIdVorhanden");
 	}
 	
-	@Ignore
 	@Test
 	public void findeArtikelgruppeNachIdNichtVorhanden() {
 		LOGGER.debugf("BEGINN Test findeArtikelgruppeNachIdNichtVorhanden");
@@ -390,7 +413,6 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 	
 	@Test
 	public void createArtikelgruppe() {
-		// TODO
 		LOGGER.debugf("BEGINN Test createArtikelgruppe");
 		// GIVEN
 		final String bezeichnung = ARTIKELGRUPPE_BEZEICHNUNG_NEU;
@@ -454,7 +476,6 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 		LOGGER.debugf("ENDE Test updateArtikelgruppe");
    	}
 	
-	@Ignore
 	@Test
 	public void deleteArtikelgruppeMitArtikel() {
 		LOGGER.debugf("BEGINN Test deleteArtikelgruppeMitArtikel");
@@ -468,8 +489,7 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 		// Then
 		assertThat(response.getStatusCode(), is(HTTP_CONFLICT));
 		final String errorMsg = response.asString();
-		assertThat(errorMsg, startsWith("Artikelgruppe mit ID=" + artikelgruppeId + " kann nicht geloescht werden:"));
-		assertThat(errorMsg, endsWith("Artikel"));
+		assertThat(errorMsg, startsWith("Artikelgruppe mit ID=" + artikelgruppeId + " kann nicht geloescht werden, es sind Artikel vorhanden!"));
 		LOGGER.debugf("ENDE Test deleteArtikelgruppeMitArtikel");
 	}
 	

@@ -7,9 +7,11 @@ Bestellverwaltung --> Wladik
 MEILENSTEIN 1:
 
 - Keystore f¸r DB Passwort ERLEDIGT (muss jeder selbst an seinem Laptop machen)
-- Tests: -> Artikelverwaltung: Bis auf Create Artikel/Artikelgruppe sowie DeleteArtikelgruppeMitArtikel und
-							   findeArtikelNachBezeichnungVorhanden alles erledigt
-		 -> Kundenverwaltung: nichts
-		 -> Bestellverwaltung: nichts
+- Tests: -> Artikelverwaltung: FERTIG (alle GET-Methoden, sowie Artikel und Artikelgruppe anlegen, ‰ndern und lˆschen
+         -> ArtikelverwaltungConcurency: Nichts
+		 -> Kundenverwaltung: Nichts
+		 -> KundenverwaltungConcurency: Nichts
+		 -> Bestellverwaltung: Nichts
+		 -> BestellverwaltungConcurency: Nichts
 - Authentifizierung und Authorisierung bei WebService-Tester
 - Security Maﬂnahmen

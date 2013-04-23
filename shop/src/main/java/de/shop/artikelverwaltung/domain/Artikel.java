@@ -44,6 +44,8 @@ import static javax.persistence.CascadeType.REMOVE;
 				query = "FROM Artikel a WHERE a.bezeichnung = :" + Artikel.PARAM_BEZ),
 	@NamedQuery(name = Artikel.FINDE_VERFUEGBARE_ARTIKEL,
 				query = "FROM Artikel a WHERE a.erhaeltlich = TRUE"),
+	@NamedQuery(name = Artikel.FINDE_NICHT_VERFUEGBARE_ARTIKEL,
+				query = "FROM Artikel a WHERE a.erhaeltlich = FALSE"),
 	@NamedQuery(name = Artikel.FINDE_ARTIKEL_NACH_MAX_PREIS,
 				query = "FROM Artikel a WHERE a.preis <= :" + Artikel.PARAM_PREIS),
 	@NamedQuery(name = Artikel.FINDE_ARTIKEL_NACH_MIN_PREIS,
@@ -62,6 +64,7 @@ public class Artikel implements Serializable {
 	private static final String PREFIX = "Artikel.";
 	public static final String FINDE_ARTIKEL_NACH_BEZ = PREFIX + "findeArtikelNachBezeichnung";
 	public static final String FINDE_VERFUEGBARE_ARTIKEL = PREFIX + "findeVerfuegbareArtikel";
+	public static final String FINDE_NICHT_VERFUEGBARE_ARTIKEL = PREFIX + "findeNichtVerfuegbareArtikel";
 	public static final String FINDE_ARTIKEL_NACH_MAX_PREIS = PREFIX + "findeArtikelNachMaxPreis";
 	public static final String FINDE_ARTIKEL_NACH_MIN_PREIS = PREFIX + "findeArtikelNachMinPreis";
 	public static final String FINDE_ARTIKEL_NACH_ARTIKELGRUPPE = PREFIX + "findeArtikelNachArtikelgruppe";

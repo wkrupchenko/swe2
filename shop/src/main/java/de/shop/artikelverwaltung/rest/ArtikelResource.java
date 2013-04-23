@@ -3,7 +3,9 @@ package de.shop.artikelverwaltung.rest;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
 import java.lang.invoke.MethodHandles;
+
 import org.jboss.logging.Logger;
+
 import java.util.Collection;
 import java.util.Locale;
 import java.net.URI;
@@ -30,6 +32,7 @@ import javax.ws.rs.core.HttpHeaders;
 import de.shop.artikelverwaltung.domain.Artikel;
 import de.shop.artikelverwaltung.domain.Artikelgruppe;
 import de.shop.artikelverwaltung.service.ArtikelService;
+import de.shop.util.WrongParameterException;
 import de.shop.util.Log;
 import de.shop.util.NotFoundException;
 import de.shop.util.Transactional;
@@ -91,6 +94,47 @@ public class ArtikelResource {
 			}
 		}
 		
+		//URIs der einzelnen Artikel anpassen
+		for (Artikel a : artikel) {
+			uriHelperArtikel.updateUriArtikel(a, uriInfo);
+		}
+		return artikel;
+	}
+	
+	/* rest/artikel
+	 * Es werden alle Artikel angezeigt
+	 * mit rest/artikel?erhaeltlich=... diejenigen die erhältlich sind oder nicht
+	 */
+	@GET
+	@Path("{erhaeltlich:[a-z]*}")
+	public Collection<Artikel> findeArtikelNachVerfuegbarkeit(@PathParam("erhaeltlich") String erhaeltlich,
+														   @Context UriInfo uriInfo) {
+		Collection<Artikel> artikel = null;
+		if ("".equals(erhaeltlich)) {
+			artikel = as.findeAlleArtikel();
+			if (artikel.isEmpty()) {
+				final String msg = "Keine Artikel vorhanden";
+				throw new NotFoundException(msg);
+			}
+		}
+		else if ("true".equals(erhaeltlich)) {
+			artikel = as.findeVerfuegbareArtikel();
+			if (artikel.isEmpty()) {
+				final String msg = "Keinen Artikel gefunden die verfügbar sind!";
+				throw new NotFoundException(msg);
+			}
+		}
+		else if("false".equals(erhaeltlich)) {
+			artikel = as.findeNichtVerfuegbareArtikel();
+			if (artikel.isEmpty()) {
+				final String msg = "Keinen Artikel gefunden die nicht verfügbar sind!";
+				throw new NotFoundException(msg);
+			}
+		}
+		else {
+			final String msg = "Kein gültiger Wert übergeben, nur true oder false erlaubt!";
+			throw new WrongParameterException(msg);
+		}
 		//URIs der einzelnen Artikel anpassen
 		for (Artikel a : artikel) {
 			uriHelperArtikel.updateUriArtikel(a, uriInfo);
