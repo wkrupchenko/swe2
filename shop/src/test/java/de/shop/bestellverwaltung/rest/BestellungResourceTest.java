@@ -3,7 +3,6 @@ package de.shop.bestellverwaltung.rest;
 import static com.jayway.restassured.RestAssured.given;
 import static de.shop.util.TestKonstanten.ACCEPT;
 import static de.shop.util.TestKonstanten.ARTIKEL_URI;
-import static de.shop.util.TestKonstanten.BESTELLUNGEN_ID_KUNDE_PATH;
 import static de.shop.util.TestKonstanten.BESTELLUNGEN_ID_PATH;
 import static de.shop.util.TestKonstanten.BESTELLUNGEN_ID_PATH_PARAM;
 import static de.shop.util.TestKonstanten.BESTELLUNGEN_PATH;
@@ -19,7 +18,6 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
 import static org.junit.runners.MethodSorters.NAME_ASCENDING;
 
-import java.util.ArrayList;
 import java.io.StringReader;
 import java.lang.invoke.MethodHandles;
 import java.util.List;
@@ -49,9 +47,7 @@ public class BestellungResourceTest extends AbstractResourceTest {
 	private static final Long BESTELLUNG_ID_VORHANDEN = Long.valueOf(300);
 	private static final Long BESTELLUNG_ID_NICHT_VORHANDEN = Long.valueOf(700);
 	private static final Long KUNDE_ID_VORHANDEN = Long.valueOf(101);
-	private static final Long KUNDE_ID_NICHT_VORHANDEN = Long.valueOf(1000);
 	private static final Long ARTIKEL_ID_VORHANDEN_1 = Long.valueOf(501);
-	private static final Long ARTIKEL_ID_NICHT_VORHANDEN_1 = Long.valueOf(501);
 	 
 
 	 

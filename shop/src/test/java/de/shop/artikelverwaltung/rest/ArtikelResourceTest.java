@@ -60,14 +60,13 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 	private static final String ARTIKEL_BEZEICHNUNG_NEU = "Gelbes Shirt";
 	private static final Boolean ARTIKEL_ERHAELTLICH_NEU = true;
 	private static final double ARTIKEL_PREIS_NEU = 15.99;
-	private static final Long ARTIKELGRUPPE_ID_VORHANDEN = Long.valueOf(400);
+	private static final Long ARTIKELGRUPPE_ID_VORHANDEN = Long.valueOf(404);
 	private static final String ARTIKELGRUPPE_BEZEICHNUNG_NEU = "Unterwäsche";
 	private static final String ARTIKELGRUPPE_NAME_VORHANDEN = "Sommermode";	 
 	private static final String ARTIKELGRUPPE_NAME_NICHT_VORHANDEN = "XXX";
 	private static final Long ARTIKELGRUPPE_ID_NICHT_VORHANDEN = Long.valueOf(19392);
-	private static final Long ARTIKEL1_ZU_ARTIKELGRUPPE_400 = Long.valueOf(500);
-	private static final Long ARTIKEL2_ZU_ARTIKELGRUPPE_400 = Long.valueOf(504);
-	private static final Long ARTIKEL3_ZU_ARTIKELGRUPPE_400 = Long.valueOf(505);
+	private static final Long ARTIKEL1_ZU_ARTIKELGRUPPE_406 = Long.valueOf(507);
+	private static final Long ARTIKELGRUPPE_ID_VORHANDEN2 = Long.valueOf(406);
 	private static final Long ARTIKEL_ID_LÖSCHEN = Long.valueOf(504);
 	private static final Long ARTIKEL_ID_MIT_BESTELLUNGEN = Long.valueOf(501);
 	private static final Long ARTIKELGRUPPE_ID_MIT_ARTIKEL = Long.valueOf(404);
@@ -168,11 +167,9 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 		LOGGER.debugf("BEGINN Test findeArtikelNachArtikelgruppeVorhanden");
 		
 		// GIVEN
-		final Long artikelgruppeId = ARTIKELGRUPPE_ID_VORHANDEN;
+		final Long artikelgruppeId = ARTIKELGRUPPE_ID_VORHANDEN2;
 		final List<Long> artikelId = new ArrayList<Long>();
-		artikelId.add(ARTIKEL1_ZU_ARTIKELGRUPPE_400);
-		artikelId.add(ARTIKEL2_ZU_ARTIKELGRUPPE_400);
-		artikelId.add(ARTIKEL3_ZU_ARTIKELGRUPPE_400);
+		artikelId.add(ARTIKEL1_ZU_ARTIKELGRUPPE_406);
 		
 		// WHEN
 		Response response = given().header("Accept", APPLICATION_JSON).pathParameter("artikelgruppeId", artikelgruppeId)
@@ -188,7 +185,6 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 		LOGGER.debugf("ENDE Test findeArtikelNachArtikelgruppeVorhanden");
 	}
 	
-	@Ignore
 	@Test
 	public void createArtikel() {
 		// TODO
@@ -208,8 +204,8 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 								.build();
 		
 		// WHEN
-		Response response = given().contentType(APPLICATION_JSON).body(jsonObject.toString()).post("ARTIKEL_PATH");
-		
+		Response response = given().contentType(APPLICATION_JSON).body(jsonObject.toString()).post(ARTIKEL_PATH);
+
 		// THEN
 		assertThat(response.getStatusCode(), is(HTTP_CREATED));
 		final String location = response.getHeader("Location");
@@ -223,7 +219,7 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 	
 	@Test
 	public void updateArtikel() {
-		LOGGER.debugf("BEGINN updateArtikel");
+		LOGGER.debugf("BEGINN Test updateArtikel");
 		
 		// Given
 		final Long artikelId = ARTIKEL_ID_UPDATE;
@@ -260,12 +256,12 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 		
 		// Then
 		assertThat(response.getStatusCode(), is(HTTP_NO_CONTENT));
-		LOGGER.debugf("ENDE updateArtikel");
+		LOGGER.debugf("ENDE Test updateArtikel");
    	}
 	
 	@Test
 	public void deleteArtikelMitBestellungen() {
-		LOGGER.debugf("BEGINN deleteArtikelMitBestellungen");
+		LOGGER.debugf("BEGINN Test deleteArtikelMitBestellungen");
 		
 		// GIVEN
 		final Long artikelId = ARTIKEL_ID_MIT_BESTELLUNGEN;
@@ -277,12 +273,12 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 		assertThat(response.getStatusCode(), is(HTTP_CONFLICT));
 		final String errorMsg = response.asString();
 		assertThat(errorMsg, startsWith("Artikel mit ID=" + artikelId + " kann nicht geloescht werden, es sind Bestellungen vorhanden!"));
-		LOGGER.debugf("ENDE deleteArtikelMitBestellungen");
+		LOGGER.debugf("ENDE Test deleteArtikelMitBestellungen");
 	}
 	
 	@Test
 	public void deleteArtikel() {
-		LOGGER.debugf("BEGINN deleteArtikel");
+		LOGGER.debugf("BEGINN Test deleteArtikel");
 		
 		// GIVEN
 		final Long artikelId = ARTIKEL_ID_LÖSCHEN;
@@ -292,7 +288,7 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 		
 		// Then
 		assertThat(response.getStatusCode(), is(HTTP_NO_CONTENT));
-		LOGGER.debugf("ENDE deleteArtikel");
+		LOGGER.debugf("ENDE Test deleteArtikel");
 	}
 	
 	@Test
@@ -392,7 +388,6 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 		LOGGER.debugf("ENDE Test findeArtikelgruppeNachArtikelVorhanden");
 	}
 	
-	@Ignore
 	@Test
 	public void createArtikelgruppe() {
 		// TODO
@@ -405,7 +400,7 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 				.build();
 		
 		// WHEN
-		Response response = given().contentType(APPLICATION_JSON).body(jsonObject.toString()).post("ARTIKELGRUPPE_PATH");
+		Response response = given().contentType(APPLICATION_JSON).body(jsonObject.toString()).post(ARTIKELGRUPPE_PATH);
 		
 		// THEN
 		assertThat(response.getStatusCode(), is(HTTP_CREATED));
@@ -419,7 +414,7 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 	
 	@Test
 	public void updateArtikelgruppe() {
-		LOGGER.debugf("BEGINN updateArtikelgruppe");
+		LOGGER.debugf("BEGINN Test updateArtikelgruppe");
 		
 		// Given
 		final Long artikelgruppeId = ARTIKELGRUPPE_ID_UPDATE;
@@ -456,13 +451,13 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 		
 		// Then
 		assertThat(response.getStatusCode(), is(HTTP_NO_CONTENT));
-		LOGGER.debugf("ENDE updateArtikelgruppe");
+		LOGGER.debugf("ENDE Test updateArtikelgruppe");
    	}
 	
 	@Ignore
 	@Test
 	public void deleteArtikelgruppeMitArtikel() {
-		LOGGER.debugf("BEGINN deleteArtikelgruppeMitArtikel");
+		LOGGER.debugf("BEGINN Test deleteArtikelgruppeMitArtikel");
 		
 		// GIVEN
 		final Long artikelgruppeId = ARTIKELGRUPPE_ID_MIT_ARTIKEL;
@@ -475,12 +470,12 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 		final String errorMsg = response.asString();
 		assertThat(errorMsg, startsWith("Artikelgruppe mit ID=" + artikelgruppeId + " kann nicht geloescht werden:"));
 		assertThat(errorMsg, endsWith("Artikel"));
-		LOGGER.debugf("ENDE deleteArtikelgruppeMitArtikel");
+		LOGGER.debugf("ENDE Test deleteArtikelgruppeMitArtikel");
 	}
 	
 	@Test
 	public void deleteArtikelgruppe() {
-		LOGGER.debugf("BEGINN deleteArtikelgruppe");
+		LOGGER.debugf("BEGINN Test deleteArtikelgruppe");
 		
 		// GIVEN
 		final Long artikelgruppeId = ARTIKELGRUPPE_ID_LÖSCHEN;
@@ -490,7 +485,7 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 		
 		// Then
 		assertThat(response.getStatusCode(), is(HTTP_NO_CONTENT));
-		LOGGER.debugf("ENDE deleteArtikelgruppe");
+		LOGGER.debugf("ENDE Test deleteArtikelgruppe");
 	}
 }
 

@@ -23,7 +23,7 @@ public class UriHelperArtikelgruppe {
 	public URI getUriArtikelgruppe(Artikelgruppe artikelgruppe, UriInfo uriInfo) {
 		final UriBuilder ub = uriInfo.getBaseUriBuilder()
 		                             .path(ArtikelResource.class)
-		                             .path(ArtikelResource.class, "findeArtikelgruppe");
+		                             .path(ArtikelResource.class, "findeArtikelgruppeNachId");
 		final URI uri = ub.build(artikelgruppe.getId());
 		return uri;
 	}

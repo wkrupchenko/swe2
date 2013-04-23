@@ -21,7 +21,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.NamedQuery;
 import javax.persistence.NamedQueries;
 import javax.persistence.OneToMany;
-import javax.persistence.OrderColumn;
 import javax.persistence.PostPersist;
 import javax.persistence.PostUpdate;
 import javax.persistence.Table;
@@ -79,7 +78,6 @@ public class Artikelgruppe implements Serializable {
 	
 	@OneToMany
 	@JoinColumn(name = "artikelgruppe_fk", nullable = false)
-	@OrderColumn(name = "idx")
 	@JsonIgnore
 	private List<Artikel> artikel;
 	
