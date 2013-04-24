@@ -1,7 +1,6 @@
 package de.shop.util;
 
 import static javax.ws.rs.core.MediaType.TEXT_PLAIN;
-import static javax.ws.rs.core.Response.Status.NOT_FOUND;
 import static javax.ws.rs.core.Response.Status.NOT_ACCEPTABLE;
 
 import javax.enterprise.context.ApplicationScoped;

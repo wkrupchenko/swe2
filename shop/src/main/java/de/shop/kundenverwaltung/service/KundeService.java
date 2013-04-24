@@ -364,4 +364,20 @@ public class KundeService implements Serializable {
 		return kunden;
 	}
 	
+	public Kunde findeKundeNachBestellung(Long id) {
+		// getResultList da bei SingleResult sonst im Fehlerfall NoResultException geworfen wird
+		final List<Kunde> temp = em.createNamedQuery(Kunde.FINDE_KUNDE_NACH_BESTELLUNG, Kunde.class)
+								.setParameter(Kunde.PARAM_BESTELLUNG_ID, id)
+								.getResultList();
+		Kunde kunde;
+		
+		// Prüfung ob Bestellung bzw Kunde zur Bestellung vorhanden
+		if(temp.isEmpty())
+			kunde = null;
+		else
+			kunde = temp.get(0);
+		
+		return kunde;
+	}
+	
 }

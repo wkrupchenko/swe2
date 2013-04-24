@@ -13,7 +13,7 @@ import de.shop.bestellverwaltung.service.BestellungServiceException;
 
 @Provider
 @ApplicationScoped
-public class BestellverwaltungExceptionMapper implements ExceptionMapper<BestellungServiceException> {
+public class BestellungResourceExceptionMapper implements ExceptionMapper<BestellungServiceException> {
 	@Override
 	public Response toResponse(BestellungServiceException e) {
 		final String msg = e.getMessage();

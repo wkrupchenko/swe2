@@ -52,7 +52,7 @@ import de.shop.util.LocaleHelper;
 @RequestScoped
 @Transactional
 @Log
-public class BestellverwaltungResource {
+public class BestellungResource {
 	private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass());
 	
 	@Inject
@@ -138,7 +138,7 @@ public class BestellverwaltungResource {
 	@GET
 	@Path("{id:[1-9][0-9]*}/kunde")
 	public Kunde findeKundeNachBestellungId(@PathParam("id") Long id, @Context UriInfo uriInfo) {
-		final Kunde kunde = ks.findeKundeNachId(id, FetchType.MIT_BESTELLUNGEN, Locale.getDefault());		
+		final Kunde kunde = ks.findeKundeNachBestellung(id);		
 		if (kunde == null) {
 			final String msg = "Keine Bestellung gefunden mit der ID " + id;
 			throw new NotFoundException(msg);

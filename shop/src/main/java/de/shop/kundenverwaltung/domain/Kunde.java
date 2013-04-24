@@ -99,7 +99,9 @@ import de.shop.util.IdGroup;
     @NamedQuery(name = Kunde.FINDE_KUNDE_NACH_ART,
             query = "FROM Kunde k WHERE k.art = :" + Kunde.PARAM_ART),
     @NamedQuery(name = Kunde.FINDE_KUNDE_NACH_NEWSLETTER,
-            query = "FROM Kunde k WHERE k.newsletter = TRUE")
+            query = "FROM Kunde k WHERE k.newsletter = TRUE"),
+    @NamedQuery(name = Kunde.FINDE_KUNDE_NACH_BESTELLUNG,
+    		query = "SELECT k FROM Kunde k JOIN k.bestellungen b WHERE b.id = :" + Kunde.PARAM_BESTELLUNG_ID)
             			        
 })
 public class Kunde implements Serializable {
@@ -138,6 +140,8 @@ public class Kunde implements Serializable {
     PREFIX + "findeKundeNachNewsletter";
 	public static final String LÖSCHE_KUNDE_NACH_NACHNAME =
 	PREFIX + "löscheKundeNachNachname";
+	public static final String FINDE_KUNDE_NACH_BESTELLUNG =
+	PREFIX + "findeKundeNachBestellung";
 	
 	public static final String PARAM_ID = "kundeId";
 	public static final String PARAM_KUNDE_ID_PREFIX = "idPrefix";
@@ -148,6 +152,7 @@ public class Kunde implements Serializable {
 	public static final String PARAM_EMAIL = "email";
 	public static final String PARAM_UMSATZ = "umsatz";
 	public static final String PARAM_ART = "art";
+	public static final String PARAM_BESTELLUNG_ID = "bestellungId";
 	
 	private static final String NAME_PATTERN = "[A-Z\u00C4\u00D6\u00DC][a-z\u00E4\u00F6\u00FC\u00DF]+";
 	private static final String PREFIX_ADEL = "(o'|von|von der|von und zu|van)?";

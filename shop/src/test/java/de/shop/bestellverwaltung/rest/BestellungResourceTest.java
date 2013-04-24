@@ -1,5 +1,6 @@
 package de.shop.bestellverwaltung.rest;
 
+import static com.jayway.restassured.RestAssured.get;
 import static com.jayway.restassured.RestAssured.given;
 import static de.shop.util.TestKonstanten.ACCEPT;
 import static de.shop.util.TestKonstanten.ARTIKEL_URI;
@@ -20,6 +21,7 @@ import static org.junit.runners.MethodSorters.NAME_ASCENDING;
 
 import java.io.StringReader;
 import java.lang.invoke.MethodHandles;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.jboss.logging.Logger;
@@ -45,7 +47,7 @@ public class BestellungResourceTest extends AbstractResourceTest {
 	private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass());
 	
 	private static final Long BESTELLUNG_ID_VORHANDEN = Long.valueOf(300);
-	private static final Long BESTELLUNG_ID_NICHT_VORHANDEN = Long.valueOf(700);
+	private static final Long BESTELLUNG_ID_NICHT_VORHANDEN = Long.valueOf(999);
 	private static final Long KUNDE_ID_VORHANDEN = Long.valueOf(101);
 	private static final Long ARTIKEL_ID_VORHANDEN_1 = Long.valueOf(501);
 	 
@@ -94,8 +96,6 @@ public class BestellungResourceTest extends AbstractResourceTest {
 		LOGGER.debugf("ENDE Test findeBestellungNachIdNichtVorhanden");
 	}
 	
-		
-	@Ignore 
 	@Test
 	public void findeKundeNachBestellungIdVorhanden() {
 		LOGGER.debugf("BEGINN Test findeKundeNachBestellungIdVorhanden");
@@ -111,11 +111,10 @@ public class BestellungResourceTest extends AbstractResourceTest {
 		// Then
 		assertThat(response.getStatusCode(), is(HTTP_OK));
 		
-		try (final JsonReader jsonReader =
-				              getJsonReaderFactory().createReader(new StringReader(response.asString()))) {
+		try (final JsonReader jsonReader = getJsonReaderFactory().createReader(new StringReader(response.asString()))) {
 			final JsonObject jsonObject = jsonReader.readObject();
 			assertThat(jsonObject.getString("bestellungen"),
-					   endsWith("/kunden/" + jsonObject.getInt("id") + "/bestellungen"));
+					endsWith("/kunden/" + jsonObject.getInt("id") + "/bestellungen"));
 		}
 
 		LOGGER.debugf("ENDE Test findeKundeNachBestellungIdVorhanden");
@@ -131,7 +130,7 @@ public class BestellungResourceTest extends AbstractResourceTest {
 		
 		// When
 		final Response response = given().header(ACCEPT, APPLICATION_JSON)
-				                         .pathParameter("bestellungId", bestellungId)
+				                         .pathParameter(BESTELLUNGEN_ID_PATH_PARAM, bestellungId)
                                          .get(BESTELLUNGEN_ID_PATH + "/kunde");
 		
 		// Then
@@ -139,7 +138,6 @@ public class BestellungResourceTest extends AbstractResourceTest {
 		LOGGER.debugf("ENDE Test findeKundeNachBestellungIdNichtVorhanden");
 	}
 	
-	@Ignore 
 	@Test
 	public void findeLieferungenNachBestellungIdVorhanden() {
 		LOGGER.debugf("BEGINN Test findeLieferungenNachBestellungIdVorhanden");
@@ -155,15 +153,34 @@ public class BestellungResourceTest extends AbstractResourceTest {
 		// Then
 		assertThat(response.getStatusCode(), is(HTTP_OK));
 		
+		// Liste mit den Lieferungen zur gegebenen Bestellung erzeugen
 		try (final JsonReader jsonReader =
 				              getJsonReaderFactory().createReader(new StringReader(response.asString()))) {
 			JsonArray jsonArray = jsonReader.readArray();			 
 			assertThat(jsonArray.size() > 0, is(true));
 			List<JsonObject> jsonObjectList = jsonArray.getValuesAs(JsonObject.class);
-			for(JsonObject jsonObject : jsonObjectList)
-				assertThat(jsonObject.getJsonNumber("id").longValue(), is(bestellungId.longValue()));
-				final JsonObject jsonObject = jsonReader.readObject();
-				assertThat(jsonObject.getString("bestellungen"), is(notNullValue()));				
+			
+			// Jede Lieferung einzeln durchgehen -> je Lieferung eine neue HTTP Anfrage an die URL der Bestellungen
+			for(JsonObject jsonObject : jsonObjectList) {
+				final Response temp = get(jsonObject.getJsonString("bestellungen").toString());
+				assertThat(temp.getStatusCode(), is(HTTP_OK));
+			
+				// Eine Liste mit den Bestellungen zur Lieferung erzeugen
+				try (final JsonReader jsonReaderB =
+			              getJsonReaderFactory().createReader(new StringReader(temp.asString()))) {
+					JsonArray tempB = jsonReaderB.readArray();			 
+					assertThat(tempB.size() > 0, is(true));
+					List<JsonObject> bestellungen = tempB.getValuesAs(JsonObject.class);
+				
+					// Ids der Bestellungen in eine Liste packen
+					List<Long> bestellungenIds = new ArrayList<Long>();
+					for( JsonObject bestellung : bestellungen)
+						bestellungenIds.add(bestellung.getJsonNumber("id").longValue());
+				
+					// Prüfen ob die Bestellung vorhanden ist
+					assertThat(bestellungenIds.contains(bestellungId.longValue()), is(true));
+				}
+			}
 				 
 		}
 
@@ -186,6 +203,36 @@ public class BestellungResourceTest extends AbstractResourceTest {
 		// Then
 		assertThat(response.getStatusCode(), is(HTTP_NOT_FOUND));
 		LOGGER.debugf("ENDE Test findeLieferungenNachBestellungIdNichtVorhanden");
+	}
+	
+	@Ignore
+	@Test
+	public void findeAlleOffenenBestellungen() {
+		// TODO
+	}
+	
+	@Ignore
+	@Test
+	public void findeLieferNachIdVorhanden() {
+		// TODO
+	}
+	
+	@Ignore
+	@Test
+	public void findeLieferNachIdNichtVorhanden() {
+		// TODO
+	}
+	
+	@Ignore
+	@Test
+	public void findeBestellungNachLieferungVorhanden() {
+		// TODO
+	}
+	
+	@Ignore
+	@Test
+	public void findeBestellungNachLieferungNichtVorhanden() {
+		// TODO
 	}
 	
 	@Ignore
@@ -220,5 +267,17 @@ public class BestellungResourceTest extends AbstractResourceTest {
 		assertThat(id.longValue() > 0, is(true));
 
 		LOGGER.debugf("ENDE Test createBestellung");
+	}
+	
+	@Ignore
+	@Test
+	public void updateBestellung() {
+		// TODO
+	}
+	
+	@Ignore
+	@Test
+	public void deleteBestellung() {
+		// TODO
 	}
 }

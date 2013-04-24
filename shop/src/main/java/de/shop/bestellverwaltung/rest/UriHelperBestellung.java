@@ -46,8 +46,8 @@ public class UriHelperBestellung {
 		
 		// URL fuer Lieferungen setzen
 		final UriBuilder ub = uriInfo.getBaseUriBuilder()
-                                     .path(BestellverwaltungResource.class)
-                                     .path(BestellverwaltungResource.class, "findeLieferungenNachBestellungId");
+                                     .path(BestellungResource.class)
+                                     .path(BestellungResource.class, "findeLieferungenNachBestellungId");
 		final URI uri = ub.build(bestellung.getId());
 		bestellung.setLieferungenUri(uri);
 		
@@ -55,8 +55,8 @@ public class UriHelperBestellung {
 
 	public URI getUriBestellung(Bestellung bestellung, UriInfo uriInfo) {
 		final UriBuilder ub = uriInfo.getBaseUriBuilder()
-		                             .path(BestellverwaltungResource.class)
-		                             .path(BestellverwaltungResource.class, "findeBestellungNachId");
+		                             .path(BestellungResource.class)
+		                             .path(BestellungResource.class, "findeBestellungNachId");
 		final URI uri = ub.build(bestellung.getId());
 		return uri;
 	}

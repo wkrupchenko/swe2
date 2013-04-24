@@ -294,7 +294,6 @@ public class KundeResourceTest extends AbstractResourceTest {
 		
 		// Then
 		assertThat(response.getStatusCode(), is(HTTP_CONFLICT));
-		// TODO einzelne Meldungen durch Bean Validation ueberpruefen
 		assertThat(response.asString().isEmpty(), is(false));
 		
 		LOGGER.debugf("ENDE");

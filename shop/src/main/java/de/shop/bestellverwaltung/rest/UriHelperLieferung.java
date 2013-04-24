@@ -17,16 +17,16 @@ public class UriHelperLieferung {
 
 	public URI getUriLieferung(Lieferung lieferung, UriInfo uriInfo) {
 		final UriBuilder ub = uriInfo.getBaseUriBuilder()
-		                             .path(BestellverwaltungResource.class)
-		                             .path(BestellverwaltungResource.class, "findeLieferungNachId");
+		                             .path(BestellungResource.class)
+		                             .path(BestellungResource.class, "findeLieferungNachId");
 		final URI uri = ub.build(lieferung.getId());
 		return uri;
 	}
 	
 	public void updateUriLieferung(Lieferung lieferung, UriInfo uriInfo) {
 		final UriBuilder ub = uriInfo.getBaseUriBuilder()
-									 .path(BestellverwaltungResource.class)
-									 .path(BestellverwaltungResource.class, "findeBestellungenNachLieferungId");
+									 .path(BestellungResource.class)
+									 .path(BestellungResource.class, "findeBestellungenNachLieferungId");
 		final URI uri = ub.build(lieferung.getId());
 		lieferung.setBestellungenUri(uri);
 	}
