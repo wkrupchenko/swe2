@@ -14,5 +14,4 @@ MEILENSTEIN 1:
 		 -> Bestellverwaltung: 5 Tests fehlen --> Create Update und Delete plus 2 GETS
 		 -> BestellverwaltungConcurency: Nichts
 		 -> INSGESAMT FEHLEN 16 TESTS
-- Authentifizierung und Authorisierung bei WebService-Tester
-- Security Maﬂnahmen
+- Authentifizierung und Authorisierung implementieren und beim WebServiceTester nutzen
