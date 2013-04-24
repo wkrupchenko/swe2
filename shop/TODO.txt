@@ -11,8 +11,8 @@ MEILENSTEIN 1:
          -> ArtikelverwaltungConcurency: Nichts
 		 -> Kundenverwaltung: 11 Tests fehlen --> Create Update und Delete plus GETS
 		 -> KundenverwaltungConcurency: Nichts
-		 -> Bestellverwaltung: 8 Tests fehlen --> Create Update und Delete plus 5 GETS
+		 -> Bestellverwaltung: 5 Tests fehlen --> Create Update und Delete plus 2 GETS
 		 -> BestellverwaltungConcurency: Nichts
-		 -> INSGESAMT FEHLEN 19 TESTS
+		 -> INSGESAMT FEHLEN 16 TESTS
 - Authentifizierung und Authorisierung bei WebService-Tester
 - Security Maﬂnahmen

@@ -9,6 +9,8 @@ import static de.shop.util.TestKonstanten.BESTELLUNGEN_ID_PATH_PARAM;
 import static de.shop.util.TestKonstanten.BESTELLUNGEN_PATH;
 import static de.shop.util.TestKonstanten.KUNDEN_URI;
 import static de.shop.util.TestKonstanten.LOCATION;
+import static de.shop.util.TestKonstanten.LIEFERUNGEN_ID_PATH_PARAM;
+import static de.shop.util.TestKonstanten.LIEFERUNGEN_ID_PATH;
 import static java.net.HttpURLConnection.HTTP_CREATED;
 import static java.net.HttpURLConnection.HTTP_NOT_FOUND;
 import static java.net.HttpURLConnection.HTTP_OK;
@@ -50,7 +52,8 @@ public class BestellungResourceTest extends AbstractResourceTest {
 	private static final Long BESTELLUNG_ID_NICHT_VORHANDEN = Long.valueOf(999);
 	private static final Long KUNDE_ID_VORHANDEN = Long.valueOf(101);
 	private static final Long ARTIKEL_ID_VORHANDEN_1 = Long.valueOf(501);
-	 
+	private static final Long LIEFERUNG_ID_VORHANDEN = Long.valueOf(700);
+	private static final Long LIEFERUNG_ID_NICHT_VORHANDEN = Long.valueOf(999);
 
 	 
 	@Test
@@ -205,22 +208,67 @@ public class BestellungResourceTest extends AbstractResourceTest {
 		LOGGER.debugf("ENDE Test findeLieferungenNachBestellungIdNichtVorhanden");
 	}
 	
-	@Ignore
 	@Test
 	public void findeAlleOffenenBestellungen() {
-		// TODO
+		LOGGER.debugf("BEGINN Test findeAlleOffenenBestellungen");
+		
+		// Given
+		final Boolean offenAbgeschlossen = true;
+		
+		// When
+		final Response response = given().header(ACCEPT, APPLICATION_JSON)
+										.queryParam("offenAbgeschlossen", offenAbgeschlossen)
+										.get(BESTELLUNGEN_PATH);
+		// Then
+		assertThat(response.getStatusCode(), is(HTTP_OK));
+		// Liste mit den Bestellungen erzeugen
+		try (final JsonReader jsonReader = getJsonReaderFactory().createReader(new StringReader(response.asString()))) {
+			JsonArray jsonArray = jsonReader.readArray();			 
+			assertThat(jsonArray.size() > 0, is(true));
+			List<JsonObject> jsonObjectList = jsonArray.getValuesAs(JsonObject.class);
+			
+			for(JsonObject jsonObject : jsonObjectList)
+				assertThat(jsonObject.getBoolean("offenAbgeschlossen"), is(offenAbgeschlossen));
+		}
+		LOGGER.debugf("Ende Test findeAlleOffenenBestellungen");
 	}
 	
-	@Ignore
 	@Test
-	public void findeLieferNachIdVorhanden() {
-		// TODO
+	public void findeLieferungNachIdVorhanden() {
+		LOGGER.debugf("BEGINN Test findeLieferungNachIdVorhanden");
+		// Given
+		final Long id = LIEFERUNG_ID_VORHANDEN;
+		
+		// When
+		Response response = given().header(ACCEPT, APPLICATION_JSON)
+									.pathParam(LIEFERUNGEN_ID_PATH_PARAM, id)
+									.get(LIEFERUNGEN_ID_PATH);
+		
+		// Then
+		assertThat(response.getStatusCode(), is(HTTP_OK));
+		try (final JsonReader jsonReader =
+	              getJsonReaderFactory().createReader(new StringReader(response.asString()))) {
+			final JsonObject jsonObject = jsonReader.readObject();
+			assertThat(jsonObject.getJsonNumber("id").longValue(), is(id.longValue()));
+			assertThat(jsonObject.getString("bestellungen"), is(notNullValue()));
+		}
+		LOGGER.debugf("ENDE Test findeLieferungNachIdVorhanden");
 	}
 	
-	@Ignore
 	@Test
-	public void findeLieferNachIdNichtVorhanden() {
-		// TODO
+	public void findeLieferungNachIdNichtVorhanden() {
+		LOGGER.debugf("BEGINN Test findeLieferungNachIdNichtVorhanden");
+		// Given
+		final Long id = LIEFERUNG_ID_NICHT_VORHANDEN;
+		
+		// When
+		Response response = given().header(ACCEPT, APPLICATION_JSON)
+									.pathParam(LIEFERUNGEN_ID_PATH_PARAM, id)
+									.get(LIEFERUNGEN_ID_PATH);
+		
+		// Then
+		assertThat(response.getStatusCode(), is(HTTP_NOT_FOUND));
+		LOGGER.debugf("ENDE Test findeLieferungNachIdNichtVorhanden");
 	}
 	
 	@Ignore
