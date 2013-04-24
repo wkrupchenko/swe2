@@ -88,7 +88,7 @@ public class KundeResourceTest extends AbstractResourceTest {
 	
 	 
 	@Test
-	public void findeKundeNachId() {
+	public void findeKundeNachIdVorhanden() {
 		LOGGER.debugf("BEGINN Test findeKundeNachId");
 		
 		// Given
@@ -176,9 +176,34 @@ public class KundeResourceTest extends AbstractResourceTest {
 		LOGGER.debugf("ENDE");
 	}
 	
+	@Ignore
+	@Test
+	public void findeIdsNachPrefix() {
+		// TODO
+	}
+	
+	@Ignore
+	@Test
+	public void findeNachnamenNachPrefix() {
+		// TODO
+	}
+	
+	@Ignore
+	@Test
+	public void findeBestellungenNachKunde() {
+		// TODO
+	}
+	
+	@Ignore
+	@Test
+	public void findeBestellungenIdsNachKunde() {
+		// TODO
+	}
+	
 	@Ignore 
 	@Test
 	public void createKunde() {
+		// TODO
 		LOGGER.debugf("BEGINN");
 		
 		// Given
@@ -235,7 +260,8 @@ public class KundeResourceTest extends AbstractResourceTest {
 	
 	@Ignore
 	@Test
-	public void createPrivatkundeFalschesPassword() {
+	public void createKundeFalschesPassword() {
+		// TODO
 		LOGGER.debugf("BEGINN");
 		
 		// Given
@@ -263,7 +289,8 @@ public class KundeResourceTest extends AbstractResourceTest {
 	
 	@Ignore
 	@Test
-	public void createPrivatkundeInvalid() {
+	public void createKundeInvalid() {
+		// TODO
 		LOGGER.debugf("BEGINN");
 		
 		// Given
@@ -302,6 +329,7 @@ public class KundeResourceTest extends AbstractResourceTest {
 	@Ignore
 	@Test
 	public void updateKunde() {
+		// TODO
 		LOGGER.debugf("BEGINN");
 		
 		// Given
@@ -348,6 +376,7 @@ public class KundeResourceTest extends AbstractResourceTest {
 	@Ignore	
 	@Test
 	public void deleteKunde() {
+		// TODO
 		LOGGER.debugf("BEGINN");
 		
 		// Given
@@ -369,6 +398,7 @@ public class KundeResourceTest extends AbstractResourceTest {
 	@Ignore
 	@Test
 	public void deleteKundeMitBestellung() {
+		// TODO
 		LOGGER.debugf("BEGINN");
 		
 		// Given
@@ -394,6 +424,7 @@ public class KundeResourceTest extends AbstractResourceTest {
 	@Ignore
 	@Test
 	public void deleteKundeFehlendeBerechtigung() {
+		// TODO
 		LOGGER.debugf("BEGINN");
 		
 		// Given
