@@ -5,8 +5,11 @@ import static de.shop.util.Konstante.MIN_ID;
 import static de.shop.util.Konstante.ERSTE_VERSION;
 import static javax.persistence.CascadeType.PERSIST;
 import static javax.persistence.CascadeType.REMOVE;
+import static javax.persistence.FetchType.EAGER;
 import static javax.persistence.TemporalType.DATE;
 import static javax.persistence.TemporalType.TIMESTAMP;
+import javax.persistence.UniqueConstraint;
+
 import java.io.Serializable;
 import java.lang.invoke.MethodHandles;
 import java.math.BigDecimal;
@@ -15,9 +18,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
+
 import org.jboss.logging.Logger;
+
 import javax.persistence.Basic;
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -43,11 +51,14 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.hibernate.validator.constraints.Email;
+
 import de.shop.bestellverwaltung.domain.Bestellung;
 import de.shop.util.IdGroup;
+import de.shop.auth.service.jboss.AuthService.RolleType;
 
 /**
  * The persistent class for the kunde database table.
@@ -101,7 +112,15 @@ import de.shop.util.IdGroup;
     @NamedQuery(name = Kunde.FINDE_KUNDE_NACH_NEWSLETTER,
             query = "FROM Kunde k WHERE k.newsletter = TRUE"),
     @NamedQuery(name = Kunde.FINDE_KUNDE_NACH_BESTELLUNG,
-    		query = "SELECT k FROM Kunde k JOIN k.bestellungen b WHERE b.id = :" + Kunde.PARAM_BESTELLUNG_ID)
+    		query = "SELECT k FROM Kunde k JOIN k.bestellungen b WHERE b.id = :" + Kunde.PARAM_BESTELLUNG_ID),    		
+    @NamedQuery(name  = Kunde.FIND_KUNDE_BY_USERNAME,
+            query = "SELECT   k"
+			        + " FROM  Kunde k"
+            		+ " WHERE CONCAT('', k.id) = :" + Kunde.PARAM_KUNDE_USERNAME),
+    @NamedQuery(name  = Kunde.FIND_USERNAME_BY_USERNAME_PREFIX,
+	            query = "SELECT   CONCAT('', k.id)"
+				        + " FROM  Kunde k"
+	            		+ " WHERE CONCAT('', k.id) LIKE :" + Kunde.PARAM_USERNAME_PREFIX),
             			        
 })
 public class Kunde implements Serializable {
@@ -109,6 +128,8 @@ public class Kunde implements Serializable {
 	private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 	
 	private static final String PREFIX = "Kunde.";
+	public static final String FIND_KUNDE_BY_USERNAME = PREFIX + "findKundeByUsername";
+	public static final String FIND_USERNAME_BY_USERNAME_PREFIX = PREFIX + "findKundeByUsernamePrefix";
 	public static final String FINDE_KUNDE = PREFIX + "findeKunde";
 	public static final String FINDE_KUNDE_BESTELLUNGEN_ABRUFEN = 
 	PREFIX + "findeKundeBestellungenAbrufen";
@@ -143,6 +164,7 @@ public class Kunde implements Serializable {
 	public static final String FINDE_KUNDE_NACH_BESTELLUNG =
 	PREFIX + "findeKundeNachBestellung";
 	
+	public static final String PARAM_USERNAME_PREFIX = "usernamePrefix";
 	public static final String PARAM_ID = "kundeId";
 	public static final String PARAM_KUNDE_ID_PREFIX = "idPrefix";
 	public static final String PARAM_NACHNAME = "nachname";
@@ -152,6 +174,7 @@ public class Kunde implements Serializable {
 	public static final String PARAM_EMAIL = "email";
 	public static final String PARAM_UMSATZ = "umsatz";
 	public static final String PARAM_ART = "art";
+	public static final String PARAM_KUNDE_USERNAME = "username";
 	public static final String PARAM_BESTELLUNG_ID = "bestellungId";
 	
 	private static final String NAME_PATTERN = "[A-Z\u00C4\u00D6\u00DC][a-z\u00E4\u00F6\u00FC\u00DF]+";
@@ -245,6 +268,13 @@ public class Kunde implements Serializable {
 	@OrderColumn(name = "idx", nullable = false)
 	@JsonIgnore
 	private List<Bestellung> bestellungen;
+	
+	@ElementCollection(fetch = EAGER)
+	@CollectionTable(name = "kunde_rolle",
+	                 joinColumns = @JoinColumn(name = "kunde_fk", nullable = false),
+	                 uniqueConstraints =  @UniqueConstraint(columnNames = { "kunde_fk", "rolle_fk" }))
+	@Column(table = "kunde_rolle", name = "rolle_fk", nullable = false)
+	private Set<RolleType> rollen;
 	
 	@Transient
 	@JsonProperty("bestellungen")
@@ -411,6 +441,14 @@ public class Kunde implements Serializable {
 
 	public void setSeit(Date seit) {
 		this.seit = seit == null ? null : (Date) seit.clone();
+	}
+	
+	public Set<RolleType> getRollen() {
+		return rollen;
+	}
+
+	public void setRollen(Set<RolleType> rollen) {
+		this.rollen = rollen;
 	}
 	
 	public Adresse getAdresse() {

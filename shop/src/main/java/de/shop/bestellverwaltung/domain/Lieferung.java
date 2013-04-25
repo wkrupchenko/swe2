@@ -60,6 +60,10 @@ import static javax.persistence.TemporalType.TIMESTAMP;
 			query = "SELECT l"
 					+ " FROM   Lieferung l "
 		           + " WHERE  l.liefernr = :" + Lieferung.PARAM_LIEFERNR),
+    @NamedQuery(name  = Lieferung.FINDE_LIEFERUNG_NACH_ID,
+					query = "SELECT l"
+							+ " FROM   Lieferung l "
+				           + " WHERE  l.id = :" + Lieferung.PARAM_ID),
    @NamedQuery(name = Lieferung.FINDE_LIEFERUNGEN_NACH_BESTELLUNG_ID,
    			query = "Select l from Lieferung l join l.bestellungen b Where b.id = :" + Lieferung.PARAM_ID)
 })
@@ -74,6 +78,7 @@ public class Lieferung implements Serializable {
 	private static final String PREFIX = "Lieferung.";
 	
 	public static final String FINDE_LIEFERUNG_NACH_LIEFERNR = PREFIX + "findeLieferungNachLiefernr";
+	public static final String FINDE_LIEFERUNG_NACH_ID = PREFIX + "findeLieferungNachId";
 	public static final String FINDE_LIEFERUNGEN_NACH_BESTELLUNG_ID = PREFIX + "findeLieferungenNachBestellungId";
 
 	@Id

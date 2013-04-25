@@ -91,6 +91,7 @@ import static javax.persistence.TemporalType.TIMESTAMP;
 	@NamedQuery(name = Bestellung.FINDE_ALLE_BESTELLUNGEN_NACH_ID_SORTIERT,
 				query = "Select b From Bestellung b Order By b.id")
 })
+
 public class Bestellung implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass());
@@ -100,7 +101,7 @@ public class Bestellung implements Serializable {
 	public static final String FINDE_BESTELLUNGEN_VON_KUNDEN_NACH_ID = PREFIX + "findeBestellungenVonKundenNachId";
 	public static final String FINDE_BESTELLUNGEN_VON_KUNDEN_NACH_NACHNAME = PREFIX 
 																	+ "findeBestellungenVonKundenNachNachname";
-	public static final String FINDE_BESTELLUNG_NACH_LIEFERUNG_ID = PREFIX + "findeBestellungNachLieferungen";
+	public static final String FINDE_BESTELLUNG_NACH_LIEFERUNG_ID = PREFIX + "findeBestellungenNachLieferungId";
 	public static final String PARAM_NACHNAME = "nachname";
 	public static final String PARAM_ID = "id";
 	public static final String PARAM_LIEFERNR = "liefernr";

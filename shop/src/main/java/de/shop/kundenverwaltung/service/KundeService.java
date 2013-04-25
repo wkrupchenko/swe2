@@ -104,6 +104,21 @@ public class KundeService implements Serializable {
 		return kunden;
 	}
 	
+	
+	public Kunde findKundeByUserName(String userName) {
+		Kunde kunde;
+		try {
+			kunde = em.createNamedQuery(Kunde.FIND_KUNDE_BY_USERNAME, Kunde.class)
+					  .setParameter(Kunde.PARAM_KUNDE_USERNAME, userName)
+					  .getSingleResult();
+		}
+		catch (NoResultException e) {
+			return null;
+		}
+		
+		return kunde;
+	}
+	
 	public List<Kunde> findeKundeNachNachname(String nachname, FetchType fetch, Locale locale) {
 		validateNachname(nachname, locale);
 		

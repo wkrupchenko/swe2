@@ -56,7 +56,7 @@ public class UriHelperBestellung {
 	public URI getUriBestellung(Bestellung bestellung, UriInfo uriInfo) {
 		final UriBuilder ub = uriInfo.getBaseUriBuilder()
 		                             .path(BestellungResource.class)
-		                             .path(BestellungResource.class, "findeBestellungNachId");
+		                             .path(BestellungResource.class, "findeBestellungNachBestellungId");
 		final URI uri = ub.build(bestellung.getId());
 		return uri;
 	}

@@ -3,6 +3,9 @@ package de.shop.bestellverwaltung.rest;
 import static com.jayway.restassured.RestAssured.get;
 import static com.jayway.restassured.RestAssured.given;
 import static de.shop.util.TestKonstanten.ACCEPT;
+import static de.shop.util.TestKonstanten.ARTIKEL_ID_PATH;
+import static de.shop.util.TestKonstanten.ARTIKEL_ID_PATH_PARAM;
+import static de.shop.util.TestKonstanten.ARTIKEL_PATH;
 import static de.shop.util.TestKonstanten.ARTIKEL_URI;
 import static de.shop.util.TestKonstanten.BESTELLUNGEN_ID_PATH;
 import static de.shop.util.TestKonstanten.BESTELLUNGEN_ID_PATH_PARAM;
@@ -13,6 +16,7 @@ import static de.shop.util.TestKonstanten.LIEFERUNGEN_ID_PATH_PARAM;
 import static de.shop.util.TestKonstanten.LIEFERUNGEN_ID_PATH;
 import static java.net.HttpURLConnection.HTTP_CREATED;
 import static java.net.HttpURLConnection.HTTP_NOT_FOUND;
+import static java.net.HttpURLConnection.HTTP_NO_CONTENT;
 import static java.net.HttpURLConnection.HTTP_OK;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static org.hamcrest.CoreMatchers.endsWith;
@@ -25,11 +29,13 @@ import java.io.StringReader;
 import java.lang.invoke.MethodHandles;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.jboss.logging.Logger;
 
 import javax.json.JsonArray;
 import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
 import javax.json.JsonReader;
 
 import org.jboss.arquillian.junit.Arquillian;
@@ -49,11 +55,15 @@ public class BestellungResourceTest extends AbstractResourceTest {
 	private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass());
 	
 	private static final Long BESTELLUNG_ID_VORHANDEN = Long.valueOf(300);
+	private static final Long BESTELLUNG_ID_LOESCHEN = Long.valueOf(301);
 	private static final Long BESTELLUNG_ID_NICHT_VORHANDEN = Long.valueOf(999);
 	private static final Long KUNDE_ID_VORHANDEN = Long.valueOf(101);
 	private static final Long ARTIKEL_ID_VORHANDEN_1 = Long.valueOf(501);
 	private static final Long LIEFERUNG_ID_VORHANDEN = Long.valueOf(700);
 	private static final Long LIEFERUNG_ID_NICHT_VORHANDEN = Long.valueOf(999);
+	private static final Long BESTELLUNG_ID_UPDATE = Long.valueOf(300);
+	private static final String BESTELLUNG_NEUE_BEZEICHNUNG = "Bestellung geändert";
+	
 
 	 
 	@Test
@@ -271,19 +281,47 @@ public class BestellungResourceTest extends AbstractResourceTest {
 		LOGGER.debugf("ENDE Test findeLieferungNachIdNichtVorhanden");
 	}
 	
-	@Ignore
+	 
 	@Test
-	public void findeBestellungNachLieferungVorhanden() {
-		// TODO
+	public void findeBestellungNachLieferungenVorhanden() {
+		LOGGER.debugf("BEGINN Test BestellungNachLieferungenVorhanden");
+		
+		// Given
+		final Long lieferungId = LIEFERUNG_ID_VORHANDEN;
+		
+		// When
+		final Response response = given().header(ACCEPT, APPLICATION_JSON)
+				                         .pathParameter(LIEFERUNGEN_ID_PATH_PARAM, lieferungId)
+                                         .get(LIEFERUNGEN_ID_PATH + "/bestellungen");
+		
+		// Then
+		assertThat(response.getStatusCode(), is(HTTP_OK));
+		LOGGER.debugf("ENDE Test BestellungNachLieferungenVorhanden");
+		 
 	}
 	
-	@Ignore
+	 
 	@Test
-	public void findeBestellungNachLieferungNichtVorhanden() {
-		// TODO
+	public void findeBestellungNachLieferungenNichtVorhanden() {
+		LOGGER.debugf("BEGINN Test BestellungNachLieferungenVorhanden");
+		
+		// Given
+		final Long lieferungId = LIEFERUNG_ID_NICHT_VORHANDEN;
+		
+		// When
+		final Response response = given().header(ACCEPT, APPLICATION_JSON)
+				                         .pathParameter(LIEFERUNGEN_ID_PATH_PARAM, lieferungId)
+                                         .get(LIEFERUNGEN_ID_PATH + "/bestellungen");
+		
+		// Then
+		assertThat(response.getStatusCode(), is(HTTP_NOT_FOUND));
+		LOGGER.debugf("ENDE Test BestellungNachLieferungenNichtVorhanden");
+		 
 	}
 	
-	@Ignore
+	 
+	
+	@Ignore 
 	@Test
 	public void createBestellung() {
 		// TODO
@@ -321,12 +359,61 @@ public class BestellungResourceTest extends AbstractResourceTest {
 	@Ignore
 	@Test
 	public void updateBestellung() {
+		LOGGER.debugf("BEGINN Test updateBestellung");
+		
+		// Given
+		final Long bestellungId = BESTELLUNG_ID_UPDATE;
+		final String neueBezeichnung = BESTELLUNG_NEUE_BEZEICHNUNG;
+		
+		// When
+		Response response = given().header(ACCEPT, APPLICATION_JSON)
+				                   .pathParameter(BESTELLUNGEN_ID_PATH_PARAM, bestellungId)
+                                   .get(BESTELLUNGEN_ID_PATH);
+		
+		JsonObject jsonObject;
+		try (final JsonReader jsonReader =
+				              getJsonReaderFactory().createReader(new StringReader(response.asString()))) {
+			jsonObject = jsonReader.readObject();
+		}
+    	assertThat(jsonObject.getJsonNumber("id").longValue(), is(bestellungId.longValue()));
+    	
+    	 
+    	final JsonObjectBuilder job = getJsonBuilderFactory().createObjectBuilder();
+    	final Set<String> keys = jsonObject.keySet();
+    	for (String k : keys) {
+    		if ("bezeichnung".equals(k)) {
+    			job.add("bezeichnung", neueBezeichnung);
+    		}
+    		else {
+    			job.add(k, jsonObject.get(k));
+    		}
+    	}
+    	jsonObject = job.build();
+    	
+		response = given().contentType(APPLICATION_JSON)
+				          .body(jsonObject.toString())
+                          .put(BESTELLUNGEN_PATH);
+		
+		// Then
+		assertThat(response.getStatusCode(), is(HTTP_NO_CONTENT));
+		LOGGER.debugf("ENDE Test updateBestellung");
 		// TODO
 	}
 	
-	@Ignore
+	@Ignore 
 	@Test
 	public void deleteBestellung() {
+		LOGGER.debugf("BEGINN Test deleteBestellung");
+		
+		// GIVEN
+		final Long bestellungId = BESTELLUNG_ID_LOESCHEN;
+		
+		// WHEN
+		final Response response = given().pathParameter(BESTELLUNGEN_ID_PATH_PARAM, bestellungId).delete(BESTELLUNGEN_ID_PATH);
+		
+		// Then
+		assertThat(response.getStatusCode(), is(HTTP_NO_CONTENT));
+		LOGGER.debugf("ENDE Test deleteBestellung");
 		// TODO
 	}
 }
