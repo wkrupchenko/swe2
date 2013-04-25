@@ -288,7 +288,7 @@ public class ArtikelResource {
 	@Path("artikelgruppe/{id:[1-9][0-9]*}/artikel")
 	public Collection<Artikel> findeArtikelNachArtikelgruppe(@PathParam("id") Long id, @Context UriInfo uriInfo) {
 		final Collection<Artikel> artikel = as.findeArtikelNachArtikelgruppeId(id);
-		if (artikel == null) {
+		if (artikel.isEmpty()) {
 			final String msg = "Keine Artikelgruppe gefunden mit der ID " + id;
 			throw new NotFoundException(msg);
 		}
