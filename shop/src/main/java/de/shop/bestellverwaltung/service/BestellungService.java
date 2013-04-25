@@ -305,6 +305,11 @@ public class BestellungService implements Serializable {
 
 	public List<Bestellung> findeBestellungenNachLieferungId(Long id) {
 		final Lieferung lieferung = em.find(Lieferung.class, id);
+		if(lieferung == null) {
+			List<Bestellung> temp = new ArrayList<Bestellung>();
+			return temp;
+		}
+		
 		final String liefernr = lieferung.getLiefernr();
 		
 		final List<Bestellung> bestellungen = em.createNamedQuery(Bestellung.FINDE_BESTELLUNG_NACH_LIEFERUNG_LIEFERNR,

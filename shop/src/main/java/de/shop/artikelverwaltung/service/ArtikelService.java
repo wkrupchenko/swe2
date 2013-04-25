@@ -143,6 +143,7 @@ public class ArtikelService implements Serializable {
 		final List<Artikel> artikel = em.createNamedQuery(Artikel.FINDE_ARTIKEL_NACH_ARTIKELGRUPPE, Artikel.class)
 										.setParameter(Artikel.PARAM_NAME, name)
 										.getResultList();
+		
 		return artikel;
 	}
 	
@@ -237,10 +238,16 @@ public class ArtikelService implements Serializable {
 	}
 	
 	public Artikelgruppe findeArtikelgruppeNachArtikel(Long id) {
-		final Artikelgruppe artikelgruppe = em.createNamedQuery(Artikelgruppe.FINDE_ARTIKELGRUPPE_NACH_ARTIKEL_ID,
+		// Liste, damit nicht SingleResult und Exception geworfen wird
+		final List<Artikelgruppe> temp = em.createNamedQuery(Artikelgruppe.FINDE_ARTIKELGRUPPE_NACH_ARTIKEL_ID,
 															    Artikelgruppe.class)
 								  .setParameter(Artikelgruppe.PARAM_ID, id)
-								  .getSingleResult();
+								  .getResultList();
+		Artikelgruppe artikelgruppe;
+		if(!temp.isEmpty())
+			artikelgruppe = temp.get(0);
+		else
+			artikelgruppe = null;
 		return artikelgruppe;
 	}
 	

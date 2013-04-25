@@ -19,6 +19,9 @@ import static de.shop.util.TestKonstanten.ARTIKELGRUPPE_ID_PATH;
 import static de.shop.util.TestKonstanten.ACCEPT;
 import static de.shop.util.TestKonstanten.ARTIKELGRUPPE_PATH;
 import static de.shop.util.TestKonstanten.ARTIKEL_PATH;
+import static de.shop.util.TestKonstanten.ARTIKEL_BEZEICHNUNG_PATH_PARAM;
+import static de.shop.util.TestKonstanten.ARTIKEL_ERHAELTLICH_PATH_PARAM;
+import static de.shop.util.TestKonstanten.ARTIKELGRUPPE_BEZEICHNUNG_PATH_PARAM;
 
 import java.io.StringReader;
 import java.lang.invoke.MethodHandles;
@@ -94,8 +97,9 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 		final String bezeichnung = ARTIKEL_BEZEICHNUNG_VORHANDEN;
 		
 		// WHEN
-		Response response = given().header("Accept", APPLICATION_JSON).queryParam("bezeichnung", bezeichnung)
-									.get(ARTIKEL_PATH);
+		Response response = given().header("Accept", APPLICATION_JSON)
+							.queryParam(ARTIKEL_BEZEICHNUNG_PATH_PARAM, bezeichnung)
+							.get(ARTIKEL_PATH);
 		
 		// THEN
 		try (JsonReader jsonReader = getJsonReaderFactory().createReader( new StringReader(response.asString()))) {
@@ -116,8 +120,9 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 		final String artikelBezeichnung = ARTIKEL_BEZEICHNUNG_NICHT_VORHANDEN;
 		
 		// WHEN
-		Response response = given().header("Accept", APPLICATION_JSON).queryParam("bezeichnung", artikelBezeichnung)
-									.get("/artikel");
+		Response response = given().header("Accept", APPLICATION_JSON)
+									.queryParam(ARTIKEL_BEZEICHNUNG_PATH_PARAM, artikelBezeichnung)
+									.get(ARTIKEL_PATH);
 		
 		// THEN
 		assertThat(response.getStatusCode(), is(HTTP_NOT_FOUND));
@@ -132,8 +137,9 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 		final Long artikelId = ARTIKEL_ID_VORHANDEN;
 		
 		// WHEN
-		Response response = given().header("Accept", APPLICATION_JSON).pathParameter("artikelId", artikelId)
-									.get("/artikel/{artikelId}");
+		Response response = given().header("Accept", APPLICATION_JSON)
+									.pathParameter(ARTIKEL_ID_PATH_PARAM, artikelId)
+									.get(ARTIKEL_ID_PATH);
 		
 		// THEN
 		assertThat(response.getStatusCode(), is(HTTP_OK));
@@ -152,8 +158,9 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 		final Long artikelId = ARTIKEL_ID_NICHT_VORHANDEN;
 		
 		// WHEN
-		Response response = given().header("Accept", APPLICATION_JSON).pathParameter("artikelId", artikelId)
-									.get("/artikel/{artikelId}");
+		Response response = given().header("Accept", APPLICATION_JSON)
+									.pathParameter(ARTIKEL_ID_PATH_PARAM, artikelId)
+									.get(ARTIKEL_ID_PATH);
 		
 		// THEN
 		assertThat(response.getStatusCode(), is(HTTP_NOT_FOUND));
@@ -170,8 +177,9 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 		artikelId.add(ARTIKEL1_ZU_ARTIKELGRUPPE_406);
 		
 		// WHEN
-		Response response = given().header("Accept", APPLICATION_JSON).pathParameter("artikelgruppeId", artikelgruppeId)
-									.get("/artikel/artikelgruppe/{artikelgruppeId}/artikel");
+		Response response = given().header("Accept", APPLICATION_JSON)
+									.pathParameter(ARTIKELGRUPPE_ID_PATH_PARAM, artikelgruppeId)
+									.get(ARTIKELGRUPPE_ID_PATH + "/artikel");
 		
 		// THEN
 		assertThat(response.getStatusCode(), is(HTTP_OK));
@@ -180,6 +188,23 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 			for(int i = 0; i < jsonArray.size(); ++i)
 				assertThat(artikelId.contains(jsonArray.getJsonObject(i).getJsonNumber("id").longValue()), is(true));
 		}
+		LOGGER.debugf("ENDE Test findeArtikelNachArtikelgruppeVorhanden");
+	}
+	
+	@Test
+	public void findeArtikelNachArtikelgruppeNichtVorhanden() {
+		LOGGER.debugf("BEGINN Test findeArtikelNachArtikelgruppeNichtVorhanden");
+		
+		// GIVEN
+		final Long artikelgruppeId = ARTIKELGRUPPE_ID_NICHT_VORHANDEN;
+		
+		// WHEN
+		Response response = given().header("Accept", APPLICATION_JSON)
+									.pathParameter(ARTIKELGRUPPE_ID_PATH_PARAM, artikelgruppeId)
+									.get(ARTIKELGRUPPE_ID_PATH + "/artikel");
+		
+		// THEN
+		assertThat(response.getStatusCode(), is(HTTP_NOT_FOUND));
 		LOGGER.debugf("ENDE Test findeArtikelNachArtikelgruppeVorhanden");
 	}
 	
@@ -196,8 +221,9 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 			erhaeltlich = false;
 		
 		// WHEN
-		Response response = given().header("Accept", APPLICATION_JSON).pathParam("erhaeltlich", verfuegbarkeit)
-							.get("/artikel/{erhaeltlich}");
+		Response response = given().header("Accept", APPLICATION_JSON)
+							.pathParam(ARTIKEL_ERHAELTLICH_PATH_PARAM, verfuegbarkeit)
+							.get(ARTIKEL_PATH + "/{erhaeltlich}");
 		
 		// THEN
 		assertThat(response.getStatusCode(), is(HTTP_OK));
@@ -322,8 +348,9 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 		final String bezeichnung = ARTIKELGRUPPE_NAME_VORHANDEN;
 		
 		// WHEN
-		Response response = given().header("Accept", APPLICATION_JSON).queryParam("bezeichnung", bezeichnung)
-									.get("/artikel/artikelgruppe");
+		Response response = given().header("Accept", APPLICATION_JSON)
+									.queryParam(ARTIKELGRUPPE_BEZEICHNUNG_PATH_PARAM, bezeichnung)
+									.get(ARTIKELGRUPPE_PATH);
 		
 		// THEN
 		try (JsonReader jsonReader = getJsonReaderFactory().createReader( new StringReader(response.asString()))) {
@@ -344,8 +371,9 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 		final String artikelgruppeName = ARTIKELGRUPPE_NAME_NICHT_VORHANDEN;
 		
 		// WHEN
-		Response response = given().header("Accept", APPLICATION_JSON).queryParam("bezeichnung", artikelgruppeName)
-									.get("/artikel/artikelgruppe");
+		Response response = given().header("Accept", APPLICATION_JSON)
+									.queryParam(ARTIKELGRUPPE_BEZEICHNUNG_PATH_PARAM, artikelgruppeName)
+									.get(ARTIKELGRUPPE_PATH);
 		
 		// THEN
 		assertThat(response.getStatusCode(), is(HTTP_NOT_FOUND));
@@ -360,8 +388,9 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 		final Long artikelgruppeId = ARTIKELGRUPPE_ID_VORHANDEN;
 		
 		// WHEN
-		Response response = given().header("Accept", APPLICATION_JSON).pathParameter("artikelgruppeId", artikelgruppeId)
-									.get("/artikel/artikelgruppe/{artikelgruppeId}");
+		Response response = given().header("Accept", APPLICATION_JSON)
+									.pathParameter(ARTIKELGRUPPE_ID_PATH_PARAM, artikelgruppeId)
+									.get(ARTIKELGRUPPE_ID_PATH);
 		
 		// THEN
 		assertThat(response.getStatusCode(), is(HTTP_OK));
@@ -380,8 +409,8 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 		final Long artikelgruppeId = ARTIKELGRUPPE_ID_NICHT_VORHANDEN;
 		
 		// WHEN
-		Response response = given().header("Accept", APPLICATION_JSON).pathParameter("artikelgruppeId", artikelgruppeId)
-									.get("/artikel/artikelgruppe/{artikelgruppeId}");
+		Response response = given().header("Accept", APPLICATION_JSON).pathParameter(ARTIKELGRUPPE_ID_PATH_PARAM, artikelgruppeId)
+									.get(ARTIKELGRUPPE_ID_PATH);
 		
 		// THEN
 		assertThat(response.getStatusCode(), is(HTTP_NOT_FOUND));
@@ -397,8 +426,9 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 		final Long artikelgruppeId = ARTIKELGRUPPE_ID_ZU_ARTIKEL_500;
 		
 		// WHEN
-		Response response = given().header("Accept", APPLICATION_JSON).pathParameter("artikelId", artikelId)
-									.get("/artikel/{artikelId}/artikelgruppe");
+		Response response = given().header("Accept", APPLICATION_JSON)
+									.pathParameter(ARTIKEL_ID_PATH_PARAM, artikelId)
+									.get(ARTIKEL_ID_PATH + "/artikelgruppe");
 		
 		// THEN
 		assertThat(response.getStatusCode(), is(HTTP_OK));
@@ -406,6 +436,23 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 			JsonObject jsonObject = jsonReader.readObject();
 			assertThat(jsonObject.getJsonNumber("id").longValue(), is(artikelgruppeId.longValue()));
 		}
+		LOGGER.debugf("ENDE Test findeArtikelgruppeNachArtikelVorhanden");
+	}
+	
+	@Test
+	public void findeArtikelgruppeNachArtikelNichtVorhanden() {
+		LOGGER.debugf("BEGINN Test findeArtikelgruppeNachArtikelNichtVorhanden");
+		
+		// GIVEN
+		final Long artikelId = ARTIKEL_ID_NICHT_VORHANDEN;
+		
+		// WHEN
+		Response response = given().header("Accept", APPLICATION_JSON)
+									.pathParameter(ARTIKEL_ID_PATH_PARAM, artikelId)
+									.get(ARTIKEL_ID_PATH + "/artikelgruppe");
+		final String log = response.asString();
+		// THEN
+		assertThat(response.getStatusCode(), is(HTTP_NOT_FOUND));
 		LOGGER.debugf("ENDE Test findeArtikelgruppeNachArtikelVorhanden");
 	}
 	

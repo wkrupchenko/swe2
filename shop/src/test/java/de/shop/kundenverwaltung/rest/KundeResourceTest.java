@@ -22,6 +22,10 @@ import static org.hamcrest.CoreMatchers.startsWith;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 import static org.junit.runners.MethodSorters.NAME_ASCENDING;
+import static de.shop.util.TestKonstanten.KUNDEN_ID_PREFIX_PATH_PARAM;
+import static de.shop.util.TestKonstanten.KUNDEN_ID_PREFIX_PATH;
+import static de.shop.util.TestKonstanten.KUNDEN_NACHNAME_PREFIX_PATH_PARAM;
+import static de.shop.util.TestKonstanten.KUNDEN_NACHNAME_PREFIX_PATH;
 
 import java.io.StringReader;
 import java.lang.invoke.MethodHandles;
@@ -74,6 +78,8 @@ public class KundeResourceTest extends AbstractResourceTest {
 	private static final String NEUER_ORT = "Karlsruhe";
 	private static final String NEUE_STRASSE = "Testweg";
 	private static final String NEUE_HAUSNR = "1";
+	private static final Long KUNDE_ID_PREFIX = Long.valueOf(1);
+	private static final String KUNDE_NACHNAME_PREFIX = "M";
 	
 	@Test
 	public void validate() {
@@ -176,16 +182,50 @@ public class KundeResourceTest extends AbstractResourceTest {
 		LOGGER.debugf("ENDE");
 	}
 	
-	@Ignore
 	@Test
 	public void findeIdsNachPrefix() {
-		// TODO
+		LOGGER.debugf("BEGINN Test findeIdsNachPrefix");
+		// Given
+		final Long prefix = KUNDE_ID_PREFIX;
+		
+		// When
+		final Response response = given().header(ACCEPT, APPLICATION_JSON)
+										.pathParam(KUNDEN_ID_PREFIX_PATH_PARAM, prefix)
+										.get(KUNDEN_ID_PREFIX_PATH);
+		// Then
+		assertThat(response.getStatusCode(), is(HTTP_OK));
+		try (final JsonReader jsonReader = getJsonReaderFactory().createReader(new StringReader(response.asString()))) {
+			JsonArray jsonArray = jsonReader.readArray();			 
+			assertThat(jsonArray.size() > 0, is(true));
+			for(int i = 0; i < jsonArray.size(); ++i) {
+				final String id = String.valueOf(jsonArray.getInt(i));
+				assertThat(id.startsWith(prefix.toString()), is(true));
+			}
+		}
+		LOGGER.debugf("ENDE Test findeIdsNachPrefix");
 	}
 	
-	@Ignore
 	@Test
 	public void findeNachnamenNachPrefix() {
-		// TODO
+		LOGGER.debugf("BEGINN Test findeNachnameNachPrefix");
+		// Given
+		final String prefix = KUNDE_NACHNAME_PREFIX;
+		
+		// When
+		final Response response = given().header(ACCEPT, APPLICATION_JSON)
+										.pathParam(KUNDEN_NACHNAME_PREFIX_PATH_PARAM, prefix)
+										.get(KUNDEN_NACHNAME_PREFIX_PATH);
+		// Then
+		assertThat(response.getStatusCode(), is(HTTP_OK));
+		try (final JsonReader jsonReader = getJsonReaderFactory().createReader(new StringReader(response.asString()))) {
+			JsonArray jsonArray = jsonReader.readArray();			 
+			assertThat(jsonArray.size() > 0, is(true));
+			for(int i = 0; i < jsonArray.size(); ++i) {
+				final String id = jsonArray.getString(i);
+				assertThat(id.startsWith(prefix), is(true));
+			}
+		}
+		LOGGER.debugf("ENDE Test findeNachnameNachPrefix");
 	}
 	
 	@Ignore
