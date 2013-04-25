@@ -297,8 +297,42 @@ public class BestellungResourceTest extends AbstractResourceTest {
 		// Then
 		assertThat(response.getStatusCode(), is(HTTP_OK));
 		LOGGER.debugf("ENDE Test BestellungNachLieferungenVorhanden");
+		
+		try (final JsonReader jsonReader =
+	      getJsonReaderFactory().createReader(new StringReader(response.asString()))) {
+		  JsonArray jsonArray = jsonReader.readArray();			 
+          assertThat(jsonArray.size() > 0, is(true));
+          List<JsonObject> jsonObjectList = jsonArray.getValuesAs(JsonObject.class);
+
+          	   // Jede Bestellung einzeln durchgehen -> je Bestellung eine neue HTTP Anfrage an die URL der Lieferungen
+	          for(JsonObject jsonObject : jsonObjectList) {
+			      final Response temp = get(jsonObject.getJsonString("lieferungen").toString());
+			      assertThat(temp.getStatusCode(), is(HTTP_OK));
+
+			          // Eine Liste mit den Lieferungen zur Bestellung erzeugen
+			          try (final JsonReader jsonReaderB =
+				          getJsonReaderFactory().createReader(new StringReader(temp.asString()))) {
+						  JsonArray tempB = jsonReaderB.readArray();			 
+						  assertThat(tempB.size() > 0, is(true));
+						  List<JsonObject> lieferungen = tempB.getValuesAs(JsonObject.class);
+					
+						  // Ids der Lieferungen in eine Liste packen
+						  List<Long> lieferungenIds = new ArrayList<Long>();
+							for( JsonObject lieferung : lieferungen)
+								lieferungenIds.add(lieferung.getJsonNumber("id").longValue());
+						
+								// Prüfen ob die Bestellung vorhanden ist
+								assertThat(lieferungenIds.contains(lieferungId.longValue()), is(true));
+	                        }
+	                  }
+		       }
+		          LOGGER.debugf("ENDE Test BestellungNachLieferungenVorhanden");
+	      }
+                      
+          
+
 		 
-	}
+	
 	
 	 
 	@Test
