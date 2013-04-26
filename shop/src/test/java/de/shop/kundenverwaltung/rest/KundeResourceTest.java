@@ -1,5 +1,10 @@
 package de.shop.kundenverwaltung.rest;
 
+import static de.shop.util.Konstante.HASH_ALGORITHM;
+import static de.shop.util.Konstante.HASH_CHARSET;
+import static de.shop.util.Konstante.HASH_ENCODING;
+import static de.shop.util.Konstante.SECURITY_DOMAIN;
+import static org.jboss.security.auth.spi.Util.createPasswordHash;
 import static com.jayway.restassured.RestAssured.given;
 import static de.shop.util.TestKonstanten.ACCEPT;
 import static de.shop.util.TestKonstanten.KUNDEN_ID_PATH_PARAM;
@@ -32,6 +37,7 @@ import java.lang.invoke.MethodHandles;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Set;
+
 import org.jboss.logging.Logger;
 
 import javax.json.JsonArray;
@@ -60,8 +66,8 @@ public class KundeResourceTest extends AbstractResourceTest {
 	private static final Long KUNDE_ID_VORHANDEN = Long.valueOf(101);
 	private static final Long KUNDE_ID_NICHT_VORHANDEN = Long.valueOf(1000);
 	private static final Long KUNDE_ID_UPDATE = Long.valueOf(120);
-	private static final Long KUNDE_ID_DELETE = Long.valueOf(122);
-	private static final Long KUNDE_ID_DELETE_MIT_BESTELLUNGEN = Long.valueOf(101);
+	private static final Long KUNDE_ID_DELETE = Long.valueOf(102);
+	private static final Long KUNDE_ID_DELETE_MIT_BESTELLUNGEN = Long.valueOf(100);
 	private static final Long KUNDE_ID_DELETE_FORBIDDEN = Long.valueOf(101);
 	private static final String NACHNAME_VORHANDEN = "Musterfrau";
 	private static final String NACHNAME_NICHT_VORHANDEN = "Falschername";
@@ -413,7 +419,6 @@ public class KundeResourceTest extends AbstractResourceTest {
 		assertThat(response.getStatusCode(), is(HTTP_NO_CONTENT));
    	}
 	
-	@Ignore	
 	@Test
 	public void deleteKunde() {
 		// TODO
@@ -429,7 +434,7 @@ public class KundeResourceTest extends AbstractResourceTest {
                                          .basic(username, password)
                                          .pathParameter(KUNDEN_ID_PATH_PARAM, kundeId)
                                          .delete(KUNDEN_ID_PATH);
-		
+		String log = response.asString();
 		// Then
 		assertThat(response.getStatusCode(), is(HTTP_NO_CONTENT));
 		LOGGER.debugf("ENDE");

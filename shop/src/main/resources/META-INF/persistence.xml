@@ -37,7 +37,7 @@
 			<!-- SQL-Skript ausfuehren beim Laden der Anwendung -->
 			<property name="hibernate.hbm2ddl.import_files" value="sql/01_enum.sql,sql/02_index.sql,
 			    sql/10_hibernate_sequence.sql,sql/20_artikelgruppe.sql,sql/21_artikel.sql,
-			    sql/30_kunde.sql,sql/31_adresse.sql,
+			    sql/30_kunde.sql,sql/31_adresse.sql,sql/32_kunde_rolle.sql,
 			    sql/40_bestellung.sql,sql/41_bestellposition.sql,
 			    sql/50_lieferung.sql,sql/51_bestellung_lieferung.sql"/>
 		</properties>
