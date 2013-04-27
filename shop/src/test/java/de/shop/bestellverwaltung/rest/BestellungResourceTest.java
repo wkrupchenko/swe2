@@ -18,10 +18,12 @@ import static java.net.HttpURLConnection.HTTP_CREATED;
 import static java.net.HttpURLConnection.HTTP_NOT_FOUND;
 import static java.net.HttpURLConnection.HTTP_NO_CONTENT;
 import static java.net.HttpURLConnection.HTTP_OK;
+import static java.net.HttpURLConnection.HTTP_CONFLICT;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static org.hamcrest.CoreMatchers.endsWith;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.CoreMatchers.startsWith;
 import static org.junit.Assert.assertThat;
 import static org.junit.runners.MethodSorters.NAME_ASCENDING;
 
@@ -354,8 +356,7 @@ public class BestellungResourceTest extends AbstractResourceTest {
 	}
 	
 	 
-	
-	@Ignore 
+	 
 	@Test
 	public void createBestellung() {
 		// TODO
@@ -390,7 +391,7 @@ public class BestellungResourceTest extends AbstractResourceTest {
 		LOGGER.debugf("ENDE Test createBestellung");
 	}
 	
-	@Ignore
+	 
 	@Test
 	public void updateBestellung() {
 		LOGGER.debugf("BEGINN Test updateBestellung");
@@ -411,7 +412,7 @@ public class BestellungResourceTest extends AbstractResourceTest {
 		}
     	assertThat(jsonObject.getJsonNumber("id").longValue(), is(bestellungId.longValue()));
     	
-    	 
+    	
     	final JsonObjectBuilder job = getJsonBuilderFactory().createObjectBuilder();
     	final Set<String> keys = jsonObject.keySet();
     	for (String k : keys) {
@@ -430,11 +431,14 @@ public class BestellungResourceTest extends AbstractResourceTest {
 		
 		// Then
 		assertThat(response.getStatusCode(), is(HTTP_NO_CONTENT));
+		
+    	
 		LOGGER.debugf("ENDE Test updateBestellung");
 		// TODO
 	}
+	 
 	
-	@Ignore 
+	 
 	@Test
 	public void deleteBestellung() {
 		LOGGER.debugf("BEGINN Test deleteBestellung");
@@ -446,8 +450,15 @@ public class BestellungResourceTest extends AbstractResourceTest {
 		final Response response = given().pathParameter(BESTELLUNGEN_ID_PATH_PARAM, bestellungId).delete(BESTELLUNGEN_ID_PATH);
 		
 		// Then
-		assertThat(response.getStatusCode(), is(HTTP_NO_CONTENT));
+		assertThat(response.getStatusCode(), is(HTTP_CONFLICT));
+		final String errorMsg = response.asString();
+		assertThat(errorMsg, startsWith("Bestellung mit ID=" + bestellungId + " kann nicht geloescht werden:"));
+		assertThat(errorMsg, endsWith(" Lieferung(en)"));
+		
 		LOGGER.debugf("ENDE Test deleteBestellung");
 		// TODO
 	}
+	
+	
+	 
 }

@@ -246,7 +246,7 @@ public class KundeResourceTest extends AbstractResourceTest {
 		// TODO
 	}
 	
-	@Ignore 
+	 
 	@Test
 	public void createKunde() {
 		// TODO
@@ -288,9 +288,7 @@ public class KundeResourceTest extends AbstractResourceTest {
 
 		// When
 		final Response response = given().contentType(APPLICATION_JSON)
-				                         .body(jsonObject.toString())
-                                         .auth()
-                                         .basic(username, password)
+				                         .body(jsonObject.toString())                                         
                                          .post(KUNDEN_PATH);
 		
 		// Then

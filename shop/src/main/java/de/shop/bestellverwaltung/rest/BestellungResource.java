@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
+
 import org.jboss.logging.Logger;
 
 import javax.annotation.PostConstruct;
@@ -21,6 +22,7 @@ import javax.ws.rs.DELETE;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -238,7 +240,7 @@ public class BestellungResource {
 	 * @return Objekt mit Bestelldaten, falls die ID vorhanden ist
 	 */
 	@POST
-	@Consumes({ APPLICATION_XML, TEXT_XML })
+	@Consumes(APPLICATION_JSON)
 	@Produces
 	public Response createBestellung(Bestellung bestellung, @Context UriInfo uriInfo, @Context HttpHeaders headers) {
 		// Schluessel des Kunden extrahieren
@@ -349,5 +351,30 @@ public class BestellungResource {
 	public void deleteBestellung(@PathParam("id") Long bestellungId) {
 		final Bestellung bestellung = bs.findeBestellungNachId(bestellungId);
 		bs.deleteBestellung(bestellung);
+	}
+	
+	@PUT
+	@Consumes(APPLICATION_JSON)
+	@Produces
+	public void updateBestellung(Bestellung bestellung, @Context UriInfo uriInfo, @Context HttpHeaders headers) {
+		// Vorhandene Bestellung ermitteln
+		final Locale locale = localeHelper.getLocale(headers);
+		Bestellung origBestellung = bs.findeBestellungNachId(bestellung.getId());
+		if (origBestellung == null) {
+			final String msg = "Keine Bestellung gefunden mit der ID " + bestellung.getId();
+			throw new NotFoundException(msg);
+		}
+		LOGGER.debugf("Bestellung vorher: %s", origBestellung);
+	
+		// Daten des vorhandener Bestellung ueberschreiben
+		origBestellung.setWerte(bestellung);
+		LOGGER.debugf("Bestellung nachher: %s", origBestellung);
+		
+		// Update durchfuehren
+		bestellung = bs.updateBestellung(origBestellung, locale);
+		if (bestellung == null) {
+			final String msg = "Keine Bestellung gefunden mit der ID " + origBestellung.getId();
+			throw new NotFoundException(msg);
+		}
 	}
 }
