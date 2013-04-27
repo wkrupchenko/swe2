@@ -31,7 +31,7 @@
     <env-entry-name>locales</env-entry-name>
     <env-entry-type>java.lang.String</env-entry-type>
     <env-entry-value>de,en</env-entry-value>
-  </env-entry>
+  </env-entry>  
  <login-config> 
   <auth-method>BASIC</auth-method>
   <realm-name>Webshop</realm-name>
@@ -68,7 +68,7 @@
   <auth-constraint>
    <role-name>admin</role-name>
   </auth-constraint>
- </security-constraint>
+ </security-constraint>  
  <security-constraint>
   <web-resource-collection>
    <web-resource-name>Bestellungen erzeugen</web-resource-name>
