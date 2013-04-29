@@ -11,8 +11,8 @@ MEILENSTEIN 1:
          -> ArtikelverwaltungConcurency: Nichts
 		 -> Kundenverwaltung: 10 Tests fehlen --> Create Update und Delete plus GETS
 		 -> KundenverwaltungConcurency: Nichts
-		 -> Bestellverwaltung: 4 Tests fehlen --> Create Update und Delete plus 1 GET
+		 -> Bestellverwaltung: 3 Tests fehlen --> Create Update und plus 1 GET
 		 -> BestellverwaltungConcurency: Nichts
-		 -> INSGESAMT FEHLEN 15 TESTS
-- Authentifizierung und Authorisierung implementieren und beim WebServiceTester nutzen ERLEDIGT --> ABER: Authorisierung
-funktioniert nocht nicht, einloggen geht (Authentifizierung) aber keine Zugriffsrechte !!!
+		 -> INSGESAMT FEHLEN 14 TESTS
+- Authentifizierung und Authorisierung implementieren und beim WebServiceTester nutzen ERLEDIGT 
+(jeder muss standalone.xml an seinem Laptop anpassen)
