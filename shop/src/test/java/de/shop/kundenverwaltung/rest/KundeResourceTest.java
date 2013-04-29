@@ -289,13 +289,13 @@ public class KundeResourceTest extends AbstractResourceTest {
 		LOGGER.debugf("BEGINN Test findeBestellungenIdsNachKundeIdVorhanden");
 		
 		// Given
-		final long KundeId = KUNDE_ID_VORHANDEN;
+		final long kundeId = KUNDE_ID_VORHANDEN;
 		List<Long> bestellungenIds = new ArrayList<Long>();
 		
 		// When
 		final Response response = given().header(ACCEPT, APPLICATION_JSON)
-                .pathParameter(KUNDEN_ID_PATH_PARAM, KundeId)
-                .get(KUNDEN_ID_PATH + "/bestellungen");
+                .pathParameter(KUNDEN_ID_PATH_PARAM, kundeId)
+                .get(KUNDEN_ID_PATH + "/bestellungenIds");
 
 		// Then
 		assertThat(response.getStatusCode(), is(HTTP_OK));
@@ -304,13 +304,6 @@ public class KundeResourceTest extends AbstractResourceTest {
 		try (final JsonReader jsonReader = getJsonReaderFactory().createReader(new StringReader(response.asString()))) {
 			final JsonArray jsonArray = jsonReader.readArray();
 			assertThat(jsonArray.size() > 0, is(true));
-			
-			final List<JsonObject> jsonObjectList = jsonArray.getValuesAs(JsonObject.class);
-			
-			// Liste mit den Ids der Bestellungen erzeugen
-			for( JsonObject jsonObject : jsonObjectList){
-				bestellungenIds.add(jsonObject.getJsonNumber("id").longValue());
-			}
 		}
 
 		LOGGER.debugf("ENDE Test findeBestellungenIdsNachKundeIdVorhanden");
@@ -507,7 +500,8 @@ public class KundeResourceTest extends AbstractResourceTest {
 		// Then
 		assertThat(response.getStatusCode(), is(HTTP_NO_CONTENT));
    	}
-	
+
+	@Ignore
 	@Test
 	public void deleteKunde() {
 		// TODO
