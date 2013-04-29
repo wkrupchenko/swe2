@@ -330,13 +330,7 @@ public class BestellungResourceTest extends AbstractResourceTest {
 		       }
 		          LOGGER.debugf("ENDE Test BestellungNachLieferungenVorhanden");
 	      }
-                      
-          
-
-		 
-	
-	
-	 
+                       
 	@Test
 	public void findeBestellungNachLieferungenNichtVorhanden() {
 		LOGGER.debugf("BEGINN Test BestellungNachLieferungenVorhanden");
@@ -398,6 +392,7 @@ public class BestellungResourceTest extends AbstractResourceTest {
 	@Ignore
 	@Test
 	public void updateBestellung() {
+		// TODO
 		LOGGER.debugf("BEGINN Test updateBestellung");
 		
 		// Given
@@ -442,10 +437,7 @@ public class BestellungResourceTest extends AbstractResourceTest {
 		
     	
 		LOGGER.debugf("ENDE Test updateBestellung");
-		// TODO
 	}
-	 
-	
 	 
 	@Test
 	public void deleteBestellung() {
@@ -453,9 +445,13 @@ public class BestellungResourceTest extends AbstractResourceTest {
 		
 		// GIVEN
 		final Long bestellungId = BESTELLUNG_ID_LOESCHEN;
+		final String username = USERNAME;
+		final String password = PASSWORD;
 		
 		// WHEN
-		final Response response = given().pathParameter(BESTELLUNGEN_ID_PATH_PARAM, bestellungId).delete(BESTELLUNGEN_ID_PATH);
+		final Response response = given().pathParameter(BESTELLUNGEN_ID_PATH_PARAM, bestellungId)
+										 .auth()
+										 .basic(username,  password).delete(BESTELLUNGEN_ID_PATH);
 		
 		// Then
 		assertThat(response.getStatusCode(), is(HTTP_CONFLICT));
@@ -464,9 +460,5 @@ public class BestellungResourceTest extends AbstractResourceTest {
 		assertThat(errorMsg, endsWith(" Lieferung(en)"));
 		
 		LOGGER.debugf("ENDE Test deleteBestellung");
-		// TODO
-	}
-	
-	
-	 
+	}	 
 }

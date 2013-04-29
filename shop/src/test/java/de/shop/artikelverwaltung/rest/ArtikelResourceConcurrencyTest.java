@@ -2,9 +2,9 @@ package de.shop.artikelverwaltung.rest;
 
 import static com.jayway.restassured.RestAssured.given;
 import static de.shop.util.TestKonstanten.ACCEPT;
-import static de.shop.util.TestKonstanten.KUNDEN_ID_PATH;
-import static de.shop.util.TestKonstanten.KUNDEN_ID_PATH_PARAM;
-import static de.shop.util.TestKonstanten.KUNDEN_PATH;
+import static de.shop.util.TestKonstanten.ARTIKEL_ID_PATH;
+import static de.shop.util.TestKonstanten.ARTIKEL_ID_PATH_PARAM;
+import static de.shop.util.TestKonstanten.ARTIKEL_PATH;
 import static java.net.HttpURLConnection.HTTP_CONFLICT;
 import static java.net.HttpURLConnection.HTTP_NO_CONTENT;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
@@ -45,7 +45,7 @@ public class ArtikelResourceConcurrencyTest extends AbstractResourceTest {
 	private static final String NEUE_BEZEICHNUNG = "Update1Artikel";
 	private static final String NEUE_BEZEICHNUNG_2 = "Update2Artikel";
 	
-	@Ignore 
+	@Ignore
 	@Test
 	public void updateUpdate() throws InterruptedException, ExecutionException {
 		LOGGER.debugf("BEGINN Test updateUpdate");
@@ -59,8 +59,8 @@ public class ArtikelResourceConcurrencyTest extends AbstractResourceTest {
 		
 		// When
 		Response response = given().header(ACCEPT, APPLICATION_JSON)
-				                   .pathParameter(KUNDEN_ID_PATH_PARAM, artikelId)
-                                   .get(KUNDEN_ID_PATH);
+				                   .pathParameter(ARTIKEL_ID_PATH_PARAM, artikelId)
+                                   .get(ARTIKEL_ID_PATH);
 		JsonObject jsonObject;
 		try (final JsonReader jsonReader =
 				              getJsonReaderFactory().createReader(new StringReader(response.asString()))) {
@@ -68,19 +68,19 @@ public class ArtikelResourceConcurrencyTest extends AbstractResourceTest {
 		}
 
     	// Konkurrierendes Update
-		// Aus den gelesenen JSON-Werten ein neues JSON-Objekt mit neuem Nachnamen bauen
+		// Aus den gelesenen JSON-Werten ein neues JSON-Objekt mit neuer Bezeichnung bauen
     	JsonObjectBuilder job = getJsonBuilderFactory().createObjectBuilder();
     	Set<String> keys = jsonObject.keySet();
     	for (String k : keys) {
-    		if ("nachname".equals(k)) {
-    			job.add("nachname", neueBezeichnung2);
+    		if ("bezeichnung".equals(k)) {
+    			job.add("bezeichnung", neueBezeichnung2);
     		}
     		else {
     			job.add(k, jsonObject.get(k));
     		}
     	}
     	final JsonObject jsonObject2 = job.build();
-    	final ConcurrentUpdate concurrentUpdate = new ConcurrentUpdate(jsonObject2, KUNDEN_PATH,
+    	final ConcurrentUpdate concurrentUpdate = new ConcurrentUpdate(jsonObject2, ARTIKEL_PATH,
     			                                                       username, password);
     	final ExecutorService executorService = Executors.newSingleThreadExecutor();
 		final Future<Response> future = executorService.submit(concurrentUpdate);
@@ -92,8 +92,8 @@ public class ArtikelResourceConcurrencyTest extends AbstractResourceTest {
     	job = getJsonBuilderFactory().createObjectBuilder();
     	keys = jsonObject.keySet();
     	for (String k : keys) {
-    		if ("nachname".equals(k)) {
-    			job.add("nachname", neueBezeichnung);
+    		if ("bezeichnung".equals(k)) {
+    			job.add("bezeichnung", neueBezeichnung);
     		}
     		else {
     			job.add(k, jsonObject.get(k));
@@ -104,7 +104,7 @@ public class ArtikelResourceConcurrencyTest extends AbstractResourceTest {
 				          .body(jsonObject.toString())
 		                  .auth()
 		                  .basic(username, password)
-		                  .put(KUNDEN_PATH);
+		                  .put(ARTIKEL_PATH);
     	
 		// Then
 		assertThat(response.getStatusCode(), is(HTTP_CONFLICT));
