@@ -65,6 +65,7 @@ public class BestellungResourceTest extends AbstractResourceTest {
 	private static final Long LIEFERUNG_ID_NICHT_VORHANDEN = Long.valueOf(999);
 	private static final Long BESTELLUNG_ID_UPDATE = Long.valueOf(300);
 	private static final String BESTELLUNG_NEUE_BEZEICHNUNG = "Bestellung geändert";
+	private static final Boolean BESTELLUNG_NEU_OFFEN_ABGESCHLOSSEN = true;
 	
 
 	 
@@ -349,7 +350,6 @@ public class BestellungResourceTest extends AbstractResourceTest {
 		 
 	}
 	
-	 
 	@Ignore
 	@Test
 	public void createBestellung() {
@@ -359,17 +359,20 @@ public class BestellungResourceTest extends AbstractResourceTest {
 		// Given
 		final Long kundeId = KUNDE_ID_VORHANDEN;
 		final Long artikelId1 = ARTIKEL_ID_VORHANDEN_1;	
+		final Boolean offenAbgeschlossen = BESTELLUNG_NEU_OFFEN_ABGESCHLOSSEN;
 		final String username = USERNAME;
 		final String password = PASSWORD;
 		 
 		
 		// Neues, client-seitiges Bestellungsobjekt als JSON-Datensatz
 		final JsonObject jsonObject = getJsonBuilderFactory().createObjectBuilder()
-				                      .add("kundeUri", KUNDEN_URI + "/" + kundeId)
 				                      .add("bestellpositionen", getJsonBuilderFactory().createArrayBuilder()
 				            		                            .add(getJsonBuilderFactory().createObjectBuilder()
-				            		                                 .add("artikelUri", ARTIKEL_URI + "/" + artikelId1)
-				            		                                 .add("anzahl", 1)))
+				            		                                 .add("anzahl", 1)
+				            		                                 .add("artikel", ARTIKEL_URI + "/" + artikelId1)))
+				            		  .add("offenAbgeschlossen", offenAbgeschlossen)
+				            		  .add("kunde", KUNDEN_URI + "/" + kundeId)
+				            		  .add("lieferungen", BESTELLUNGEN_PATH + "/" + "?" + "/lieferungen")
 				                      .build();
 
 		// When
@@ -378,6 +381,8 @@ public class BestellungResourceTest extends AbstractResourceTest {
 				                         .auth()
 				                         .basic(username, password)
 				                         .post(BESTELLUNGEN_PATH);
+		
+		final String log = response.asString();
 		
 		assertThat(response.getStatusCode(), is(HTTP_CREATED));
 		final String location = response.getHeader(LOCATION);
