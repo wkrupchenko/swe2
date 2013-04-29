@@ -243,7 +243,9 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 		final String bezeichnung = ARTIKEL_BEZEICHNUNG_NEU;  
 		final Boolean erhaeltlich = ARTIKEL_ERHAELTLICH_NEU;  
 		final double preis = ARTIKEL_PREIS_NEU;  
-		final Long artikelgruppeId = ARTIKELGRUPPE_ID_VORHANDEN;  
+		final Long artikelgruppeId = ARTIKELGRUPPE_ID_VORHANDEN;
+		final String username = USERNAME;
+		final String password = PASSWORD;
 			
 		final JsonObject jsonObject = getJsonBuilderFactory().createObjectBuilder()
 								.add("bezeichnung", bezeichnung)
@@ -253,7 +255,11 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 								.build();
 		
 		// WHEN
-		Response response = given().contentType(APPLICATION_JSON).body(jsonObject.toString()).post(ARTIKEL_PATH);
+		Response response = given()
+							.contentType(APPLICATION_JSON).body(jsonObject.toString())
+							.auth()
+							.basic(username, password)
+							.post(ARTIKEL_PATH);
 
 		// THEN
 		assertThat(response.getStatusCode(), is(HTTP_CREATED));
@@ -273,6 +279,8 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 		// Given
 		final Long artikelId = ARTIKEL_ID_UPDATE;
 		final String neueBezeichnung = ARTIKEL_NEUE_BEZEICHNUNG;
+		final String username = USERNAME;
+		final String password = PASSWORD;
 		
 		// When
 		Response response = given().header(ACCEPT, APPLICATION_JSON)
@@ -301,6 +309,8 @@ public class ArtikelResourceTest extends AbstractResourceTest {
     	
 		response = given().contentType(APPLICATION_JSON)
 				          .body(jsonObject.toString())
+				          .auth()
+				          .basic(username, password)
                           .put(ARTIKEL_PATH);
 		
 		// Then
@@ -314,9 +324,13 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 		
 		// GIVEN
 		final Long artikelId = ARTIKEL_ID_MIT_BESTELLUNGEN;
+		final String username = USERNAME;
+		final String password = PASSWORD;
 		
 		// WHEN
-		final Response response = given().pathParameter(ARTIKEL_ID_PATH_PARAM, artikelId).delete(ARTIKEL_ID_PATH);
+		final Response response = given().pathParameter(ARTIKEL_ID_PATH_PARAM, artikelId)
+										 .auth()
+										 .basic(username, password).delete(ARTIKEL_ID_PATH);
 		
 		// Then
 		assertThat(response.getStatusCode(), is(HTTP_CONFLICT));
@@ -331,9 +345,13 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 		
 		// GIVEN
 		final Long artikelId = ARTIKEL_ID_LÖSCHEN;
+		final String username = USERNAME;
+		final String password = PASSWORD;
 		
 		// WHEN
-		final Response response = given().pathParameter(ARTIKEL_ID_PATH_PARAM, artikelId).delete(ARTIKEL_ID_PATH);
+		final Response response = given().pathParameter(ARTIKEL_ID_PATH_PARAM, artikelId)
+										 .auth()
+										 .basic(username, password).delete(ARTIKEL_ID_PATH);
 		
 		// Then
 		assertThat(response.getStatusCode(), is(HTTP_NO_CONTENT));
@@ -461,13 +479,17 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 		LOGGER.debugf("BEGINN Test createArtikelgruppe");
 		// GIVEN
 		final String bezeichnung = ARTIKELGRUPPE_BEZEICHNUNG_NEU;
+		final String username = USERNAME;
+		final String password = PASSWORD;
 		
 		final JsonObject jsonObject = getJsonBuilderFactory().createObjectBuilder()
 				.add("bezeichnung", bezeichnung)
 				.build();
 		
 		// WHEN
-		Response response = given().contentType(APPLICATION_JSON).body(jsonObject.toString()).post(ARTIKELGRUPPE_PATH);
+		Response response = given().contentType(APPLICATION_JSON).body(jsonObject.toString())
+								   .auth()
+								   .basic(username, password).post(ARTIKELGRUPPE_PATH);
 		
 		// THEN
 		assertThat(response.getStatusCode(), is(HTTP_CREATED));
@@ -486,10 +508,14 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 		// Given
 		final Long artikelgruppeId = ARTIKELGRUPPE_ID_UPDATE;
 		final String neueBezeichnung = ARTIKELGRUPPE_NEUE_BEZEICHNUNG;
+		final String username = USERNAME;
+		final String password = PASSWORD;
 		
 		// When
 		Response response = given().header(ACCEPT, APPLICATION_JSON)
 				                   .pathParameter(ARTIKELGRUPPE_ID_PATH_PARAM, artikelgruppeId)
+				                   .auth()
+				                   .basic(username, password)
                                    .get(ARTIKELGRUPPE_ID_PATH);
 		
 		JsonObject jsonObject;
@@ -527,9 +553,13 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 		
 		// GIVEN
 		final Long artikelgruppeId = ARTIKELGRUPPE_ID_MIT_ARTIKEL;
+		final String username = USERNAME;
+		final String password = PASSWORD;
 		
 		// WHEN
-		final Response response = given().pathParameter(ARTIKELGRUPPE_ID_PATH_PARAM, artikelgruppeId).delete(ARTIKELGRUPPE_ID_PATH);
+		final Response response = given().pathParameter(ARTIKELGRUPPE_ID_PATH_PARAM, artikelgruppeId)
+										 .auth()
+										 .basic(username, password).delete(ARTIKELGRUPPE_ID_PATH);
 		
 		// Then
 		assertThat(response.getStatusCode(), is(HTTP_CONFLICT));
@@ -544,9 +574,13 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 		
 		// GIVEN
 		final Long artikelgruppeId = ARTIKELGRUPPE_ID_LÖSCHEN;
+		final String username = USERNAME;
+		final String password = PASSWORD;
 		
 		// WHEN
-		final Response response = given().pathParameter(ARTIKELGRUPPE_ID_PATH_PARAM, artikelgruppeId).delete(ARTIKELGRUPPE_ID_PATH);
+		final Response response = given().pathParameter(ARTIKELGRUPPE_ID_PATH_PARAM, artikelgruppeId)
+										 .auth()
+										 .basic(username, password).delete(ARTIKELGRUPPE_ID_PATH);
 		
 		// Then
 		assertThat(response.getStatusCode(), is(HTTP_NO_CONTENT));
