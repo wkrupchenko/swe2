@@ -20,7 +20,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-import java.util.logging.Logger;
+import org.jboss.logging.Logger;
 
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
@@ -41,18 +41,18 @@ import de.shop.util.ConcurrentUpdate;
 @RunWith(Arquillian.class)
 @FixMethodOrder(NAME_ASCENDING)
 public class KundeResourceConcurrencyTest extends AbstractResourceTest {
-	private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
+	private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass());
 
-	private static final Long KUNDE_ID_UPDATE = Long.valueOf(120);
+	private static final Long KUNDE_ID_UPDATE = Long.valueOf(100);
 	private static final String NEUER_NACHNAME = "Testname";
 	private static final String NEUER_NACHNAME_2 = "Neuername";
 	private static final Long KUNDE_ID_DELETE1 = Long.valueOf(122);
 	private static final Long KUNDE_ID_DELETE2 = Long.valueOf(124);
 
-	@Ignore 
+	@Ignore
 	@Test
 	public void updateUpdate() throws InterruptedException, ExecutionException {
-		LOGGER.finer("BEGINN");
+		LOGGER.debugf("BEGINN Test updateUpdate");
 		
 		// Given
 		final Long kundeId = KUNDE_ID_UPDATE;
@@ -113,13 +113,13 @@ public class KundeResourceConcurrencyTest extends AbstractResourceTest {
 		// Then
 		assertThat(response.getStatusCode(), is(HTTP_CONFLICT));
 		
-		LOGGER.finer("ENDE");
+		LOGGER.debugf("ENDE Test updateUpdate");
 	}
 	
 	@Ignore
 	@Test
 	public void updateDelete() throws InterruptedException, ExecutionException {
-		LOGGER.finer("BEGINN");
+		LOGGER.debugf("BEGINN Test updateDelete");
 		
 		// Given
 		final Long kundeId = KUNDE_ID_DELETE1;
@@ -167,13 +167,13 @@ public class KundeResourceConcurrencyTest extends AbstractResourceTest {
 		// Then
     	assertThat(response.getStatusCode(), is(HTTP_NOT_FOUND));
 		
-		LOGGER.finer("ENDE");
+		LOGGER.debugf("ENDE Test updateDelete");
 	}
 	
 	@Ignore
 	@Test
 	public void deleteUpdate() throws InterruptedException, ExecutionException {
-		LOGGER.finer("BEGINN");
+		LOGGER.debugf("BEGINN Test deleteUpdate");
 		
 		// Given
 		final Long kundeId = KUNDE_ID_DELETE2;
@@ -221,6 +221,6 @@ public class KundeResourceConcurrencyTest extends AbstractResourceTest {
 		// Then
     	assertThat(response.getStatusCode(), is(HTTP_NO_CONTENT));
 		
-		LOGGER.finer("ENDE");
+		LOGGER.debugf("ENDE Test deleteUpdate");
 	}
 }

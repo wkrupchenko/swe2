@@ -83,6 +83,16 @@
  </security-constraint>
  <security-constraint>
   <web-resource-collection>
+   <web-resource-name>Bestellung löschen</web-resource-name>
+   <url-pattern>/rest/bestellungen/*</url-pattern>
+   <http-method>DELETE</http-method>
+  </web-resource-collection>
+  <auth-constraint>
+   <role-name>admin</role-name>
+  </auth-constraint>
+ </security-constraint>
+ <security-constraint>
+  <web-resource-collection>
    <web-resource-name>Artikel erzeugen und modifizieren</web-resource-name>
    <url-pattern>/rest/artikel</url-pattern>
    <http-method>POST</http-method>
