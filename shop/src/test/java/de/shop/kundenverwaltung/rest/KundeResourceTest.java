@@ -35,6 +35,7 @@ import static de.shop.util.TestKonstanten.KUNDEN_NACHNAME_PREFIX_PATH;
 import java.io.StringReader;
 import java.lang.invoke.MethodHandles;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -233,19 +234,107 @@ public class KundeResourceTest extends AbstractResourceTest {
 		}
 		LOGGER.debugf("ENDE Test findeNachnameNachPrefix");
 	}
-	
-	@Ignore
+
 	@Test
-	public void findeBestellungenNachKunde() {
+	public void findeBestellungenNachKundeIdVorhanden() {
 		// TODO
+		LOGGER.debugf("BEGINN Test findeBestellungenNachKundeIdVorhanden");
+		
+		// Given
+		final String kundeId = KUNDE_ID_VORHANDEN.toString();
+		
+		// When
+		final Response response = given().header(ACCEPT, APPLICATION_JSON)
+                .pathParameter(KUNDEN_ID_PATH_PARAM, kundeId)
+                .get(KUNDEN_ID_PATH + "/bestellungen");
+
+		// Then
+		assertThat(response.getStatusCode(), is(HTTP_OK));
+
+		// Liste mit den Bestellungen des Kunden erzeugen
+		try (final JsonReader jsonReader = getJsonReaderFactory().createReader(new StringReader(response.asString()))) {
+			final JsonArray jsonArray = jsonReader.readArray();
+			assertThat(jsonArray.size() > 0, is(true));
+			
+			final List<JsonObject> jsonObjectList = jsonArray.getValuesAs(JsonObject.class);
+			for(JsonObject jsonObject : jsonObjectList)
+				assertThat(jsonObject.getString("kunde").endsWith(kundeId), is(true));
+		}
+
+		LOGGER.debugf("ENDE Test findeBestellungenNachKundeIdVorhanden");
+	}
+
+	@Test
+	public void findeBestellungenNachKundeIdNichtVorhanden() {
+		// TODO
+		LOGGER.debugf("BEGINN Test findeBestellungenNachKundeIdNichtVorhanden");
+		
+		// Given
+		final String kundeId = KUNDE_ID_NICHT_VORHANDEN.toString();
+		
+		// When
+		final Response response = given().header(ACCEPT, APPLICATION_JSON)
+                .pathParameter(KUNDEN_ID_PATH_PARAM, kundeId)
+                .get(KUNDEN_ID_PATH + "/bestellungen");
+
+		// Then
+		assertThat(response.getStatusCode(), is(HTTP_NOT_FOUND));
+
+		LOGGER.debugf("ENDE Test findeBestellungenNachKundeIdNichtVorhanden");
 	}
 	
-	@Ignore
 	@Test
-	public void findeBestellungenIdsNachKunde() {
+	public void findeBestellungenIdsNachKundeIdVorhanden() {
 		// TODO
+		LOGGER.debugf("BEGINN Test findeBestellungenIdsNachKundeIdVorhanden");
+		
+		// Given
+		final long KundeId = KUNDE_ID_VORHANDEN;
+		List<Long> bestellungenIds = new ArrayList<Long>();
+		
+		// When
+		final Response response = given().header(ACCEPT, APPLICATION_JSON)
+                .pathParameter(KUNDEN_ID_PATH_PARAM, KundeId)
+                .get(KUNDEN_ID_PATH + "/bestellungen");
+
+		// Then
+		assertThat(response.getStatusCode(), is(HTTP_OK));
+
+		// Liste mit den Bestellungen des Kunden erzeugen
+		try (final JsonReader jsonReader = getJsonReaderFactory().createReader(new StringReader(response.asString()))) {
+			final JsonArray jsonArray = jsonReader.readArray();
+			assertThat(jsonArray.size() > 0, is(true));
+			
+			final List<JsonObject> jsonObjectList = jsonArray.getValuesAs(JsonObject.class);
+			
+			// Liste mit den Ids der Bestellungen erzeugen
+			for( JsonObject jsonObject : jsonObjectList){
+				bestellungenIds.add(jsonObject.getJsonNumber("id").longValue());
+			}
+		}
+
+		LOGGER.debugf("ENDE Test findeBestellungenIdsNachKundeIdVorhanden");
 	}
 	
+	@Test
+	public void findeBestellungenIdsNachKundeIdNichtVorhanden() {
+		// TODO
+		LOGGER.debugf("BEGINN Test findeBestellungenIdsNachKundeIdNichtVorhanden");
+		
+		// Given
+		final long KundeId = KUNDE_ID_NICHT_VORHANDEN;
+		
+		// When
+		final Response response = given().header(ACCEPT, APPLICATION_JSON)
+                .pathParameter(KUNDEN_ID_PATH_PARAM, KundeId)
+                .get(KUNDEN_ID_PATH + "/bestellungen");
+
+		// Then
+		assertThat(response.getStatusCode(), is(HTTP_NOT_FOUND));
+
+		LOGGER.debugf("ENDE Test findeBestellungenIdsNachKundeIdNichtVorhanden");
+	}
+
 	@Ignore
 	@Test
 	public void createKunde() {
