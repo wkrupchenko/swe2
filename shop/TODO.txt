@@ -9,7 +9,7 @@ MEILENSTEIN 1:
 - Keystore für DB Passwort ERLEDIGT (muss jeder selbst an seinem Laptop machen)
 - Tests: -> Artikelverwaltung: FERTIG (alle GET-Methoden, sowie Artikel und Artikelgruppe anlegen, ändern und löschen)
          -> ArtikelverwaltungConcurency: Nichts
-		 -> Kundenverwaltung: 10 Tests fehlen --> Create Update und Delete plus GETS
+		 -> Kundenverwaltung: 6 Tests fehlen --> Create Update und Delete
 		 -> KundenverwaltungConcurency: Nichts
 		 -> Bestellverwaltung: 3 Tests fehlen --> Create Update und plus 1 GET
 		 -> BestellverwaltungConcurency: Nichts

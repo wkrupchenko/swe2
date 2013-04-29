@@ -237,7 +237,6 @@ public class KundeResourceTest extends AbstractResourceTest {
 
 	@Test
 	public void findeBestellungenNachKundeIdVorhanden() {
-		// TODO
 		LOGGER.debugf("BEGINN Test findeBestellungenNachKundeIdVorhanden");
 		
 		// Given
@@ -266,7 +265,6 @@ public class KundeResourceTest extends AbstractResourceTest {
 
 	@Test
 	public void findeBestellungenNachKundeIdNichtVorhanden() {
-		// TODO
 		LOGGER.debugf("BEGINN Test findeBestellungenNachKundeIdNichtVorhanden");
 		
 		// Given
@@ -285,12 +283,10 @@ public class KundeResourceTest extends AbstractResourceTest {
 	
 	@Test
 	public void findeBestellungenIdsNachKundeIdVorhanden() {
-		// TODO
 		LOGGER.debugf("BEGINN Test findeBestellungenIdsNachKundeIdVorhanden");
 		
 		// Given
 		final long kundeId = KUNDE_ID_VORHANDEN;
-		List<Long> bestellungenIds = new ArrayList<Long>();
 		
 		// When
 		final Response response = given().header(ACCEPT, APPLICATION_JSON)
@@ -311,7 +307,6 @@ public class KundeResourceTest extends AbstractResourceTest {
 	
 	@Test
 	public void findeBestellungenIdsNachKundeIdNichtVorhanden() {
-		// TODO
 		LOGGER.debugf("BEGINN Test findeBestellungenIdsNachKundeIdNichtVorhanden");
 		
 		// Given
