@@ -5,14 +5,14 @@ import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
 import java.lang.invoke.MethodHandles;
 import java.util.concurrent.Callable;
-import java.util.logging.Logger;
+import org.jboss.logging.Logger;
 
 import javax.json.JsonObject;
 
 import com.jayway.restassured.response.Response;
 
 public class ConcurrentUpdate implements Callable<Response> {
-	private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
+	private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass());
 
 	private final JsonObject jsonObject;
 	private final String url;
@@ -29,7 +29,7 @@ public class ConcurrentUpdate implements Callable<Response> {
 
 	@Override
 	public Response call() {
-		LOGGER.finer("BEGINN");
+		LOGGER.debugf("BEGINN call");
 		
 		final Response response = given().contentType(APPLICATION_JSON)
 				                         .body(jsonObject.toString())
@@ -37,7 +37,7 @@ public class ConcurrentUpdate implements Callable<Response> {
 				                         .basic(username, password)
 				                         .put(url);
 
-		LOGGER.finer("ENDE");
+		LOGGER.debugf("ENDE call");
 		return response;
 	}	
 }

@@ -92,13 +92,6 @@ public class KundeResourceTest extends AbstractResourceTest {
 	public void validate() {
 		assertThat(true, is(true));
 	}
-	
-	@Ignore
-	@Test
-	public void notYetImplemented() {
-		fail();
-	}
-	
 	 
 	@Test
 	public void findeKundeNachIdVorhanden() {
@@ -499,6 +492,7 @@ public class KundeResourceTest extends AbstractResourceTest {
 	@Ignore
 	@Test
 	public void deleteKunde() {
+		// TODO
 		LOGGER.debugf("BEGINN");
 		
 		// Given
