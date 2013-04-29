@@ -504,7 +504,6 @@ public class KundeResourceTest extends AbstractResourceTest {
 	@Ignore
 	@Test
 	public void deleteKunde() {
-		// TODO
 		LOGGER.debugf("BEGINN");
 		
 		// Given
