@@ -154,33 +154,38 @@ public class BestellungResource {
 	
 	@GET
 	public Collection<Bestellung> findeAlleOffenenBestellungen(@QueryParam("offenAbgeschlossen") 
-					@DefaultValue("null") Boolean offenAbgeschlossen, 
+					@DefaultValue("") String offenAbgeschlossen, 
 					@Context UriInfo uriInfo) {			                                              
 		Collection<Bestellung> bestellungen = null;
-		if (offenAbgeschlossen == null) {
+		if ("".equals(offenAbgeschlossen)) {
 			bestellungen = bs.findeAlleBestellungen();
 			if (bestellungen.isEmpty()) {
 				final String msg = "Keine Bestellungen vorhanden";
 				throw new NotFoundException(msg);
 			}
 		}
-		else {
-			if	(offenAbgeschlossen) {
+		else if	("true".equals(offenAbgeschlossen)) {
 				bestellungen = bs.findeBestellungenOffen();
 					
 				if (bestellungen.isEmpty()) {
 					final String msg = "Keine offenen Bestellungen gefunden ";
 					throw new NotFoundException(msg);
 				}
-			}
+		}
 		
-			else {
+		else if("false".equals(offenAbgeschlossen)) {
 				bestellungen = bs.findeBestellungenGeschlossen();
 			
 				if (bestellungen.isEmpty()) {
 					final String msg = "Keine geschlossenen Bestellungen gefunden ";
 					throw new NotFoundException(msg);
 				}
+		}
+		else {
+			bestellungen = bs.findeAlleBestellungen();
+			if (bestellungen.isEmpty()) {
+				final String msg = "Keine Bestellungen vorhanden";
+				throw new NotFoundException(msg);
 			}
 		}
 		// URLs innerhalb der gefundenen Kunden anpassen
