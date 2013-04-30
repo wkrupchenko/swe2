@@ -66,8 +66,7 @@ public class BestellungResourceTest extends AbstractResourceTest {
 	private static final Long ARTIKEL_ID_VORHANDEN_1 = Long.valueOf(501);
 	private static final Long LIEFERUNG_ID_VORHANDEN = Long.valueOf(700);
 	private static final Long LIEFERUNG_ID_NICHT_VORHANDEN = Long.valueOf(999);
-	private static final Long BESTELLUNG_ID_UPDATE = Long.valueOf(300);	 
-	private static final String OFFEN_ABGESCHLOSSEN = "true";
+	private static final Long BESTELLUNG_ID_UPDATE = Long.valueOf(301);	 
 	private static final Boolean BESTELLUNG_NEU_OFFEN_ABGESCHLOSSEN = true;
 	
 
@@ -406,7 +405,7 @@ public class BestellungResourceTest extends AbstractResourceTest {
 		
 		// Given
 		final Long bestellungId = BESTELLUNG_ID_UPDATE;
-		final String offenabgeschlosssen = OFFEN_ABGESCHLOSSEN;
+		final Boolean offenabgeschlosssen = BESTELLUNG_NEU_OFFEN_ABGESCHLOSSEN;
 		final String username = USERNAME;
 		final String password = PASSWORD;
 		
@@ -422,7 +421,7 @@ public class BestellungResourceTest extends AbstractResourceTest {
 				              getJsonReaderFactory().createReader(new StringReader(response.asString()))) {
 			jsonObject = jsonReader.readObject();
 		}
-		String log = response.asString();
+		 
     	assertThat(jsonObject.getJsonNumber("id").longValue(), is(bestellungId.longValue()));
     	
     	
@@ -444,18 +443,7 @@ public class BestellungResourceTest extends AbstractResourceTest {
 		
 		 
 		
-		// Then "ENDE Test updateBestellung"
-		 
-    	final String df = jsonObject.toString();
-    	try {
-    	PrintWriter pw = new PrintWriter("C:\\Software\\test.txt");
-		pw.println(df);
-		pw.close();
-    	}
-
-		catch (Exception e) {
-		System.out.println(e);
-		}
+		// Then "ENDE Test updateBestellung"		
     	assertThat(response.getStatusCode(), is(HTTP_NO_CONTENT));
      	LOGGER.debugf("ENDE Test updateBestellung");
 	}
