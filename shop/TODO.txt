@@ -6,7 +6,7 @@ Bestellverwaltung --> Wladik
 
 MEILENSTEIN 1:
 
-- Keystore für DB Passwort ERLEDIGT (muss jeder selbst an seinem Laptop machen)
+- Keystore für DB Passwort ERLEDIGT
 - Tests: -> Artikelverwaltung: FERTIG (alle GET-Methoden, sowie Artikel und Artikelgruppe anlegen, ändern und löschen)
          -> ArtikelverwaltungConcurency: Alle Fehlen
 		 -> Kundenverwaltung: 7 Tests fehlen --> Create Update und Delete
@@ -15,5 +15,4 @@ MEILENSTEIN 1:
 		 -> BestellverwaltungConcurency: Alle Fehlen
 		 -> INSGESAMT FEHLEN 8 TESTS
 - Authentifizierung und Authorisierung implementieren und beim WebServiceTester nutzen ERLEDIGT 
-(jeder muss standalone.xml an seinem Laptop anpassen)
 - Download und Upload von Artikelbildern
