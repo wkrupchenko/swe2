@@ -331,7 +331,28 @@ public class BestellungResource {
 		// was zwangslaeufig zu einer Inkonsistenz fuehrt!
 		// Das ist die Konsequenz einer Transaktion (im Gegensatz zu den Action-Methoden von JSF!).
 		final Locale locale = localeHelper.getLocale(headers);
-		bestellung = bs.createBestellung(bestellung, kunde, locale);
+	
+		// Schluessel der Lieferung extrahieren
+		final String lieferungUriStr = bestellung.getLieferungenUri().toString();
+		int startPos2 = lieferungUriStr.lastIndexOf('/') + 1;
+		final String lieferungIdStr = lieferungUriStr.substring(startPos2);
+		Long lieferungId = null;
+		try {
+			lieferungId = Long.valueOf(lieferungIdStr);
+		}
+		catch (NumberFormatException e) {
+			throw new NotFoundException("Keine Lieferung vorhanden mit der ID " + lieferungIdStr, e);
+		}
+				
+		// Lieferung mit den vorhandenen ("alten") Bestellungen ermitteln
+		final Lieferung lieferung = bs.findeLieferungNachId(lieferungId);
+					
+		// Implizites Nachladen innerhalb der Transaktion wuerde auch funktionieren
+		if (lieferung == null) {
+			throw new NotFoundException("Keine Lieferung vorhanden mit der ID " + lieferungId);
+		}
+		
+		bestellung = bs.createBestellung(bestellung, kunde, lieferung, locale);
 
 		final URI bestellungUri = uriHelperBestellung.getUriBestellung(bestellung, uriInfo);
 		final Response response = Response.created(bestellungUri).build();

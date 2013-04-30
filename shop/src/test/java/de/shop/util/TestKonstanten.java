@@ -29,11 +29,13 @@ public final class TestKonstanten {
 	public static final String KUNDEN_NACHNAME_PREFIX_PATH = KUNDEN_PATH + "/prefix/nachname/{" + KUNDEN_NACHNAME_PREFIX_PATH_PARAM + "}";
 	
 	public static final String BESTELLUNGEN_PATH = "/bestellungen";
+	public static final String BESTELLUNGEN_URI = BASEURI + ":" + PORT + BASEPATH + BESTELLUNGEN_PATH;
 	public static final String BESTELLUNGEN_ID_PATH_PARAM = "bestellungId";
 	public static final String BESTELLUNGEN_ID_PATH = BESTELLUNGEN_PATH + "/{" + BESTELLUNGEN_ID_PATH_PARAM + "}";
 	public static final String BESTELLUNGEN_ID_KUNDE_PATH = BESTELLUNGEN_ID_PATH + "/kunde";
 	
 	public static final String LIEFERUNGEN_PATH = BESTELLUNGEN_PATH + "/lieferungen";
+	public static final String LIEFERUNGEN_URI = BASEURI + ":" + PORT + BASEPATH + LIEFERUNGEN_PATH;
 	public static final String LIEFERUNGEN_ID_PATH_PARAM = "lieferungId";
 	public static final String LIEFERUNGEN_ID_PATH = LIEFERUNGEN_PATH + "/{" + LIEFERUNGEN_ID_PATH_PARAM + "}";
 	

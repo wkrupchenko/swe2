@@ -104,7 +104,7 @@ public class BestellungService implements Serializable {
 	}
 
 	public Bestellung createBestellung(Bestellung bestellung,
-			                           Kunde kunde,
+			                           Kunde kunde, Lieferung lieferung,
 			                           Locale locale) {
 		if (bestellung == null) {
 			return null;
@@ -118,6 +118,10 @@ public class BestellungService implements Serializable {
 		kunde = ks.findeKundeNachId(kunde.getId(), FetchType.MIT_BESTELLUNGEN, locale);
 		kunde.addBestellung(bestellung);
 		bestellung.setKunde(kunde);
+		
+		// Lieferung zuweisen
+		bestellung.addLieferung(lieferung);
+		lieferung.addBestellung(bestellung);
 		
 		// Keine IDs vor dem Abspeichern
 		bestellung.setId(KEINE_ID);

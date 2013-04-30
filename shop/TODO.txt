@@ -11,9 +11,9 @@ MEILENSTEIN 1:
          -> ArtikelverwaltungConcurency: Alle Fehlen
 		 -> Kundenverwaltung: 7 Tests fehlen --> Create Update und Delete
 		 -> KundenverwaltungConcurency: Alle Fehlen
-		 -> Bestellverwaltung: 2 Tests fehlen --> Create Update
+		 -> Bestellverwaltung: 1 Tests fehlen --> Update
 		 -> BestellverwaltungConcurency: Alle Fehlen
-		 -> INSGESAMT FEHLEN 10 TESTS
+		 -> INSGESAMT FEHLEN 8 TESTS
 - Authentifizierung und Authorisierung implementieren und beim WebServiceTester nutzen ERLEDIGT 
 (jeder muss standalone.xml an seinem Laptop anpassen)
 - Download und Upload von Artikelbildern

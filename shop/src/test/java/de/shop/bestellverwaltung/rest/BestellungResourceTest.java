@@ -9,7 +9,9 @@ import static de.shop.util.TestKonstanten.ARTIKEL_PATH;
 import static de.shop.util.TestKonstanten.ARTIKEL_URI;
 import static de.shop.util.TestKonstanten.BESTELLUNGEN_ID_PATH;
 import static de.shop.util.TestKonstanten.BESTELLUNGEN_ID_PATH_PARAM;
+import static de.shop.util.TestKonstanten.BESTELLUNGEN_URI;
 import static de.shop.util.TestKonstanten.BESTELLUNGEN_PATH;
+import static de.shop.util.TestKonstanten.LIEFERUNGEN_URI;
 import static de.shop.util.TestKonstanten.KUNDEN_URI;
 import static de.shop.util.TestKonstanten.LOCATION;
 import static de.shop.util.TestKonstanten.LIEFERUNGEN_ID_PATH_PARAM;
@@ -350,7 +352,6 @@ public class BestellungResourceTest extends AbstractResourceTest {
 		 
 	}
 	
-	@Ignore
 	@Test
 	public void createBestellung() {
 		// TODO
@@ -359,6 +360,7 @@ public class BestellungResourceTest extends AbstractResourceTest {
 		// Given
 		final Long kundeId = KUNDE_ID_VORHANDEN;
 		final Long artikelId1 = ARTIKEL_ID_VORHANDEN_1;	
+		final Long lieferungId = LIEFERUNG_ID_VORHANDEN;
 		final Boolean offenAbgeschlossen = BESTELLUNG_NEU_OFFEN_ABGESCHLOSSEN;
 		final String username = USERNAME;
 		final String password = PASSWORD;
@@ -366,13 +368,13 @@ public class BestellungResourceTest extends AbstractResourceTest {
 		
 		// Neues, client-seitiges Bestellungsobjekt als JSON-Datensatz
 		final JsonObject jsonObject = getJsonBuilderFactory().createObjectBuilder()
+									  .add("kunde", KUNDEN_URI + "/" + kundeId)
 				                      .add("bestellpositionen", getJsonBuilderFactory().createArrayBuilder()
 				            		                            .add(getJsonBuilderFactory().createObjectBuilder()
 				            		                                 .add("anzahl", 1)
 				            		                                 .add("artikel", ARTIKEL_URI + "/" + artikelId1)))
+				            		  .add("lieferungen", LIEFERUNGEN_URI + "/" + lieferungId)
 				            		  .add("offenAbgeschlossen", offenAbgeschlossen)
-				            		  .add("kunde", KUNDEN_URI + "/" + kundeId)
-				            		  .add("lieferungen", BESTELLUNGEN_PATH + "/" + "?" + "/lieferungen")
 				                      .build();
 
 		// When
@@ -382,7 +384,8 @@ public class BestellungResourceTest extends AbstractResourceTest {
 				                         .basic(username, password)
 				                         .post(BESTELLUNGEN_PATH);
 		
-		final String log = response.asString();
+		final String log = jsonObject.toString();
+	
 		
 		assertThat(response.getStatusCode(), is(HTTP_CREATED));
 		final String location = response.getHeader(LOCATION);
@@ -418,6 +421,7 @@ public class BestellungResourceTest extends AbstractResourceTest {
 				              getJsonReaderFactory().createReader(new StringReader(response.asString()))) {
 			jsonObject = jsonReader.readObject();
 		}
+		String log = response.asString();
     	assertThat(jsonObject.getJsonNumber("id").longValue(), is(bestellungId.longValue()));
     	
     	
