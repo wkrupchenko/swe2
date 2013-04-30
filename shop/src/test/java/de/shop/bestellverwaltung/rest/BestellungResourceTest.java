@@ -68,6 +68,7 @@ public class BestellungResourceTest extends AbstractResourceTest {
 	private static final Long LIEFERUNG_ID_NICHT_VORHANDEN = Long.valueOf(999);
 	private static final Long BESTELLUNG_ID_UPDATE = Long.valueOf(301);	 
 	private static final Boolean BESTELLUNG_NEU_OFFEN_ABGESCHLOSSEN = true;
+	private static final Boolean BESTELLUNG_UPDATE_OFFEN_ABGESCHLOSSEN = false;
 	
 
 	 
@@ -354,7 +355,6 @@ public class BestellungResourceTest extends AbstractResourceTest {
 	
 	@Test
 	public void createBestellung() {
-		// TODO
 		LOGGER.debugf("BEGINN Test createBestellung");
 		
 		// Given
@@ -405,7 +405,7 @@ public class BestellungResourceTest extends AbstractResourceTest {
 		
 		// Given
 		final Long bestellungId = BESTELLUNG_ID_UPDATE;
-		final Boolean offenabgeschlosssen = BESTELLUNG_NEU_OFFEN_ABGESCHLOSSEN;
+		final Boolean offenabgeschlosssen = BESTELLUNG_UPDATE_OFFEN_ABGESCHLOSSEN;
 		final String username = USERNAME;
 		final String password = PASSWORD;
 		
@@ -441,7 +441,7 @@ public class BestellungResourceTest extends AbstractResourceTest {
 				          .body(jsonObject.toString())
                           .put(BESTELLUNGEN_PATH);
 		
-		 
+		String log = response.asString();
 		
 		// Then "ENDE Test updateBestellung"		
     	assertThat(response.getStatusCode(), is(HTTP_NO_CONTENT));
