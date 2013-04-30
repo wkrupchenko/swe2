@@ -3,13 +3,9 @@ package de.shop.bestellverwaltung.rest;
 import static com.jayway.restassured.RestAssured.get;
 import static com.jayway.restassured.RestAssured.given;
 import static de.shop.util.TestKonstanten.ACCEPT;
-import static de.shop.util.TestKonstanten.ARTIKEL_ID_PATH;
-import static de.shop.util.TestKonstanten.ARTIKEL_ID_PATH_PARAM;
-import static de.shop.util.TestKonstanten.ARTIKEL_PATH;
 import static de.shop.util.TestKonstanten.ARTIKEL_URI;
 import static de.shop.util.TestKonstanten.BESTELLUNGEN_ID_PATH;
 import static de.shop.util.TestKonstanten.BESTELLUNGEN_ID_PATH_PARAM;
-import static de.shop.util.TestKonstanten.BESTELLUNGEN_URI;
 import static de.shop.util.TestKonstanten.BESTELLUNGEN_PATH;
 import static de.shop.util.TestKonstanten.LIEFERUNGEN_URI;
 import static de.shop.util.TestKonstanten.KUNDEN_URI;
@@ -18,7 +14,6 @@ import static de.shop.util.TestKonstanten.LIEFERUNGEN_ID_PATH_PARAM;
 import static de.shop.util.TestKonstanten.LIEFERUNGEN_ID_PATH;
 import static java.net.HttpURLConnection.HTTP_CREATED;
 import static java.net.HttpURLConnection.HTTP_NOT_FOUND;
-import static java.net.HttpURLConnection.HTTP_NO_CONTENT;
 import static java.net.HttpURLConnection.HTTP_OK;
 import static java.net.HttpURLConnection.HTTP_CONFLICT;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
@@ -29,23 +24,19 @@ import static org.hamcrest.CoreMatchers.startsWith;
 import static org.junit.Assert.assertThat;
 import static org.junit.runners.MethodSorters.NAME_ASCENDING;
 
-import java.io.PrintWriter;
 import java.io.StringReader;
 import java.lang.invoke.MethodHandles;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import org.jboss.logging.Logger;
 
 import javax.json.JsonArray;
 import javax.json.JsonObject;
-import javax.json.JsonObjectBuilder;
 import javax.json.JsonReader;
 
 import org.jboss.arquillian.junit.Arquillian;
 import org.junit.FixMethodOrder;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -66,9 +57,7 @@ public class BestellungResourceTest extends AbstractResourceTest {
 	private static final Long ARTIKEL_ID_VORHANDEN_1 = Long.valueOf(501);
 	private static final Long LIEFERUNG_ID_VORHANDEN = Long.valueOf(700);
 	private static final Long LIEFERUNG_ID_NICHT_VORHANDEN = Long.valueOf(999);
-	private static final Long BESTELLUNG_ID_UPDATE = Long.valueOf(301);	 
 	private static final Boolean BESTELLUNG_NEU_OFFEN_ABGESCHLOSSEN = true;
-	private static final Boolean BESTELLUNG_UPDATE_OFFEN_ABGESCHLOSSEN = false;
 	
 
 	 
@@ -392,57 +381,6 @@ public class BestellungResourceTest extends AbstractResourceTest {
 		assertThat(id.longValue() > 0, is(true));
 
 		LOGGER.debugf("ENDE Test createBestellung");
-	}
-	
-	@Ignore
-	@Test
-	public void updateBestellung() {
-		// TODO
-		LOGGER.debugf("BEGINN Test updateBestellung");
-		
-		// Given
-		final Long bestellungId = BESTELLUNG_ID_UPDATE;
-		final Boolean offenabgeschlosssen = BESTELLUNG_UPDATE_OFFEN_ABGESCHLOSSEN;
-		final String username = USERNAME;
-		final String password = PASSWORD;
-		
-		// When
-		Response response = given().header(ACCEPT, APPLICATION_JSON)
-				                   .pathParameter(BESTELLUNGEN_ID_PATH_PARAM, bestellungId)
-				                   .auth()
-				                   .basic(username, password)
-                                   .get(BESTELLUNGEN_ID_PATH);
-		
-		JsonObject jsonObject;
-		try (final JsonReader jsonReader =
-				              getJsonReaderFactory().createReader(new StringReader(response.asString()))) {
-			jsonObject = jsonReader.readObject();
-		}
-		 
-    	assertThat(jsonObject.getJsonNumber("id").longValue(), is(bestellungId.longValue()));
-    	
-    	
-    	final JsonObjectBuilder job = getJsonBuilderFactory().createObjectBuilder();
-    	final Set<String> keys = jsonObject.keySet();
-    	for (String k : keys) {
-    		if ("offenAbgeschlossen".equals(k)) {
-    			job.add("offenAbgeschlossen", offenabgeschlosssen);
-    		}
-    		else {
-    			job.add(k, jsonObject.get(k));
-    		}
-    	}
-    	jsonObject = job.build();
-    	  
-		response = given().contentType(APPLICATION_JSON)
-				          .body(jsonObject.toString())
-                          .put(BESTELLUNGEN_PATH);
-		
-		String log = response.asString();
-		
-		// Then "ENDE Test updateBestellung"		
-    	assertThat(response.getStatusCode(), is(HTTP_NO_CONTENT));
-     	LOGGER.debugf("ENDE Test updateBestellung");
 	}
 	 
 	@Test

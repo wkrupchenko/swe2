@@ -136,11 +136,12 @@ public class BestellungService implements Serializable {
 		return bestellung;
 	}
 	
-	public Bestellung updateBestellung(Bestellung bestellung, Locale locale) {
+	public Bestellung updateBestellung(Bestellung bestellung, Kunde kunde, Set<Lieferung> lieferungen, Locale locale) {
 		if (bestellung == null) {
 			return null;
 		}
-
+		bestellung.setKunde(kunde);
+		bestellung.setLieferungen(lieferungen);
 		validateBestellung(bestellung, locale, Default.class, IdGroup.class);
 		
 		// Bestellung vom EntityManager trennen, weil anschliessend z.B. nach Id gesucht wird

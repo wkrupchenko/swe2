@@ -1,8 +1,6 @@
 package de.shop.bestellverwaltung.rest;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
-import static javax.ws.rs.core.MediaType.APPLICATION_XML;
-import static javax.ws.rs.core.MediaType.TEXT_XML;
 
 import java.lang.invoke.MethodHandles;
 import java.net.URI;
@@ -22,7 +20,6 @@ import javax.ws.rs.DELETE;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -377,142 +374,5 @@ public class BestellungResource {
 	public void deleteBestellung(@PathParam("id") Long bestellungId) {
 		final Bestellung bestellung = bs.findeBestellungNachId(bestellungId);
 		bs.deleteBestellung(bestellung);
-	}
-	
-	@PUT
-	@Consumes(APPLICATION_JSON)
-	@Produces
-	public void updateBestellung(Bestellung bestellung, @Context UriInfo uriInfo, @Context HttpHeaders headers) {
-		// Vorhandene Bestellung ermitteln
-		final Locale locale = localeHelper.getLocale(headers);
-		Bestellung origBestellung = bs.findeBestellungNachId(bestellung.getId());
-		if (origBestellung == null) {
-			final String msg = "Keine Bestellung gefunden mit der ID " + bestellung.getId();
-			throw new NotFoundException(msg);
-		}
-		
-		final String kundeUriStr = bestellung.getKundeUri().toString();
-		int startPos = kundeUriStr.lastIndexOf('/') + 1;
-		final String kundeIdStr = kundeUriStr.substring(startPos);
-		Long kundeId = null;
-		try {
-			kundeId = Long.valueOf(kundeIdStr);
-		}
-		catch (NumberFormatException e) {
-			throw new NotFoundException("Kein Kunde vorhanden mit der ID " + kundeIdStr, e);
-		}
-		
-		// Kunde mit den vorhandenen ("alten") Bestellungen ermitteln
-		final Kunde kunde = ks.findeKundeNachId(kundeId, FetchType.MIT_BESTELLUNGEN, Locale.getDefault());
-				
-		// Implizites Nachladen innerhalb der Transaktion wuerde auch funktionieren
-		// final AbstractKunde kunde = kv.findKundeById(kundeId);
-		if (kunde == null) {
-			throw new NotFoundException("Kein Kunde vorhanden mit der ID " + kundeId);
-		}
-		
-		// persistente Artikel ermitteln
-		Collection<Bestellposition> bestellpositionen = bestellung.getBestellpositionen();
-		List<Long> artikelIds = new ArrayList<>(bestellpositionen.size());
-		for (Bestellposition bp : bestellpositionen) {
-			final String artikelUriStr = bp.getArtikelUri().toString();
-			startPos = artikelUriStr.lastIndexOf('/') + 1;
-			final String artikelIdStr = artikelUriStr.substring(startPos);
-			Long artikelId = null;
-			try {
-				artikelId = Long.valueOf(artikelIdStr);
-			}
-			catch (NumberFormatException e) {
-				// Ungueltige Artikel-ID: wird nicht beruecksichtigt
-				continue;
-			}
-			artikelIds.add(artikelId);
-		}
-		
-		if (artikelIds.isEmpty()) {
-			// keine einzige gueltige Artikel-ID
-			final StringBuilder sb = new StringBuilder("Keine Artikel vorhanden mit den IDs: ");
-			for (Bestellposition bp : bestellpositionen) {
-				final String artikelUriStr = bp.getArtikelUri().toString();
-				startPos = artikelUriStr.lastIndexOf('/') + 1;
-				sb.append(artikelUriStr.substring(startPos));
-				sb.append(" ");
-			}
-			throw new NotFoundException(sb.toString());
-		}
-
-		Collection<Artikel> gefundeneArtikel = as.findeArtikelNachIds(artikelIds);
-		if (gefundeneArtikel.isEmpty()) {
-			throw new NotFoundException("Keine Artikel vorhanden mit den IDs: " + artikelIds);
-		}
-		
-		// Bestellpositionen haben URLs fuer persistente Artikel.
-		// Diese persistenten Artikel wurden in einem DB-Zugriff ermittelt (s.o.)
-		// Fuer jede Bestellposition wird der Artikel passend zur Artikel-URL bzw. Artikel-ID gesetzt.
-		// Bestellpositionen mit nicht-gefundene Artikel werden eliminiert.
-		int i = 0;
-		final List<Bestellposition> neueBestellpositionen = new ArrayList<>(bestellpositionen.size());
-		for (Bestellposition bp : bestellpositionen) {
-			// Artikel-ID der aktuellen Bestellposition (s.o.):
-			// artikelIds haben gleiche Reihenfolge wie bestellpositionen
-			final long artikelId = artikelIds.get(i++);
-			
-			// Wurde der Artikel beim DB-Zugriff gefunden?
-			for (Artikel artikel : gefundeneArtikel) {
-				if (artikel.getId().longValue() == artikelId) {
-					// Der Artikel wurde gefunden
-					bp.setArtikel(artikel);
-					neueBestellpositionen.add(bp);
-					break;					
-				}
-			}
-		}
-		bestellung.setBestellpositionen(neueBestellpositionen);
-		
-		// Die neue Bestellung mit den aktualisierten persistenten Artikeln abspeichern.
-		// Die Bestellung darf dem Kunden noch nicht hinzugefuegt werden, weil dieser
-		// sonst in einer Transaktion modifiziert werden wuerde.
-		// Beim naechsten DB-Zugriff (auch lesend!) wuerde der EntityManager sonst
-		// erstmal versuchen den Kunden-Datensatz in der DB zu modifizieren.
-		// Dann wuerde aber der Kunde mit einer *transienten* Bestellung modifiziert werden,
-		// was zwangslaeufig zu einer Inkonsistenz fuehrt!
-		// Das ist die Konsequenz einer Transaktion (im Gegensatz zu den Action-Methoden von JSF!).
-		 
-	
-		// Schluessel der Lieferung extrahieren
-		final String lieferungUriStr = bestellung.getLieferungenUri().toString();
-		int startPos2 = lieferungUriStr.lastIndexOf('/') + 1;
-		final String lieferungIdStr = lieferungUriStr.substring(startPos2);
-		Long lieferungId = null;
-		try {
-			lieferungId = Long.valueOf(lieferungIdStr);
-		}
-		catch (NumberFormatException e) {
-			throw new NotFoundException("Keine Lieferung vorhanden mit der ID " + lieferungIdStr, e);
-		}
-				
-		// Lieferung mit den vorhandenen ("alten") Bestellungen ermitteln
-		final Lieferung lieferung = bs.findeLieferungNachId(lieferungId);
-					
-		// Implizites Nachladen innerhalb der Transaktion wuerde auch funktionieren
-		if (lieferung == null) {
-			throw new NotFoundException("Keine Lieferung vorhanden mit der ID " + lieferungId);
-		}
-		
-		bestellung.addLieferung(lieferung);
-		
-		// Daten des vorhandener Bestellung ueberschreiben
-		origBestellung.setWerte(bestellung);
-		LOGGER.debugf("Bestellung nachher: %s", origBestellung);
-		// Update durchfuehren
-		bestellung = bs.updateBestellung(origBestellung, locale);
-		
-		if (bestellung == null) {
-			final String msg = "Keine Bestellung gefunden mit der ID " + origBestellung.getId();
-			throw new NotFoundException(msg);	
-		
-		
-		 
-		}
 	}
 }
