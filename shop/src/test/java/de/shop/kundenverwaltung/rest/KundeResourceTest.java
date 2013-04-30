@@ -7,6 +7,8 @@ import static de.shop.util.Konstante.SECURITY_DOMAIN;
 import static org.jboss.security.auth.spi.Util.createPasswordHash;
 import static com.jayway.restassured.RestAssured.given;
 import static de.shop.util.TestKonstanten.ACCEPT;
+import static de.shop.util.TestKonstanten.ARTIKEL_URI;
+import static de.shop.util.TestKonstanten.KUNDEN_URI;
 import static de.shop.util.TestKonstanten.KUNDEN_ID_PATH_PARAM;
 import static de.shop.util.TestKonstanten.KUNDEN_ID_PATH;
 import static de.shop.util.TestKonstanten.KUNDEN_NACHNAME_QUERY_PARAM;
@@ -56,6 +58,8 @@ import com.jayway.restassured.response.Response;
 
 import de.shop.kundenverwaltung.domain.Kunde;
 import de.shop.util.AbstractResourceTest;
+import de.shop.kundenverwaltung.domain.FamilienstandTyp;
+import de.shop.kundenverwaltung.domain.GeschlechtTyp;
  
 
 
@@ -77,9 +81,12 @@ public class KundeResourceTest extends AbstractResourceTest {
 	private static final String NEUER_VORNAME = "Vorname";
 	private static final String NEUE_EMAIL = NEUER_NACHNAME + "@test.de";
 	private static final String NEUE_EMAIL_INVALID = "falsch@falsch";
-	private static final short NEUE_KATEGORIE = 1;
 	private static final BigDecimal NEUER_RABATT = new BigDecimal("0.15");
 	private static final BigDecimal NEUER_UMSATZ = new BigDecimal(10_000_000);
+	private static final String NEU_FAMILIENSTAND = FamilienstandTyp.LEDIG.toString();
+	private static final String NEU_GESCHLECHT = GeschlechtTyp.MAENNLICH.toString();
+	private static final String NEU_PASSWORT = "neuespwd";
+	private static final Boolean NEU_NEWSLETTER = true;
 	private static final String NEU_SEIT = "2000-01-31";
 	private static final String NEUE_PLZ = "76133";
 	private static final String NEUER_ORT = "Karlsruhe";
@@ -326,11 +333,13 @@ public class KundeResourceTest extends AbstractResourceTest {
 		final String nachname = NEUER_NACHNAME;
 		final String vorname = NEUER_VORNAME;
 		final String email = NEUE_EMAIL;
-		final short kategorie = NEUE_KATEGORIE;
 		final BigDecimal rabatt = NEUER_RABATT;
 		final BigDecimal umsatz = NEUER_UMSATZ;
 		final String seit = NEU_SEIT;
-		final boolean agbAkzeptiert = true;
+		final String familienstand = NEU_FAMILIENSTAND;
+		final String geschlecht = NEU_GESCHLECHT;
+		final Boolean newsletter = NEU_NEWSLETTER;
+		final String passwort = NEU_PASSWORT;
 		final String plz = NEUE_PLZ;
 		final String ort = NEUER_ORT;
 		final String strasse = NEUE_STRASSE;
@@ -339,21 +348,23 @@ public class KundeResourceTest extends AbstractResourceTest {
 		final String password = PASSWORD;
 		
 		final JsonObject jsonObject = getJsonBuilderFactory().createObjectBuilder()
-		             		          .add("type", Kunde.PRIVATKUNDE)
+		             		          .add("art", Kunde.PRIVATKUNDE)
+		             		          .add("email", email)
+		             		          .add("familienstand", familienstand)
+		             		          .add("geschlecht", geschlecht)
 		             		          .add("nachname", nachname)
 		             		          .add("vorname", vorname)
-		             		          .add("email", email)
-		             		          .add("kategorie", kategorie)
+		             		          .add("newsletter", newsletter)
+		             		          .add("passwort", passwort)
 		             		          .add("rabatt", rabatt)
-		             		          .add("umsatz", umsatz)
 		             		          .add("seit", seit)
-		             		          .add("agbAkzeptiert", agbAkzeptiert)
+		             		          .add("umsatz", umsatz)
 		             		          .add("adresse", getJsonBuilderFactory().createObjectBuilder()
+		             		        		  		  .add("strasse", strasse)
+		             		        		  		  .add("hausnr", hausnr)
 		                    		                  .add("plz", plz)
 		                    		                  .add("ort", ort)
-		                    		                  .add("strasse", strasse)
-		                    		                  .add("hausnr", hausnr)
-		                    		                  .build())
+		                    		                  .build())		                               
 		                              .build();
 
 		// When
@@ -362,7 +373,7 @@ public class KundeResourceTest extends AbstractResourceTest {
 				                         .auth()
 				                         .basic(username, password)
                                          .post(KUNDEN_PATH);
-		
+		String log = response.asString();
 		// Then
 		assertThat(response.getStatusCode(), is(HTTP_CREATED));
 		final String location = response.getHeader(LOCATION);

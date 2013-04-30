@@ -384,9 +384,6 @@ public class BestellungResourceTest extends AbstractResourceTest {
 				                         .basic(username, password)
 				                         .post(BESTELLUNGEN_PATH);
 		
-		final String log = jsonObject.toString();
-	
-		
 		assertThat(response.getStatusCode(), is(HTTP_CREATED));
 		final String location = response.getHeader(LOCATION);
 		final int startPos = location.lastIndexOf('/');
@@ -397,7 +394,7 @@ public class BestellungResourceTest extends AbstractResourceTest {
 		LOGGER.debugf("ENDE Test createBestellung");
 	}
 	
-	 
+	@Ignore
 	@Test
 	public void updateBestellung() {
 		// TODO
