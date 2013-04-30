@@ -29,6 +29,7 @@ import static org.hamcrest.CoreMatchers.startsWith;
 import static org.junit.Assert.assertThat;
 import static org.junit.runners.MethodSorters.NAME_ASCENDING;
 
+import java.io.PrintWriter;
 import java.io.StringReader;
 import java.lang.invoke.MethodHandles;
 import java.util.ArrayList;
@@ -65,8 +66,8 @@ public class BestellungResourceTest extends AbstractResourceTest {
 	private static final Long ARTIKEL_ID_VORHANDEN_1 = Long.valueOf(501);
 	private static final Long LIEFERUNG_ID_VORHANDEN = Long.valueOf(700);
 	private static final Long LIEFERUNG_ID_NICHT_VORHANDEN = Long.valueOf(999);
-	private static final Long BESTELLUNG_ID_UPDATE = Long.valueOf(300);
-	private static final String BESTELLUNG_NEUE_BEZEICHNUNG = "Bestellung geändert";
+	private static final Long BESTELLUNG_ID_UPDATE = Long.valueOf(300);	 
+	private static final String OFFEN_ABGESCHLOSSEN = "true";
 	private static final Boolean BESTELLUNG_NEU_OFFEN_ABGESCHLOSSEN = true;
 	
 
@@ -397,7 +398,7 @@ public class BestellungResourceTest extends AbstractResourceTest {
 		LOGGER.debugf("ENDE Test createBestellung");
 	}
 	
-	@Ignore
+	 
 	@Test
 	public void updateBestellung() {
 		// TODO
@@ -405,7 +406,7 @@ public class BestellungResourceTest extends AbstractResourceTest {
 		
 		// Given
 		final Long bestellungId = BESTELLUNG_ID_UPDATE;
-		final String neueBezeichnung = BESTELLUNG_NEUE_BEZEICHNUNG;
+		final String offenabgeschlosssen = OFFEN_ABGESCHLOSSEN;
 		final String username = USERNAME;
 		final String password = PASSWORD;
 		
@@ -428,24 +429,35 @@ public class BestellungResourceTest extends AbstractResourceTest {
     	final JsonObjectBuilder job = getJsonBuilderFactory().createObjectBuilder();
     	final Set<String> keys = jsonObject.keySet();
     	for (String k : keys) {
-    		if ("bezeichnung".equals(k)) {
-    			job.add("bezeichnung", neueBezeichnung);
+    		if ("offenAbgeschlossen".equals(k)) {
+    			job.add("offenAbgeschlossen", offenabgeschlosssen);
     		}
     		else {
     			job.add(k, jsonObject.get(k));
     		}
     	}
     	jsonObject = job.build();
-    	
+    	  
 		response = given().contentType(APPLICATION_JSON)
 				          .body(jsonObject.toString())
                           .put(BESTELLUNGEN_PATH);
 		
-		// Then
-		assertThat(response.getStatusCode(), is(HTTP_NO_CONTENT));
+		 
 		
-    	
-		LOGGER.debugf("ENDE Test updateBestellung");
+		// Then "ENDE Test updateBestellung"
+		 
+    	final String df = jsonObject.toString();
+    	try {
+    	PrintWriter pw = new PrintWriter("C:\\Software\\test.txt");
+		pw.println(df);
+		pw.close();
+    	}
+
+		catch (Exception e) {
+		System.out.println(e);
+		}
+    	assertThat(response.getStatusCode(), is(HTTP_NO_CONTENT));
+     	LOGGER.debugf("ENDE Test updateBestellung");
 	}
 	 
 	@Test
