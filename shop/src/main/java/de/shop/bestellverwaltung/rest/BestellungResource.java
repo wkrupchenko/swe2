@@ -477,7 +477,7 @@ public class BestellungResource {
 		// Dann wuerde aber der Kunde mit einer *transienten* Bestellung modifiziert werden,
 		// was zwangslaeufig zu einer Inkonsistenz fuehrt!
 		// Das ist die Konsequenz einer Transaktion (im Gegensatz zu den Action-Methoden von JSF!).
-		final Locale other = localeHelper.getLocale(headers);
+		 
 	
 		// Schluessel der Lieferung extrahieren
 		final String lieferungUriStr = bestellung.getLieferungenUri().toString();
@@ -499,9 +499,11 @@ public class BestellungResource {
 			throw new NotFoundException("Keine Lieferung vorhanden mit der ID " + lieferungId);
 		}
 		
+		bestellung.addLieferung(lieferung);
+		
 		// Daten des vorhandener Bestellung ueberschreiben
-				origBestellung.setWerte(bestellung);
-				LOGGER.debugf("Bestellung nachher: %s", origBestellung);
+		origBestellung.setWerte(bestellung);
+		LOGGER.debugf("Bestellung nachher: %s", origBestellung);
 		// Update durchfuehren
 		bestellung = bs.updateBestellung(origBestellung, locale);
 		
