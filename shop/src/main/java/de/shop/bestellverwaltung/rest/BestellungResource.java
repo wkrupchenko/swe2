@@ -365,7 +365,7 @@ public class BestellungResource {
 			throw new NotFoundException(msg);
 		}
 		LOGGER.debugf("Bestellung vorher: %s", origBestellung);
-	
+	          
 		// Daten des vorhandener Bestellung ueberschreiben
 		origBestellung.setWerte(bestellung);
 		LOGGER.debugf("Bestellung nachher: %s", origBestellung);
