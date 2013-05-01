@@ -1,14 +1,7 @@
 package de.shop.kundenverwaltung.rest;
 
-import static de.shop.util.Konstante.HASH_ALGORITHM;
-import static de.shop.util.Konstante.HASH_CHARSET;
-import static de.shop.util.Konstante.HASH_ENCODING;
-import static de.shop.util.Konstante.SECURITY_DOMAIN;
-import static org.jboss.security.auth.spi.Util.createPasswordHash;
 import static com.jayway.restassured.RestAssured.given;
 import static de.shop.util.TestKonstanten.ACCEPT;
-import static de.shop.util.TestKonstanten.ARTIKEL_URI;
-import static de.shop.util.TestKonstanten.KUNDEN_URI;
 import static de.shop.util.TestKonstanten.KUNDEN_ID_PATH_PARAM;
 import static de.shop.util.TestKonstanten.KUNDEN_ID_PATH;
 import static de.shop.util.TestKonstanten.KUNDEN_NACHNAME_QUERY_PARAM;
@@ -27,7 +20,6 @@ import static org.hamcrest.CoreMatchers.endsWith;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.startsWith;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.fail;
 import static org.junit.runners.MethodSorters.NAME_ASCENDING;
 import static de.shop.util.TestKonstanten.KUNDEN_ID_PREFIX_PATH_PARAM;
 import static de.shop.util.TestKonstanten.KUNDEN_ID_PREFIX_PATH;
@@ -37,7 +29,6 @@ import static de.shop.util.TestKonstanten.KUNDEN_NACHNAME_PREFIX_PATH;
 import java.io.StringReader;
 import java.lang.invoke.MethodHandles;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -373,7 +364,7 @@ public class KundeResourceTest extends AbstractResourceTest {
 				                         .auth()
 				                         .basic(username, password)
                                          .post(KUNDEN_PATH);
-		String log = response.asString();
+
 		// Then
 		assertThat(response.getStatusCode(), is(HTTP_CREATED));
 		final String location = response.getHeader(LOCATION);
@@ -516,7 +507,7 @@ public class KundeResourceTest extends AbstractResourceTest {
                                          .basic(username, password)
                                          .pathParameter(KUNDEN_ID_PATH_PARAM, kundeId)
                                          .delete(KUNDEN_ID_PATH);
-		String log = response.asString();
+		
 		// Then
 		assertThat(response.getStatusCode(), is(HTTP_NO_CONTENT));
 		LOGGER.debugf("ENDE");

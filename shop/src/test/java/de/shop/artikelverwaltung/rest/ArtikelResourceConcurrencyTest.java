@@ -6,6 +6,7 @@ import static de.shop.util.TestKonstanten.ARTIKEL_ID_PATH;
 import static de.shop.util.TestKonstanten.ARTIKEL_ID_PATH_PARAM;
 import static de.shop.util.TestKonstanten.ARTIKEL_PATH;
 import static java.net.HttpURLConnection.HTTP_CONFLICT;
+import static java.net.HttpURLConnection.HTTP_NOT_FOUND;
 import static java.net.HttpURLConnection.HTTP_NO_CONTENT;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static org.hamcrest.CoreMatchers.is;
@@ -34,6 +35,7 @@ import org.junit.runner.RunWith;
 import com.jayway.restassured.response.Response;
 
 import de.shop.util.AbstractResourceTest;
+import de.shop.util.ConcurrentDelete;
 import de.shop.util.ConcurrentUpdate;
 
 @RunWith(Arquillian.class)
@@ -42,12 +44,15 @@ public class ArtikelResourceConcurrencyTest extends AbstractResourceTest {
 	private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass());
 	
 	private static final Long ARTIKEL_ID_UPDATE = Long.valueOf(500);
+	private static final Long ARTIKEL_ID_DELETE_1 = Long.valueOf(505);
+	private static final Long ARTIKEL_ID_DELETE_2 = Long.valueOf(506);
 	private static final String NEUE_BEZEICHNUNG = "Update1Artikel";
 	private static final String NEUE_BEZEICHNUNG_2 = "Update2Artikel";
 	
 	@Ignore
 	@Test
 	public void updateUpdate() throws InterruptedException, ExecutionException {
+		// TODO
 		LOGGER.debugf("BEGINN Test updateUpdate");
 		
 		// Given
@@ -110,5 +115,114 @@ public class ArtikelResourceConcurrencyTest extends AbstractResourceTest {
 		assertThat(response.getStatusCode(), is(HTTP_CONFLICT));
 		
 		LOGGER.debugf("ENDE Test updateUpdate");
+	}
+	
+	@Test
+	public void updateDelete() throws InterruptedException, ExecutionException {
+		// TODO
+		LOGGER.debugf("BEGINN Test updateDelete");
+		
+		// Given
+		final Long artikelId = ARTIKEL_ID_DELETE_1;
+    	final String neueBezeichnung = NEUE_BEZEICHNUNG;
+		final String username = USERNAME;
+		final String password = PASSWORD;
+		final String username2 = USERNAME_ADMIN;
+		final String password2 = PASSWORD_ADMIN;
+		
+		// When
+		Response response = given().header(ACCEPT, APPLICATION_JSON)
+				                   .pathParameter(ARTIKEL_ID_PATH_PARAM, artikelId)
+                                   .get(ARTIKEL_ID_PATH);
+		JsonObject jsonObject;
+		try (final JsonReader jsonReader =
+				              getJsonReaderFactory().createReader(new StringReader(response.asString()))) {
+			jsonObject = jsonReader.readObject();
+		}
+
+		// Konkurrierendes Delete
+    	final ConcurrentDelete concurrentDelete = new ConcurrentDelete(ARTIKEL_PATH + '/' + artikelId,
+    			                                                       username2, password2);
+    	final ExecutorService executorService = Executors.newSingleThreadExecutor();
+		final Future<Response> future = executorService.submit(concurrentDelete);
+		response = future.get();   // Warten bis der "parallele" Thread fertig ist
+		assertThat(response.getStatusCode(), is(HTTP_NO_CONTENT));
+		
+    	// Fehlschlagendes Update
+		final JsonObjectBuilder job = getJsonBuilderFactory().createObjectBuilder();
+    	final Set<String> keys = jsonObject.keySet();
+    	for (String k : keys) {
+    		if ("bezeichnung".equals(k)) {
+    			job.add("bezeichnung", neueBezeichnung);
+    		}
+    		else {
+    			job.add(k, jsonObject.get(k));
+    		}
+    	}
+    	response = given().contentType(APPLICATION_JSON)
+    			          .body(jsonObject.toString())
+                          .auth()
+                          .basic(username, password)
+                          .put(ARTIKEL_PATH);
+		
+		// Then
+    	assertThat(response.getStatusCode(), is(HTTP_NOT_FOUND));
+		
+		LOGGER.debugf("ENDE Test updateDelete");
+	}
+	
+	@Ignore
+	@Test
+	public void deleteUpdate() throws InterruptedException, ExecutionException {
+		// TODO
+		LOGGER.debugf("BEGINN Test deleteUpdate");
+		
+		// Given
+		final Long artikelId = ARTIKEL_ID_DELETE_2;
+    	final String neueBezeichnung = NEUE_BEZEICHNUNG;
+    	final String username = USERNAME_ADMIN;
+		final String password = PASSWORD_ADMIN;
+		final String username2 = USERNAME;
+		final String password2 = PASSWORD;
+		
+		// When
+		Response response = given().header(ACCEPT, APPLICATION_JSON)
+				                   .pathParameter(ARTIKEL_ID_PATH_PARAM, artikelId)
+                                   .get(ARTIKEL_ID_PATH);
+		
+		JsonObject jsonObject;
+		try (final JsonReader jsonReader =
+				              getJsonReaderFactory().createReader(new StringReader(response.asString()))) {
+			jsonObject = jsonReader.readObject();
+		}
+
+		// Konkurrierendes Update
+		final JsonObjectBuilder job = getJsonBuilderFactory().createObjectBuilder();
+    	final Set<String> keys = jsonObject.keySet();
+    	for (String k : keys) {
+    		if ("bezeichnung".equals(k)) {
+    			job.add("bezeichnung", neueBezeichnung);
+    		}
+    		else {
+    			job.add(k, jsonObject.get(k));
+    		}
+    	}
+    	final ConcurrentUpdate concurrenUpdate = new ConcurrentUpdate(jsonObject, ARTIKEL_PATH,
+    			                                                      username2, password2);
+    	final ExecutorService executorService = Executors.newSingleThreadExecutor();
+		final Future<Response> future = executorService.submit(concurrenUpdate);
+		response = future.get();   // Warten bis der "parallele" Thread fertig ist
+		assertThat(response.getStatusCode(), is(HTTP_NO_CONTENT));
+		
+    	// Erfolgreiches Delete trotz konkurrierendem Update
+		response = given().auth()
+                          .basic(username, password)
+                          .pathParameter(ARTIKEL_ID_PATH_PARAM, artikelId)
+                          .delete(ARTIKEL_ID_PATH);
+		
+		// Then
+    	assertThat(response.getStatusCode(), is(HTTP_NO_CONTENT));
+		
+		LOGGER.debugf("ENDE Test deleteUpdate");
 	}
 }

@@ -468,7 +468,7 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 		Response response = given().header("Accept", APPLICATION_JSON)
 									.pathParameter(ARTIKEL_ID_PATH_PARAM, artikelId)
 									.get(ARTIKEL_ID_PATH + "/artikelgruppe");
-		final String log = response.asString();
+		
 		// THEN
 		assertThat(response.getStatusCode(), is(HTTP_NOT_FOUND));
 		LOGGER.debugf("ENDE Test findeArtikelgruppeNachArtikelVorhanden");

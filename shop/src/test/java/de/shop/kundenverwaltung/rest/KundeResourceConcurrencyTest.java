@@ -52,6 +52,7 @@ public class KundeResourceConcurrencyTest extends AbstractResourceTest {
 	@Ignore
 	@Test
 	public void updateUpdate() throws InterruptedException, ExecutionException {
+		// TODO
 		LOGGER.debugf("BEGINN Test updateUpdate");
 		
 		// Given
@@ -119,6 +120,7 @@ public class KundeResourceConcurrencyTest extends AbstractResourceTest {
 	@Ignore
 	@Test
 	public void updateDelete() throws InterruptedException, ExecutionException {
+		// TODO
 		LOGGER.debugf("BEGINN Test updateDelete");
 		
 		// Given
@@ -173,6 +175,7 @@ public class KundeResourceConcurrencyTest extends AbstractResourceTest {
 	@Ignore
 	@Test
 	public void deleteUpdate() throws InterruptedException, ExecutionException {
+		// TODO
 		LOGGER.debugf("BEGINN Test deleteUpdate");
 		
 		// Given
