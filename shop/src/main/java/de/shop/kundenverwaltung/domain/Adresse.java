@@ -138,6 +138,14 @@ public class Adresse implements Serializable {
 		return this.hausnr;
 	}
 
+	public void setKunde(Kunde kunde) {
+		this.kunde = kunde;
+	}
+	
+	public Kunde getKunde() {
+		return this.kunde;
+	}
+
 	public void setHausnr(String hausnr) {
 		this.hausnr = hausnr;
 	}

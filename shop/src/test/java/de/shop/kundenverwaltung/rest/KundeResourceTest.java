@@ -314,7 +314,7 @@ public class KundeResourceTest extends AbstractResourceTest {
 		LOGGER.debugf("ENDE Test findeBestellungenIdsNachKundeIdNichtVorhanden");
 	}
 
-	@Ignore
+	 
 	@Test
 	public void createKunde() {
 		// TODO
@@ -376,7 +376,7 @@ public class KundeResourceTest extends AbstractResourceTest {
 		LOGGER.debugf("ENDE");
 	}
 	
-	@Ignore
+	 
 	@Test
 	public void createKundeFalschesPassword() {
 		// TODO
@@ -405,7 +405,7 @@ public class KundeResourceTest extends AbstractResourceTest {
 		LOGGER.debugf("ENDE");
 	}
 	
-	@Ignore
+	 
 	@Test
 	public void createKundeInvalid() {
 		// TODO
@@ -444,7 +444,7 @@ public class KundeResourceTest extends AbstractResourceTest {
 		LOGGER.debugf("ENDE");
 	}
 	
-	@Ignore
+	 
 	@Test
 	public void updateKunde() {
 		// TODO
@@ -491,7 +491,7 @@ public class KundeResourceTest extends AbstractResourceTest {
 		assertThat(response.getStatusCode(), is(HTTP_NO_CONTENT));
    	}
 
-	@Ignore
+	 
 	@Test
 	public void deleteKunde() {
 		// TODO
@@ -513,7 +513,7 @@ public class KundeResourceTest extends AbstractResourceTest {
 		LOGGER.debugf("ENDE");
 	}
 	
-	@Ignore
+	
 	@Test
 	public void deleteKundeMitBestellung() {
 		// TODO
@@ -539,7 +539,7 @@ public class KundeResourceTest extends AbstractResourceTest {
 		LOGGER.debugf("ENDE");
 	}
 	
-	@Ignore
+	@Ignore 
 	@Test
 	public void deleteKundeFehlendeBerechtigung() {
 		// TODO
