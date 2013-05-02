@@ -172,7 +172,6 @@ public class KundeResourceConcurrencyTest extends AbstractResourceTest {
 
 	@Test
 	public void deleteUpdate() throws InterruptedException, ExecutionException {
-		// TODO
 		LOGGER.debugf("BEGINN Test deleteUpdate");
 		
 		// Given

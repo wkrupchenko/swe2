@@ -57,7 +57,6 @@ public class ArtikelResourceConcurrencyTest extends AbstractResourceTest {
 	private static final String NEUE_BEZEICHNUNG_ARTIKELGRUPPE = "Update1Artikelgruppe";
 	private static final String NEUE_BEZEICHNUNG_2_ARTIKELGRUPPE = "Update2Artikelgruppe";
 	
-	@Ignore
 	@Test
 	public void updateUpdate() throws InterruptedException, ExecutionException {
 		// TODO
@@ -125,6 +124,7 @@ public class ArtikelResourceConcurrencyTest extends AbstractResourceTest {
 		LOGGER.debugf("ENDE Test updateUpdate");
 	}
 	
+	@Ignore
 	@Test
 	public void updateUpdateArtikelgruppe() throws InterruptedException, ExecutionException {
 		// TODO

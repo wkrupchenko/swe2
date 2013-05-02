@@ -323,7 +323,6 @@ public class KundeResourceTest extends AbstractResourceTest {
 	 
 	@Test
 	public void createKunde() {
-		// TODO
 		LOGGER.debugf("BEGINN Test createKunde");
 		
 		// Given

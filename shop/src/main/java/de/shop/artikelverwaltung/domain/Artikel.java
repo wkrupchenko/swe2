@@ -2,14 +2,18 @@ package de.shop.artikelverwaltung.domain;
 
 import java.io.Serializable;
 import java.util.Date;
+
 import org.jboss.logging.Logger;
+
 import java.lang.invoke.MethodHandles;
 import java.net.URI;
+
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -25,11 +29,12 @@ import javax.persistence.Version;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
+
 import de.shop.util.IdGroup;
 import de.shop.util.PreExistingGroup;
-
 import static de.shop.util.Konstante.KEINE_ID;
 import static de.shop.util.Konstante.MIN_ID;
 import static de.shop.util.Konstante.ERSTE_VERSION;
