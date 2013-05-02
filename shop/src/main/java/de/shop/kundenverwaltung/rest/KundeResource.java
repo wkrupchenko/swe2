@@ -176,7 +176,7 @@ public class KundeResource {
 			@Context UriInfo uriInfo) {
 		final Collection<Bestellung> bestellungen = bs.findeBestellungenNachKundeId(kundeId);
 		if (bestellungen.isEmpty()) {
-			final String msg = "Kein Kunde gefunden mit der ID " + kundeId;
+			final String msg = "Kein Bestellung gefunden zum Kunde mit der ID " + kundeId;
 			throw new NotFoundException(msg);
 		}
 		

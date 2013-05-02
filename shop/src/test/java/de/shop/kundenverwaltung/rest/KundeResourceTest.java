@@ -542,7 +542,7 @@ public class KundeResourceTest extends AbstractResourceTest {
                                          .delete(KUNDEN_ID_PATH);
 		
 		// Then
-		assertThat(response.getStatusCode(), is(HTTP_INTERNAL_ERROR));
+		assertThat(response.getStatusCode(), is(HTTP_CONFLICT));
 		final String errorMsg = response.getBody().asString();
 		assertThat(errorMsg, containsString("Kunde mit ID=" + kundeId + " kann nicht geloescht werden:"));
 		//assertThat(errorMsg, endsWith("Bestellung(en)"));
