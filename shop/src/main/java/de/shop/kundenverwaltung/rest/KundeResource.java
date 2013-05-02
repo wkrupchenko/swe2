@@ -2,11 +2,13 @@ package de.shop.kundenverwaltung.rest;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static javax.ws.rs.core.MediaType.TEXT_PLAIN;
+
 import java.lang.invoke.MethodHandles;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Locale;
+
 import org.jboss.logging.Logger;
 
 import javax.annotation.PostConstruct;
@@ -31,6 +33,7 @@ import javax.ws.rs.core.UriInfo;
 import de.shop.bestellverwaltung.domain.Bestellung;
 import de.shop.bestellverwaltung.rest.UriHelperBestellung;
 import de.shop.bestellverwaltung.service.BestellungService;
+import de.shop.kundenverwaltung.domain.Adresse;
 import de.shop.kundenverwaltung.domain.Kunde;
 import de.shop.kundenverwaltung.service.KundeService;
 import de.shop.kundenverwaltung.service.KundeService.FetchType;
@@ -217,7 +220,12 @@ public class KundeResource {
 	@Consumes(APPLICATION_JSON)
 	@Produces
 	public Response createKunde(Kunde kunde, @Context UriInfo uriInfo, @Context HttpHeaders headers) {
-		final Locale locale = localeHelper.getLocale(headers);
+		final Locale locale = localeHelper.getLocale(headers);		 
+		 final Adresse adresse = kunde.getAdresse();
+		  if (adresse != null) {
+		   adresse.setKunde(kunde);
+		  }
+		 kunde.setPasswortWdh(kunde.getPasswort());
 		kunde = ks.createKunde(kunde, locale);
 		LOGGER.debugf("Kunde: %s", kunde);
 		

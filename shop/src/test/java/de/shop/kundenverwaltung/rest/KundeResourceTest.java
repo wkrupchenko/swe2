@@ -320,7 +320,7 @@ public class KundeResourceTest extends AbstractResourceTest {
 		LOGGER.debugf("ENDE Test findeBestellungenIdsNachKundeIdNichtVorhanden");
 	}
 
-	@Ignore
+	 
 	@Test
 	public void createKunde() {
 		// TODO
