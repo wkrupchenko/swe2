@@ -260,13 +260,14 @@ public class KundeResource {
 	 * @param kundeId des zu l&ouml;schenden Kunden
 	 */
 	
-	@Path("{id:[0-9]+}")
+
+@Path("{id:[0-9]+}")
 	@DELETE
 	@Produces
 	public void deleteKunde(@PathParam("id") Long kundeId, @Context HttpHeaders headers) {
-		final Locale locale = localeHelper.getLocale(headers);
-		final Kunde kunde = ks.findeKundeNachId(kundeId, FetchType.NUR_KUNDE, locale);
-		ks.deleteKunde(kunde);
+		 
+		ks.deleteKundeNachId(kundeId);
+		 
 	}
 
 }

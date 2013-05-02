@@ -317,23 +317,48 @@ public class KundeService implements Serializable {
 		if (kunde == null) {
 			return;
 		}
-		
+
+		deleteKundeNachId(kunde.getId());
+	}
+
+	/**
+	 */
+	public void deleteKundeNachId(Long kundeId) {
+		Kunde kunde;
 		try {
-			kunde = findeKundeNachId(kunde.getId(), FetchType.MIT_BESTELLUNGEN, Locale.getDefault());
+			kunde = findeKundeNachId(kundeId, FetchType.MIT_BESTELLUNGEN, Locale.getDefault());
 		}
 		catch (InvalidKundeIdException e) {
 			return;
 		}
-		
 		if (kunde == null) {
+			// Der Kunde existiert nicht oder ist bereits geloescht
 			return;
 		}
-		
-		if (!kunde.getBestellungen().isEmpty()) {
+
+		final boolean hasBestellungen = hasBestellungen(kunde);
+		if (hasBestellungen) {
 			throw new KundeDeleteBestellungException(kunde);
 		}
 
+		// Kundendaten loeschen
 		em.remove(kunde);
+	}
+
+	
+	private boolean hasBestellungen(Kunde kunde) {
+		logger.debugf("hasBestellungen BEGINN: %s", kunde);
+		
+		boolean result = false;
+		
+		// Gibt es den Kunden und hat er mehr als eine Bestellung?
+		// Bestellungen nachladen wegen Hibernate-Caching
+		if (kunde != null && kunde.getBestellungen() != null && !kunde.getBestellungen().isEmpty()) {
+			result = true;
+		}
+		
+		logger.debugf("hasBestellungen ENDE: %s", result);
+		return result;
 	}
 
 	public List<Kunde> findeKundeNachPlz(String plz) {
