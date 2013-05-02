@@ -9,9 +9,9 @@ MEILENSTEIN 1:
 - Keystore für DB Passwort ERLEDIGT
 - Tests: -> Artikelverwaltung: FERTIG (alle GET-Methoden, sowie Artikel und Artikelgruppe anlegen, ändern und löschen)
          -> ArtikelverwaltungConcurency: 2 Fehlen updateUpdate bei Artikel und Artikelgruppe
-		 -> Kundenverwaltung: 4 Tests fehlen --> Create Update und Delete
-		 -> KundenverwaltungConcurency: 3 Fehlen
+		 -> Kundenverwaltung: 3 Tests fehlen --> Create und Delete (500)
+		 -> KundenverwaltungConcurency: 2 Fehlen updateUpdate und deleteUpdate
 		 -> Bestellverwaltung: FERTIG (alle GET-Methoden, sowie Bestellung anlegen und ändern)
-		 -> INSGESAMT FEHLEN 9 TESTS
+		 -> INSGESAMT FEHLEN 7 TESTS
 - Authentifizierung und Authorisierung implementieren und beim WebServiceTester nutzen ERLEDIGT 
 - Download und Upload von Artikelbildern

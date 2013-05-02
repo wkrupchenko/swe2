@@ -46,8 +46,8 @@ public class KundeResourceConcurrencyTest extends AbstractResourceTest {
 	private static final Long KUNDE_ID_UPDATE = Long.valueOf(100);
 	private static final String NEUER_NACHNAME = "Testname";
 	private static final String NEUER_NACHNAME_2 = "Neuername";
-	private static final Long KUNDE_ID_DELETE1 = Long.valueOf(122);
-	private static final Long KUNDE_ID_DELETE2 = Long.valueOf(124);
+	private static final Long KUNDE_ID_DELETE1 = Long.valueOf(106);
+	private static final Long KUNDE_ID_DELETE2 = Long.valueOf(107);
 
 	@Ignore
 	@Test
@@ -76,12 +76,12 @@ public class KundeResourceConcurrencyTest extends AbstractResourceTest {
 		// Aus den gelesenen JSON-Werten ein neues JSON-Objekt mit neuem Nachnamen bauen
     	JsonObjectBuilder job = getJsonBuilderFactory().createObjectBuilder();
     	Set<String> keys = jsonObject.keySet();
-    	for (String k : keys) {
-    		if ("nachname".equals(k)) {
+    	for (String key : keys) {
+    		if ("nachname".equals(key)) {
     			job.add("nachname", neuerNachname2);
     		}
     		else {
-    			job.add(k, jsonObject.get(k));
+    			job.add(key, jsonObject.get(key));
     		}
     	}
     	final JsonObject jsonObject2 = job.build();
@@ -96,12 +96,12 @@ public class KundeResourceConcurrencyTest extends AbstractResourceTest {
 		// Aus den gelesenen JSON-Werten ein neues JSON-Objekt mit neuem Nachnamen bauen
     	job = getJsonBuilderFactory().createObjectBuilder();
     	keys = jsonObject.keySet();
-    	for (String k : keys) {
-    		if ("nachname".equals(k)) {
+    	for (String key : keys) {
+    		if ("nachname".equals(key)) {
     			job.add("nachname", neuerNachname);
     		}
     		else {
-    			job.add(k, jsonObject.get(k));
+    			job.add(key, jsonObject.get(key));
     		}
     	}
     	jsonObject = job.build();
@@ -117,10 +117,8 @@ public class KundeResourceConcurrencyTest extends AbstractResourceTest {
 		LOGGER.debugf("ENDE Test updateUpdate");
 	}
 	
-	@Ignore
 	@Test
 	public void updateDelete() throws InterruptedException, ExecutionException {
-		// TODO
 		LOGGER.debugf("BEGINN Test updateDelete");
 		
 		// Given
@@ -152,12 +150,12 @@ public class KundeResourceConcurrencyTest extends AbstractResourceTest {
     	// Fehlschlagendes Update
 		final JsonObjectBuilder job = getJsonBuilderFactory().createObjectBuilder();
     	final Set<String> keys = jsonObject.keySet();
-    	for (String k : keys) {
-    		if ("nachname".equals(k)) {
+    	for (String key : keys) {
+    		if ("nachname".equals(key)) {
     			job.add("nachname", neuerNachname);
     		}
     		else {
-    			job.add(k, jsonObject.get(k));
+    			job.add(key, jsonObject.get(key));
     		}
     	}
     	response = given().contentType(APPLICATION_JSON)
@@ -200,12 +198,12 @@ public class KundeResourceConcurrencyTest extends AbstractResourceTest {
 		// Konkurrierendes Update
 		final JsonObjectBuilder job = getJsonBuilderFactory().createObjectBuilder();
     	final Set<String> keys = jsonObject.keySet();
-    	for (String k : keys) {
-    		if ("nachname".equals(k)) {
+    	for (String key : keys) {
+    		if ("nachname".equals(key)) {
     			job.add("nachname", neuerNachname);
     		}
     		else {
-    			job.add(k, jsonObject.get(k));
+    			job.add(key, jsonObject.get(key));
     		}
     	}
     	final ConcurrentUpdate concurrenUpdate = new ConcurrentUpdate(jsonObject, KUNDEN_PATH,
