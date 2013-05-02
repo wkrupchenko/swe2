@@ -1,6 +1,9 @@
 package de.shop.kundenverwaltung.rest;
 
 import static com.jayway.restassured.RestAssured.given;
+import static de.shop.util.Konstante.HASH_ALGORITHM;
+import static de.shop.util.Konstante.HASH_CHARSET;
+import static de.shop.util.Konstante.HASH_ENCODING;
 import static de.shop.util.TestKonstanten.ACCEPT;
 import static de.shop.util.TestKonstanten.KUNDEN_ID_PATH_PARAM;
 import static de.shop.util.TestKonstanten.KUNDEN_ID_PATH;
@@ -21,6 +24,7 @@ import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.endsWith;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.startsWith;
+import static org.jboss.security.auth.spi.Util.createPasswordHash;
 import static org.junit.Assert.assertThat;
 import static org.junit.runners.MethodSorters.NAME_ASCENDING;
 import static de.shop.util.TestKonstanten.KUNDEN_ID_PREFIX_PATH_PARAM;
@@ -66,7 +70,7 @@ public class KundeResourceTest extends AbstractResourceTest {
 	private static final Long KUNDE_ID_UPDATE = Long.valueOf(100);
 	private static final Long KUNDE_ID_DELETE = Long.valueOf(105);
 	private static final Long KUNDE_ID_DELETE_MIT_BESTELLUNGEN = Long.valueOf(103);
-	private static final Long KUNDE_ID_DELETE_FORBIDDEN = Long.valueOf(101);
+	private static final Long KUNDE_ID_DELETE_2 = Long.valueOf(102);
 	private static final String NACHNAME_VORHANDEN = "Musterfrau";
 	private static final String NACHNAME_NICHT_VORHANDEN = "Falschername";
 	private static final String NEUER_NACHNAME = "Nachnameneu";
@@ -316,11 +320,11 @@ public class KundeResourceTest extends AbstractResourceTest {
 		LOGGER.debugf("ENDE Test findeBestellungenIdsNachKundeIdNichtVorhanden");
 	}
 
-	 
+	@Ignore
 	@Test
 	public void createKunde() {
 		// TODO
-		LOGGER.debugf("BEGINN");
+		LOGGER.debugf("BEGINN Test createKunde");
 		
 		// Given
 		final String nachname = NEUER_NACHNAME;
@@ -375,13 +379,13 @@ public class KundeResourceTest extends AbstractResourceTest {
 		final Long id = Long.valueOf(idStr);
 		assertThat(id.longValue() > 0, is(true));
 
-		LOGGER.debugf("ENDE");
+		LOGGER.debugf("ENDE Test createKunde");
 	}
 	
 	 
 	@Test
 	public void createKundeFalschesPassword() {
-		LOGGER.debugf("BEGINN");
+		LOGGER.debugf("BEGINN Test createKundeFalschesPassword");
 		
 		// Given
 		final String username = USERNAME;
@@ -403,14 +407,14 @@ public class KundeResourceTest extends AbstractResourceTest {
 		// Then
 		assertThat(response.getStatusCode(), is(HTTP_UNAUTHORIZED));
 		
-		LOGGER.debugf("ENDE");
+		LOGGER.debugf("ENDE Test createKundeFalschesPassword");
 	}
 	
-	 
+	@Ignore 
 	@Test
 	public void createKundeInvalid() {
 		// TODO
-		LOGGER.debugf("BEGINN");
+		LOGGER.debugf("BEGINN Test createKundeInvalid");
 		
 		// Given
 		final String nachname = NEUER_NACHNAME_INVALID;
@@ -452,14 +456,14 @@ public class KundeResourceTest extends AbstractResourceTest {
 		assertThat(response.getStatusCode(), is(HTTP_CONFLICT));
 		assertThat(response.asString().isEmpty(), is(false));
 		
-		LOGGER.debugf("ENDE");
+		LOGGER.debugf("ENDE Test createKundeInvalid");
 	}
 	
 	 
 	@Test
 	public void updateKunde() {
 		
-		LOGGER.debugf("BEGINN");
+		LOGGER.debugf("BEGINN Test updateKunde");
 		
 		// Given
 		final Long kundeId = KUNDE_ID_UPDATE;
@@ -500,13 +504,15 @@ public class KundeResourceTest extends AbstractResourceTest {
 		
 		// Then
 		assertThat(response.getStatusCode(), is(HTTP_NO_CONTENT));
+		
+		LOGGER.debugf("ENDE Test updateKunde");
    	}
 
 	 
 	@Test
 	public void deleteKunde() {
 		
-		LOGGER.debugf("BEGINN");
+		LOGGER.debugf("BEGINN Test deleteKunde");
 		
 		// Given
 		final Long kundeId = KUNDE_ID_DELETE;
@@ -521,14 +527,14 @@ public class KundeResourceTest extends AbstractResourceTest {
 		
 		// Then
 		assertThat(response.getStatusCode(), is(HTTP_NO_CONTENT));
-		LOGGER.debugf("ENDE");
+		LOGGER.debugf("ENDE Test deleteKunde");
 	}
 	
 	
 	@Test
 	public void deleteKundeMitBestellung() {
 		
-		LOGGER.debugf("BEGINN");
+		LOGGER.debugf("BEGINN Test deleteKundeMitBestellung");
 		
 		// Given
 		final Long kundeId = KUNDE_ID_DELETE_MIT_BESTELLUNGEN;
@@ -545,34 +551,31 @@ public class KundeResourceTest extends AbstractResourceTest {
 		assertThat(response.getStatusCode(), is(HTTP_CONFLICT));
 		final String errorMsg = response.getBody().asString();
 		assertThat(errorMsg, containsString("Kunde mit ID=" + kundeId + " kann nicht geloescht werden:"));
-		//assertThat(errorMsg, endsWith("Bestellung(en)"));
 
-		LOGGER.debugf("ENDE");
+		LOGGER.debugf("ENDE deleteKundeMitBestellung");
 	}
 	
-	// Die Methode finktioniert, ist aber nicht mit @RolesAllowed geschützt
-	@Ignore
 	@Test
 	public void deleteKundeFehlendeBerechtigung() {
-		// TODO
-		LOGGER.debugf("BEGINN");
+		LOGGER.debugf("BEGINN Test deleteKundeFehlendeBerechtigung");
 	
 		// Given
-		final String username = USERNAME;
-		final String password = PASSWORD;
-		final Long kundeId = KUNDE_ID_DELETE_FORBIDDEN;
+		final String username = USERNAME_KUNDE;
+		final String password = PASSWORD_KUNDE;
+		final Long kundeId = KUNDE_ID_DELETE_2;
 		
 		// When
 		final Response response = given().auth()
                                          .basic(username, password)
                                          .pathParameter(KUNDEN_ID_PATH_PARAM, kundeId)
                                          .delete(KUNDEN_ID_PATH);
+		final String passwordHash = createPasswordHash(HASH_ALGORITHM, HASH_ENCODING, HASH_CHARSET,
+                null, "pwd");
+		String log = passwordHash;
 		
 		// Then
 		assertThat(response.getStatusCode(), anyOf(is(HTTP_FORBIDDEN), is(HTTP_NOT_FOUND)));
 		
-		LOGGER.debugf("ENDE");
+		LOGGER.debugf("ENDE Test deleteKundeFehlendeBerechtigung");
 	}
-	
-	 
 }

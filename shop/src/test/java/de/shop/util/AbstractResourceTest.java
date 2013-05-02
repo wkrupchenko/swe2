@@ -33,6 +33,8 @@ public abstract class AbstractResourceTest {
 	protected static final String USERNAME_ADMIN = "1";
 	protected static final String PASSWORD_ADMIN = "admin";
 	protected static final String PASSWORD_FALSCH = "falsch";
+	protected static final String USERNAME_KUNDE = "100";
+	protected static final String PASSWORD_KUNDE = "pwd";
 	
 	// Sprache und Zeichensatz
 	private static final String CLIENT_LANGUAGE = Locale.GERMAN.getLanguage();
