@@ -410,10 +410,8 @@ public class KundeResourceTest extends AbstractResourceTest {
 		LOGGER.debugf("ENDE Test createKundeFalschesPassword");
 	}
 	
-	@Ignore 
 	@Test
 	public void createKundeInvalid() {
-		// TODO
 		LOGGER.debugf("BEGINN Test createKundeInvalid");
 		
 		// Given
@@ -451,7 +449,7 @@ public class KundeResourceTest extends AbstractResourceTest {
                                          .auth()
                                          .basic(username, password)
                                          .post(KUNDEN_PATH);
-		
+	
 		// Then
 		assertThat(response.getStatusCode(), is(HTTP_CONFLICT));
 		assertThat(response.asString().isEmpty(), is(false));
@@ -569,9 +567,6 @@ public class KundeResourceTest extends AbstractResourceTest {
                                          .basic(username, password)
                                          .pathParameter(KUNDEN_ID_PATH_PARAM, kundeId)
                                          .delete(KUNDEN_ID_PATH);
-		final String passwordHash = createPasswordHash(HASH_ALGORITHM, HASH_ENCODING, HASH_CHARSET,
-                null, "pwd");
-		String log = passwordHash;
 		
 		// Then
 		assertThat(response.getStatusCode(), anyOf(is(HTTP_FORBIDDEN), is(HTTP_NOT_FOUND)));
