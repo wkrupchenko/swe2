@@ -125,10 +125,71 @@ public class ArtikelResourceConcurrencyTest extends AbstractResourceTest {
 		LOGGER.debugf("ENDE Test updateUpdate");
 	}
 	
-	@Ignore
 	@Test
 	public void updateUpdateArtikelgruppe() throws InterruptedException, ExecutionException {
 		// TODO
+		LOGGER.debugf("BEGINN Test updateUpdateArtikelgruppe");
+		
+		// Given
+		final Long artikelgruppeId = ARTIKELGRUPPE_ID_UPDATE;
+    	final String neueBezeichnung = NEUE_BEZEICHNUNG_ARTIKELGRUPPE;
+    	final String neueBezeichnung2 = NEUE_BEZEICHNUNG_2_ARTIKELGRUPPE;
+		final String username = USERNAME;
+		final String password = PASSWORD;
+		
+		// When
+		Response response = given().header(ACCEPT, APPLICATION_JSON)
+				                   .pathParameter(ARTIKELGRUPPE_ID_PATH_PARAM, artikelgruppeId)
+                                   .get(ARTIKELGRUPPE_ID_PATH);
+		JsonObject jsonObject;
+		try (final JsonReader jsonReader =
+				              getJsonReaderFactory().createReader(new StringReader(response.asString()))) {
+			jsonObject = jsonReader.readObject();
+		}
+
+    	// Konkurrierendes Update
+		// Aus den gelesenen JSON-Werten ein neues JSON-Objekt mit neuer Bezeichnung bauen
+    	JsonObjectBuilder job = getJsonBuilderFactory().createObjectBuilder();
+    	Set<String> keys = jsonObject.keySet();
+    	for (String k : keys) {
+    		if ("bezeichnung".equals(k)) {
+    			job.add("bezeichnung", neueBezeichnung2);
+    		}
+    		else {
+    			job.add(k, jsonObject.get(k));
+    		}
+    	}
+    	final JsonObject jsonObject2 = job.build();
+    	final ConcurrentUpdate concurrentUpdate = new ConcurrentUpdate(jsonObject2, ARTIKELGRUPPE_PATH,
+    			                                                       username, password);
+    	final ExecutorService executorService = Executors.newSingleThreadExecutor();
+		final Future<Response> future = executorService.submit(concurrentUpdate);
+		response = future.get();   // Warten bis der "parallele" Thread fertig ist
+		assertThat(response.getStatusCode(), is(HTTP_NO_CONTENT));
+		
+    	// Fehlschlagendes Update
+		// Aus den gelesenen JSON-Werten ein neues JSON-Objekt mit neuer Bezeichnung bauen
+    	job = getJsonBuilderFactory().createObjectBuilder();
+    	keys = jsonObject.keySet();
+    	for (String k : keys) {
+    		if ("bezeichnung".equals(k)) {
+    			job.add("bezeichnung", neueBezeichnung);
+    		}
+    		else {
+    			job.add(k, jsonObject.get(k));
+    		}
+    	}
+    	jsonObject = job.build();
+		response = given().contentType(APPLICATION_JSON)
+				          .body(jsonObject.toString())
+		                  .auth()
+		                  .basic(username, password)
+		                  .put(ARTIKELGRUPPE_PATH);
+    	
+		// Then
+		assertThat(response.getStatusCode(), is(HTTP_CONFLICT));
+		
+		LOGGER.debugf("ENDE Test updateUpdateArtikelgruppe");
 	}
 	
 	@Test

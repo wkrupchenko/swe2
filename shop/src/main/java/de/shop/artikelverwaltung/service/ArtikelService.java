@@ -221,16 +221,7 @@ public class ArtikelService implements Serializable {
 		if(tmp == null) {
 			throw new ConcurrentDeletedException(artikel.getId());
 		}
-		/*
-		// Artikel vom EM trennen
-		em.detach(tmp);
 		
-		// Wurde Artikel verändert?
-		tmp = findeArtikelNachId(artikel.getId());
-		if(tmp.getVersion() != artikel.getVersion()) {
-			throw new OptimisticLockException("Artikel wurde konkurrierend geändert!");
-		}
-		*/
 		// Artikel erneut vom EntityManager trennen
 		em.detach(tmp);
 		
