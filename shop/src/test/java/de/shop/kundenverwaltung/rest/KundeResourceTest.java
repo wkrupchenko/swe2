@@ -62,7 +62,7 @@ public class KundeResourceTest extends AbstractResourceTest {
 	private static final Long KUNDE_ID_VORHANDEN = Long.valueOf(101);
 	private static final Long KUNDE_ID_NICHT_VORHANDEN = Long.valueOf(1000);
 	private static final Long KUNDE_ID_UPDATE = Long.valueOf(100);
-	private static final Long KUNDE_ID_DELETE = Long.valueOf(100);
+	private static final Long KUNDE_ID_DELETE = Long.valueOf(1);
 	private static final Long KUNDE_ID_DELETE_MIT_BESTELLUNGEN = Long.valueOf(100);
 	private static final Long KUNDE_ID_DELETE_FORBIDDEN = Long.valueOf(100);
 	private static final String NACHNAME_VORHANDEN = "Musterfrau";
