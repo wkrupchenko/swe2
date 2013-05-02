@@ -9,11 +9,13 @@ import java.util.Locale;
 import java.util.Set;
 
 import org.jboss.logging.Logger;
+
 import com.google.common.base.Strings;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.persistence.EntityManager;
+import javax.persistence.OptimisticLockException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -219,7 +221,16 @@ public class ArtikelService implements Serializable {
 		if(tmp == null) {
 			throw new ConcurrentDeletedException(artikel.getId());
 		}
+		/*
+		// Artikel vom EM trennen
+		em.detach(tmp);
 		
+		// Wurde Artikel verändert?
+		tmp = findeArtikelNachId(artikel.getId());
+		if(tmp.getVersion() != artikel.getVersion()) {
+			throw new OptimisticLockException("Artikel wurde konkurrierend geändert!");
+		}
+		*/
 		// Artikel erneut vom EntityManager trennen
 		em.detach(tmp);
 		
