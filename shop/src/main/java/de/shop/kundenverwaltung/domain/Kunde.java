@@ -319,6 +319,11 @@ public class Kunde implements Serializable {
 	
 	
 	public void setWerte(Kunde k) {
+		version = k.version;
+		art = k.art;
+		familienstand = k.familienstand;
+		geschlecht = k.geschlecht;
+		newsletter = k.newsletter;
 		nachname = k.nachname;
 		vorname = k.vorname;
 		umsatz = k.umsatz;
@@ -509,7 +514,7 @@ public class Kunde implements Serializable {
 	
 	@Override
 	public String toString() {
-		return id + ": " + nachname + " " + vorname + " ";
+		return "Kunde [id=" + id + ", version=" + version + ", nachname=" + nachname + ", vorname=" + vorname + "]";
 	}
 
 	@Override
@@ -532,9 +537,32 @@ public class Kunde implements Serializable {
 			return false;
 		
 		Kunde other = (Kunde) obj;
-		if (email == null)
+		if (email == null){
 			if (other.email != null)
 				return false;
+		}
+		else if (!email.equals(other.email)) {
+			return false;
+			}
 		return true;
+	}
+	
+	@Override
+	public Object clone() throws CloneNotSupportedException {
+		final Kunde neuesObjekt = (Kunde) super.clone();
+		neuesObjekt.id = id;
+		neuesObjekt.version = version;
+		neuesObjekt.nachname = nachname;
+		neuesObjekt.vorname = vorname;
+		neuesObjekt.art = art;
+		neuesObjekt.umsatz = umsatz;
+		neuesObjekt.email = email;
+		neuesObjekt.newsletter = newsletter;
+		neuesObjekt.passwort = passwort;
+		neuesObjekt.passwortWdh = passwortWdh;
+		neuesObjekt.adresse = adresse;
+		neuesObjekt.erzeugt = erzeugt;
+		neuesObjekt.aktualisiert = aktualisiert;
+		return neuesObjekt;
 	}
 }

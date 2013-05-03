@@ -78,14 +78,7 @@ public class KundeResource {
 	private void preDestroy() {
 		LOGGER.debugf("CDI-faehiges Bean %s wird geloescht", this);
 	}
-	
-	@GET
-	@Produces(TEXT_PLAIN)
-	@Path("version")
-	public String getVersion() {
-		return VERSION;
-	}
-	
+
 	/**
 	 * Mit der URL /kunden/{id} einen Kunden ermitteln
 	 * @param id ID des Kunden
