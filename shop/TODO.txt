@@ -7,11 +7,13 @@ Bestellverwaltung --> Wladik
 MEILENSTEIN 1:
 
 - Keystore für DB Passwort ERLEDIGT
-- Tests: -> Artikelverwaltung: ERLEDIGT
-         -> ArtikelverwaltungConcurency: ERLEDIGT
-		 -> Kundenverwaltung: ERLEDIGT
-		 -> KundenverwaltungConcurency: ERLEDIGT
-		 -> Bestellverwaltung: ERLEDIGT
+- Tests: -> ArtikelverwaltungcERLEDIGT
+         -> ArtikelverwaltungConcurency ERLEDIGT
+		 -> Kundenverwaltung ERLEDIGT
+		 -> KundenverwaltungConcurency ERLEDIGT
+		 -> Bestellverwaltung ERLEDIGT
 - Authentifizierung und Authorisierung implementieren und beim WebServiceTester nutzen ERLEDIGT 
 - Download und Upload von Artikelbildern bzw. Multimediadateien zu Artikeln ERLEDIGT
-- Mavan Site Fehler behoben
+- Maven Site: PMD, Checkstyle und Findbugs beheben  ERLEDIGT
+
+----------> MEILENSTEIN 1 FERTIG
