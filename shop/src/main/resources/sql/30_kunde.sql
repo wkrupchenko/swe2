@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 INSERT INTO kunde (id, version, nachname, vorname,	seit,	art, familienstand_fk,	geschlecht_fk, rabatt,	umsatz, email, newsletter, passwort, erzeugt,	aktualisiert) VALUES (100,0,'Mustermann','Max','28.04.2009','p',0,0,0.1,112.99,'mm@web.de',0,'N/omUzCtg+qoee+x4ttjgIls9jk=','10.05.2010 00:00:00','10.05.2009 00:00:00'); 
 INSERT INTO kunde (id, version, nachname, vorname,	seit,	art, familienstand_fk,	geschlecht_fk, rabatt,	umsatz, email, newsletter, passwort, erzeugt,	aktualisiert) VALUES (101,0,'Musterfrau','Eva','03.05.2009','p',0,1,0.09,49.99,'me@web.de',0,'evam','04.05.2009 00:00:00','04.05.2009 00:00:00');
 INSERT INTO kunde (id, version, nachname, vorname,	seit,	art, familienstand_fk,	geschlecht_fk, rabatt,	umsatz, email, newsletter, passwort, erzeugt,	aktualisiert) VALUES (102,0,'Herzog','Claudia','23.12.2009','p',1,1,0.0,10.79,'clahe@gmx.de',1,'ppp','03.01.2010 00:00:00','03.01.2010 00:00:00');
