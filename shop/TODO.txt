@@ -7,11 +7,11 @@ Bestellverwaltung --> Wladik
 MEILENSTEIN 1:
 
 - Keystore für DB Passwort ERLEDIGT
-- Tests: -> Artikelverwaltung: FERTIG
-         -> ArtikelverwaltungConcurency: 2 Fehlen updateUpdate bei Artikel und Artikelgruppe
-		 -> Kundenverwaltung: FERTIG
-		 -> KundenverwaltungConcurency: 1 Fehlt updateUpdate
-		 -> Bestellverwaltung: FERTIG
-		 -> INSGESAMT FEHLEN 3 TESTS
+- Tests: -> Artikelverwaltung: ERLEDIGT
+         -> ArtikelverwaltungConcurency: ERLEDIGT
+		 -> Kundenverwaltung: ERLEDIGT
+		 -> KundenverwaltungConcurency: ERLEDIGT
+		 -> Bestellverwaltung: ERLEDIGT
 - Authentifizierung und Authorisierung implementieren und beim WebServiceTester nutzen ERLEDIGT 
 - Download und Upload von Artikelbildern bzw. Multimediadateien zu Artikeln ERLEDIGT
+- Mavan Site Fehler behoben
