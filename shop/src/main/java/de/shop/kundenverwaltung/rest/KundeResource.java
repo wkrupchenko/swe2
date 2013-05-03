@@ -194,7 +194,7 @@ public class KundeResource {
 		final int anzahl = bestellungen.size();
 		final Collection<Long> bestellungenIds = new ArrayList<>(anzahl);
 		for (Bestellung bestellung : bestellungen) {
-			bestellungenIds.add(new Long(bestellung.getId()));
+			bestellungenIds.add(Long.valueOf(bestellung.getId()));
 		}
 		
 		return bestellungenIds;

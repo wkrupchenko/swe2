@@ -125,7 +125,6 @@ public class ArtikelResourceConcurrencyTest extends AbstractResourceTest {
 	
 	@Test
 	public void updateUpdateArtikelgruppe() throws InterruptedException, ExecutionException {
-		// TODO
 		LOGGER.debugf("BEGINN Test updateUpdateArtikelgruppe");
 		
 		// Given

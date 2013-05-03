@@ -546,23 +546,4 @@ public class Kunde implements Serializable {
 			}
 		return true;
 	}
-	
-	@Override
-	public Object clone() throws CloneNotSupportedException {
-		final Kunde neuesObjekt = (Kunde) super.clone();
-		neuesObjekt.id = id;
-		neuesObjekt.version = version;
-		neuesObjekt.nachname = nachname;
-		neuesObjekt.vorname = vorname;
-		neuesObjekt.art = art;
-		neuesObjekt.umsatz = umsatz;
-		neuesObjekt.email = email;
-		neuesObjekt.newsletter = newsletter;
-		neuesObjekt.passwort = passwort;
-		neuesObjekt.passwortWdh = passwortWdh;
-		neuesObjekt.adresse = adresse;
-		neuesObjekt.erzeugt = erzeugt;
-		neuesObjekt.aktualisiert = aktualisiert;
-		return neuesObjekt;
-	}
 }

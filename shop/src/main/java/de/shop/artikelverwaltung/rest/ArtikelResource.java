@@ -381,7 +381,6 @@ public class ArtikelResource {
 	@Path("{id:[1-9][0-9]*}/file")
 	@GET
 	public JsonFile download(@PathParam("id") Long artikelId) throws IOException {
-		final Locale locale = localeHelper.getLocale(headers);
 		final Artikel artikel = as.findeArtikelNachId(artikelId);
 		if (artikel.getFile() == null) {
 			return new JsonFile(new byte[] {});
