@@ -252,10 +252,13 @@ public class ArtikelService implements Serializable {
 								  .setParameter(Artikelgruppe.PARAM_ID, id)
 								  .getResultList();
 		Artikelgruppe artikelgruppe;
-		if (!temp.isEmpty())
+		if (!temp.isEmpty()) {
 			artikelgruppe = temp.get(0);
-		else
+		}
+		else {
 			artikelgruppe = null;
+		}
+		
 		return artikelgruppe;
 	}
 	
@@ -330,7 +333,7 @@ public class ArtikelService implements Serializable {
 		}
 		
 		final Artikelgruppe artikelgruppe2 = findeArtikelgruppeNachId(artikelgruppe.getId());
-		if (artikelgruppe2 != artikelgruppe)
+		if (!artikelgruppe2.equals(artikelgruppe))
 			return;
 		
 		final List<Artikel> artikel = artikelgruppe.getArtikel();

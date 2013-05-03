@@ -125,7 +125,7 @@ public class LogInterceptor implements Serializable {
 				return COUNT + arr.length;
 			}
 
-			final StringBuilder sbEnd = new StringBuilder("[");
+			final StringBuilder sbEnd = new StringBuilder('[');
 			final int anzahl = arr.length;
 			for (int i = 0; i < anzahl; i++) {
 				if (arr[i] == null) {
@@ -140,7 +140,7 @@ public class LogInterceptor implements Serializable {
 				final int laenge = sbEnd.length();
 				sbEnd.delete(laenge - 2, laenge - 1);
 			}
-			sbEnd.append("]");
+			sbEnd.append(']');
 			return sbEnd.toString();
 		}
 		
@@ -152,7 +152,7 @@ public class LogInterceptor implements Serializable {
 				return COUNT + arr.length;
 			}
 
-			final StringBuilder sbEnd = new StringBuilder("[");
+			final StringBuilder sbEnd = new StringBuilder('[');
 			final int anzahl = arr.length;
 			for (int i = 0; i < anzahl; i++) {
 				sbEnd.append(arr[i]);
@@ -161,7 +161,7 @@ public class LogInterceptor implements Serializable {
 			final int laenge = sbEnd.length();
 			if (anzahl > 0) {
 				sbEnd.delete(laenge - 2, laenge - 1);
-				sbEnd.append("]");
+				sbEnd.append(']');
 			}
 			return sbEnd.toString();
 		}
@@ -172,7 +172,7 @@ public class LogInterceptor implements Serializable {
 				return COUNT + arr.length;
 			}
 
-			final StringBuilder sbEnd = new StringBuilder("[");
+			final StringBuilder sbEnd = new StringBuilder('[');
 			final int anzahl = arr.length;
 			for (int i = 0; i < anzahl; i++) {
 				sbEnd.append(arr[i]);
@@ -181,7 +181,7 @@ public class LogInterceptor implements Serializable {
 			final int laenge = sbEnd.length();
 			if (anzahl > 0) {
 				sbEnd.delete(laenge - 2, laenge - 1);
-				sbEnd.append("]");
+				sbEnd.append(']');
 			}
 			return sbEnd.toString();
 		}
@@ -192,7 +192,7 @@ public class LogInterceptor implements Serializable {
 				return COUNT + arr.length;
 			}
 
-			final StringBuilder sbEnd = new StringBuilder("[");
+			final StringBuilder sbEnd = new StringBuilder('[');
 			final int anzahl = arr.length;
 			for (int i = 0; i < anzahl; i++) {
 				sbEnd.append(arr[i]);
@@ -201,7 +201,7 @@ public class LogInterceptor implements Serializable {
 			final int laenge = sbEnd.length();
 			if (anzahl > 0) {
 				sbEnd.delete(laenge - 2, laenge - 1);
-				sbEnd.append("]");
+				sbEnd.append(']');
 			}
 			return sbEnd.toString();
 		}
@@ -216,7 +216,7 @@ public class LogInterceptor implements Serializable {
 				return COUNT + arr.length;
 			}
 
-			final StringBuilder sbEnd = new StringBuilder("[");
+			final StringBuilder sbEnd = new StringBuilder('[');
 			final int anzahl = arr.length;
 			for (int i = 0; i < anzahl; i++) {
 				sbEnd.append(arr[i]);
@@ -226,7 +226,7 @@ public class LogInterceptor implements Serializable {
 				final int laenge = sbEnd.length();
 				sbEnd.delete(laenge - 2, laenge - 1);
 			}
-			sbEnd.append("]");
+			sbEnd.append(']');
 			return sbEnd.toString();
 		}
 		
@@ -236,7 +236,7 @@ public class LogInterceptor implements Serializable {
 				return COUNT + arr.length;
 			}
 
-			final StringBuilder sbEnd = new StringBuilder("[");
+			final StringBuilder sbEnd = new StringBuilder('[');
 			final int anzahl = arr.length;
 			for (int i = 0; i < anzahl; i++) {
 				sbEnd.append(arr[i]);
@@ -246,7 +246,7 @@ public class LogInterceptor implements Serializable {
 				final int laenge = sbEnd.length();
 				sbEnd.delete(laenge - 2, laenge - 1);
 			}
-			sbEnd.append("]");
+			sbEnd.append(']');
 			return sbEnd.toString();
 		}
 
@@ -256,7 +256,7 @@ public class LogInterceptor implements Serializable {
 				return COUNT + arr.length;
 			}
 
-			final StringBuilder sbEnd = new StringBuilder("[");
+			final StringBuilder sbEnd = new StringBuilder('[');
 			final int anzahl = arr.length;
 			for (int i = 0; i < anzahl; i++) {
 				sbEnd.append(arr[i]);
@@ -266,7 +266,7 @@ public class LogInterceptor implements Serializable {
 				final int laenge = sbEnd.length();
 				sbEnd.delete(laenge - 2, laenge - 1);
 			}
-			sbEnd.append("]");
+			sbEnd.append(']');
 			return sbEnd.toString();
 		}
 
@@ -276,7 +276,7 @@ public class LogInterceptor implements Serializable {
 				return COUNT + arr.length;
 			}
 
-			final StringBuilder sbEnd = new StringBuilder("[");
+			final StringBuilder sbEnd = new StringBuilder('[');
 			final int anzahl = arr.length;
 			for (int i = 0; i < anzahl; i++) {
 				sbEnd.append(arr[i]);
@@ -286,7 +286,7 @@ public class LogInterceptor implements Serializable {
 				final int laenge = sbEnd.length();
 				sbEnd.delete(laenge - 2, laenge - 1);
 			}
-			sbEnd.append("]");
+			sbEnd.append(']');
 			return sbEnd.toString();
 		}
 

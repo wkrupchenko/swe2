@@ -285,7 +285,7 @@ public class Bestellung implements Serializable {
 		this.lieferungenUri = lieferungenUri;
 	}
 	
-	public boolean getOffenAbgeschlossen() {
+	public boolean isOffenAbgeschlossen() {
 		return this.offenAbgeschlossen;
 	}
 
@@ -330,13 +330,12 @@ public class Bestellung implements Serializable {
 			return false;
 		
 		final Bestellung other = (Bestellung) obj;
-		if (kunde == null)
-			if (other.kunde != null)
-				return false;
-		
-		if (erzeugt == null)
-			if (other.erzeugt != null)
-				return false;
+		if (kunde == null && other.kunde != null) {
+			return false;
+		}	
+		if (erzeugt == null && other.erzeugt != null) {
+			return false;
+		}
 		
 		return true;
 	}

@@ -68,37 +68,27 @@ import de.shop.auth.service.jboss.AuthService.RolleType;
 @Table(name = "kunde")
 @NamedQueries({
 	@NamedQuery(name  = Kunde.FINDE_KUNDE,
-            query = "SELECT k"
-			        + " FROM   Kunde k"),
+            query = "SELECT k FROM   Kunde k"),
 	@NamedQuery(name  = Kunde.FINDE_KUNDE_BESTELLUNGEN_ABRUFEN,
-			query = "SELECT  DISTINCT k"
-					+ " FROM Kunde k LEFT JOIN FETCH k.bestellungen"),
+			query = "SELECT  DISTINCT k FROM Kunde k LEFT JOIN FETCH k.bestellungen"),
 	@NamedQuery(name  = Kunde.FINDE_KUNDE_NACH_NACHNAME,
             query = "FROM Kunde k WHERE k.nachname = :" + Kunde.PARAM_NACHNAME),
     @NamedQuery(name  = Kunde.FINDE_NACHNAMEN_NACH_PREFIX,
-	        query = "SELECT   DISTINCT k.nachname"
-			        + " FROM  Kunde k "
-            		+ " WHERE UPPER(k.nachname) LIKE UPPER(:"
+	        query = "SELECT   DISTINCT k.nachname FROM  Kunde k WHERE UPPER(k.nachname) LIKE UPPER(:"
             		+   Kunde.PARAM_KUNDE_NACHNAME_PREFIX + ")"),
     @NamedQuery(name  = Kunde.FINDE_KUNDE_NACH_NACHNAME_BESTELLUNGEN_ABRUFEN,
-            query = "SELECT DISTINCT k"
-		            + " FROM  Kunde k LEFT JOIN FETCH k.bestellungen"
-		            + " WHERE UPPER(k.nachname) = UPPER(:" + Kunde.PARAM_NACHNAME + ")"),
+            query = "SELECT DISTINCT k FROM  Kunde k LEFT JOIN FETCH k.bestellungen"
+            		+ " WHERE UPPER(k.nachname) = UPPER(:" + Kunde.PARAM_NACHNAME + ")"),
     @NamedQuery(name  = Kunde.FINDE_KUNDE_NACH_ID_BESTELLUNGEN_ABRUFEN,
-		    query = "SELECT DISTINCT k"
-				    + " FROM  Kunde k LEFT JOIN FETCH k.bestellungen"
+		    query = "SELECT DISTINCT k FROM  Kunde k LEFT JOIN FETCH k.bestellungen"
 				    + " WHERE k.id = :" + Kunde.PARAM_ID),
 	@NamedQuery(name  = Kunde.FINDE_IDS_NACH_PREFIX,
-			query = "SELECT   k.id"
-			        + " FROM  Kunde k"
-			        + " WHERE CONCAT('', k.id) LIKE :" + Kunde.PARAM_KUNDE_ID_PREFIX
+			query = "SELECT   k.id FROM  Kunde k WHERE CONCAT('', k.id) LIKE :" + Kunde.PARAM_KUNDE_ID_PREFIX
 			        + " ORDER BY k.id"),
     @NamedQuery(name = Kunde.FINDE_KUNDE_NACH_PLZ,
             query = "FROM Kunde k WHERE k.adresse.plz = :" + Kunde.PARAM_PLZ),
     @NamedQuery(name  = Kunde.FINDE_KUNDE_SORTIERT_NACH_ID,
-	        query = "SELECT   k"
-			        + " FROM  Kunde k"
-	                + " ORDER BY k.id"),
+	        query = "SELECT k FROM  Kunde k ORDER BY k.id"),
 	@NamedQuery(name = Kunde.FINDE_KUNDE_NACH_DATUM,
 			query = "FROM Kunde k WHERE k.seit = :" + Kunde.PARAM_DATUM),
     @NamedQuery(name = Kunde.FINDE_KUNDE_NACH_EMAIL,
@@ -114,12 +104,9 @@ import de.shop.auth.service.jboss.AuthService.RolleType;
     @NamedQuery(name = Kunde.FINDE_KUNDE_NACH_BESTELLUNG,
     		query = "SELECT k FROM Kunde k JOIN k.bestellungen b WHERE b.id = :" + Kunde.PARAM_BESTELLUNG_ID),    		
     @NamedQuery(name  = Kunde.FIND_KUNDE_BY_USERNAME,
-            query = "SELECT   k"
-			        + " FROM  Kunde k"
-            		+ " WHERE CONCAT('', k.id) = :" + Kunde.PARAM_KUNDE_USERNAME),
+            query = "SELECT k FROM  Kunde k WHERE CONCAT('', k.id) = :" + Kunde.PARAM_KUNDE_USERNAME),
     @NamedQuery(name  = Kunde.FIND_USERNAME_BY_USERNAME_PREFIX,
-	            query = "SELECT   CONCAT('', k.id)"
-				        + " FROM  Kunde k"
+	            query = "SELECT   CONCAT('', k.id) FROM  Kunde k"
 	            		+ " WHERE CONCAT('', k.id) LIKE :" + Kunde.PARAM_USERNAME_PREFIX)
             			        
 })
@@ -332,10 +319,6 @@ public class Kunde implements Serializable {
 		email = k.email;
 		passwort = k.passwort;
 		passwortWdh = k.passwort;
-	}
-	
-
-	public Kunde() {
 	}
 
 	public Long getId() {

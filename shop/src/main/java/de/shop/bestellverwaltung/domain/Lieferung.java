@@ -272,9 +272,9 @@ public class Lieferung implements Serializable {
 			return false;
 		
 		final Lieferung other = (Lieferung) obj;
-		if (liefernr == null)
-			if (other.liefernr != null)
-				return false;
+		if (liefernr == null && other.liefernr != null) {
+			return false;
+		}
 		
 		return true;
 	}

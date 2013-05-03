@@ -249,5 +249,4 @@ public class KundeResource {
 	public void deleteKunde(@PathParam("id") Long kundeId, @Context HttpHeaders headers) {
 		ks.deleteKundeNachId(kundeId);
 	}
-	
 }
