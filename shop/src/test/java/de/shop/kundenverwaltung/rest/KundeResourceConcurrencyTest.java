@@ -43,7 +43,7 @@ import de.shop.util.ConcurrentUpdate;
 public class KundeResourceConcurrencyTest extends AbstractResourceTest {
 	private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass());
 
-	private static final Long KUNDE_ID_UPDATE = Long.valueOf(100);
+	private static final Long KUNDE_ID_UPDATE = Long.valueOf(108);
 	private static final String NEUER_NACHNAME = "Testname";
 	private static final String NEUER_NACHNAME_2 = "Neuername";
 	private static final Long KUNDE_ID_DELETE1 = Long.valueOf(106);
@@ -111,6 +111,7 @@ public class KundeResourceConcurrencyTest extends AbstractResourceTest {
 		                  .put(KUNDEN_PATH);
     	
 		// Then
+		String log = response.asString();
 		assertThat(response.getStatusCode(), is(HTTP_CONFLICT));
 		
 		LOGGER.debugf("ENDE Test updateUpdate");

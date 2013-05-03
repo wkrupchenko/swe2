@@ -1,8 +1,8 @@
-INSERT INTO artikel (id, version, bezeichnung, erhaeltlich, preis, artikelgruppe_fk, erzeugt, aktualisiert) VALUES (500,1,'Schlauchschal',0,38.89,400,'01.01.2007 00:00:00','01.01.2007 00:00:00');
-INSERT INTO artikel (id, version, bezeichnung, erhaeltlich, preis, artikelgruppe_fk, erzeugt, aktualisiert) VALUES (501,1,'T-Shirt Helios',1,59.99,401,'21.04.2007 00:00:00','21.04.2007 00:00:00');
-INSERT INTO artikel (id, version, bezeichnung, erhaeltlich, preis, artikelgruppe_fk, erzeugt, aktualisiert) VALUES (502,1,'Socken',1,19.89,401,'02.01.2008 00:00:00','02.01.2008 00:00:00');
-INSERT INTO artikel (id, version, bezeichnung, erhaeltlich, preis, artikelgruppe_fk, erzeugt, aktualisiert) VALUES (503,1,'Chino',0,69.69,404,'01.06.2010 00:00:00','01.06.2010 00:00:00');
-INSERT INTO artikel (id, version, bezeichnung, erhaeltlich, preis, artikelgruppe_fk, erzeugt, aktualisiert) VALUES (504,1,'Pollunder',1,50.00,400,'08.06.2011 00:00:00','08.06.2011 00:00:00');
-INSERT INTO artikel (id, version, bezeichnung, erhaeltlich, preis, artikelgruppe_fk, erzeugt, aktualisiert) VALUES (505,1,'Röhrenjeans',0,39.38,400,'09.06.2011 00:00:00','09.06.2011 00:00:00');
-INSERT INTO artikel (id, version, bezeichnung, erhaeltlich, preis, artikelgruppe_fk, erzeugt, aktualisiert) VALUES (506,1,'Krawatte karriert',0,10.00,402,'12.06.2011 00:00:00','12.06.2011 00:00:00');
-INSERT INTO artikel (id, version, bezeichnung, erhaeltlich, preis, artikelgruppe_fk, erzeugt, aktualisiert) VALUES (507,1,'Bikini gelb',0,10.00,406,'12.06.2011 00:00:00','12.06.2011 00:00:00');
+INSERT INTO artikel (id, version, bezeichnung, erhaeltlich, preis, artikelgruppe_fk, erzeugt, aktualisiert) VALUES (500,0,'Schlauchschal',0,38.89,400,'01.01.2007 00:00:00','01.01.2007 00:00:00');
+INSERT INTO artikel (id, version, bezeichnung, erhaeltlich, preis, artikelgruppe_fk, erzeugt, aktualisiert) VALUES (501,0,'T-Shirt Helios',1,59.99,401,'21.04.2007 00:00:00','21.04.2007 00:00:00');
+INSERT INTO artikel (id, version, bezeichnung, erhaeltlich, preis, artikelgruppe_fk, erzeugt, aktualisiert) VALUES (502,0,'Socken',1,19.89,401,'02.01.2008 00:00:00','02.01.2008 00:00:00');
+INSERT INTO artikel (id, version, bezeichnung, erhaeltlich, preis, artikelgruppe_fk, erzeugt, aktualisiert) VALUES (503,0,'Chino',0,69.69,404,'01.06.2010 00:00:00','01.06.2010 00:00:00');
+INSERT INTO artikel (id, version, bezeichnung, erhaeltlich, preis, artikelgruppe_fk, erzeugt, aktualisiert) VALUES (504,0,'Pollunder',1,50.00,400,'08.06.2011 00:00:00','08.06.2011 00:00:00');
+INSERT INTO artikel (id, version, bezeichnung, erhaeltlich, preis, artikelgruppe_fk, erzeugt, aktualisiert) VALUES (505,0,'Röhrenjeans',0,39.38,400,'09.06.2011 00:00:00','09.06.2011 00:00:00');
+INSERT INTO artikel (id, version, bezeichnung, erhaeltlich, preis, artikelgruppe_fk, erzeugt, aktualisiert) VALUES (506,0,'Krawatte karriert',0,10.00,402,'12.06.2011 00:00:00','12.06.2011 00:00:00');
+INSERT INTO artikel (id, version, bezeichnung, erhaeltlich, preis, artikelgruppe_fk, erzeugt, aktualisiert) VALUES (507,0,'Bikini gelb',0,10.00,406,'12.06.2011 00:00:00','12.06.2011 00:00:00');
