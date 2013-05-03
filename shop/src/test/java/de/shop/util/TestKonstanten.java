@@ -54,7 +54,7 @@ public final class TestKonstanten {
 	public static final String ARTIKELGRUPPE_BEZEICHNUNG_PATH_PARAM = "bezeichnung";
 	
 	// Testklassen fuer Service- und Domain-Tests
-	public static final Class<?>[] TEST_CLASSES = { };
+	public static final Class<?>[] TEST_CLASSES = {};
 	
 	private TestKonstanten() {
 	}

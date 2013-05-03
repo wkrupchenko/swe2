@@ -55,7 +55,7 @@ public class ArtikelService implements Serializable {
 	private BestellungService bs;
 	
 	@Inject
-	private transient Logger logger;
+	private Logger logger;
 	
 	@PersistenceContext
 	private transient EntityManager em;
@@ -252,12 +252,10 @@ public class ArtikelService implements Serializable {
 								  .setParameter(Artikelgruppe.PARAM_ID, id)
 								  .getResultList();
 		Artikelgruppe artikelgruppe;
-		if(!temp.isEmpty()) {
+		if(!temp.isEmpty())
 			artikelgruppe = temp.get(0);
-		}
-		else {
+		else
 			artikelgruppe = null;
-		}
 		return artikelgruppe;
 	}
 	
@@ -328,7 +326,7 @@ public class ArtikelService implements Serializable {
 	}
 	
 	public void deleteArtikelgruppe(Artikelgruppe artikelgruppe) {
-		if (artikelgruppe.equals(null)) {
+		if (artikelgruppe == null) {
 			return;
 		}
 		

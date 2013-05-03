@@ -206,9 +206,8 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 		assertThat(response.getStatusCode(), is(HTTP_OK));
 		try (JsonReader jsonReader = getJsonReaderFactory().createReader( new StringReader(response.asString()))) {
 			JsonArray jsonArray = jsonReader.readArray();
-			for(int i = 0; i < jsonArray.size(); ++i) {
+			for(int i = 0; i < jsonArray.size(); ++i)
 				assertThat(artikelId.contains(jsonArray.getJsonObject(i).getJsonNumber("id").longValue()), is(true));
-			}
 		}
 		LOGGER.debugf("ENDE Test findeArtikelNachArtikelgruppeVorhanden");
 	}
@@ -251,9 +250,8 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 		assertThat(response.getStatusCode(), is(HTTP_OK));
 		try (JsonReader jsonReader = getJsonReaderFactory().createReader( new StringReader(response.asString()))) {
 			JsonArray jsonArray = jsonReader.readArray();
-			for(int i = 0; i < jsonArray.size(); ++i) {
+			for(int i = 0; i < jsonArray.size(); ++i)
 				assertThat(jsonArray.getJsonObject(i).getBoolean("erhaeltlich"), is(erhaeltlich));
-			}
 		}
 		LOGGER.debugf("ENDE Test findeArtikelNachVerfuegbarkeit");
 	}
@@ -398,9 +396,8 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 			JsonArray jsonArray = jsonReader.readArray();
 			assertThat(jsonArray.size() > 0, is(true));
 			List<JsonObject> jsonObjectList = jsonArray.getValuesAs(JsonObject.class);
-			for(JsonObject jsonObject : jsonObjectList) {
+			for(JsonObject jsonObject : jsonObjectList)
 				assertThat(jsonObject.getString("bezeichnung"), is(bezeichnung));
-			}
 		}
 		LOGGER.debugf("ENDE Test findeArtikelgruppeNachBezeichnungVorhanden");
 	}

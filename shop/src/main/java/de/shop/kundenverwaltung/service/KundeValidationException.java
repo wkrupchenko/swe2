@@ -12,7 +12,7 @@ import de.shop.kundenverwaltung.domain.Kunde;
  * Exception, die ausgel&ouml;st wird, wenn die Attributwerte eines Kunden nicht korrekt sind
  */
 @ApplicationException(rollback = true)
-public class KundeValidationException extends AbstractKundeServiceException {
+public class KundeValidationException extends KundeServiceException {
 	private static final long serialVersionUID = 1L;
 	private final Kunde kunde;
 	private final Collection<ConstraintViolation<Kunde>> violations;

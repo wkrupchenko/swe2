@@ -8,7 +8,7 @@ public class ConcurrentDeletedException extends AbstractShopException {
 	private final Object id;
 	
 	public ConcurrentDeletedException(Object id) {
-		super("Das Objekt mit der ID "+ id + " wurde konkurrierend geloescht");
+		super("Das Objekt mit der ID " + id + " wurde konkurrierend geloescht");
 		this.id = id;
 	}
 	

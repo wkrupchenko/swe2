@@ -39,7 +39,7 @@ public class UriHelperArtikelgruppe {
 	public Artikelgruppe getArtikelgruppe(URI uri) {
 		//localhost:8080/shop/rest/artikel/artikelgruppe/400
 		final String link = uri.toString();
-		final String id = link.substring(link.lastIndexOf('/') + 1);
+		final String id = link.substring(link.lastIndexOf("/") + 1);
 		final Long aId = Long.valueOf(id);
 		final Artikelgruppe artikelgruppe = as.findeArtikelgruppeNachId(aId);
 		return artikelgruppe;

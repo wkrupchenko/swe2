@@ -8,14 +8,14 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
-import de.shop.bestellverwaltung.service.AbstractBestellungServiceException;
+import de.shop.bestellverwaltung.service.BestellungServiceException;
 
 
 @Provider
 @ApplicationScoped
-public class BestellungResourceExceptionMapper implements ExceptionMapper<AbstractBestellungServiceException> {
+public class BestellungResourceExceptionMapper implements ExceptionMapper<BestellungServiceException> {
 	@Override
-	public Response toResponse(AbstractBestellungServiceException e) {
+	public Response toResponse(BestellungServiceException e) {
 		final String msg = e.getMessage();
 		final Response response = Response.status(CONFLICT)
 		                                  .type(TEXT_PLAIN)

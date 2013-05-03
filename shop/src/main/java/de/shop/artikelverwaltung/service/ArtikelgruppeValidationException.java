@@ -12,7 +12,7 @@ import de.shop.artikelverwaltung.domain.Artikelgruppe;
  * Exception, die ausgel&ouml;st wird, wenn die Attributwerte eines Kunden nicht korrekt sind
  */
 @ApplicationException(rollback = true)
-public class ArtikelgruppeValidationException extends AbstractArtikelServiceException {
+public class ArtikelgruppeValidationException extends ArtikelServiceException {
 	private static final long serialVersionUID = 4255133082483647701L;
 	private final Artikelgruppe artikelgruppe;
 	private final Collection<ConstraintViolation<Artikelgruppe>> violations;

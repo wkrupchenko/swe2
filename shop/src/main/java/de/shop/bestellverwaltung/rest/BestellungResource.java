@@ -291,7 +291,7 @@ public class BestellungResource {
 				final String artikelUriStr = bp.getArtikelUri().toString();
 				startPos = artikelUriStr.lastIndexOf('/') + 1;
 				sb.append(artikelUriStr.substring(startPos));
-				sb.append(' ');
+				sb.append(" ");
 			}
 			throw new NotFoundException(sb.toString());
 		}

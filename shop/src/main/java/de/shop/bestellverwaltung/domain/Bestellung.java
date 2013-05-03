@@ -69,15 +69,25 @@ import static javax.persistence.TemporalType.TIMESTAMP;
     @NamedQuery(name  = Bestellung.FINDE_ALLE_GESCHLOSSENEN_BESTELLUNGEN,
 	            query = "FROM Bestellung b WHERE b.offenAbgeschlossen = FALSE "),
     @NamedQuery(name  = Bestellung.FINDE_BESTELLUNGEN_VON_KUNDEN_NACH_ID,
-    			query = "SELECT b FROM   Bestellung b JOIN  b.kunde k WHERE k.id = :" + Bestellung.PARAM_ID),
+    			query = "SELECT b"
+    					+ " FROM   Bestellung b"
+    					+ " JOIN  b.kunde k WHERE k.id = :" + Bestellung.PARAM_ID),
     @NamedQuery(name  = Bestellung.FINDE_BESTELLUNGEN_VON_KUNDEN_NACH_NACHNAME,
-    			query = "SELECT b FROM   Bestellung b JOIN  b.kunde k WHERE k.nachname = :" + Bestellung.PARAM_NACHNAME),
+    			query = "SELECT b"
+				+ " FROM   Bestellung b"
+				+ " JOIN  b.kunde k WHERE k.nachname = :" + Bestellung.PARAM_NACHNAME),
 	@NamedQuery(name  = Bestellung.FINDE_BESTELLUNG_NACH_LIEFERUNG_ID,
-		    	query = "SELECT b FROM   Bestellung b JOIN b.lieferungen l WHERE  l.id = :" + Bestellung.PARAM_ID),
+		    	query = "SELECT b"
+		    			+ " FROM   Bestellung b JOIN b.lieferungen l"
+			            + " WHERE  l.id = :" + Bestellung.PARAM_ID),
     @NamedQuery(name  = Bestellung.FINDE_BESTELLUNG_NACH_LIEFERUNG_LIEFERNR,
-		    	query = "SELECT b FROM   Bestellung b JOIN b.lieferungen l WHERE  l.liefernr = :" + Bestellung.PARAM_LIEFERNR),
+		    	query = "SELECT b"
+		    			+ " FROM   Bestellung b JOIN b.lieferungen l"
+			            + " WHERE  l.liefernr = :" + Bestellung.PARAM_LIEFERNR),
     @NamedQuery(name  = Bestellung.FINDE_BESTELLUNG_NACH_ID,
-				query = "SELECT b FROM   Bestellung b WHERE  b.id = :" + Bestellung.PARAM_ID),
+				query = "SELECT b"
+						+ " FROM   Bestellung b"
+						+ " WHERE  b.id = :" + Bestellung.PARAM_ID),
 	@NamedQuery(name = Bestellung.FINDE_ALLE_BESTELLUNGEN_NACH_ID_SORTIERT,
 				query = "Select b From Bestellung b Order By b.id")
 })
@@ -275,7 +285,7 @@ public class Bestellung implements Serializable {
 		this.lieferungenUri = lieferungenUri;
 	}
 	
-	public boolean isOffenAbgeschlossen() {
+	public boolean getOffenAbgeschlossen() {
 		return this.offenAbgeschlossen;
 	}
 
@@ -320,13 +330,13 @@ public class Bestellung implements Serializable {
 			return false;
 		
 		Bestellung other = (Bestellung) obj;
-		if (kunde == null && other.kunde != null) {
-			return false;
-		}
+		if (kunde == null)
+			if (other.kunde != null)
+				return false;
 		
-		if (erzeugt == null && other.erzeugt != null) {
-			return false;
-		}
+		if (erzeugt == null)
+			if (other.erzeugt != null)
+				return false;
 		
 		return true;
 	}

@@ -182,9 +182,8 @@ public class BestellungResourceTest extends AbstractResourceTest {
 				
 					// Ids der Bestellungen in eine Liste packen
 					List<Long> bestellungenIds = new ArrayList<Long>();
-					for( JsonObject bestellung : bestellungen) {
+					for( JsonObject bestellung : bestellungen)
 						bestellungenIds.add(bestellung.getJsonNumber("id").longValue());
-					}
 				
 					// Prüfen ob die Bestellung vorhanden ist
 					assertThat(bestellungenIds.contains(bestellungId.longValue()), is(true));
@@ -233,9 +232,8 @@ public class BestellungResourceTest extends AbstractResourceTest {
 			assertThat(jsonArray.size() > 0, is(true));
 			List<JsonObject> jsonObjectList = jsonArray.getValuesAs(JsonObject.class);
 			
-			for(JsonObject jsonObject : jsonObjectList) {
+			for(JsonObject jsonObject : jsonObjectList)
 				assertThat(jsonObject.getBoolean("offenAbgeschlossen"), is(offenAbgeschlossen));
-			}
 		}
 		LOGGER.debugf("Ende Test findeAlleOffenenBestellungen");
 	}
@@ -315,9 +313,8 @@ public class BestellungResourceTest extends AbstractResourceTest {
 					
 						  // Ids der Lieferungen in eine Liste packen
 						  List<Long> lieferungenIds = new ArrayList<Long>();
-							for( JsonObject lieferung : lieferungen) {
+							for( JsonObject lieferung : lieferungen)
 								lieferungenIds.add(lieferung.getJsonNumber("id").longValue());
-							}
 						
 								// Prüfen ob die Bestellung vorhanden ist
 								assertThat(lieferungenIds.contains(lieferungId.longValue()), is(true));

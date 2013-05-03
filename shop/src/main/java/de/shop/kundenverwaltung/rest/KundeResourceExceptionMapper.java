@@ -8,16 +8,16 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
-import de.shop.kundenverwaltung.service.AbstractKundeServiceException;
+import de.shop.kundenverwaltung.service.KundeServiceException;
 import de.shop.util.Log;
 
 
 @Provider
 @ApplicationScoped
 @Log
-public class KundeResourceExceptionMapper implements ExceptionMapper<AbstractKundeServiceException> {
+public class KundeResourceExceptionMapper implements ExceptionMapper<KundeServiceException> {
 	@Override
-	public Response toResponse(AbstractKundeServiceException e) {
+	public Response toResponse(KundeServiceException e) {
 		final String msg = e.getMessage();
 		final Response response = Response.status(CONFLICT)
 		                                  .type(TEXT_PLAIN)
