@@ -35,7 +35,6 @@ import javax.persistence.Version;
 
 import de.shop.util.IdGroup;
 import de.shop.util.PreExistingGroup;
-import de.shop.bestellverwaltung.domain.TransportTyp;
 
 import java.lang.invoke.MethodHandles;
 import java.net.URI;
@@ -278,11 +277,10 @@ public class Lieferung implements Serializable {
 			return false;
 		
 		Lieferung other = (Lieferung) obj;
-		if (liefernr == null)
-			if (other.liefernr != null)
+		if (liefernr == null && other.liefernr != null) {
 				return false;
+		}
 		
 		return true;
 	}
-
 }

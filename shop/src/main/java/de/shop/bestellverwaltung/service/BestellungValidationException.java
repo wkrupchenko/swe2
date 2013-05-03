@@ -14,7 +14,7 @@ import de.shop.kundenverwaltung.domain.Kunde;
  * Exception, die ausgel&ouml;st wird, wenn die Attributwerte einer Bestellung nicht korrekt sind
  */
 @ApplicationException(rollback = true)
-public class BestellungValidationException extends BestellungServiceException {
+public class BestellungValidationException extends AbstractBestellungServiceException {
 	private static final long serialVersionUID = 4255133082483647701L;
 	private final Date erzeugt;
 	private final Long kundeId;

@@ -9,7 +9,7 @@ import de.shop.bestellverwaltung.domain.Bestellung;
  * Exception, die ausgel&ouml;st wird, wenn ein Kunde gel&ouml;scht werden soll, aber mindestens eine Bestellung hat
  */
 @ApplicationException(rollback = true)
-public class BestellungDeleteLieferungException extends BestellungServiceException {
+public class BestellungDeleteLieferungException extends AbstractBestellungServiceException {
 	private static final long serialVersionUID = 1L;
 	private final Long bestellungId;
 	private final int anzahlLieferungen;

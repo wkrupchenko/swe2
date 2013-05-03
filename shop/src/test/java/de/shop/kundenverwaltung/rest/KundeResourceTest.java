@@ -245,8 +245,9 @@ public class KundeResourceTest extends AbstractResourceTest {
 			assertThat(jsonArray.size() > 0, is(true));
 			
 			final List<JsonObject> jsonObjectList = jsonArray.getValuesAs(JsonObject.class);
-			for(JsonObject jsonObject : jsonObjectList)
+			for(JsonObject jsonObject : jsonObjectList) {
 				assertThat(jsonObject.getString("kunde").endsWith(kundeId), is(true));
+			}
 		}
 
 		LOGGER.debugf("ENDE Test findeBestellungenNachKundeIdVorhanden");

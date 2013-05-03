@@ -8,7 +8,7 @@ import javax.validation.ConstraintViolation;
 import de.shop.kundenverwaltung.domain.Kunde;
 
 @ApplicationException(rollback = true)
-public class InvalidNachnameException extends KundeServiceException {
+public class InvalidNachnameException extends AbstractKundeServiceException {
 	private static final long serialVersionUID = 1L;
 	
 	private final String nachname;

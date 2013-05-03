@@ -10,7 +10,7 @@ import de.shop.bestellverwaltung.domain.Lieferung;
  * aber mindestens eine Bestellung hat
  */
 @ApplicationException(rollback = true)
-public class LieferungDeleteBestellungException extends LieferungServiceException {
+public class LieferungDeleteBestellungException extends AbstractLieferungServiceException {
 	private static final long serialVersionUID = 1L;
 	private final Long lieferungId;
 	private final int anzahlBestellungen;

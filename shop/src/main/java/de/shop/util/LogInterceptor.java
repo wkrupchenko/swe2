@@ -157,7 +157,7 @@ public class LogInterceptor implements Serializable {
 				final int laenge = sbEnd.length();
 				sbEnd.delete(laenge - 2, laenge - 1);
 			}
-			sbEnd.append("]");
+			sbEnd.append(']');
 			return sbEnd.toString();
 		}
 		
@@ -178,7 +178,7 @@ public class LogInterceptor implements Serializable {
 			final int laenge = sbEnd.length();
 			if (anzahl > 0) {
 				sbEnd.delete(laenge - 2, laenge - 1);
-				sbEnd.append("]");
+				sbEnd.append(']');
 			}
 			return sbEnd.toString();
 		}
@@ -198,7 +198,7 @@ public class LogInterceptor implements Serializable {
 			final int laenge = sbEnd.length();
 			if (anzahl > 0) {
 				sbEnd.delete(laenge - 2, laenge - 1);
-				sbEnd.append("]");
+				sbEnd.append(']');
 			}
 			return sbEnd.toString();
 		}
@@ -218,7 +218,7 @@ public class LogInterceptor implements Serializable {
 			final int laenge = sbEnd.length();
 			if (anzahl > 0) {
 				sbEnd.delete(laenge - 2, laenge - 1);
-				sbEnd.append("]");
+				sbEnd.append(']');
 			}
 			return sbEnd.toString();
 		}
@@ -243,7 +243,7 @@ public class LogInterceptor implements Serializable {
 				final int laenge = sbEnd.length();
 				sbEnd.delete(laenge - 2, laenge - 1);
 			}
-			sbEnd.append("]");
+			sbEnd.append(']');
 			return sbEnd.toString();
 		}
 		
@@ -263,7 +263,7 @@ public class LogInterceptor implements Serializable {
 				final int laenge = sbEnd.length();
 				sbEnd.delete(laenge - 2, laenge - 1);
 			}
-			sbEnd.append("]");
+			sbEnd.append(']');
 			return sbEnd.toString();
 		}
 
@@ -283,7 +283,7 @@ public class LogInterceptor implements Serializable {
 				final int laenge = sbEnd.length();
 				sbEnd.delete(laenge - 2, laenge - 1);
 			}
-			sbEnd.append("]");
+			sbEnd.append(']');
 			return sbEnd.toString();
 		}
 
@@ -303,7 +303,7 @@ public class LogInterceptor implements Serializable {
 				final int laenge = sbEnd.length();
 				sbEnd.delete(laenge - 2, laenge - 1);
 			}
-			sbEnd.append("]");
+			sbEnd.append(']');
 			return sbEnd.toString();
 		}
 

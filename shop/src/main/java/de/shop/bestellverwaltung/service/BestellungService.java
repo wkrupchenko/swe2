@@ -52,7 +52,7 @@ public class BestellungService implements Serializable {
 	private ValidatorProvider validationService;
 	
 	@Inject
-	private Logger logger;
+	private transient Logger logger;
 	
 	@Inject
 	@NeueBestellung

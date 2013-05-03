@@ -13,7 +13,7 @@ import de.shop.bestellverwaltung.domain.Lieferung;
  * Exception, die ausgel&ouml;st wird, wenn die Attributwerte einer Lieferung nicht korrekt sind
  */
 @ApplicationException(rollback = true)
-public class LieferungValidationException extends LieferungServiceException {
+public class LieferungValidationException extends AbstractLieferungServiceException {
 	private static final long serialVersionUID = 1L;
 	private final Date erzeugt;
 	private final Long lieferungId;

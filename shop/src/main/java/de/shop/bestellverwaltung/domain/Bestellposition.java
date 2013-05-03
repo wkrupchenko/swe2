@@ -152,13 +152,13 @@ public class Bestellposition implements Serializable {
 			return false;
 		
 		Bestellposition other = (Bestellposition) obj;
-		if (id == null)
-			if (other.id != null)
-				return false;
+		if (id == null && other.id != null) {
+			return false;
+		}
 
-		if (artikel == null)
-			if (other.artikel != null)
-				return false;
+		if (artikel == null && other.artikel != null) {
+			return false;
+		}
 		
 		return true;
 	}

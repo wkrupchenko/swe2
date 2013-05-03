@@ -115,9 +115,6 @@ public class Adresse implements Serializable {
 		aktualisiert = new Date();
 	}
 
-	public Adresse() {
-	}
-
 	public Long getId() {
 		return this.id;
 	}
@@ -213,21 +210,21 @@ public class Adresse implements Serializable {
 			return false;
 		
 		Adresse other = (Adresse) obj;
-		if (hausnr == null)
-			if (other.hausnr != null)
-				return false;
+		if (hausnr == null && other.hausnr != null) {
+			return false;
+		}
 		
-		if (ort == null)
-			if (other.ort != null)
-				return false;
+		if (ort == null && other.ort != null) {
+			return false;
+		}
 		
-		if (plz == null)
-			if (other.plz != null)
-				return false;
+		if (plz == null && other.ort != null) {
+			return false;
+		}
 		
-		if (strasse == null) 
-			if (other.strasse != null)
+		if (strasse == null && other.strasse != null) { 
 				return false;
+		}
 		
 		return true;
 	}
