@@ -14,6 +14,11 @@ MEILENSTEIN 1:
 		 -> Bestellverwaltung ERLEDIGT
 - Authentifizierung und Authorisierung implementieren und beim WebServiceTester nutzen ERLEDIGT 
 - Download und Upload von Artikelbildern bzw. Multimediadateien zu Artikeln ERLEDIGT
+
 - Maven Site: PMD, Checkstyle und Findbugs beheben  ERLEDIGT
+  Checkstyle:
+    --> Bei ArtikelResourceTest -> The @Rule 'thrown' must be public.
+    --> Bei Kunde -> Number of public methods is 46 (max allowed is 30).
+    --> Bei LogInterceptor -> Methode ist 177 Zeilen lang, erlaubt sind höchstens 150.
 
 ----------> MEILENSTEIN 1 FERTIG

@@ -4,7 +4,6 @@ import javax.ejb.ApplicationException;
 
 import de.shop.bestellverwaltung.domain.Lieferung;
 
-
 /**
  * Exception, die ausgel&ouml;st wird, wenn eine Lieferung gel&ouml;scht werden soll, 
  * aber mindestens eine Bestellung hat
@@ -28,4 +27,5 @@ public class LieferungDeleteBestellungException extends LieferungServiceExceptio
 	public int getAnzahlBestellungen() {
 		return anzahlBestellungen;
 	}
+	
 }

@@ -329,7 +329,7 @@ public class Bestellung implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		
-		Bestellung other = (Bestellung) obj;
+		final Bestellung other = (Bestellung) obj;
 		if (kunde == null)
 			if (other.kunde != null)
 				return false;
@@ -345,9 +345,8 @@ public class Bestellung implements Serializable {
 	public String toString() {
 		final Long kundeId = kunde == null ? null : kunde.getId();
 		return "Bestellung [id=" + id + ", kundeId=" + kundeId
-			   + ", kundeUri=" + kundeUri
-		       + ", erzeugt=" + erzeugt
-		       + ", aktualisiert=" + aktualisiert + ']';
+			   + ", kundeUri=" + kundeUri + ", erzeugt=" + erzeugt
+		       + ", aktualisiert=" + aktualisiert + "]";
 	}
 
 }

@@ -27,4 +27,5 @@ public class BestellungDeleteLieferungException extends BestellungServiceExcepti
 	public int getAnzahlLieferungen() {
 		return anzahlLieferungen;
 	}
+	
 }

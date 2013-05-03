@@ -413,7 +413,7 @@ public class KundeService implements Serializable {
 		Kunde kunde;
 		
 		// Prüfung ob Bestellung bzw Kunde zur Bestellung vorhanden
-		if(temp.isEmpty())
+		if (temp.isEmpty())
 			kunde = null;
 		else
 			kunde = temp.get(0);

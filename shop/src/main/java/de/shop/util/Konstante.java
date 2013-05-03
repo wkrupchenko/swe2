@@ -23,12 +23,4 @@ public final class Konstante {
 	
 	private Konstante() {
 	}
-	
 }
-
- 
-	
-	 
-	
-	
-	

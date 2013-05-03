@@ -41,7 +41,6 @@ import de.shop.util.NotFoundException;
 import de.shop.util.Transactional;
 import de.shop.util.LocaleHelper;
 
-
 @Path("/kunden")
 @Produces(APPLICATION_JSON)
 @Consumes
@@ -82,7 +81,6 @@ public class KundeResource {
 	 * @param id ID des Kunden
 	 * @return Objekt mit Kundendaten, falls die ID vorhanden ist
 	 */
-
 	@GET
 	@Path("{id:[1-9][0-9]*}")
 	//@Formatted    XML formatieren, d.h. Einruecken und Zeilenumbruch
@@ -101,13 +99,11 @@ public class KundeResource {
 		return kunde;
 	}
 	
-
 	/**
 	 * Mit der URL /kunden werden alle Kunden ermittelt oder
 	 * mit kundenverwaltung/kunden?nachname=... diejenigen mit einem bestimmten Nachnamen.
 	 * @return Collection mit den gefundenen Kundendaten
 	 */
-	
 	@GET
 	public Collection<Kunde> findeKundeNachNachname(@QueryParam("nachname") @DefaultValue("") String nachname,
 			                                              @Context UriInfo uriInfo,
@@ -137,7 +133,6 @@ public class KundeResource {
 		return kunden;
 	}
 	
-	
 	@GET
 	@Path("/prefix/id/{id:[1-9][0-9]*}")
 	public Collection<Long> findeIdsNachPrefix(@PathParam("id") String idPrefix, 
@@ -145,8 +140,6 @@ public class KundeResource {
 		final Collection<Long> ids = ks.findeIdsNachPrefix(idPrefix);
 		return ids;
 	}
-	
-	
 	
 	@GET
 	@Path("/prefix/nachname/{nachname}")
@@ -156,14 +149,11 @@ public class KundeResource {
 		return nachnamen;
 	}
 	
-
-	
 	/**
 	 * Mit der URL /kunden/{id}/bestellungen die Bestellungen zu eine Kunden ermitteln
 	 * @param kundeId ID des Kunden
 	 * @return Objekt mit Bestellungsdaten, falls die ID vorhanden ist
 	 */
-	
 	@GET
 	@Path("{id:[1-9][0-9]*}/bestellungen")
 	public Collection<Bestellung> findeBestellungenNachKundeId(@PathParam("id") Long kundeId,  
@@ -200,13 +190,11 @@ public class KundeResource {
 		return bestellungenIds;
 	}
 
-
 	/**
 	 * Mit der URL /kunden einen Privatkunden per POST anlegen.
 	 * @param kunde neuer Kunde
 	 * @return Response-Objekt mit URL des neuen Privatkunden
 	 */
-	
 	@POST
 	@Consumes(APPLICATION_JSON)
 	@Produces
@@ -224,18 +212,16 @@ public class KundeResource {
 		return Response.created(kundeUri).build();
 	}
 	
-	
 	/**
 	 * Mit der URL /kunden einen Kunden per PUT aktualisieren
 	 * @param kunde zu aktualisierende Daten des Kunden
 	 */
-	
 	@PUT
 	@Consumes(APPLICATION_JSON)
 	@Produces
 	public void updateKunde(Kunde kunde, @Context UriInfo uriInfo, @Context HttpHeaders headers) {
 		final Locale locale = localeHelper.getLocale(headers);
-		Kunde origKunde = ks.findeKundeNachId(kunde.getId(), FetchType.NUR_KUNDE, locale);
+		final Kunde origKunde = ks.findeKundeNachId(kunde.getId(), FetchType.NUR_KUNDE, locale);
 		if (origKunde == null) {
 			final String msg = "Kein Kunde gefunden mit der ID " + kunde.getId();
 			throw new NotFoundException(msg);
@@ -253,20 +239,15 @@ public class KundeResource {
 		}
 	}
 	
-	
 	/**
 	 * Mit der URL /kunden{id} einen Kunden per DELETE l&ouml;schen
 	 * @param kundeId des zu l&ouml;schenden Kunden
 	 */
-	
-
-@Path("{id:[0-9]+}")
+	@Path("{id:[0-9]+}")
 	@DELETE
 	@Produces
 	public void deleteKunde(@PathParam("id") Long kundeId, @Context HttpHeaders headers) {
-		 
 		ks.deleteKundeNachId(kundeId);
-		 
 	}
-
+	
 }

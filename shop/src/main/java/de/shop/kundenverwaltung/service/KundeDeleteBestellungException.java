@@ -4,7 +4,6 @@ import javax.ejb.ApplicationException;
 
 import de.shop.kundenverwaltung.domain.Kunde;
 
-
 /**
  * Exception, die ausgel&ouml;st wird, wenn ein Kunde gel&ouml;scht werden soll, aber mindestens eine Bestellung hat
  */
@@ -27,4 +26,5 @@ public class KundeDeleteBestellungException extends KundeServiceException {
 	public int getAnzahlBestellungen() {
 		return anzahlBestellungen;
 	}
+	
 }

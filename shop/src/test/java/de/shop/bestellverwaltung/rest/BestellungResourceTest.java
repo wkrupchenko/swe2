@@ -164,27 +164,28 @@ public class BestellungResourceTest extends AbstractResourceTest {
 		// Liste mit den Lieferungen zur gegebenen Bestellung erzeugen
 		try (final JsonReader jsonReader =
 				              getJsonReaderFactory().createReader(new StringReader(response.asString()))) {
-			JsonArray jsonArray = jsonReader.readArray();			 
+			final JsonArray jsonArray = jsonReader.readArray();			 
 			assertThat(jsonArray.size() > 0, is(true));
-			List<JsonObject> jsonObjectList = jsonArray.getValuesAs(JsonObject.class);
+			final List<JsonObject> jsonObjectList = jsonArray.getValuesAs(JsonObject.class);
 			
 			// Jede Lieferung einzeln durchgehen -> je Lieferung eine neue HTTP Anfrage an die URL der Bestellungen
-			for(JsonObject jsonObject : jsonObjectList) {
+			for (JsonObject jsonObject : jsonObjectList) {
 				final Response temp = get(jsonObject.getJsonString("bestellungen").toString());
 				assertThat(temp.getStatusCode(), is(HTTP_OK));
 			
 				// Eine Liste mit den Bestellungen zur Lieferung erzeugen
 				try (final JsonReader jsonReaderB =
 			              getJsonReaderFactory().createReader(new StringReader(temp.asString()))) {
-					JsonArray tempB = jsonReaderB.readArray();			 
+					final JsonArray tempB = jsonReaderB.readArray();			 
 					assertThat(tempB.size() > 0, is(true));
-					List<JsonObject> bestellungen = tempB.getValuesAs(JsonObject.class);
+					final List<JsonObject> bestellungen = tempB.getValuesAs(JsonObject.class);
 				
 					// Ids der Bestellungen in eine Liste packen
-					List<Long> bestellungenIds = new ArrayList<Long>();
-					for( JsonObject bestellung : bestellungen)
+					final List<Long> bestellungenIds = new ArrayList<Long>();
+					for (JsonObject bestellung : bestellungen) {
 						bestellungenIds.add(bestellung.getJsonNumber("id").longValue());
-				
+					}
+					
 					// Prüfen ob die Bestellung vorhanden ist
 					assertThat(bestellungenIds.contains(bestellungId.longValue()), is(true));
 				}
@@ -228,12 +229,13 @@ public class BestellungResourceTest extends AbstractResourceTest {
 		assertThat(response.getStatusCode(), is(HTTP_OK));
 		// Liste mit den Bestellungen erzeugen
 		try (final JsonReader jsonReader = getJsonReaderFactory().createReader(new StringReader(response.asString()))) {
-			JsonArray jsonArray = jsonReader.readArray();			 
+			final JsonArray jsonArray = jsonReader.readArray();			 
 			assertThat(jsonArray.size() > 0, is(true));
-			List<JsonObject> jsonObjectList = jsonArray.getValuesAs(JsonObject.class);
+			final List<JsonObject> jsonObjectList = jsonArray.getValuesAs(JsonObject.class);
 			
-			for(JsonObject jsonObject : jsonObjectList)
+			for (JsonObject jsonObject : jsonObjectList) {
 				assertThat(jsonObject.getBoolean("offenAbgeschlossen"), is(offenAbgeschlossen));
+			}
 		}
 		LOGGER.debugf("Ende Test findeAlleOffenenBestellungen");
 	}
@@ -245,7 +247,7 @@ public class BestellungResourceTest extends AbstractResourceTest {
 		final Long id = LIEFERUNG_ID_VORHANDEN;
 		
 		// When
-		Response response = given().header(ACCEPT, APPLICATION_JSON)
+		final Response response = given().header(ACCEPT, APPLICATION_JSON)
 									.pathParam(LIEFERUNGEN_ID_PATH_PARAM, id)
 									.get(LIEFERUNGEN_ID_PATH);
 		
@@ -267,7 +269,7 @@ public class BestellungResourceTest extends AbstractResourceTest {
 		final Long id = LIEFERUNG_ID_NICHT_VORHANDEN;
 		
 		// When
-		Response response = given().header(ACCEPT, APPLICATION_JSON)
+		final Response response = given().header(ACCEPT, APPLICATION_JSON)
 									.pathParam(LIEFERUNGEN_ID_PATH_PARAM, id)
 									.get(LIEFERUNGEN_ID_PATH);
 		
@@ -295,27 +297,28 @@ public class BestellungResourceTest extends AbstractResourceTest {
 		
 		try (final JsonReader jsonReader =
 	      getJsonReaderFactory().createReader(new StringReader(response.asString()))) {
-		  JsonArray jsonArray = jsonReader.readArray();			 
+			final JsonArray jsonArray = jsonReader.readArray();			 
           assertThat(jsonArray.size() > 0, is(true));
-          List<JsonObject> jsonObjectList = jsonArray.getValuesAs(JsonObject.class);
+          final List<JsonObject> jsonObjectList = jsonArray.getValuesAs(JsonObject.class);
 
           	   // Jede Bestellung einzeln durchgehen -> je Bestellung eine neue HTTP Anfrage an die URL der Lieferungen
-	          for(JsonObject jsonObject : jsonObjectList) {
+	          for (JsonObject jsonObject : jsonObjectList) {
 			      final Response temp = get(jsonObject.getJsonString("lieferungen").toString());
 			      assertThat(temp.getStatusCode(), is(HTTP_OK));
 
 			          // Eine Liste mit den Lieferungen zur Bestellung erzeugen
 			          try (final JsonReader jsonReaderB =
 				          getJsonReaderFactory().createReader(new StringReader(temp.asString()))) {
-						  JsonArray tempB = jsonReaderB.readArray();			 
-						  assertThat(tempB.size() > 0, is(true));
-						  List<JsonObject> lieferungen = tempB.getValuesAs(JsonObject.class);
-					
-						  // Ids der Lieferungen in eine Liste packen
-						  List<Long> lieferungenIds = new ArrayList<Long>();
-							for( JsonObject lieferung : lieferungen)
-								lieferungenIds.add(lieferung.getJsonNumber("id").longValue());
+				        	  final JsonArray tempB = jsonReaderB.readArray();			 
+							  assertThat(tempB.size() > 0, is(true));
+							  final List<JsonObject> lieferungen = tempB.getValuesAs(JsonObject.class);
 						
+							  // Ids der Lieferungen in eine Liste packen
+							  final List<Long> lieferungenIds = new ArrayList<Long>();
+								for (JsonObject lieferung : lieferungen) {
+									lieferungenIds.add(lieferung.getJsonNumber("id").longValue());
+								}
+							
 								// Prüfen ob die Bestellung vorhanden ist
 								assertThat(lieferungenIds.contains(lieferungId.longValue()), is(true));
 	                        }
@@ -404,5 +407,6 @@ public class BestellungResourceTest extends AbstractResourceTest {
 		assertThat(errorMsg, endsWith(" Lieferung(en)"));
 		
 		LOGGER.debugf("ENDE Test deleteBestellung");
-	}	 
+	}
+	
 }

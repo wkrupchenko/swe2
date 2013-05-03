@@ -183,7 +183,7 @@ public class Artikelgruppe implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Artikel [id=" + id + ", version=" + version + ", bezeichnung=" + bezeichnung + "]";
+		return "Artikelgruppe [id=" + id + ", version=" + version + ", bezeichnung=" + bezeichnung + "]";
 	}
 
 }

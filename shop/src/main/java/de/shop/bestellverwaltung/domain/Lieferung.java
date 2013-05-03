@@ -1,22 +1,20 @@
 package de.shop.bestellverwaltung.domain;
 
+import static de.shop.util.Konstante.ERSTE_VERSION;
+import static de.shop.util.Konstante.KEINE_ID;
+import static de.shop.util.Konstante.MIN_ID;
+import static javax.persistence.CascadeType.PERSIST;
+import static javax.persistence.TemporalType.TIMESTAMP;
+
 import java.io.Serializable;
-
-import javax.validation.Valid;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-
-import org.codehaus.jackson.annotate.JsonIgnore;
-import org.codehaus.jackson.annotate.JsonProperty;
-import org.hibernate.validator.constraints.NotEmpty;
-
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import java.lang.invoke.MethodHandles;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -28,30 +26,26 @@ import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OrderBy;
+import javax.persistence.PostPersist;
 import javax.persistence.PostUpdate;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import javax.persistence.Transient;
 import javax.persistence.Version;
+import javax.validation.Valid;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonProperty;
+import org.hibernate.validator.constraints.NotEmpty;
+import org.jboss.logging.Logger;
 
 import de.shop.util.IdGroup;
 import de.shop.util.PreExistingGroup;
-import de.shop.bestellverwaltung.domain.TransportTyp;
-
-import java.lang.invoke.MethodHandles;
-import java.net.URI;
-
-import org.jboss.logging.Logger;
-
-import javax.persistence.PostPersist;
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
-import javax.persistence.Transient;
-
-import static de.shop.util.Konstante.KEINE_ID;
-import static de.shop.util.Konstante.MIN_ID; 
-import static de.shop.util.Konstante.ERSTE_VERSION;
-import static javax.persistence.CascadeType.PERSIST;
-import static javax.persistence.TemporalType.TIMESTAMP;
 
 @Entity
 @Table(name = "lieferung")
@@ -253,9 +247,9 @@ public class Lieferung implements Serializable {
 	
 	@Override
 	public String toString() {
-		return "Lieferung [id=" + id + ", lieferNr=" + liefernr + ", transportArt=" + transportArt
-		       + ", erzeugt=" + erzeugt
-		       + ", aktualisiert=" + aktualisiert + ']';
+		return "Lieferung [id=" + id + ", lieferNr=" + liefernr 
+				+ ", transportArt=" + transportArt + ", erzeugt=" + erzeugt
+				+ ", aktualisiert=" + aktualisiert + ']';
 	}
 
 	@Override
@@ -277,7 +271,7 @@ public class Lieferung implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		
-		Lieferung other = (Lieferung) obj;
+		final Lieferung other = (Lieferung) obj;
 		if (liefernr == null)
 			if (other.liefernr != null)
 				return false;

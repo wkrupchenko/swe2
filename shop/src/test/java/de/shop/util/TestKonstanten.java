@@ -26,7 +26,8 @@ public final class TestKonstanten {
 	public static final String KUNDEN_ID_PREFIX_PATH_PARAM = "prefixId";
 	public static final String KUNDEN_ID_PREFIX_PATH = KUNDEN_PATH + "/prefix/id/{" + KUNDEN_ID_PREFIX_PATH_PARAM + "}";
 	public static final String KUNDEN_NACHNAME_PREFIX_PATH_PARAM = "prefixNachname";
-	public static final String KUNDEN_NACHNAME_PREFIX_PATH = KUNDEN_PATH + "/prefix/nachname/{" + KUNDEN_NACHNAME_PREFIX_PATH_PARAM + "}";
+	public static final String KUNDEN_NACHNAME_PREFIX_PATH = KUNDEN_PATH + "/prefix/nachname/"
+															+ "{" + KUNDEN_NACHNAME_PREFIX_PATH_PARAM + "}";
 	
 	public static final String BESTELLUNGEN_PATH = "/bestellungen";
 	public static final String BESTELLUNGEN_URI = BASEURI + ":" + PORT + BASEPATH + BESTELLUNGEN_PATH;
@@ -58,4 +59,5 @@ public final class TestKonstanten {
 	
 	private TestKonstanten() {
 	}
+	
 }

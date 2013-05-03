@@ -151,7 +151,7 @@ public class Bestellposition implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		
-		Bestellposition other = (Bestellposition) obj;
+		final Bestellposition other = (Bestellposition) obj;
 		if (id == null)
 			if (other.id != null)
 				return false;

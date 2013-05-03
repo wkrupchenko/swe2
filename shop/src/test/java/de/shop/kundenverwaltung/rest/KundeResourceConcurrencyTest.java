@@ -215,9 +215,10 @@ public class KundeResourceConcurrencyTest extends AbstractResourceTest {
                           .delete(KUNDEN_ID_PATH);
 		
 		// Then
-		String log = response.asString();
+		final String log = response.asString();
     	assertThat(response.getStatusCode(), is(HTTP_NO_CONTENT));
 		
 		LOGGER.debugf("ENDE Test deleteUpdate");
 	}
+	
 }

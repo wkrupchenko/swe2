@@ -212,7 +212,7 @@ public class Adresse implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		
-		Adresse other = (Adresse) obj;
+		final Adresse other = (Adresse) obj;
 		if (hausnr == null)
 			if (other.hausnr != null)
 				return false;
@@ -234,7 +234,8 @@ public class Adresse implements Serializable {
 
 	@Override
 	public String toString() {
-		return id + ": " + strasse + " " + hausnr + " " + plz + " " +  ort;
+		return "Adresse [id=" + id + ", version=" + version + ", strasse=" + strasse 
+				+ ", hausnr=" + hausnr + ", plz=" + plz + ", ort=" + ort + "]";
 	}
 
 }

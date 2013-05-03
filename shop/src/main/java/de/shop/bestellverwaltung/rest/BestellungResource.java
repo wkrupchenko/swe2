@@ -44,7 +44,6 @@ import de.shop.util.NotFoundException;
 import de.shop.util.Transactional;
 import de.shop.util.LocaleHelper;
 
-
 @Path("/bestellungen")
 @Produces(APPLICATION_JSON)
 @Consumes
@@ -170,7 +169,7 @@ public class BestellungResource {
 				}
 		}
 		
-		else if("false".equals(offenAbgeschlossen)) {
+		else if ("false".equals(offenAbgeschlossen)) {
 				bestellungen = bs.findeBestellungenGeschlossen();
 			
 				if (bestellungen.isEmpty()) {
@@ -267,8 +266,8 @@ public class BestellungResource {
 		}
 		
 		// persistente Artikel ermitteln
-		Collection<Bestellposition> bestellpositionen = bestellung.getBestellpositionen();
-		List<Long> artikelIds = new ArrayList<>(bestellpositionen.size());
+		final Collection<Bestellposition> bestellpositionen = bestellung.getBestellpositionen();
+		final List<Long> artikelIds = new ArrayList<>(bestellpositionen.size());
 		for (Bestellposition bp : bestellpositionen) {
 			final String artikelUriStr = bp.getArtikelUri().toString();
 			startPos = artikelUriStr.lastIndexOf('/') + 1;
@@ -296,7 +295,7 @@ public class BestellungResource {
 			throw new NotFoundException(sb.toString());
 		}
 
-		Collection<Artikel> gefundeneArtikel = as.findeArtikelNachIds(artikelIds);
+		final Collection<Artikel> gefundeneArtikel = as.findeArtikelNachIds(artikelIds);
 		if (gefundeneArtikel.isEmpty()) {
 			throw new NotFoundException("Keine Artikel vorhanden mit den IDs: " + artikelIds);
 		}
@@ -336,7 +335,7 @@ public class BestellungResource {
 	
 		// Schluessel der Lieferung extrahieren
 		final String lieferungUriStr = bestellung.getLieferungenUri().toString();
-		int startPos2 = lieferungUriStr.lastIndexOf('/') + 1;
+		final int startPos2 = lieferungUriStr.lastIndexOf('/') + 1;
 		final String lieferungIdStr = lieferungUriStr.substring(startPos2);
 		Long lieferungId = null;
 		try {
@@ -375,4 +374,5 @@ public class BestellungResource {
 		final Bestellung bestellung = bs.findeBestellungNachId(bestellungId);
 		bs.deleteBestellung(bestellung);
 	}
+	
 }

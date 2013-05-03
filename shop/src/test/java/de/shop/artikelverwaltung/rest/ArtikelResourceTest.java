@@ -104,7 +104,7 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 	private ArtikelService as;
 	
 	@Rule
-	private ExpectedException thrown = ExpectedException.none();
+	public ExpectedException thrown = ExpectedException.none();
 	
 	@Test
 	public void validate() {

@@ -10,7 +10,6 @@ import javax.interceptor.AroundInvoke;
 import javax.interceptor.Interceptor;
 import javax.interceptor.InvocationContext;
 
-
 /**
  * Interceptor zum Tracing von public-Methoden der CDI-faehigen Beans und der Session Beans.
  * Sowohl der Methodenaufruf als auch der Rueckgabewert (nicht: Exception) werden mit
@@ -28,7 +27,6 @@ public class LogInterceptor implements Serializable {
 
 	@AroundInvoke
 	public Object log(InvocationContext ctx) throws Exception {
-		
 		final Object bean = ctx.getTarget();
 		final Class<?> clazz = bean.getClass();
 		final String classname = clazz.getName();
@@ -75,22 +73,7 @@ public class LogInterceptor implements Serializable {
 		logger.log(FINER, methodName + " BEGINN" + sb);
 		
 		Object result = null;
-//		try {
-			// Eigentlicher Methodenaufruf
-			result = ctx.proceed();
-			
-		// Keine Protokollierung der geworfenen Exception:
-		// 1) Stacktrace wuerde abgeschnitten werden
-		// 2) Exception wird an der Ursprungsstelle bereits protokolliert.
-		//    Wenn der LoggingInterceptor in ejb-jar.xml abgeklemmt wird,
-		//    muss naemlich immer noch eine Protokollierung stattfinden.
-
-//		}
-//		catch (Exception e) {
-//			// Methode hat eine Exception geworfen
-//			log.error(methodName + ": " + e.getMessage());
-//			throw e;
-//		}
+		result = ctx.proceed();
 
 		if (result == null) {
 			// Methode vom Typ void oder Rueckgabewert null
@@ -309,4 +292,5 @@ public class LogInterceptor implements Serializable {
 
 		return "<<UNKNOWN ARRAY>>";
 	}
+	
 }

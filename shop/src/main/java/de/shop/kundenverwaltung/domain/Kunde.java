@@ -120,7 +120,7 @@ import de.shop.auth.service.jboss.AuthService.RolleType;
     @NamedQuery(name  = Kunde.FIND_USERNAME_BY_USERNAME_PREFIX,
 	            query = "SELECT   CONCAT('', k.id)"
 				        + " FROM  Kunde k"
-	            		+ " WHERE CONCAT('', k.id) LIKE :" + Kunde.PARAM_USERNAME_PREFIX),
+	            		+ " WHERE CONCAT('', k.id) LIKE :" + Kunde.PARAM_USERNAME_PREFIX)
             			        
 })
 public class Kunde implements Serializable {
@@ -159,7 +159,7 @@ public class Kunde implements Serializable {
     PREFIX + "findeKundeNachArt";
 	public static final String FINDE_KUNDE_NACH_NEWSLETTER =
     PREFIX + "findeKundeNachNewsletter";
-	public static final String LÖSCHE_KUNDE_NACH_NACHNAME =
+	public static final String LOESCHE_KUNDE_NACH_NACHNAME =
 	PREFIX + "löscheKundeNachNachname";
 	public static final String FINDE_KUNDE_NACH_BESTELLUNG =
 	PREFIX + "findeKundeNachBestellung";
@@ -536,8 +536,8 @@ public class Kunde implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		
-		Kunde other = (Kunde) obj;
-		if (email == null){
+		final Kunde other = (Kunde) obj;
+		if (email == null) {
 			if (other.email != null)
 				return false;
 		}
@@ -546,4 +546,5 @@ public class Kunde implements Serializable {
 			}
 		return true;
 	}
+	
 }

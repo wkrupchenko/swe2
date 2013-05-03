@@ -50,8 +50,6 @@ import de.shop.util.AbstractResourceTest;
 import de.shop.kundenverwaltung.domain.FamilienstandTyp;
 import de.shop.kundenverwaltung.domain.GeschlechtTyp;
  
-
-
 @RunWith(Arquillian.class)
 @FixMethodOrder(NAME_ASCENDING)
 public class KundeResourceTest extends AbstractResourceTest {
@@ -191,9 +189,9 @@ public class KundeResourceTest extends AbstractResourceTest {
 		// Then
 		assertThat(response.getStatusCode(), is(HTTP_OK));
 		try (final JsonReader jsonReader = getJsonReaderFactory().createReader(new StringReader(response.asString()))) {
-			JsonArray jsonArray = jsonReader.readArray();			 
+			final JsonArray jsonArray = jsonReader.readArray();			 
 			assertThat(jsonArray.size() > 0, is(true));
-			for(int i = 0; i < jsonArray.size(); ++i) {
+			for (int i = 0; i < jsonArray.size(); ++i) {
 				final String id = String.valueOf(jsonArray.getInt(i));
 				assertThat(id.startsWith(prefix.toString()), is(true));
 			}
@@ -214,9 +212,9 @@ public class KundeResourceTest extends AbstractResourceTest {
 		// Then
 		assertThat(response.getStatusCode(), is(HTTP_OK));
 		try (final JsonReader jsonReader = getJsonReaderFactory().createReader(new StringReader(response.asString()))) {
-			JsonArray jsonArray = jsonReader.readArray();			 
+			final JsonArray jsonArray = jsonReader.readArray();			 
 			assertThat(jsonArray.size() > 0, is(true));
-			for(int i = 0; i < jsonArray.size(); ++i) {
+			for (int i = 0; i < jsonArray.size(); ++i) {
 				final String id = jsonArray.getString(i);
 				assertThat(id.startsWith(prefix), is(true));
 			}
@@ -245,7 +243,7 @@ public class KundeResourceTest extends AbstractResourceTest {
 			assertThat(jsonArray.size() > 0, is(true));
 			
 			final List<JsonObject> jsonObjectList = jsonArray.getValuesAs(JsonObject.class);
-			for(JsonObject jsonObject : jsonObjectList) {
+			for (JsonObject jsonObject : jsonObjectList) {
 				assertThat(jsonObject.getString("kunde").endsWith(kundeId), is(true));
 			}
 		}
@@ -300,11 +298,11 @@ public class KundeResourceTest extends AbstractResourceTest {
 		LOGGER.debugf("BEGINN Test findeBestellungenIdsNachKundeIdNichtVorhanden");
 		
 		// Given
-		final long KundeId = KUNDE_ID_NICHT_VORHANDEN;
+		final long kundeId = KUNDE_ID_NICHT_VORHANDEN;
 		
 		// When
 		final Response response = given().header(ACCEPT, APPLICATION_JSON)
-                .pathParameter(KUNDEN_ID_PATH_PARAM, KundeId)
+                .pathParameter(KUNDEN_ID_PATH_PARAM, kundeId)
                 .get(KUNDEN_ID_PATH + "/bestellungen");
 
 		// Then

@@ -148,8 +148,8 @@ public class BestellungService implements Serializable {
 		em.detach(bestellung);
 		
 		// Wurde das Objekt konkurrierend geloescht?
-		Bestellung tmp = findeBestellungNachId(bestellung.getId());
-		if(tmp == null) {
+		final Bestellung tmp = findeBestellungNachId(bestellung.getId());
+		if (tmp == null) {
 			throw new ConcurrentDeletedException(bestellung.getId());
 		}
 		
@@ -239,8 +239,8 @@ public class BestellungService implements Serializable {
 		em.detach(lieferung);
 		
 		// Wurde das Objekt konkurrierend geloescht?
-		Lieferung tmp = findeLieferungNachId(lieferung.getId());
-		if(tmp == null) {
+		final Lieferung tmp = findeLieferungNachId(lieferung.getId());
+		if (tmp == null) {
 			throw new ConcurrentDeletedException(lieferung.getId());
 		}
 		
@@ -310,8 +310,8 @@ public class BestellungService implements Serializable {
 
 	public List<Bestellung> findeBestellungenNachLieferungId(Long id) {
 		final Lieferung lieferung = em.find(Lieferung.class, id);
-		if(lieferung == null) {
-			List<Bestellung> temp = new ArrayList<Bestellung>();
+		if (lieferung == null) {
+			final List<Bestellung> temp = new ArrayList<Bestellung>();
 			return temp;
 		}
 		
