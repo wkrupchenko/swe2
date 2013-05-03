@@ -31,7 +31,11 @@ import javax.validation.ConstraintViolation;
 import de.shop.artikelverwaltung.domain.Artikel;
 import de.shop.artikelverwaltung.domain.Artikelgruppe;
 import de.shop.util.ConcurrentDeletedException;
+import de.shop.util.File;
+import de.shop.util.FileHelper;
+import de.shop.util.FileHelper.MimeType;
 import de.shop.util.Log;
+import de.shop.util.NoMimeTypeException;
 import de.shop.util.ValidatorProvider;
 import de.shop.bestellverwaltung.service.BestellungService;
 import de.shop.bestellverwaltung.domain.Bestellung;
@@ -41,6 +45,9 @@ import de.shop.util.IdGroup;
 @Log
 public class ArtikelService implements Serializable {
 	private static final long serialVersionUID = 1L;
+	
+	@Inject
+	private FileHelper fileHelper;
 	
 	@Inject
 	private ValidatorProvider validationService;
@@ -345,5 +352,45 @@ public class ArtikelService implements Serializable {
 			++ret;
 		}
 		 return ret;
+	}
+	
+	/**
+	 * Ohne MIME Type fuer Upload bei RESTful WS
+	 */
+	public void setFile(Long artikelId, byte[] bytes, Locale locale) {
+		final Artikel artikel = findeArtikelNachId(artikelId);
+		if (artikel == null) {
+			return;
+		}
+		final MimeType mimeType = fileHelper.getMimeType(bytes);
+		setFile(artikel, bytes, mimeType);
+	}
+	
+	/**
+	 * Mit MIME-Type fuer Upload bei Webseiten
+	 */
+	public void setFile(Artikel artikel, byte[] bytes, String mimeTypeStr) {
+		final MimeType mimeType = MimeType.get(mimeTypeStr);
+		setFile(artikel, bytes, mimeType);
+	}
+	
+	private void setFile(Artikel artikel, byte[] bytes, MimeType mimeType) {
+		if (mimeType == null) {
+			throw new NoMimeTypeException();
+		}
+		
+		final String filename = fileHelper.getFilename(artikel.getClass(), artikel.getId(), mimeType);
+		
+		// Gibt es noch kein (Multimedia-) File
+		File file = artikel.getFile();
+		if (file == null) {
+			file = new File(bytes, filename, mimeType);
+			artikel.setFile(file);
+			em.persist(file);
+		}
+		else {
+			file.set(bytes, filename, mimeType);
+			em.merge(file);
+		}
 	}
 }

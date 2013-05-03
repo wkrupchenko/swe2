@@ -29,4 +29,12 @@ public class UriHelperArtikel {
 		final URI uri = ub.build(artikel.getId());
 		artikel.setArtikelgruppeUri(uri);
 	}
+	
+	public URI getUriDownload(Long artikelId, UriInfo uriInfo) {
+		final URI uri = uriInfo.getBaseUriBuilder()
+		                       .path(ArtikelResource.class)
+		                       .path(ArtikelResource.class, "download")
+		                       .build(artikelId);
+		return uri;
+	}
 }

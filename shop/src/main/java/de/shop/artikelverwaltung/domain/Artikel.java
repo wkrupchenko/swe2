@@ -17,6 +17,7 @@ import javax.persistence.Inheritance;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
+import javax.persistence.OneToOne;
 import javax.persistence.PostPersist;
 import javax.persistence.PostUpdate;
 import javax.persistence.PrePersist;
@@ -33,6 +34,7 @@ import javax.validation.constraints.Size;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 
+import de.shop.util.File;
 import de.shop.util.IdGroup;
 import de.shop.util.PreExistingGroup;
 import static de.shop.util.Konstante.KEINE_ID;
@@ -41,6 +43,7 @@ import static de.shop.util.Konstante.ERSTE_VERSION;
 import static javax.persistence.TemporalType.TIMESTAMP;
 import static javax.persistence.CascadeType.PERSIST;
 import static javax.persistence.CascadeType.REMOVE;
+import static javax.persistence.FetchType.LAZY;
 
 @Entity
 @Table(name = "artikel")
@@ -114,6 +117,14 @@ public class Artikel implements Serializable {
 	@Transient
 	@JsonProperty("artikelgruppe")
 	private URI artikelgruppeUri;
+	
+	@OneToOne(fetch = LAZY, cascade = { PERSIST, REMOVE })
+	@JoinColumn(name = "file_fk")
+	@JsonIgnore
+	private File file;
+	
+	@Transient
+	private URI fileUri;
 	
 	@Temporal(TIMESTAMP)
 	@Column(nullable = false)
@@ -211,6 +222,22 @@ public class Artikel implements Serializable {
 	
 	public void setArtikelgruppeUri(URI artikelgruppeUri) {
 		this.artikelgruppeUri = artikelgruppeUri;
+	}
+	
+	public File getFile() {
+		return file;
+	}
+
+	public void setFile(File file) {
+		this.file = file;
+	}
+
+	public URI getFileUri() {
+		return fileUri;
+	}
+
+	public void setFileUri(URI fileUri) {
+		this.fileUri = fileUri;
 	}
 	
 	public Date getErzeugt() {

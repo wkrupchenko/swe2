@@ -14,4 +14,4 @@ MEILENSTEIN 1:
 		 -> Bestellverwaltung: FERTIG (alle GET-Methoden, sowie Bestellung anlegen und ändern)
 		 -> INSGESAMT FEHLEN 3 TESTS
 - Authentifizierung und Authorisierung implementieren und beim WebServiceTester nutzen ERLEDIGT 
-- Download und Upload von Artikelbildern
+- Download und Upload von Artikelbildern bzw. Multimediadateien zu Artikeln ERLEDIGT

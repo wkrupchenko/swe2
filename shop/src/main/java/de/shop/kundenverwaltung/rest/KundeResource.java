@@ -221,11 +221,11 @@ public class KundeResource {
 	@Produces
 	public Response createKunde(Kunde kunde, @Context UriInfo uriInfo, @Context HttpHeaders headers) {
 		final Locale locale = localeHelper.getLocale(headers);		 
-		 final Adresse adresse = kunde.getAdresse();
-		  if (adresse != null) {
-		   adresse.setKunde(kunde);
-		  }
-		 kunde.setPasswortWdh(kunde.getPasswort());
+		final Adresse adresse = kunde.getAdresse();
+		if (adresse != null) {
+		  adresse.setKunde(kunde);
+		}
+		kunde.setPasswortWdh(kunde.getPasswort());
 		kunde = ks.createKunde(kunde, locale);
 		LOGGER.debugf("Kunde: %s", kunde);
 		

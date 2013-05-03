@@ -45,6 +45,7 @@ public final class TestKonstanten {
 	public static final String ARTIKEL_ID_PATH = ARTIKEL_PATH + "/{" + ARTIKEL_ID_PATH_PARAM + "}";
 	public static final String ARTIKEL_BEZEICHNUNG_PATH_PARAM = "bezeichnung";
 	public static final String ARTIKEL_ERHAELTLICH_PATH_PARAM = "erhaeltlich";
+	public static final String ARTIKEL_ID_FILE_PATH = ARTIKEL_ID_PATH + "/file";
 	
 	public static final String ARTIKELGRUPPE_PATH = "/artikel/artikelgruppe";
 	public static final String ARTIKELGRUPPE_URI = BASEURI + ":" + PORT + BASEPATH + ARTIKELGRUPPE_PATH;

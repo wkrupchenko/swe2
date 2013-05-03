@@ -2,6 +2,7 @@ package de.shop.artikelverwaltung.rest;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
+import java.io.IOException;
 import java.lang.invoke.MethodHandles;
 
 import org.jboss.logging.Logger;
@@ -32,6 +33,7 @@ import javax.ws.rs.core.HttpHeaders;
 import de.shop.artikelverwaltung.domain.Artikel;
 import de.shop.artikelverwaltung.domain.Artikelgruppe;
 import de.shop.artikelverwaltung.service.ArtikelService;
+import de.shop.util.JsonFile;
 import de.shop.util.WrongParameterException;
 import de.shop.util.Log;
 import de.shop.util.NotFoundException;
@@ -47,6 +49,12 @@ import de.shop.util.LocaleHelper;
 @Log
 public class ArtikelResource {
 	private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass());
+	
+	@Context
+	private UriInfo uriInfo;
+	
+	@Context
+    private HttpHeaders headers;
 	
 	@Inject
 	private ArtikelService as;
@@ -358,5 +366,27 @@ public class ArtikelResource {
 	public void deleteArtikelgruppe(@PathParam("id") Long artikelgruppeId) {
 		final Artikelgruppe artikelgruppe = as.findeArtikelgruppeNachId(artikelgruppeId);
 		as.deleteArtikelgruppe(artikelgruppe);
+	}
+	
+	@Path("{id:[1-9][0-9]*}/file")
+	@POST
+	@Consumes(APPLICATION_JSON)
+	public Response upload(@PathParam("id") Long kundeId, JsonFile file) {
+		final Locale locale = localeHelper.getLocale(headers);
+		as.setFile(kundeId, file.getBytes(), locale);
+		final URI location = uriHelperArtikel.getUriDownload(kundeId, uriInfo);
+		return Response.created(location).build();
+	}
+	
+	@Path("{id:[1-9][0-9]*}/file")
+	@GET
+	public JsonFile download(@PathParam("id") Long artikelId) throws IOException {
+		final Locale locale = localeHelper.getLocale(headers);
+		final Artikel artikel = as.findeArtikelNachId(artikelId);
+		if (artikel.getFile() == null) {
+			return new JsonFile(new byte[] {});
+		}
+		
+		return new JsonFile(artikel.getFile().getBytes());
 	}
 }

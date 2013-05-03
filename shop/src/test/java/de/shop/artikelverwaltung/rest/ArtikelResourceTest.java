@@ -6,6 +6,7 @@ import static java.net.HttpURLConnection.HTTP_CREATED;
 import static java.net.HttpURLConnection.HTTP_NOT_FOUND;
 import static java.net.HttpURLConnection.HTTP_NO_CONTENT;
 import static java.net.HttpURLConnection.HTTP_OK;
+import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.startsWith;
@@ -22,9 +23,20 @@ import static de.shop.util.TestKonstanten.ARTIKEL_PATH;
 import static de.shop.util.TestKonstanten.ARTIKEL_BEZEICHNUNG_PATH_PARAM;
 import static de.shop.util.TestKonstanten.ARTIKEL_ERHAELTLICH_PATH_PARAM;
 import static de.shop.util.TestKonstanten.ARTIKELGRUPPE_BEZEICHNUNG_PATH_PARAM;
+import static de.shop.util.TestKonstanten.ARTIKEL_ID_FILE_PATH;
+import static de.shop.util.TestKonstanten.LOCATION;
+import static de.shop.util.TestKonstanten.BASEPATH;
+import static de.shop.util.TestKonstanten.BASEURI;
+import static de.shop.util.TestKonstanten.PORT;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.StringReader;
 import java.lang.invoke.MethodHandles;
+import java.nio.file.CopyOption;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -34,6 +46,7 @@ import javax.json.JsonArray;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import javax.json.JsonReader;
+import javax.xml.bind.DatatypeConverter;
 
 import org.junit.FixMethodOrder;
 import org.junit.Rule;
@@ -47,6 +60,7 @@ import com.jayway.restassured.response.Response;
 
 import de.shop.artikelverwaltung.service.ArtikelService;
 import de.shop.util.AbstractResourceTest;
+import de.shop.util.NoMimeTypeException;
 
 @RunWith(Arquillian.class)
 @FixMethodOrder(NAME_ASCENDING)
@@ -77,6 +91,13 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 	private static final Long ARTIKEL_ID_UPDATE = Long.valueOf(503);
 	private static final String ARTIKEL_NEUE_BEZEICHNUNG = "Neuer Name für Artikel";
 	private static final String VERFUEGBARKEIT = "true";
+	private static final Long ARTIKEL_ID_UPLOAD = Long.valueOf(500);
+	private static final String FILENAME = "image.gif";
+	private static final String FILENAME_UPLOAD = "src/test/resources/rest/" + FILENAME;
+	private static final CopyOption[] COPY_OPTIONS = { REPLACE_EXISTING };
+	private static final String FILENAME_DOWNLOAD = "target/" + FILENAME;
+	private static final String FILENAME_INVALID_MIMETYPE = "image.bmp";
+	private static final String FILENAME_UPLOAD_INVALID_MIMETYPE = "src/test/resources/rest/" + FILENAME_INVALID_MIMETYPE;
 	
 	@Inject
 	private ArtikelService as;
@@ -585,6 +606,113 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 		// Then
 		assertThat(response.getStatusCode(), is(HTTP_NO_CONTENT));
 		LOGGER.debugf("ENDE Test deleteArtikelgruppe");
+	}
+	
+	@Test
+	public void uploadDownload() throws IOException {
+		LOGGER.debugf("BEGINN Test uploadDownload");
+		
+		// Given
+		final Long artikelId = ARTIKEL_ID_UPLOAD;
+		final String fileName = FILENAME_UPLOAD;
+		final String username = USERNAME;
+		final String password = PASSWORD;
+		
+		// Datei als byte[] einlesen
+		byte[] bytes;
+		try (ByteArrayOutputStream stream = new ByteArrayOutputStream()) {
+			Files.copy(Paths.get(fileName), stream);
+			bytes = stream.toByteArray();
+		}
+		
+		// byte[] als Inhalt eines JSON-Datensatzes mit Base64-Codierung
+		JsonObject jsonObject = getJsonBuilderFactory().createObjectBuilder()
+	                            .add("bytes", DatatypeConverter.printBase64Binary(bytes))
+	                            .build();
+		
+		// When
+		Response response = given().contentType(APPLICATION_JSON)
+				                   .body(jsonObject.toString())
+                                   .auth()
+                                   .basic(username, password)
+                                   .pathParameter(ARTIKEL_ID_PATH_PARAM, artikelId)
+                                   .post(ARTIKEL_ID_FILE_PATH);
+
+		// Then
+		assertThat(response.getStatusCode(), is(HTTP_CREATED));
+		// id extrahieren aus http://localhost:8080/shop2/rest/artikel/<id>/file
+		final String idStr = response.getHeader(LOCATION)
+				                     .replace(BASEURI + ":" + PORT + BASEPATH + ARTIKEL_PATH + '/', "")
+				                     .replace("/file", "");
+		assertThat(idStr, is(artikelId.toString()));
+		
+		// When (2)
+		// Download der zuvor hochgeladenen Datei
+		response = given().header(ACCEPT, APPLICATION_JSON)
+				          .auth()
+                          .basic(username, password)
+                          .pathParameter(ARTIKEL_ID_PATH_PARAM, artikelId)
+                          .get(ARTIKEL_ID_FILE_PATH);
+		
+		try (final JsonReader jsonReader =
+				              getJsonReaderFactory().createReader(new StringReader(response.asString()))) {
+			jsonObject = jsonReader.readObject();
+		}
+		final String base64String = jsonObject.getString("bytes");
+		final byte[] downloaded = DatatypeConverter.parseBase64Binary(base64String);
+		
+		// Then (2)
+		// Dateigroesse vergleichen: hochgeladene Datei als byte[] einlesen
+		byte[] uploaded;
+		try (ByteArrayOutputStream stream = new ByteArrayOutputStream()) {
+			Files.copy(Paths.get(fileName), stream);
+			uploaded = stream.toByteArray();
+		}
+		assertThat(uploaded.length, is(downloaded.length));
+		
+		// Abspeichern der heruntergeladenen Datei im Unterverzeichnis target zur manuellen Inspektion
+		try (ByteArrayInputStream inputStream = new ByteArrayInputStream(downloaded)) {
+			Files.copy(inputStream, Paths.get(FILENAME_DOWNLOAD), COPY_OPTIONS);
+		}
+
+		LOGGER.info("Heruntergeladene Datei abgespeichert: " + FILENAME_DOWNLOAD);
+		LOGGER.debugf("ENDE Test uploadDownload");
+	}
+	
+	@Test
+	public void uploadInvalidMimeType() throws IOException {
+		LOGGER.debugf("BEGINN Test uploadInvalidMimeType");
+		
+		// Given
+		final Long artikelId = ARTIKEL_ID_UPLOAD;
+		final String fileName = FILENAME_UPLOAD_INVALID_MIMETYPE;
+		final String username = USERNAME;
+		final String password = PASSWORD;
+		
+		// Datei als byte[] einlesen
+		byte[] bytes;
+		try (ByteArrayOutputStream stream = new ByteArrayOutputStream()) {
+			Files.copy(Paths.get(fileName), stream);
+			bytes = stream.toByteArray();
+		}
+		
+		// byte[] als Inhalt eines JSON-Datensatzes mit Base64-Codierung
+		final JsonObject jsonObject = getJsonBuilderFactory().createObjectBuilder()
+	                                  .add("bytes", DatatypeConverter.printBase64Binary(bytes))
+	                                  .build();
+		
+		// When
+		final Response response = given().contentType(APPLICATION_JSON)
+				                         .body(jsonObject.toString())
+				                         .auth()
+				                         .basic(username, password)
+				                         .pathParameter(ARTIKEL_ID_PATH_PARAM, artikelId)
+				                         .post(ARTIKEL_ID_FILE_PATH);
+		
+		assertThat(response.getStatusCode(), is(HTTP_CONFLICT));
+		assertThat(response.asString(), is(NoMimeTypeException.MESSAGE));
+		
+		LOGGER.debugf("ENDE Test uploadInvalidMimeType");
 	}
 }
 
