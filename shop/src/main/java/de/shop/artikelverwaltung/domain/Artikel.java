@@ -257,6 +257,7 @@ public class Artikel implements Serializable {
 	}
 	
 	public void setWerte(Artikel a) {
+		version = a.version;
 		bezeichnung = a.bezeichnung;
 		erhaeltlich = a.erhaeltlich;
 		preis = a.preis;
@@ -302,7 +303,7 @@ public class Artikel implements Serializable {
 
 	@Override
 	public String toString() {
-		return id + ": " + bezeichnung + " " + preis;
+		return "Artikel [id=" + id + ", version=" + version + ", bezeichnung=" + bezeichnung + ", preis=" + preis + "]";
 	}
 
 }

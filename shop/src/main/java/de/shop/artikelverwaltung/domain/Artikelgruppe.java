@@ -96,6 +96,7 @@ public class Artikelgruppe implements Serializable {
 	}
 
 	public void setWerte(Artikelgruppe ag) {
+		version = ag.version;
 		bezeichnung = ag.bezeichnung;
 		artikel = ag.artikel;
 	}
@@ -182,7 +183,7 @@ public class Artikelgruppe implements Serializable {
 
 	@Override
 	public String toString() {
-		return id + " " + bezeichnung;
+		return "Artikel [id=" + id + ", version=" + version + ", bezeichnung=" + bezeichnung + "]";
 	}
 
 }
