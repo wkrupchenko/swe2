@@ -28,7 +28,6 @@ import javax.json.JsonReader;
 
 import org.jboss.arquillian.junit.Arquillian;
 import org.junit.FixMethodOrder;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -51,7 +50,6 @@ public class KundeResourceConcurrencyTest extends AbstractResourceTest {
 
 	@Test
 	public void updateUpdate() throws InterruptedException, ExecutionException {
-		// TODO
 		LOGGER.debugf("BEGINN Test updateUpdate");
 		
 		// Given
@@ -111,7 +109,6 @@ public class KundeResourceConcurrencyTest extends AbstractResourceTest {
 		                  .put(KUNDEN_PATH);
     	
 		// Then
-		String log = response.asString();
 		assertThat(response.getStatusCode(), is(HTTP_CONFLICT));
 		
 		LOGGER.debugf("ENDE Test updateUpdate");

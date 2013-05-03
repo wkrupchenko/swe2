@@ -1,7 +1,6 @@
 package de.shop.kundenverwaltung.rest;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
-import static javax.ws.rs.core.MediaType.TEXT_PLAIN;
 
 import java.lang.invoke.MethodHandles;
 import java.net.URI;
@@ -51,7 +50,6 @@ import de.shop.util.LocaleHelper;
 @Log
 public class KundeResource {
 	private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass());
-	private static final String VERSION = "1.0";
 	
 	@Inject
 	private KundeService ks;

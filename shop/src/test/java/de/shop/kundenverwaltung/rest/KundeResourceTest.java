@@ -1,9 +1,6 @@
 package de.shop.kundenverwaltung.rest;
 
 import static com.jayway.restassured.RestAssured.given;
-import static de.shop.util.Konstante.HASH_ALGORITHM;
-import static de.shop.util.Konstante.HASH_CHARSET;
-import static de.shop.util.Konstante.HASH_ENCODING;
 import static de.shop.util.TestKonstanten.ACCEPT;
 import static de.shop.util.TestKonstanten.KUNDEN_ID_PATH_PARAM;
 import static de.shop.util.TestKonstanten.KUNDEN_ID_PATH;
@@ -17,14 +14,10 @@ import static java.net.HttpURLConnection.HTTP_NOT_FOUND;
 import static java.net.HttpURLConnection.HTTP_NO_CONTENT;
 import static java.net.HttpURLConnection.HTTP_OK;
 import static java.net.HttpURLConnection.HTTP_UNAUTHORIZED;
-import static java.net.HttpURLConnection.HTTP_INTERNAL_ERROR;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static org.hamcrest.CoreMatchers.anyOf;
 import static org.hamcrest.CoreMatchers.containsString;
-import static org.hamcrest.CoreMatchers.endsWith;
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.startsWith;
-import static org.jboss.security.auth.spi.Util.createPasswordHash;
 import static org.junit.Assert.assertThat;
 import static org.junit.runners.MethodSorters.NAME_ASCENDING;
 import static de.shop.util.TestKonstanten.KUNDEN_ID_PREFIX_PATH_PARAM;
@@ -47,7 +40,6 @@ import javax.json.JsonReader;
 
 import org.jboss.arquillian.junit.Arquillian;
 import org.junit.FixMethodOrder;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
