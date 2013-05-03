@@ -27,4 +27,5 @@ public class InvalidArtikelIdException extends ArtikelServiceException {
 	public Collection<ConstraintViolation<Artikel>> getViolations() {
 		return violations;
 	}
+	
 }

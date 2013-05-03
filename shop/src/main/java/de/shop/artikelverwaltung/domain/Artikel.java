@@ -58,7 +58,8 @@ import static javax.persistence.FetchType.LAZY;
 	@NamedQuery(name = Artikel.FINDE_ARTIKEL_NACH_MIN_PREIS,
 				query = "FROM Artikel a WHERE a.preis >= :" + Artikel.PARAM_PREIS),
 	@NamedQuery(name = Artikel.FINDE_ARTIKEL_NACH_ARTIKELGRUPPE,
-				query = "Select a FROM Artikel a JOIN a.artikelgruppe ag WHERE ag.bezeichnung = :" + Artikel.PARAM_NAME),
+				query = "Select a FROM Artikel a JOIN a.artikelgruppe ag "
+						+ "WHERE ag.bezeichnung = :" + Artikel.PARAM_NAME),
 	@NamedQuery(name = Artikel.FINDE_ARTIKEL_SORTIERT_NACH_ID,
 				query = "Select a From Artikel a Order By a.id"),
 	@NamedQuery(name = Artikel.FINDE_ARTIKEL_NACH_ARTIKELGRUPPE_ID,
@@ -287,7 +288,7 @@ public class Artikel implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		
-		Artikel other = (Artikel) obj;
+		final Artikel other = (Artikel) obj;
 		if (erhaeltlich != other.erhaeltlich)
 			return false;
 		

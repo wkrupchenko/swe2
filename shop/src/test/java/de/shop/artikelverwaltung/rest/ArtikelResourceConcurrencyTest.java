@@ -2,12 +2,12 @@ package de.shop.artikelverwaltung.rest;
 
 import static com.jayway.restassured.RestAssured.given;
 import static de.shop.util.TestKonstanten.ACCEPT;
-import static de.shop.util.TestKonstanten.ARTIKEL_ID_PATH;
-import static de.shop.util.TestKonstanten.ARTIKEL_ID_PATH_PARAM;
-import static de.shop.util.TestKonstanten.ARTIKEL_PATH;
 import static de.shop.util.TestKonstanten.ARTIKELGRUPPE_ID_PATH;
 import static de.shop.util.TestKonstanten.ARTIKELGRUPPE_ID_PATH_PARAM;
 import static de.shop.util.TestKonstanten.ARTIKELGRUPPE_PATH;
+import static de.shop.util.TestKonstanten.ARTIKEL_ID_PATH;
+import static de.shop.util.TestKonstanten.ARTIKEL_ID_PATH_PARAM;
+import static de.shop.util.TestKonstanten.ARTIKEL_PATH;
 import static java.net.HttpURLConnection.HTTP_CONFLICT;
 import static java.net.HttpURLConnection.HTTP_NOT_FOUND;
 import static java.net.HttpURLConnection.HTTP_NO_CONTENT;
@@ -28,10 +28,9 @@ import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import javax.json.JsonReader;
 
-import org.jboss.logging.Logger;
 import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.logging.Logger;
 import org.junit.FixMethodOrder;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -400,4 +399,5 @@ public class ArtikelResourceConcurrencyTest extends AbstractResourceTest {
 		
 		LOGGER.debugf("ENDE Test deleteUpdateArtikelgruppe");
 	}
+	
 }

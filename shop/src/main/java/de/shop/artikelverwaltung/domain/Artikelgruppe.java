@@ -175,7 +175,7 @@ public class Artikelgruppe implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		
-		Artikelgruppe other = (Artikelgruppe) obj;
+		final Artikelgruppe other = (Artikelgruppe) obj;
 		if (!bezeichnung.equals(other.bezeichnung))
 			return false;
 		return true;

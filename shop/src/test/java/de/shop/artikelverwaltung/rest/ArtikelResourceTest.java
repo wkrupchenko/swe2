@@ -82,10 +82,10 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 	private static final Long ARTIKELGRUPPE_ID_NICHT_VORHANDEN = Long.valueOf(19392);
 	private static final Long ARTIKEL1_ZU_ARTIKELGRUPPE_406 = Long.valueOf(507);
 	private static final Long ARTIKELGRUPPE_ID_VORHANDEN2 = Long.valueOf(406);
-	private static final Long ARTIKEL_ID_LÖSCHEN = Long.valueOf(504);
+	private static final Long ARTIKEL_ID_LOESCHEN = Long.valueOf(504);
 	private static final Long ARTIKEL_ID_MIT_BESTELLUNGEN = Long.valueOf(501);
 	private static final Long ARTIKELGRUPPE_ID_MIT_ARTIKEL = Long.valueOf(404);
-	private static final Long ARTIKELGRUPPE_ID_LÖSCHEN = Long.valueOf(403);
+	private static final Long ARTIKELGRUPPE_ID_LOESCHEN = Long.valueOf(403);
 	private static final Long ARTIKELGRUPPE_ID_UPDATE = Long.valueOf(400);
 	private static final String ARTIKELGRUPPE_NEUE_BEZEICHNUNG = "Bezeichnungsänderung";
 	private static final Long ARTIKEL_ID_UPDATE = Long.valueOf(503);
@@ -94,16 +94,17 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 	private static final Long ARTIKEL_ID_UPLOAD = Long.valueOf(500);
 	private static final String FILENAME = "image.gif";
 	private static final String FILENAME_UPLOAD = "src/test/resources/rest/" + FILENAME;
-	private static final CopyOption[] COPY_OPTIONS = { REPLACE_EXISTING };
+	private static final CopyOption[] COPY_OPTIONS = {REPLACE_EXISTING};
 	private static final String FILENAME_DOWNLOAD = "target/" + FILENAME;
 	private static final String FILENAME_INVALID_MIMETYPE = "image.bmp";
-	private static final String FILENAME_UPLOAD_INVALID_MIMETYPE = "src/test/resources/rest/" + FILENAME_INVALID_MIMETYPE;
+	private static final String FILENAME_UPLOAD_INVALID_MIMETYPE = "src/test/resources/rest/" 
+								+ FILENAME_INVALID_MIMETYPE;
 	
 	@Inject
 	private ArtikelService as;
 	
 	@Rule
-	public ExpectedException thrown = ExpectedException.none();
+	private ExpectedException thrown = ExpectedException.none();
 	
 	@Test
 	public void validate() {
@@ -118,17 +119,18 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 		final String bezeichnung = ARTIKEL_BEZEICHNUNG_VORHANDEN;
 		
 		// WHEN
-		Response response = given().header("Accept", APPLICATION_JSON)
+		final Response response = given().header("Accept", APPLICATION_JSON)
 							.queryParam(ARTIKEL_BEZEICHNUNG_PATH_PARAM, bezeichnung)
 							.get(ARTIKEL_PATH);
 		
 		// THEN
-		try (JsonReader jsonReader = getJsonReaderFactory().createReader( new StringReader(response.asString()))) {
-			JsonArray jsonArray = jsonReader.readArray();
+		try (JsonReader jsonReader = getJsonReaderFactory().createReader(new StringReader(response.asString()))) {
+			final JsonArray jsonArray = jsonReader.readArray();
 			assertThat(jsonArray.size() > 0, is(true));
-			List<JsonObject> jsonObjectList = jsonArray.getValuesAs(JsonObject.class);
-			for(JsonObject jsonObject : jsonObjectList)
+			final List<JsonObject> jsonObjectList = jsonArray.getValuesAs(JsonObject.class);
+			for (JsonObject jsonObject : jsonObjectList) {
 				assertThat(jsonObject.getString("bezeichnung"), is(bezeichnung));
+			}
 		}
 		LOGGER.debugf("ENDE Test findeArtikelNachBezeichnungVorhanden");
 	}
@@ -141,7 +143,7 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 		final String artikelBezeichnung = ARTIKEL_BEZEICHNUNG_NICHT_VORHANDEN;
 		
 		// WHEN
-		Response response = given().header("Accept", APPLICATION_JSON)
+		final Response response = given().header("Accept", APPLICATION_JSON)
 									.queryParam(ARTIKEL_BEZEICHNUNG_PATH_PARAM, artikelBezeichnung)
 									.get(ARTIKEL_PATH);
 		
@@ -158,14 +160,14 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 		final Long artikelId = ARTIKEL_ID_VORHANDEN;
 		
 		// WHEN
-		Response response = given().header("Accept", APPLICATION_JSON)
+		final Response response = given().header("Accept", APPLICATION_JSON)
 									.pathParameter(ARTIKEL_ID_PATH_PARAM, artikelId)
 									.get(ARTIKEL_ID_PATH);
 		
 		// THEN
 		assertThat(response.getStatusCode(), is(HTTP_OK));
 		try (JsonReader jsonReader = getJsonReaderFactory().createReader(new StringReader(response.asString()))) {
-			JsonObject jsonObject = jsonReader.readObject();
+			final JsonObject jsonObject = jsonReader.readObject();
 			assertThat(jsonObject.getJsonNumber("id").longValue(), is(artikelId.longValue()));
 		}
 		LOGGER.debugf("ENDE Test findeArtikelNachIdVorhanden");
@@ -179,7 +181,7 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 		final Long artikelId = ARTIKEL_ID_NICHT_VORHANDEN;
 		
 		// WHEN
-		Response response = given().header("Accept", APPLICATION_JSON)
+		final Response response = given().header("Accept", APPLICATION_JSON)
 									.pathParameter(ARTIKEL_ID_PATH_PARAM, artikelId)
 									.get(ARTIKEL_ID_PATH);
 		
@@ -198,16 +200,17 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 		artikelId.add(ARTIKEL1_ZU_ARTIKELGRUPPE_406);
 		
 		// WHEN
-		Response response = given().header("Accept", APPLICATION_JSON)
+		final Response response = given().header("Accept", APPLICATION_JSON)
 									.pathParameter(ARTIKELGRUPPE_ID_PATH_PARAM, artikelgruppeId)
 									.get(ARTIKELGRUPPE_ID_PATH + "/artikel");
 		
 		// THEN
 		assertThat(response.getStatusCode(), is(HTTP_OK));
-		try (JsonReader jsonReader = getJsonReaderFactory().createReader( new StringReader(response.asString()))) {
-			JsonArray jsonArray = jsonReader.readArray();
-			for(int i = 0; i < jsonArray.size(); ++i)
+		try (JsonReader jsonReader = getJsonReaderFactory().createReader(new StringReader(response.asString()))) {
+			final JsonArray jsonArray = jsonReader.readArray();
+			for (int i = 0; i < jsonArray.size(); ++i) {
 				assertThat(artikelId.contains(jsonArray.getJsonObject(i).getJsonNumber("id").longValue()), is(true));
+			}
 		}
 		LOGGER.debugf("ENDE Test findeArtikelNachArtikelgruppeVorhanden");
 	}
@@ -220,7 +223,7 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 		final Long artikelgruppeId = ARTIKELGRUPPE_ID_NICHT_VORHANDEN;
 		
 		// WHEN
-		Response response = given().header("Accept", APPLICATION_JSON)
+		final Response response = given().header("Accept", APPLICATION_JSON)
 									.pathParameter(ARTIKELGRUPPE_ID_PATH_PARAM, artikelgruppeId)
 									.get(ARTIKELGRUPPE_ID_PATH + "/artikel");
 		
@@ -236,22 +239,23 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 		// GIVEN
 		final String verfuegbarkeit = VERFUEGBARKEIT;
 		final boolean erhaeltlich;
-		if("true".equals(verfuegbarkeit))
+		if ("true".equals(verfuegbarkeit))
 			erhaeltlich = true;
 		else
 			erhaeltlich = false;
 		
 		// WHEN
-		Response response = given().header("Accept", APPLICATION_JSON)
+		final Response response = given().header("Accept", APPLICATION_JSON)
 							.pathParam(ARTIKEL_ERHAELTLICH_PATH_PARAM, verfuegbarkeit)
 							.get(ARTIKEL_PATH + "/{erhaeltlich}");
 		
 		// THEN
 		assertThat(response.getStatusCode(), is(HTTP_OK));
-		try (JsonReader jsonReader = getJsonReaderFactory().createReader( new StringReader(response.asString()))) {
-			JsonArray jsonArray = jsonReader.readArray();
-			for(int i = 0; i < jsonArray.size(); ++i)
+		try (JsonReader jsonReader = getJsonReaderFactory().createReader(new StringReader(response.asString()))) {
+			final JsonArray jsonArray = jsonReader.readArray();
+			for (int i = 0; i < jsonArray.size(); ++i) {
 				assertThat(jsonArray.getJsonObject(i).getBoolean("erhaeltlich"), is(erhaeltlich));
+			}
 		}
 		LOGGER.debugf("ENDE Test findeArtikelNachVerfuegbarkeit");
 	}
@@ -272,11 +276,11 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 								.add("bezeichnung", bezeichnung)
 								.add("erhaeltlich", erhaeltlich)
 								.add("preis", preis)
-								.add("artikelgruppe", ARTIKELGRUPPE_URI + "/" + artikelgruppeId ) 
+								.add("artikelgruppe", ARTIKELGRUPPE_URI + "/" + artikelgruppeId) 
 								.build();
 		
 		// WHEN
-		Response response = given()
+		final Response response = given()
 							.contentType(APPLICATION_JSON).body(jsonObject.toString())
 							.auth()
 							.basic(username, password)
@@ -356,7 +360,8 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 		// Then
 		assertThat(response.getStatusCode(), is(HTTP_CONFLICT));
 		final String errorMsg = response.asString();
-		assertThat(errorMsg, startsWith("Artikel mit ID=" + artikelId + " kann nicht geloescht werden, es sind Bestellungen vorhanden!"));
+		assertThat(errorMsg, startsWith("Artikel mit ID=" + artikelId 
+				+ " kann nicht geloescht werden, es sind Bestellungen vorhanden!"));
 		LOGGER.debugf("ENDE Test deleteArtikelMitBestellungen");
 	}
 	
@@ -365,7 +370,7 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 		LOGGER.debugf("BEGINN Test deleteArtikel");
 		
 		// GIVEN
-		final Long artikelId = ARTIKEL_ID_LÖSCHEN;
+		final Long artikelId = ARTIKEL_ID_LOESCHEN;
 		final String username = USERNAME;
 		final String password = PASSWORD;
 		
@@ -387,17 +392,18 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 		final String bezeichnung = ARTIKELGRUPPE_NAME_VORHANDEN;
 		
 		// WHEN
-		Response response = given().header("Accept", APPLICATION_JSON)
+		final Response response = given().header("Accept", APPLICATION_JSON)
 									.queryParam(ARTIKELGRUPPE_BEZEICHNUNG_PATH_PARAM, bezeichnung)
 									.get(ARTIKELGRUPPE_PATH);
 		
 		// THEN
-		try (JsonReader jsonReader = getJsonReaderFactory().createReader( new StringReader(response.asString()))) {
-			JsonArray jsonArray = jsonReader.readArray();
+		try (JsonReader jsonReader = getJsonReaderFactory().createReader(new StringReader(response.asString()))) {
+			final JsonArray jsonArray = jsonReader.readArray();
 			assertThat(jsonArray.size() > 0, is(true));
-			List<JsonObject> jsonObjectList = jsonArray.getValuesAs(JsonObject.class);
-			for(JsonObject jsonObject : jsonObjectList)
+			final List<JsonObject> jsonObjectList = jsonArray.getValuesAs(JsonObject.class);
+			for (JsonObject jsonObject : jsonObjectList) {
 				assertThat(jsonObject.getString("bezeichnung"), is(bezeichnung));
+			}
 		}
 		LOGGER.debugf("ENDE Test findeArtikelgruppeNachBezeichnungVorhanden");
 	}
@@ -410,7 +416,7 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 		final String artikelgruppeName = ARTIKELGRUPPE_NAME_NICHT_VORHANDEN;
 		
 		// WHEN
-		Response response = given().header("Accept", APPLICATION_JSON)
+		final Response response = given().header("Accept", APPLICATION_JSON)
 									.queryParam(ARTIKELGRUPPE_BEZEICHNUNG_PATH_PARAM, artikelgruppeName)
 									.get(ARTIKELGRUPPE_PATH);
 		
@@ -427,14 +433,14 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 		final Long artikelgruppeId = ARTIKELGRUPPE_ID_VORHANDEN;
 		
 		// WHEN
-		Response response = given().header("Accept", APPLICATION_JSON)
+		final Response response = given().header("Accept", APPLICATION_JSON)
 									.pathParameter(ARTIKELGRUPPE_ID_PATH_PARAM, artikelgruppeId)
 									.get(ARTIKELGRUPPE_ID_PATH);
 		
 		// THEN
 		assertThat(response.getStatusCode(), is(HTTP_OK));
 		try (JsonReader jsonReader = getJsonReaderFactory().createReader(new StringReader(response.asString()))) {
-			JsonObject jsonObject = jsonReader.readObject();
+			final JsonObject jsonObject = jsonReader.readObject();
 			assertThat(jsonObject.getJsonNumber("id").longValue(), is(artikelgruppeId.longValue()));
 		}
 		LOGGER.debugf("ENDE Test findeArtikelgruppeNachIdVorhanden");
@@ -448,7 +454,8 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 		final Long artikelgruppeId = ARTIKELGRUPPE_ID_NICHT_VORHANDEN;
 		
 		// WHEN
-		Response response = given().header("Accept", APPLICATION_JSON).pathParameter(ARTIKELGRUPPE_ID_PATH_PARAM, artikelgruppeId)
+		final Response response = given().header("Accept", APPLICATION_JSON)
+									.pathParameter(ARTIKELGRUPPE_ID_PATH_PARAM, artikelgruppeId)
 									.get(ARTIKELGRUPPE_ID_PATH);
 		
 		// THEN
@@ -465,14 +472,14 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 		final Long artikelgruppeId = ARTIKELGRUPPE_ID_ZU_ARTIKEL_500;
 		
 		// WHEN
-		Response response = given().header("Accept", APPLICATION_JSON)
+		final Response response = given().header("Accept", APPLICATION_JSON)
 									.pathParameter(ARTIKEL_ID_PATH_PARAM, artikelId)
 									.get(ARTIKEL_ID_PATH + "/artikelgruppe");
 		
 		// THEN
 		assertThat(response.getStatusCode(), is(HTTP_OK));
-		try (JsonReader jsonReader = getJsonReaderFactory().createReader( new StringReader(response.asString()))) {
-			JsonObject jsonObject = jsonReader.readObject();
+		try (JsonReader jsonReader = getJsonReaderFactory().createReader(new StringReader(response.asString()))) {
+			final JsonObject jsonObject = jsonReader.readObject();
 			assertThat(jsonObject.getJsonNumber("id").longValue(), is(artikelgruppeId.longValue()));
 		}
 		LOGGER.debugf("ENDE Test findeArtikelgruppeNachArtikelVorhanden");
@@ -486,7 +493,7 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 		final Long artikelId = ARTIKEL_ID_NICHT_VORHANDEN;
 		
 		// WHEN
-		Response response = given().header("Accept", APPLICATION_JSON)
+		final Response response = given().header("Accept", APPLICATION_JSON)
 									.pathParameter(ARTIKEL_ID_PATH_PARAM, artikelId)
 									.get(ARTIKEL_ID_PATH + "/artikelgruppe");
 		
@@ -508,7 +515,7 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 				.build();
 		
 		// WHEN
-		Response response = given().contentType(APPLICATION_JSON).body(jsonObject.toString())
+		final Response response = given().contentType(APPLICATION_JSON).body(jsonObject.toString())
 								   .auth()
 								   .basic(username, password).post(ARTIKELGRUPPE_PATH);
 		
@@ -585,7 +592,8 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 		// Then
 		assertThat(response.getStatusCode(), is(HTTP_CONFLICT));
 		final String errorMsg = response.asString();
-		assertThat(errorMsg, startsWith("Artikelgruppe mit ID=" + artikelgruppeId + " kann nicht geloescht werden, es sind Artikel vorhanden!"));
+		assertThat(errorMsg, startsWith("Artikelgruppe mit ID=" + artikelgruppeId 
+				+ " kann nicht geloescht werden, es sind Artikel vorhanden!"));
 		LOGGER.debugf("ENDE Test deleteArtikelgruppeMitArtikel");
 	}
 	
@@ -594,7 +602,7 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 		LOGGER.debugf("BEGINN Test deleteArtikelgruppe");
 		
 		// GIVEN
-		final Long artikelgruppeId = ARTIKELGRUPPE_ID_LÖSCHEN;
+		final Long artikelgruppeId = ARTIKELGRUPPE_ID_LOESCHEN;
 		final String username = USERNAME;
 		final String password = PASSWORD;
 		

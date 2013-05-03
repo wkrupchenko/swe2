@@ -132,7 +132,7 @@ public class ArtikelResource {
 				throw new NotFoundException(msg);
 			}
 		}
-		else if("false".equals(erhaeltlich)) {
+		else if ("false".equals(erhaeltlich)) {
 			artikel = as.findeNichtVerfuegbareArtikel();
 			if (artikel.isEmpty()) {
 				final String msg = "Keinen Artikel gefunden die nicht verfügbar sind!";
@@ -195,7 +195,7 @@ public class ArtikelResource {
 	@Produces
 	public Response createArtikel(Artikel artikel, @Context UriInfo uriInfo, @Context HttpHeaders headers) {
 		final Locale locale = localeHelper.getLocale(headers);
-		Artikelgruppe artikelgruppe = uriHelperArtikelgruppe.getArtikelgruppe(artikel.getArtikelgruppeUri());
+		final Artikelgruppe artikelgruppe = uriHelperArtikelgruppe.getArtikelgruppe(artikel.getArtikelgruppeUri());
 		artikel.setArtikelgruppe(artikelgruppe);
 		artikelgruppe.addArtikel(artikel);
 		artikel = as.createArtikel(artikel, locale);
@@ -215,7 +215,7 @@ public class ArtikelResource {
 	public void updateArtikel(Artikel artikel, @Context UriInfo uriInfo, @Context HttpHeaders headers) {
 		// Vorhandenen Artikel ermitteln
 		final Locale locale = localeHelper.getLocale(headers);
-		Artikel origArtikel = as.findeArtikelNachId(artikel.getId());
+		final Artikel origArtikel = as.findeArtikelNachId(artikel.getId());
 		if (origArtikel == null) {
 			final String msg = "Keinen Artikel gefunden mit der ID " + artikel.getId();
 			throw new NotFoundException(msg);
@@ -337,7 +337,7 @@ public class ArtikelResource {
 									@Context UriInfo uriInfo, @Context HttpHeaders headers) {
 		// Vorhandenen Artikelgruppe ermitteln
 		final Locale locale = localeHelper.getLocale(headers);
-		Artikelgruppe origArtikelgruppe = as.findeArtikelgruppeNachId(artikelgruppe.getId());
+		final Artikelgruppe origArtikelgruppe = as.findeArtikelgruppeNachId(artikelgruppe.getId());
 		if (origArtikelgruppe == null) {
 			final String msg = "Keine Artikelgruppe gefunden mit der ID " + artikelgruppe.getId();
 			throw new NotFoundException(msg);
@@ -388,4 +388,5 @@ public class ArtikelResource {
 		
 		return new JsonFile(artikel.getFile().getBytes());
 	}
+	
 }

@@ -200,9 +200,9 @@ public class ArtikelService implements Serializable {
 		if (!artikel2.equals(artikel))
 			return;
 		
-		List<Bestellung> bestellungen = bs.findeAlleBestellungen();
+		final List<Bestellung> bestellungen = bs.findeAlleBestellungen();
 		for (Bestellung b: bestellungen) {
-			List<Bestellposition> bestellpositionen = b.getBestellpositionen();
+			final List<Bestellposition> bestellpositionen = b.getBestellpositionen();
 			for (Bestellposition bp: bestellpositionen) {			
 				if (bp.getArtikel().getId().equals(artikel.getId()))
 					throw new ArtikelDeleteBestellungException(artikel);
@@ -223,8 +223,8 @@ public class ArtikelService implements Serializable {
 		em.detach(artikel);
 		
 		// Wurde Artikel gelöscht?
-		Artikel tmp = findeArtikelNachId(artikel.getId());
-		if(tmp == null) {
+		final Artikel tmp = findeArtikelNachId(artikel.getId());
+		if (tmp == null) {
 			throw new ConcurrentDeletedException(artikel.getId());
 		}
 		
@@ -252,7 +252,7 @@ public class ArtikelService implements Serializable {
 								  .setParameter(Artikelgruppe.PARAM_ID, id)
 								  .getResultList();
 		Artikelgruppe artikelgruppe;
-		if(!temp.isEmpty())
+		if (!temp.isEmpty())
 			artikelgruppe = temp.get(0);
 		else
 			artikelgruppe = null;
@@ -267,10 +267,9 @@ public class ArtikelService implements Serializable {
 	}
 	
 	public List<Artikelgruppe> findeArtikelgruppeNachName(String name) {
-		final List<Artikelgruppe> artikelgruppe = em.createNamedQuery(Artikelgruppe.FINDE_ARTIKELGRUPPE_NACH_BEZEICHNUNG, 
-																	  Artikelgruppe.class)
-								  .setParameter(Artikelgruppe.PARAM_BEZEICHNUNG, name)
-								  .getResultList();
+		final List<Artikelgruppe> artikelgruppe = em.createNamedQuery(Artikelgruppe
+				.FINDE_ARTIKELGRUPPE_NACH_BEZEICHNUNG, Artikelgruppe.class)
+				.setParameter(Artikelgruppe.PARAM_BEZEICHNUNG, name).getResultList();
 		return artikelgruppe;
 	}
 	
@@ -312,8 +311,8 @@ public class ArtikelService implements Serializable {
 		em.detach(artikelgruppe);
 				
 		// Wurde Artikelgruppe gelöscht?
-		Artikelgruppe tmp = findeArtikelgruppeNachId(artikelgruppe.getId());
-		if(tmp == null) {
+		final Artikelgruppe tmp = findeArtikelgruppeNachId(artikelgruppe.getId());
+		if (tmp == null) {
 			throw new ConcurrentDeletedException(artikelgruppe.getId());
 		}
 				
@@ -334,7 +333,7 @@ public class ArtikelService implements Serializable {
 		if (artikelgruppe2 != artikelgruppe)
 			return;
 		
-		List<Artikel> artikel = artikelgruppe.getArtikel();
+		final List<Artikel> artikel = artikelgruppe.getArtikel();
 		if (!artikel.isEmpty()) {
 					throw new ArtikelgruppeDeleteArtikelException(artikelgruppe);
 		}
