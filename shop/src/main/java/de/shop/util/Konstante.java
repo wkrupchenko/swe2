@@ -6,7 +6,7 @@ public final class Konstante {
 	public static final long MIN_ID = 1L;
 	public static final int INT_ANZ_ZIFFERN = 11;
 	public static final int LONG_ANZ_ZIFFERN = 20;
-	public static final int ERSTE_VERSION = 0;
+	public static final int ERSTE_VERSION = 1;
 	
 	// REST
 	public static final String ARTIKELVERWALTUNG_NS = "urn:shop:artikelverwaltung";

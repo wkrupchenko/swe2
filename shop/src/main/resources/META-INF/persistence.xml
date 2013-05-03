@@ -31,6 +31,9 @@
 			<!-- Kommentare zu den generierten SQL-Anweisungen hinzufuegen -->
 			<property name="hibernate.use_sql_comments" value="true"/>
 			
+			<!-- Batch fuer DML von automatisch versionierten Datensaetzen -->
+			<property name="hibernate.jdbc.batch_versioned_data" value="true"/>
+			
 			<!-- Tabellen loeschen und neu generieren beim Laden der Anwendung -->
 			<property name="hibernate.hbm2ddl.auto" value="create"/>
 			

@@ -49,7 +49,6 @@ public class KundeResourceConcurrencyTest extends AbstractResourceTest {
 	private static final Long KUNDE_ID_DELETE1 = Long.valueOf(106);
 	private static final Long KUNDE_ID_DELETE2 = Long.valueOf(107);
 
-	@Ignore
 	@Test
 	public void updateUpdate() throws InterruptedException, ExecutionException {
 		// TODO

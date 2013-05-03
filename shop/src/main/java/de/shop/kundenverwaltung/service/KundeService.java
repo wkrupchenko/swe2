@@ -294,21 +294,22 @@ public class KundeService implements Serializable {
 		em.detach(kunde);
 		
 		// Wurde das Objekt konkurrierend geloescht?
-		Kunde tmp = findeKundeNachEmail(kunde.getEmail(), locale);
-		if(tmp == null) {
+		Kunde tmp = findeKundeNachId(kunde.getId(), FetchType.NUR_KUNDE, locale);
+		if (tmp == null) {
 			throw new ConcurrentDeletedException(kunde.getId());
 		}
-		
-		// Kunde erneut vom EntityManager trennen
 		em.detach(tmp);
 		
+		// Gibt es ein anderes Objekt mit gleicher Email-Adresse?
 		tmp = findeKundeNachEmail(kunde.getEmail(), locale);
-		if(tmp != null) {
+		if (tmp != null) {
 			em.detach(tmp);
-			if(tmp.getId().longValue() != kunde.getId().longValue())
+			if (tmp.getId().longValue() != kunde.getId().longValue()) {
+				// anderes Objekt mit gleichem Attributwert fuer email
 				throw new EmailExistsException(kunde.getEmail());
+			}
 		}
-		
+				
 		kunde = em.merge(kunde); //OptimisticLockException ggf. geworfen!
 		return kunde;
 	}
