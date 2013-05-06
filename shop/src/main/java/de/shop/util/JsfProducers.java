@@ -38,16 +38,12 @@ public class JsfProducers {
 
 	@Produces
 	@RequestScoped
-	// TODO Entfaellt ab CDI 1.1 (Java EE 7)
-	// http://docs.oracle.com/javaee/6/api/index.html?javax/servlet/http/HttpServletRequest.html
 	private static HttpServletRequest getHttpServletRequest(final ExternalContext ctx) {
 		return (HttpServletRequest) ctx.getRequest();
 	}
 	
 	@Produces
 	@RequestScoped
-	// TODO Entfaellt ab CDI 1.1 (Java EE 7)
-	// http://docs.oracle.com/javaee/6/api/index.html?javax/servlet/http/HttpSession.html
 	private static HttpSession getHttpSession(final ExternalContext ctx) {
 		return (HttpSession) ctx.getSession(false);
 	}
