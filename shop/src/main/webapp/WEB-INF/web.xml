@@ -3,6 +3,83 @@
  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
  <display-name>shop</display-name>
  <context-param>
+  <description>Dateien fuer den Facelets-Compiler</description>
+  <param-name>javax.faces.FACELETS_VIEW_MAPPINGS</param-name>
+  <param-value>*.xhtml</param-value>
+ </context-param>
+ <context-param>
+  <description>Pruefung bzgl. Aenderungen</description>
+  <param-name>javax.faces.FACELETS_REFRESH_PERIOD</param-name>
+  <param-value>1</param-value>
+ </context-param>
+  <context-param>
+  <description>Fuer Bean Validation mit @NotNull</description>
+  <param-name>
+   javax.faces.INTERPRET_EMPTY_STRING_SUBMITTED_VALUES_AS_NULL
+  </param-name>
+  <param-value>true</param-value>
+ </context-param>
+ <context-param>
+  <description>damit Kommentare platziert werden koennen</description>
+  <param-name>javax.faces.FACELETS_SKIP_COMMENTS</param-name>
+  <param-value>true</param-value>
+ </context-param>
+ <context-param>
+  <description>nicht behandelte Fehlermeldungen anzeigen</description>
+  <param-name>javax.faces.PROJECT_STAGE</param-name>
+  <param-value>Development</param-value>
+ </context-param>
+ <context-param>
+  <param-name>
+   javax.faces.DATETIMECONVERTER_DEFAULT_TIMEZONE_IS_SYSTEM_TIMEZONE
+  </param-name>
+  <param-value>true</param-value>
+ </context-param>
+ <context-param>
+  <param-name>com.sun.faces.displayConfiguration</param-name>
+  <param-value>true</param-value>
+ </context-param>
+ <context-param>
+  <description>Javascript komprimieren</description>
+  <param-name>com.sun.faces.compressJavaScript</param-name>
+  <param-value>false</param-value>
+ </context-param>
+ <context-param>
+  <description>
+   serverseitige Statusinfo (zu den Clients) komprimieren
+  </description>
+  <param-name>com.sun.faces.compressViewState</param-name>
+  <param-value>false</param-value>
+ </context-param>
+ <context-param>
+  <description>
+   In Produktion: einschalten, d.h. auf true setzen
+  </description>
+  <param-name>com.sun.faces.enableLazyBeanValidation</param-name>
+  <param-value>false</param-value>
+ </context-param>
+ <context-param>
+  <description>Gibt es neue Bilder oder CSS-Dateien?</description>
+  <param-name>
+   com.sun.faces.resourceUpdateCheckPeriod
+  </param-name>
+  <param-value>1</param-value>
+ </context-param>
+ <context-param>
+  <param-name>org.richfaces.skin</param-name>
+  <param-value>blueSky</param-value>
+ </context-param>
+ <mime-mapping>
+  <extension>ecss</extension>
+  <mime-type>text/css</mime-type>
+ </mime-mapping>
+ <session-config>
+  <session-timeout>15</session-timeout>
+ </session-config>
+ <welcome-file-list>
+  <welcome-file>index.jsf</welcome-file>
+ </welcome-file-list>
+ <context-param>
   <description>Mapping fuer XML, JSON usw.</description>
   <param-name>resteasy.use.builtin.providers</param-name>
   <param-value>true</param-value>
@@ -20,12 +97,12 @@
   <env-entry>
     <env-entry-name>empfaengerMail</env-entry-name>
     <env-entry-type>java.lang.String</env-entry-type>
-    <env-entry-value>abcd0011@hs-karlsruhe.de</env-entry-value>
+    <env-entry-value>krvl1011@hs-karlsruhe.de</env-entry-value>
   </env-entry>
   <env-entry>
     <env-entry-name>empfaengerName</env-entry-name>
     <env-entry-type>java.lang.String</env-entry-type>
-    <env-entry-value>Joe Doe</env-entry-value>
+    <env-entry-value>Wladik Krupchenko</env-entry-value>
   </env-entry>
   <env-entry>
     <env-entry-name>locales</env-entry-name>
