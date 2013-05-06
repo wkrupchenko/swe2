@@ -4,6 +4,25 @@ Artikelverwaltung --> Ingo
 Kundenverwaltung  --> Sebastian
 Bestellverwaltung --> Wladik
 
+MEILENSTEIN 2 	Web-Oberfläche:
+
+- Kunde registrieren und ändern
+- Artikel erfassen und ändern
+- Bestellung aufgeben
+- Login und Sprachänderung
+
+- Konkurrierende Updates für Kunde und Artikel:
+	a4j:push und auch Fehlermeldungen nach OptimisticLockException
+
+- "mvn site"
+
+- Web-Projekt auf beschrifteter CD oder DVD
+
+OPTIONAL 	Android:
+
+- Kunde mit Bestellungen anzeigen
+- Artikel anzeigen und erfassen
+
 MEILENSTEIN 1:
 
 - Keystore für DB Passwort ERLEDIGT
