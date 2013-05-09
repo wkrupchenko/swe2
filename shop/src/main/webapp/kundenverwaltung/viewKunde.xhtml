@@ -39,6 +39,10 @@
 						<h:panelGrid id="gesuchterKunde"
 									 columns="2"
 									 border="1">
+							
+							<h:outputText id="artLabel" value="#{msgKv['viewKunde.art']}"/>
+							<h:outputText id="art" value="#{kunde.art}"/>
+							
 							<h:outputText id="kundeIdLabel" value="#{msgKv['viewKunde.kundenr']}"/>
 							<h:outputText id="kundeId" value="#{kunde.id}"/>
 				
@@ -47,6 +51,39 @@
 				
 							<h:outputText id="vornameLabel" value="#{msgKv['viewKunde.vorname']}"/>
 							<h:outputText id="vorname" value="#{kunde.vorname}"/>
+							
+							<h:outputText id="emailLabel" value="#{msgKv['viewKunde.email']}"/>
+							<h:outputText id="email" value="#{kunde.email}"/>
+							
+							<h:outputText id="geschlechtLabel" value="#{msgKv['viewKunde.geschlecht']}"/>
+							<h:outputText id="geschlecht" value="#{kunde.geschlecht}"/>
+							
+							<h:outputText id="familienstandLabel" value="#{msgKv['viewKunde.familienstand']}"/>
+							<h:outputText id="familienstand" value="#{kunde.familienstand}"/>
+							
+							<h:outputText id="newsletterLabel" value="#{msgKv['viewKunde.newsletter']}"/>
+							<h:outputText id="newsletter" value="#{kunde.newsletter}"/>
+							
+							<h:outputText id="umsatzLabel" value="#{msgKv['viewKunde.umsatz']}"/>
+							<h:outputText id="umsatz" value="#{kunde.umsatz}"/>
+							
+							<h:outputText id="rabattLabel" value="#{msgKv['viewKunde.rabatt']}"/>
+							<h:outputText id="rabatt" value="#{kunde.rabatt}"/>
+							
+							<h:outputText id="seitLabel" value="#{msgKv['viewKunde.seit']}"/>
+							<h:outputText id="seit" value="#{kunde.seit}"/>
+							
+							<h:outputText id="strasseLabel" value="#{msgKv['viewKunde.strasse']}"/>
+							<h:outputText id="strasse" value="#{kunde.adresse.strasse}"/>
+							
+							<h:outputText id="hausnrLabel" value="#{msgKv['viewKunde.hausnr']}"/>
+							<h:outputText id="hausnr" value="#{kunde.adresse.hausnr}"/>
+							
+							<h:outputText id="plzLabel" value="#{msgKv['viewKunde.plz']}"/>
+							<h:outputText id="plz" value="#{kunde.adresse.plz}"/>
+							
+							<h:outputText id="ortLabel" value="#{msgKv['viewKunde.ort']}"/>
+							<h:outputText id="ort" value="#{kunde.adresse.ort}"/>
 						</h:panelGrid>
 					</c:if>
 					
