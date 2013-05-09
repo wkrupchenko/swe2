@@ -16,7 +16,7 @@
 				<rich:panel id="suchePanel" header="#{msgBv['viewBestellung.sucheNeu']}">
 					<h:panelGrid id="suchePanelGrid" columns="3">
 						<h:outputLabel id="idInputLabel"
-									   value="#{msgBv['viewBestellung.bestellungnr']}"
+									   value="#{msgBv['viewBestellung.bestellnr']}"
 									   for="idInput"/>
 		
 						<h:inputText id="idInput" value="#{bc.bestellungId}"/>
@@ -39,7 +39,7 @@
 						<h:panelGrid id="gesuchteBestellung"
 									 columns="2"
 									 border="1">
-							<h:outputText id="bestellungIdLabel" value="#{msgBv['viewBestellung.bestellungnr']}"/>
+							<h:outputText id="bestellungIdLabel" value="#{msgBv['viewBestellung.bestellnr']}"/>
 							<h:outputText id="bestellungId" value="#{bestellung.id}"/>
 						</h:panelGrid>
 					</c:if>
