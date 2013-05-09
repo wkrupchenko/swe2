@@ -22,7 +22,7 @@
 						<h:inputText id="idInput" value="#{ac.artikelId}"/>
 						
 						<a4j:commandButton id="sucheButton"
-										   action="#{ac.findArtikelById}"
+										   action="#{ac.findeArtikelNachId}"
 										   value="#{msgAv['viewArtikel.submit']}"
 										   render="gesuchterArtikelPanel"/>
 					</h:panelGrid>
@@ -50,6 +50,13 @@
 							<h:outputText id="preis" value="#{artikel.preis}"/>
 							<h:outputText id="erhaeltlich" value="#{artikel.erhaeltlich}"/>		
 							<h:outputText id="artikelgruppe" value="#{artikel.artikelgruppe}"/>
+						</h:panelGrid>
+					</c:if>
+					<c:if test="#{empty flash.artikel}">
+						<h:panelGrid id="keinArtikel"
+									columns="1"
+									border="1">
+							<h:outputText id="keinArtikelGefunden" value="#{msgAv['viewArtikel.keineDaten']}"/>
 						</h:panelGrid>
 					</c:if>
 					
