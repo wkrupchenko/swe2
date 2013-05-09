@@ -26,7 +26,7 @@
 						<a4j:commandButton id="sucheButton"
 										   action="#{ac.findeArtikelNachBezeichnung}"
 										   value="#{msgAv['viewArtikel.submit']}"
-										   render="gesuchterArtikelPanel sucheForm:fehlermeldungBezeichnung"/>
+										   render="gesuchterArtikelPanel"/>
 						
 						<a4j:status id="statusStart">
 							<f:facet name="start">
@@ -91,7 +91,7 @@
 								<f:facet name="header">
 									#{msgAv['viewArtikel.artikelgruppe']}
 								</f:facet>
-								#{artikel.artikelgruppe}
+								#{artikel.artikelgruppe.bezeichnung}
 							</rich:column>
 							
 						</rich:dataTable>
