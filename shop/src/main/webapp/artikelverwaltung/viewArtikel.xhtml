@@ -37,13 +37,19 @@
 						<c:set target="#{flash}" property="artikel" value="#{artikel}"/>
 						
 						<h:panelGrid id="gesuchterArtikel"
-									 columns="2"
+									 columns="5"
 									 border="1">
 							<h:outputText id="artikelIdLabel" value="#{msgAv['viewArtikel.artikelnr']}"/>
-							<h:outputText id="artikelId" value="#{artikel.id}"/>
-				
-							<h:outputText id="beschreibungLabel" value="#{msgAv['viewArtikel.beschreibung']}"/>
-							<h:outputText id="beschreibung" value="#{artikel.beschreibung}"/>
+							<h:outputText id="bezeichnungLabel" value="#{msgAv['viewArtikel.bezeichnung']}"/>
+							<h:outputText id="preisLabel" value="#{msgAv['viewArtikel.preis']}"/>
+							<h:outputText id="erhaeltlichLabel" value="#{msgAv['viewArtikel.erhaeltlich']}"/>
+							<h:outputText id="artikelgruppeLabel" value="#{msgAv['viewArtikel.artikelgruppe']}"/>
+							
+							<h:outputText id="artikelId" value="#{artikel.id}"/>				
+							<h:outputText id="bezeichnung" value="#{artikel.bezeichnung}"/>
+							<h:outputText id="preis" value="#{artikel.preis}"/>
+							<h:outputText id="erhaeltlich" value="#{artikel.erhaeltlich}"/>		
+							<h:outputText id="artikelgruppe" value="#{artikel.artikelgruppe}"/>
 						</h:panelGrid>
 					</c:if>
 					
