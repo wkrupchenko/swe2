@@ -26,6 +26,7 @@ public class ArtikelController implements Serializable {
 	private static final String FLASH_ARTIKEL = "artikel";
 	private static final String JSF_VIEW_ARTIKEL = "/artikelverwaltung/viewArtikel";
 	private static final String JSF_VIEW_ARTIKEL_BEZEICHNUNG = "/artikelverwaltung/viewArtikelBezeichnung";
+	private static final String JSF_VIEW_ARTIKEL_VERFUEGBARKEIT = "/artikelverwaltung/viewArtikelVerfuegbarkeit";
 	
 	@Inject
 	private ArtikelService as;
@@ -35,6 +36,7 @@ public class ArtikelController implements Serializable {
 	
 	private Long artikelId;
 	private String artikelBezeichnung;
+	private Boolean artikelErhaeltlich;
 
 	@Override
 	public String toString() {
@@ -57,6 +59,14 @@ public class ArtikelController implements Serializable {
 	public String getArtikelBezeichnung() {
 		return artikelBezeichnung;
 	}
+	
+	public void setArtikelErhaeltlich(Boolean artikelErhaeltlich) {
+		this.artikelErhaeltlich = artikelErhaeltlich;
+	}
+
+	public Boolean getArtikelErhaeltlich() {
+		return artikelErhaeltlich;
+	}
 
 	/**
 	 * Action Methode, um einen Artikel zu gegebener ID zu suchen
@@ -75,7 +85,7 @@ public class ArtikelController implements Serializable {
 	}
 	
 	/**
-	 * Action Methode, um einen Artikel zu gegebener Bezeichnung zu suchen
+	 * Action Methode, um Artikel zu einer gegebenen Bezeichnung zu suchen
 	 * @return URL fuer Anzeige des gefundenen Artikel; sonst null
 	 */
 	@Transactional
@@ -88,5 +98,33 @@ public class ArtikelController implements Serializable {
 		
 		flash.put(FLASH_ARTIKEL, artikel);
 		return JSF_VIEW_ARTIKEL_BEZEICHNUNG;
+	}
+	
+	/**
+	 * Action Methode, um Artikel zu gegebener Verfuegbarkeit zu suchen
+	 * @return URL fuer Anzeige des gefundenen Artikel; sonst null
+	 */
+	@Transactional
+	public String findeArtikelNachVerfuegbarkeit() {
+		if(artikelErhaeltlich) {
+			final List<Artikel> artikel = as.findeVerfuegbareArtikel();
+			if (artikel.isEmpty()) {
+				flash.remove(FLASH_ARTIKEL);
+				return null;
+			}
+		
+			flash.put(FLASH_ARTIKEL, artikel);
+			return JSF_VIEW_ARTIKEL_VERFUEGBARKEIT;
+		}
+		else {
+			final List<Artikel> artikel = as.findeNichtVerfuegbareArtikel();
+			if (artikel.isEmpty()) {
+				flash.remove(FLASH_ARTIKEL);
+				return null;
+			}
+		
+			flash.put(FLASH_ARTIKEL, artikel);
+			return JSF_VIEW_ARTIKEL_VERFUEGBARKEIT;
+		}
 	}
 }
