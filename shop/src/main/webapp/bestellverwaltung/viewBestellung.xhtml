@@ -4,6 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	  xmlns:ui="http://java.sun.com/jsf/facelets"
 	  xmlns:h="http://java.sun.com/jsf/html"
+	  xmlns:f="http://java.sun.com/jsf/core"
 	  xmlns:c="http://java.sun.com/jsp/jstl/core"
 	  xmlns:rich="http://richfaces.org/rich"
 	  xmlns:a4j="http://richfaces.org/a4j">
@@ -29,19 +30,59 @@
 				</rich:panel>
 			
 				<p id="abstand"/>
-			
+								 			
 				<a4j:outputPanel id="gesuchteBestellungPanel">
-					<c:if test="#{not empty flash.bestellung}">
+					<c:if test="#{not empty flash.bestellung or param.init ne 'true'}">
 						<c:set var="bestellung" value="#{flash.bestellung}" scope="view"/>
 						<!-- Fuer den naechsten Request puffern, falls z.B. ein Update-Button angeklickt WUERDE -->
 						<c:set target="#{flash}" property="bestellung" value="#{bestellung}"/>
 						
-						<h:panelGrid id="gesuchteBestellung"
-									 columns="2"
-									 border="1">
-							<h:outputText id="bestellungIdLabel" value="#{msgBv['viewBestellung.bestellnr']}"/>
-							<h:outputText id="bestellungId" value="#{bestellung.id}"/>
-						</h:panelGrid>
+							<rich:dataTable id="bestellungTabelle"
+						                value="#{bestellung}"
+						                var="bestellung"
+						                rows="5"
+						                noDataLabel="#{msgBv['viewBestellung.keineDaten']}"
+						                rowClasses="odd-row, even-row"
+						                styleClass="tabelleMitZebrastil"
+						                cellspacing="10"
+						                rendered="#{not empty bestellung or param.init ne 'true'}">
+							<rich:column id="idSpalte">
+								<f:facet name="header">
+									#{msgBv['viewBestellung.bestellnr']}
+								</f:facet>
+								#{bestellung.id}
+							</rich:column>
+							
+							<rich:column id="bestellpositionenSpalte">
+								<f:facet name="header">
+									#{msgBv['viewBestellung.bestellpositionen']}
+								</f:facet>
+								#{bestellung.bestellpositionen}
+							</rich:column>
+							
+							<rich:column id="offenAbgeschlossenSpalte">
+								<f:facet name="header">
+									#{msgBv['viewBestellung.offenabgeschlossen']}
+								</f:facet>
+								#{bestellung.offenAbgeschlossen}
+							</rich:column>
+							
+							<rich:column id="kundeSpalte">
+								<f:facet name="header">
+									#{msgBv['viewBestellung.kunde']}
+								</f:facet>
+								#{bestellung.kunde}
+							</rich:column>
+							
+							<rich:column id="lieferungenSpalte">
+								<f:facet name="header">
+									#{msgBv['viewBestellung.lieferungen']}
+								</f:facet>
+								#{bestellung.lieferungen}
+							</rich:column>
+							
+						</rich:dataTable>
+						
 					</c:if>
 					
 					<!-- TODO Button zum Aendern und/oder Loeschen -->
