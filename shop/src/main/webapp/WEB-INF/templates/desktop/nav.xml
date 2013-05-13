@@ -26,6 +26,9 @@
 			<rich:panelMenuGroup id="kundenverwaltung"
 			                     label="#{msg['nav.kundenverwaltung']}"
 			                     expanded="true">
+				<rich:panelMenuGroup id="sucheKunde"
+			                     label="#{msg['nav.suche']}"
+			                     expanded="true">
 				<rich:panelMenuItem id="kundenverwaltungViewKundeItem">
 					<h:outputLink id="kundenverwaltungViewKunde"
 					              value="#{request.contextPath}/kundenverwaltung/viewKunde.jsf">
@@ -35,10 +38,14 @@
 						</c:if>
 					</h:outputLink>
 				</rich:panelMenuItem>
+				</rich:panelMenuGroup>
 			</rich:panelMenuGroup>
 
 			<rich:panelMenuGroup id="artikelverwaltung"
 			                     label="#{msg['nav.artikelverwaltung']}"
+			                     expanded="true">
+				<rich:panelMenuGroup id="sucheArtikel"
+			                     label="#{msg['nav.suche']}"
 			                     expanded="true">
 				<rich:panelMenuItem id="artikelverwaltungViewArtikelItem">
 					<h:outputLink id="artikelverwaltungViewArtikel"
@@ -110,10 +117,18 @@
 						</c:if>
 					</h:outputLink>
 				</rich:panelMenuItem>
+				</rich:panelMenuGroup>
+				<rich:panelMenuGroup id="anlegenArtikel"
+			                     label="#{msg['nav.anlegen']}"
+			                     expanded="true">
+				</rich:panelMenuGroup>
 			</rich:panelMenuGroup>
 
 			<rich:panelMenuGroup id="bestellverwaltung"
 			                     label="#{msg['nav.bestellverwaltung']}"
+			                     expanded="true">
+				<rich:panelMenuGroup id="sucheBestellung"
+			                     label="#{msg['nav.suche']}"
 			                     expanded="true">
 				<rich:panelMenuItem id="bestellverwaltungViewBestellungItem">
 					<h:outputLink id="kundenverwaltungViewBestellung"
@@ -124,6 +139,7 @@
 						</c:if>
 					</h:outputLink>
 				</rich:panelMenuItem>
+				</rich:panelMenuGroup>
 			</rich:panelMenuGroup>
 			
 		</rich:panelMenu>
