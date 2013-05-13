@@ -28,6 +28,8 @@ public class ArtikelController implements Serializable {
 	private static final String JSF_VIEW_ARTIKEL_BEZEICHNUNG = "/artikelverwaltung/viewArtikelBezeichnung";
 	private static final String JSF_VIEW_ARTIKEL_BEZEICHNUNG_PREFIX = "/artikelverwaltung/viewArtikelBezeichnungPrefix";
 	private static final String JSF_VIEW_ARTIKEL_VERFUEGBARKEIT = "/artikelverwaltung/viewArtikelVerfuegbarkeit";
+	private static final String JSF_VIEW_ARTIKEL_MAX_PREIS = "/artikelverwaltung/viewArtikelMaxPreis";
+	private static final String JSF_VIEW_ARTIKEL_MIN_PREIS = "/artikelverwaltung/viewArtikelMinPreis";
 	
 	@Inject
 	private ArtikelService as;
@@ -39,6 +41,7 @@ public class ArtikelController implements Serializable {
 	private String artikelBezeichnung;
 	private String artikelBezeichnungPrefix;
 	private Boolean artikelErhaeltlich;
+	private double artikelPreis;
 
 	@Override
 	public String toString() {
@@ -76,6 +79,15 @@ public class ArtikelController implements Serializable {
 	public Boolean getArtikelErhaeltlich() {
 		return artikelErhaeltlich;
 	}
+	
+	public void setArtikelPreis(double artikelPreis) {
+		this.artikelPreis = artikelPreis;
+	}
+
+	public double getArtikelPreis() {
+		return artikelPreis;
+	}
+
 
 	/**
 	 * Action Methode, um einen Artikel zu gegebener ID zu suchen
@@ -110,7 +122,7 @@ public class ArtikelController implements Serializable {
 	}
 	
 	/**
-	 * Action Methode, um Artikel zu einer gegebenen Bezeichnung zu suchen
+	 * Action Methode, um Artikel zu einem gegebenen Prefix einer Bezeichnung zu suchen
 	 * @return URL fuer Anzeige des gefundenen Artikel; sonst null
 	 */
 	@Transactional
@@ -151,5 +163,37 @@ public class ArtikelController implements Serializable {
 			flash.put(FLASH_ARTIKEL, artikel);
 			return JSF_VIEW_ARTIKEL_VERFUEGBARKEIT;
 		}
+	}
+	
+	/**
+	 * Action Methode, um Artikel zu einem maximal gegebenen Preis zu suchen
+	 * @return URL fuer Anzeige des gefundenen Artikel; sonst null
+	 */
+	@Transactional
+	public String findeArtikelNachMaxPreis() {
+		final List<Artikel> artikel = as.findeArtikelNachMaxPreis(artikelPreis);
+		if (artikel.isEmpty()) {
+			flash.remove(FLASH_ARTIKEL);
+			return null;
+		}
+		
+		flash.put(FLASH_ARTIKEL, artikel);
+		return JSF_VIEW_ARTIKEL_MAX_PREIS;
+	}
+	
+	/**
+	 * Action Methode, um Artikel zu einem minimal gegebenen Preis zu suchen
+	 * @return URL fuer Anzeige des gefundenen Artikel; sonst null
+	 */
+	@Transactional
+	public String findeArtikelNachMinPreis() {
+		final List<Artikel> artikel = as.findeArtikelNachMinPreis(artikelPreis);
+		if (artikel.isEmpty()) {
+			flash.remove(FLASH_ARTIKEL);
+			return null;
+		}
+		
+		flash.put(FLASH_ARTIKEL, artikel);
+		return JSF_VIEW_ARTIKEL_MIN_PREIS;
 	}
 }

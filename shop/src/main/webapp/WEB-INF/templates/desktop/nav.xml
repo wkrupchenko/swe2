@@ -39,6 +39,18 @@
 			#{msg['nav.viewArtikelVerfuegbarkeit']}
 		</h:outputLink>
 	</p>
+	<p id="viewArtikelMaxPreis">
+	    <h:outputLink id="menuViewArtikelMaxPreis"
+		              value="#{request.contextPath}/artikelverwaltung/viewArtikelMaxPreis.jsf">
+			#{msg['nav.viewArtikelMaxPreis']}
+		</h:outputLink>
+	</p>
+	<p id="viewArtikelMinPreis">
+	    <h:outputLink id="menuViewArtikelMinPreis"
+		              value="#{request.contextPath}/artikelverwaltung/viewArtikelMinPreis.jsf">
+			#{msg['nav.viewArtikelMinPreis']}
+		</h:outputLink>
+	</p>
 	<p id="viewBestellung">
 	    <h:outputLink id="menuViewBestellung"
 		              value="#{request.contextPath}/bestellverwaltung/viewBestellung.jsf">
