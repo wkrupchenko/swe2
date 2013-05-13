@@ -71,16 +71,21 @@
 								<f:facet name="header">
 									#{msgBv['viewBestellung.kunde']}
 								</f:facet>
+								<h:outputLink id="linkOne"
+					              value="#{request.contextPath}">
+						#{msg['nav.allgemeines.index']}
+						 
+					          </h:outputLink>								
 								#{bestellung.kunde.nachname}
 							</rich:column>
-							 
+														  
 							<rich:column id="lieferungenSpalte">
 								<f:facet name="header">
 									#{msgBv['viewBestellung.lieferungen']}
 								</f:facet>
-								#{bestellung.lieferungen.liefernr}
+								#{bestellung.lieferungen}
 							</rich:column>
-							
+							 
 						</rich:dataTable>
 						
 					</c:if>
