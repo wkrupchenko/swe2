@@ -1,8 +1,12 @@
 package de.shop.artikelverwaltung.controller;
 
+import static javax.ejb.TransactionAttributeType.REQUIRED;
+import static de.shop.util.Messages.MessagesType.ARTIKELVERWALTUNG;
+
 import java.io.Serializable;
 import java.util.List;
 
+import javax.ejb.TransactionAttribute;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.context.Flash;
 import javax.inject.Inject;
@@ -11,6 +15,7 @@ import javax.inject.Named;
 import de.shop.artikelverwaltung.domain.Artikel;
 import de.shop.artikelverwaltung.service.ArtikelService;
 import de.shop.util.Log;
+import de.shop.util.Messages;
 import de.shop.util.Transactional;
 
 
@@ -26,14 +31,17 @@ public class ArtikelController implements Serializable {
 	private static final String FLASH_ARTIKEL = "artikel";
 	
 	private static final int ANZAHL_LADENHUETER = 5;
+	private static final int MAX_AUTOCOMPLETE = 10;
 	
 	private static final String JSF_VIEW_ARTIKEL = "/artikelverwaltung/viewArtikel";
 	private static final String JSF_VIEW_ARTIKEL_ARTIKELGRUPPE = "/artikelverwaltung/viewArtikelArtikelgruppe";
 	private static final String JSF_VIEW_ARTIKEL_BEZEICHNUNG = "/artikelverwaltung/viewArtikelBezeichnung";
-	private static final String JSF_VIEW_ARTIKEL_BEZEICHNUNG_PREFIX = "/artikelverwaltung/viewArtikelBezeichnungPrefix";
 	private static final String JSF_VIEW_ARTIKEL_VERFUEGBARKEIT = "/artikelverwaltung/viewArtikelVerfuegbarkeit";
 	private static final String JSF_VIEW_ARTIKEL_MAX_PREIS = "/artikelverwaltung/viewArtikelMaxPreis";
 	private static final String JSF_VIEW_ARTIKEL_MIN_PREIS = "/artikelverwaltung/viewArtikelMinPreis";
+	
+	private static final String MSG_KEY_ARTIKEL_NOT_FOUND_BY_BEZEICHNUNG = "viewArtikelBezeichnung.notFound";
+	private static final String CLIENT_ID_ARTIKEL_BEZEICHNUNG = "form:bezeichnung";
 	
 	@Inject
 	private ArtikelService as;
@@ -41,10 +49,12 @@ public class ArtikelController implements Serializable {
 	@Inject
 	private Flash flash;
 	
+	@Inject
+	private Messages messages;
+	
 	private Long artikelId;
 	private String artikelArtikelgruppe;
 	private String artikelBezeichnung;
-	private String artikelBezeichnungPrefix;
 	private Boolean artikelErhaeltlich;
 	private double artikelPreis;
 	private List<Artikel> ladenhueter;
@@ -76,14 +86,6 @@ public class ArtikelController implements Serializable {
 
 	public String getArtikelBezeichnung() {
 		return artikelBezeichnung;
-	}
-	
-	public void setArtikelBezeichnungPrefix(String artikelBezeichnungPrefix) {
-		this.artikelBezeichnungPrefix = artikelBezeichnungPrefix;
-	}
-
-	public String getArtikelBezeichnungPrefix() {
-		return artikelBezeichnungPrefix;
 	}
 	
 	public void setArtikelErhaeltlich(Boolean artikelErhaeltlich) {
@@ -155,19 +157,23 @@ public class ArtikelController implements Serializable {
 	}
 	
 	/**
-	 * Action Methode, um Artikel zu einem gegebenen Prefix einer Bezeichnung zu suchen
-	 * @return URL fuer Anzeige des gefundenen Artikel; sonst null
+	 * Für rich:autocomplete um potentielle Bezeichnungen zu Prefix zu erhalten
+	 * @return Liste der potenziellen Bezeichnungen
 	 */
-	@Transactional
-	public String findeArtikelNachBezeichnungPrefix() {
-		final List<Artikel> artikel = as.findeArtikelNachPrefixBezeichnung(artikelBezeichnungPrefix);
-		if (artikel.isEmpty()) {
-			flash.remove(FLASH_ARTIKEL);
-			return null;
+	@TransactionAttribute(REQUIRED)
+	public List<String> findeBezeichnungenNachPrefix(String artikelBezeichnungPrefix) {
+		// NICHT: Liste von Kunden. Sonst waeren gleiche Nachnamen mehrfach vorhanden.
+		final List<String> bezeichnungen = as.findeBezeichnungenNachPrefix(artikelBezeichnungPrefix);
+		if (bezeichnungen.isEmpty()) {
+			messages.error(ARTIKELVERWALTUNG, MSG_KEY_ARTIKEL_NOT_FOUND_BY_BEZEICHNUNG, CLIENT_ID_ARTIKEL_BEZEICHNUNG, artikelId);
+			return bezeichnungen;
 		}
-		
-		flash.put(FLASH_ARTIKEL, artikel);
-		return JSF_VIEW_ARTIKEL_BEZEICHNUNG_PREFIX;
+
+		if (bezeichnungen.size() > MAX_AUTOCOMPLETE) {
+			return bezeichnungen.subList(0, MAX_AUTOCOMPLETE);
+		}
+
+		return bezeichnungen;
 	}
 	
 	/**
