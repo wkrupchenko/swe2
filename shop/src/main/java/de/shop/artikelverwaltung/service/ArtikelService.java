@@ -417,4 +417,11 @@ public class ArtikelService implements Serializable {
 			em.merge(file);
 		}
 	}
+	
+	public List<Artikel> ladenhueter(int anzahl) {
+		final List<Artikel> artikel = em.createNamedQuery(Artikel.FINDE_LADENHUETER, Artikel.class)
+				                        .setMaxResults(anzahl)
+				                        .getResultList();
+		return artikel;
+	}
 }
