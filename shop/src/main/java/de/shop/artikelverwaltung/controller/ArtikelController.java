@@ -21,11 +21,12 @@ import de.shop.util.Transactional;
 @RequestScoped
 @Log
 public class ArtikelController implements Serializable {
-	private static final long serialVersionUID = -3244325907963L;
+	private static final long serialVersionUID = 1L;
 	
 	private static final String FLASH_ARTIKEL = "artikel";
 	private static final String JSF_VIEW_ARTIKEL = "/artikelverwaltung/viewArtikel";
 	private static final String JSF_VIEW_ARTIKEL_BEZEICHNUNG = "/artikelverwaltung/viewArtikelBezeichnung";
+	private static final String JSF_VIEW_ARTIKEL_BEZEICHNUNG_PREFIX = "/artikelverwaltung/viewArtikelBezeichnungPrefix";
 	private static final String JSF_VIEW_ARTIKEL_VERFUEGBARKEIT = "/artikelverwaltung/viewArtikelVerfuegbarkeit";
 	
 	@Inject
@@ -36,6 +37,7 @@ public class ArtikelController implements Serializable {
 	
 	private Long artikelId;
 	private String artikelBezeichnung;
+	private String artikelBezeichnungPrefix;
 	private Boolean artikelErhaeltlich;
 
 	@Override
@@ -51,13 +53,20 @@ public class ArtikelController implements Serializable {
 		return artikelId;
 	}
 	
-	
 	public void setArtikelBezeichnung(String artikelBezeichnung) {
 		this.artikelBezeichnung = artikelBezeichnung;
 	}
 
 	public String getArtikelBezeichnung() {
 		return artikelBezeichnung;
+	}
+	
+	public void setArtikelBezeichnungPrefix(String artikelBezeichnungPrefix) {
+		this.artikelBezeichnungPrefix = artikelBezeichnungPrefix;
+	}
+
+	public String getArtikelBezeichnungPrefix() {
+		return artikelBezeichnungPrefix;
 	}
 	
 	public void setArtikelErhaeltlich(Boolean artikelErhaeltlich) {
@@ -98,6 +107,22 @@ public class ArtikelController implements Serializable {
 		
 		flash.put(FLASH_ARTIKEL, artikel);
 		return JSF_VIEW_ARTIKEL_BEZEICHNUNG;
+	}
+	
+	/**
+	 * Action Methode, um Artikel zu einer gegebenen Bezeichnung zu suchen
+	 * @return URL fuer Anzeige des gefundenen Artikel; sonst null
+	 */
+	@Transactional
+	public String findeArtikelNachBezeichnungPrefix() {
+		final List<Artikel> artikel = as.findeArtikelNachPrefixBezeichnung(artikelBezeichnungPrefix);
+		if (artikel.isEmpty()) {
+			flash.remove(FLASH_ARTIKEL);
+			return null;
+		}
+		
+		flash.put(FLASH_ARTIKEL, artikel);
+		return JSF_VIEW_ARTIKEL_BEZEICHNUNG_PREFIX;
 	}
 	
 	/**

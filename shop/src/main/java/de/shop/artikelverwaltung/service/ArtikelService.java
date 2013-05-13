@@ -148,10 +148,10 @@ public class ArtikelService implements Serializable {
 		List<Artikel> artikel = new ArrayList<Artikel>();
 		
 		for(String bezeichnung : bezeichnungen) {	
-			final Artikel art = em.createNamedQuery(Artikel.FINDE_ARTIKEL_NACH_BEZ, Artikel.class)
+			final List<Artikel> art = em.createNamedQuery(Artikel.FINDE_ARTIKEL_NACH_BEZ, Artikel.class)
 									  .setParameter(Artikel.PARAM_BEZ, bezeichnung)
-									  .getSingleResult();
-			artikel.add(art);
+									  .getResultList();
+			artikel.addAll(art);
 		}
 		return artikel;
 	}

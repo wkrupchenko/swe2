@@ -27,6 +27,12 @@
 			#{msg['nav.viewArtikelBezeichnung']}
 		</h:outputLink>
 	</p>
+	<p id="viewArtikelBezeichnungPrefix">
+	    <h:outputLink id="menuViewArtikelBezeichnungPrefix"
+		              value="#{request.contextPath}/artikelverwaltung/viewArtikelBezeichnungPrefix.jsf">
+			#{msg['nav.viewArtikelBezeichnungPrefix']}
+		</h:outputLink>
+	</p>
 	<p id="viewArtikelVerfuegbarkeit">
 	    <h:outputLink id="menuViewArtikelVerfuegbarkeit"
 		              value="#{request.contextPath}/artikelverwaltung/viewArtikelVerfuegbarkeit.jsf">
