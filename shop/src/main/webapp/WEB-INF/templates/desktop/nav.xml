@@ -4,57 +4,118 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:c="http://java.sun.com/jsp/jstl/core"
                 xmlns:rich="http://richfaces.org/rich">
-	<p id="index">
-		<h:outputLink id="menuIndex" value="#{request.contextPath}">
-			#{msg['nav.index']}
-		</h:outputLink>
-	</p>
-	<p id="viewKunde">
-		<h:outputLink id="menuViewKunde"
-		              value="#{request.contextPath}/kundenverwaltung/viewKunde.jsf">
-			#{msg['nav.viewKunde']}
-		</h:outputLink>
-	</p>
-	<p id="viewArtikel">
-	    <h:outputLink id="menuViewArtikel"
-		              value="#{request.contextPath}/artikelverwaltung/viewArtikel.jsf">
-			#{msg['nav.viewArtikel']}
-		</h:outputLink>
-	</p>
-	<p id="viewArtikelBezeichnung">
-	    <h:outputLink id="menuViewArtikelBezeichnung"
-		              value="#{request.contextPath}/artikelverwaltung/viewArtikelBezeichnung.jsf">
-			#{msg['nav.viewArtikelBezeichnung']}
-		</h:outputLink>
-	</p>
-	<p id="viewArtikelBezeichnungPrefix">
-	    <h:outputLink id="menuViewArtikelBezeichnungPrefix"
-		              value="#{request.contextPath}/artikelverwaltung/viewArtikelBezeichnungPrefix.jsf">
-			#{msg['nav.viewArtikelBezeichnungPrefix']}
-		</h:outputLink>
-	</p>
-	<p id="viewArtikelVerfuegbarkeit">
-	    <h:outputLink id="menuViewArtikelVerfuegbarkeit"
-		              value="#{request.contextPath}/artikelverwaltung/viewArtikelVerfuegbarkeit.jsf">
-			#{msg['nav.viewArtikelVerfuegbarkeit']}
-		</h:outputLink>
-	</p>
-	<p id="viewArtikelMaxPreis">
-	    <h:outputLink id="menuViewArtikelMaxPreis"
-		              value="#{request.contextPath}/artikelverwaltung/viewArtikelMaxPreis.jsf">
-			#{msg['nav.viewArtikelMaxPreis']}
-		</h:outputLink>
-	</p>
-	<p id="viewArtikelMinPreis">
-	    <h:outputLink id="menuViewArtikelMinPreis"
-		              value="#{request.contextPath}/artikelverwaltung/viewArtikelMinPreis.jsf">
-			#{msg['nav.viewArtikelMinPreis']}
-		</h:outputLink>
-	</p>
-	<p id="viewBestellung">
-	    <h:outputLink id="menuViewBestellung"
-		              value="#{request.contextPath}/bestellverwaltung/viewBestellung.jsf">
-			#{msg['nav.viewBestellung']}
-		</h:outputLink>
-	</p>
+	<h:form id="navForm">
+		<rich:panelMenu id="panelMenu"
+		                itemMode="client"
+		                topGroupExpandedLeftIcon="chevronDown"
+		                topGroupCollapsedLeftIcon="chevron"
+		                itemLeftIcon="grid">
+		    <rich:panelMenuGroup id="allgemeines"
+			                     label="#{msg['nav.allgemeines']}"
+			                     expanded="true">
+				<rich:panelMenuItem id="allgemeinsMenuIndexItem">
+					<h:outputLink id="allgemeinsMenuIndex"
+					              value="#{request.contextPath}">
+						#{msg['nav.allgemeines.index']}
+						<c:if test="#{not empty javax.enterprise.context.conversation.id}">
+							<f:param id="MenuIndexCid" name="cid" value="#{javax.enterprise.context.conversation.id}"/>
+						</c:if>
+					</h:outputLink>
+				</rich:panelMenuItem>
+			</rich:panelMenuGroup>
+			<rich:panelMenuGroup id="kundenverwaltung"
+			                     label="#{msg['nav.kundenverwaltung']}"
+			                     expanded="true">
+				<rich:panelMenuItem id="kundenverwaltungViewKundeItem">
+					<h:outputLink id="kundenverwaltungViewKunde"
+					              value="#{request.contextPath}/kundenverwaltung/viewKunde.jsf">
+						#{msg['nav.kundenverwaltung.viewKunde']}
+						<c:if test="#{not empty javax.enterprise.context.conversation.id}">
+							<f:param id="viewKundeCid" name="cid" value="#{javax.enterprise.context.conversation.id}"/>
+						</c:if>
+					</h:outputLink>
+				</rich:panelMenuItem>
+			</rich:panelMenuGroup>
+
+			<rich:panelMenuGroup id="artikelverwaltung"
+			                     label="#{msg['nav.artikelverwaltung']}"
+			                     expanded="true">
+				<rich:panelMenuItem id="artikelverwaltungViewArtikelItem">
+					<h:outputLink id="artikelverwaltungViewArtikel"
+					              value="#{request.contextPath}/artikelverwaltung/viewArtikel.jsf">
+						#{msg['nav.artikelverwaltung.viewArtikel']}
+						<f:param id="initParamViewArtikel" name="init" value="true"/>
+						<c:if test="#{not empty javax.enterprise.context.conversation.id}">
+							<f:param id="viewArtikelCid" name="cid" value="#{javax.enterprise.context.conversation.id}"/>
+						</c:if>
+					</h:outputLink>
+				</rich:panelMenuItem>
+				<rich:panelMenuItem id="artikelverwaltungViewArtikelBezeichnungItem">
+					<h:outputLink id="artikelverwaltungViewArtikelBezeichnung"
+					              value="#{request.contextPath}/artikelverwaltung/viewArtikelBezeichnung.jsf">
+						#{msg['nav.artikelverwaltung.viewArtikelBezeichnung']}
+						<f:param id="initParamViewArtikelBezeichnung" name="init" value="true"/>
+						<c:if test="#{not empty javax.enterprise.context.conversation.id}">
+							<f:param id="viewArtikelBezeichnungCid" name="cid" value="#{javax.enterprise.context.conversation.id}"/>
+						</c:if>
+					</h:outputLink>
+				</rich:panelMenuItem>
+				<rich:panelMenuItem id="artikelverwaltungViewArtikelBezeichnungPrefixItem">
+					<h:outputLink id="artikelverwaltungViewArtikelBezeichnungPrefix"
+					              value="#{request.contextPath}/artikelverwaltung/viewArtikelBezeichnungPrefix.jsf">
+						#{msg['nav.artikelverwaltung.viewArtikelBezeichnungPrefix']}
+						<f:param id="initParamViewArtikelBezeichnungPrefix" name="init" value="true"/>
+						<c:if test="#{not empty javax.enterprise.context.conversation.id}">
+							<f:param id="viewArtikelBezeichnungPrefixCid" name="cid" value="#{javax.enterprise.context.conversation.id}"/>
+						</c:if>
+					</h:outputLink>
+				</rich:panelMenuItem>
+				<rich:panelMenuItem id="artikelverwaltungViewArtikelVerfuegbarkeitItem">
+					<h:outputLink id="artikelverwaltungViewArtikelVerfuegbarkeit"
+					              value="#{request.contextPath}/artikelverwaltung/viewArtikelVerfuegbarkeit.jsf">
+						#{msg['nav.artikelverwaltung.viewArtikelVerfuegbarkeit']}
+						<f:param id="initParamViewArtikelVerfuegbarkeit" name="init" value="true"/>
+						<c:if test="#{not empty javax.enterprise.context.conversation.id}">
+							<f:param id="viewArtikelVerfuegbarkeitCid" name="cid" value="#{javax.enterprise.context.conversation.id}"/>
+						</c:if>
+					</h:outputLink>
+				</rich:panelMenuItem>
+				<rich:panelMenuItem id="artikelverwaltungViewArtikelMaxPreisItem">
+					<h:outputLink id="artikelverwaltungViewArtikelMaxPreis"
+					              value="#{request.contextPath}/artikelverwaltung/viewArtikelMaxPreis.jsf">
+						#{msg['nav.artikelverwaltung.viewArtikelMaxPreis']}
+						<f:param id="initParamViewArtikelMaxPreis" name="init" value="true"/>
+						<c:if test="#{not empty javax.enterprise.context.conversation.id}">
+							<f:param id="viewArtikelMaxPreisCid" name="cid" value="#{javax.enterprise.context.conversation.id}"/>
+						</c:if>
+					</h:outputLink>
+				</rich:panelMenuItem>
+				<rich:panelMenuItem id="artikelverwaltungViewArtikelMinPreisItem">
+					<h:outputLink id="artikelverwaltungViewArtikelMinPreis"
+					              value="#{request.contextPath}/artikelverwaltung/viewArtikelMinPreis.jsf">
+						#{msg['nav.artikelverwaltung.viewArtikelMinPreis']}
+						<f:param id="initParamViewArtikelMinPreis" name="init" value="true"/>
+						<c:if test="#{not empty javax.enterprise.context.conversation.id}">
+							<f:param id="viewArtikelMinPreisCid" name="cid" value="#{javax.enterprise.context.conversation.id}"/>
+						</c:if>
+					</h:outputLink>
+				</rich:panelMenuItem>
+			</rich:panelMenuGroup>
+
+			<rich:panelMenuGroup id="bestellverwaltung"
+			                     label="#{msg['nav.bestellverwaltung']}"
+			                     expanded="true">
+				<rich:panelMenuItem id="bestellverwaltungViewBestellungItem">
+					<h:outputLink id="kundenverwaltungViewBestellung"
+					              value="#{request.contextPath}/bestellverwaltung/viewBestellung.jsf">
+						#{msg['nav.bestellverwaltung.viewBestellung']}
+						<c:if test="#{not empty javax.enterprise.context.conversation.id}">
+							<f:param id="viewBestellungCid" name="cid" value="#{javax.enterprise.context.conversation.id}"/>
+						</c:if>
+					</h:outputLink>
+				</rich:panelMenuItem>
+			</rich:panelMenuGroup>
+			
+		</rich:panelMenu>
+	</h:form>
 </ui:composition>
