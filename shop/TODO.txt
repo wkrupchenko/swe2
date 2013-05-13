@@ -15,12 +15,12 @@ MEILENSTEIN 2 	Web-Oberfläche:
 - Artikel:    --> Anlegen
 		      --> Ändern
 		      --> Löschen
-		      --> Suchen ---> ERLEDIGT (Kriterien: ID, Bezeichnung, BezeichnungPrefix, MaxPreis, MinPreis)
+		      --> Suchen ---> ERLEDIGT (Kriterien: ID, Artikelgruppe, Bezeichnung, BezeichnungPrefix, MaxPreis, MinPreis)
 - Bestellung: --> Aufgeben (Funktionalität um Lieferung anzulegen und zu ändern hinzufügen)
 			  --> Dazu notwendig Warenkorb
 			  --> Ändern auf offenAbgeschlossen ???
 
-- Navigationsleiste anpassen
+- Navigationsleiste anpassen ---> ERLEDIGT (Unterpunkte)
 
 - Startseite -> Ladenhüter???
 

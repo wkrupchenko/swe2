@@ -50,6 +50,16 @@
 						</c:if>
 					</h:outputLink>
 				</rich:panelMenuItem>
+					<rich:panelMenuItem id="artikelverwaltungViewArtikelArtikelgruppeItem">
+					<h:outputLink id="artikelverwaltungViewArtikelArtikelgruppe"
+					              value="#{request.contextPath}/artikelverwaltung/viewArtikelArtikelgruppe.jsf">
+						#{msg['nav.artikelverwaltung.viewArtikelArtikelgruppe']}
+						<f:param id="initParamViewArtikelArtikelgruppe" name="init" value="true"/>
+						<c:if test="#{not empty javax.enterprise.context.conversation.id}">
+							<f:param id="viewArtikelArtikelgruppeCid" name="cid" value="#{javax.enterprise.context.conversation.id}"/>
+						</c:if>
+					</h:outputLink>
+				</rich:panelMenuItem>
 				<rich:panelMenuItem id="artikelverwaltungViewArtikelBezeichnungItem">
 					<h:outputLink id="artikelverwaltungViewArtikelBezeichnung"
 					              value="#{request.contextPath}/artikelverwaltung/viewArtikelBezeichnung.jsf">

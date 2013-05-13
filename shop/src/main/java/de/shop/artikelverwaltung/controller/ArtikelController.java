@@ -25,6 +25,7 @@ public class ArtikelController implements Serializable {
 	
 	private static final String FLASH_ARTIKEL = "artikel";
 	private static final String JSF_VIEW_ARTIKEL = "/artikelverwaltung/viewArtikel";
+	private static final String JSF_VIEW_ARTIKEL_ARTIKELGRUPPE = "/artikelverwaltung/viewArtikelArtikelgruppe";
 	private static final String JSF_VIEW_ARTIKEL_BEZEICHNUNG = "/artikelverwaltung/viewArtikelBezeichnung";
 	private static final String JSF_VIEW_ARTIKEL_BEZEICHNUNG_PREFIX = "/artikelverwaltung/viewArtikelBezeichnungPrefix";
 	private static final String JSF_VIEW_ARTIKEL_VERFUEGBARKEIT = "/artikelverwaltung/viewArtikelVerfuegbarkeit";
@@ -38,6 +39,7 @@ public class ArtikelController implements Serializable {
 	private Flash flash;
 	
 	private Long artikelId;
+	private String artikelArtikelgruppe;
 	private String artikelBezeichnung;
 	private String artikelBezeichnungPrefix;
 	private Boolean artikelErhaeltlich;
@@ -54,6 +56,14 @@ public class ArtikelController implements Serializable {
 
 	public Long getArtikelId() {
 		return artikelId;
+	}
+	
+	public void setArtikelArtikelgruppe(String artikelArtikelgruppe) {
+		this.artikelArtikelgruppe = artikelArtikelgruppe;
+	}
+
+	public String getArtikelArtikelgruppe() {
+		return artikelArtikelgruppe;
 	}
 	
 	public void setArtikelBezeichnung(String artikelBezeichnung) {
@@ -103,6 +113,22 @@ public class ArtikelController implements Serializable {
 		
 		flash.put(FLASH_ARTIKEL, artikel);
 		return JSF_VIEW_ARTIKEL;
+	}
+	
+	/**
+	 * Action Methode, um Artikel zu einer gegebenen Artikelgruppe zu suchen
+	 * @return URL fuer Anzeige des gefundenen Artikel; sonst null
+	 */
+	@Transactional
+	public String findeArtikelNachArtikelgruppe() {
+		final List<Artikel> artikel = as.findeArtikelNachArtikelgruppe(artikelArtikelgruppe);
+		if (artikel.isEmpty()) {
+			flash.remove(FLASH_ARTIKEL);
+			return null;
+		}
+		
+		flash.put(FLASH_ARTIKEL, artikel);
+		return JSF_VIEW_ARTIKEL_ARTIKELGRUPPE;
 	}
 	
 	/**
