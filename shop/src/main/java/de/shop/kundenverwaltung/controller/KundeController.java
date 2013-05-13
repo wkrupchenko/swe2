@@ -61,7 +61,7 @@ public class KundeController implements Serializable {
 	 * @return URL fuer Anzeige des gefundenen Kunden; sonst null
 	 */
 	@Transactional
-	public String findKundeById() {
+	public String findeKundeNachId() {
 		final Kunde kunde = ks.findeKundeNachId(kundeId, FetchType.NUR_KUNDE, Locale.GERMAN);
 		if (kunde == null) {
 			flash.remove(FLASH_KUNDE);

@@ -24,7 +24,11 @@ MEILENSTEIN 2 	Web-Oberfläche:
 
 - Startseite  ---> ERLEDIGT (Ladenhüter)
 
-- Login und Sprachänderung
+- Login
+
+- Schnellsuche  ---> ERLEDIGT (nicht voll funktionsfähig)
+
+- Sprachänderung ---> ERLEDIGT
 
 - Konkurrierende Updates für Kunde und Artikel:
 	a4j:push und auch Fehlermeldungen nach OptimisticLockException

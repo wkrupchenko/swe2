@@ -61,7 +61,7 @@ public class ArtikelController implements Serializable {
 
 	@Override
 	public String toString() {
-		return "ArtikelController [artikelId=" + artikelId + "]";
+		return "ArtikelController [artikelId=" + artikelId + " artikelBezeichnung=" + artikelBezeichnung + "]";
 	}
 
 	public void setArtikelId(Long artikelId) {
@@ -147,10 +147,12 @@ public class ArtikelController implements Serializable {
 	@Transactional
 	public String findeArtikelNachBezeichnung() {
 		final List<Artikel> artikel = as.findeArtikelNachBezeichnung(artikelBezeichnung);
+		/*
 		if (artikel.isEmpty()) {
 			flash.remove(FLASH_ARTIKEL);
 			return null;
 		}
+		*/
 		
 		flash.put(FLASH_ARTIKEL, artikel);
 		return JSF_VIEW_ARTIKEL_BEZEICHNUNG;
@@ -162,7 +164,6 @@ public class ArtikelController implements Serializable {
 	 */
 	@TransactionAttribute(REQUIRED)
 	public List<String> findeBezeichnungenNachPrefix(String artikelBezeichnungPrefix) {
-		// NICHT: Liste von Kunden. Sonst waeren gleiche Nachnamen mehrfach vorhanden.
 		final List<String> bezeichnungen = as.findeBezeichnungenNachPrefix(artikelBezeichnungPrefix);
 		if (bezeichnungen.isEmpty()) {
 			messages.error(ARTIKELVERWALTUNG, MSG_KEY_ARTIKEL_NOT_FOUND_BY_BEZEICHNUNG, CLIENT_ID_ARTIKEL_BEZEICHNUNG, artikelId);

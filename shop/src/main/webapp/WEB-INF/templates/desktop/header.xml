@@ -1,12 +1,54 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:h="http://java.sun.com/jsf/html">
-	<p>
-		<h:outputLink id="hsLink" value="#{request.contextPath}">
-			<h:graphicImage id="hsLogoImage"
-			                name="hs-logo.gif"
-			                library="images"
-							alt="#{msg['header.logo.alt']}"/>
-		</h:outputLink>
-	</p>
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:rich="http://richfaces.org/rich">
+                
+    <rich:toolbar id="headerToolbar" height="65px">
+    		<h:outputLink id="homeLink" value="#{request.contextPath}">
+				<h:graphicImage id="hsLogoImage"
+		    	        	    name="hs-logo.gif"
+		        		        library="images"
+		    		       	    alt="#{msg['header.logo.alt']}"/>
+			</h:outputLink>
+			
+    		<h:form id="schnellsucheForm">
+				<rich:dropDownMenu id="schnellsucheMenu">
+					<f:facet name="label">
+						#{msg['header.schnellsuche']}
+					</f:facet>
+
+					<rich:menuItem id="schnellsucheItem">
+						<h:panelGrid id="schnellsucheGrid" columns="3">
+							<h:outputLabel id="artikelBezLabel"
+						    	           value="#{msg['header.schnellsuche.artikelBezeichnung']}"
+						        	       for="artikelBezeichnung"/>
+							<h:inputText id="artikelBezeichnung" value="#{ac.artikelBezeichnung}"/>
+							<h:commandButton id="artikelButton" action="#{ac.findeArtikelNachBezeichnung}" value="#{msg['header.schnellsuche.button']}"/>
+
+								<h:outputLabel id="kundeIdLabel"
+						    		           value="#{msg['header.schnellsuche.kundeid']}"
+						        		       for="kundeId"/>
+								<h:inputText id="kundeId" value="#{kc.kundeId}"/>
+							<h:commandButton id="kundeButton" action="#{kc.findeKundeNachId}" value="#{msg['header.schnellsuche.button']}"/>
+						</h:panelGrid>
+					</rich:menuItem>
+				</rich:dropDownMenu>
+			</h:form>
+		
+    		<h:form id="spracheForm">
+				<rich:dropDownMenu id="sprache">
+					<f:facet name="label">
+						#{msg['header.sprache']}
+					</f:facet>
+					
+					<rich:menuItem id="englisch"
+					               label="#{msg['header.sprache.englisch']}"
+					               actionListener="#{sprache.change('en')}"/>
+					<rich:menuItem id="deutsch"
+					               label="#{msg['header.sprache.deutsch']}"
+					               actionListener="#{sprache.change('de')}"/>
+				</rich:dropDownMenu>
+			</h:form>
+	</rich:toolbar>
 </ui:composition>
