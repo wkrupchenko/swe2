@@ -3,6 +3,7 @@ package de.shop.artikelverwaltung.service;
 import static de.shop.util.Konstante.KEINE_ID;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
@@ -39,6 +40,7 @@ import de.shop.util.ValidatorProvider;
 import de.shop.bestellverwaltung.service.BestellungService;
 import de.shop.bestellverwaltung.domain.Bestellung;
 import de.shop.bestellverwaltung.domain.Bestellposition;
+import de.shop.kundenverwaltung.domain.Kunde;
 import de.shop.util.IdGroup;
 
 @Log
@@ -130,6 +132,27 @@ public class ArtikelService implements Serializable {
 		final List<Artikel> artikel = em.createNamedQuery(Artikel.FINDE_ARTIKEL_NACH_BEZ, Artikel.class)
 				                        .setParameter(Artikel.PARAM_BEZ, bezeichnung)
 				                        .getResultList();
+		return artikel;
+	}
+	
+	private List<String> findeBezeichnungenNachPrefix(String bezeichnungPrefix) {
+		final List<String> bezeichnungen = em.createNamedQuery(Artikel.FINDE_BEZEICHNUNGEN_NACH_PREFIX,
+				                                           String.class)
+				                         .setParameter(Artikel.PARAM_BEZEICHNUNG_PREFIX, bezeichnungPrefix + '%')
+				                         .getResultList();
+		return bezeichnungen;
+	}
+	
+	public List<Artikel> findeArtikelNachPrefixBezeichnung(String bezeichnungPrefix) {
+		final List<String> bezeichnungen = findeBezeichnungenNachPrefix(bezeichnungPrefix);
+		List<Artikel> artikel = new ArrayList<Artikel>();
+		
+		for(String bezeichnung : bezeichnungen) {	
+			final Artikel art = em.createNamedQuery(Artikel.FINDE_ARTIKEL_NACH_BEZ, Artikel.class)
+									  .setParameter(Artikel.PARAM_BEZ, bezeichnung)
+									  .getSingleResult();
+			artikel.add(art);
+		}
 		return artikel;
 	}
 	

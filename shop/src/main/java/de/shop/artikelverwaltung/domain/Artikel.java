@@ -33,6 +33,7 @@ import javax.validation.constraints.Size;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 
+import de.shop.kundenverwaltung.domain.Kunde;
 import de.shop.util.File;
 import de.shop.util.IdGroup;
 import de.shop.util.PreExistingGroup;
@@ -49,6 +50,9 @@ import static javax.persistence.FetchType.LAZY;
 @NamedQueries({
 	@NamedQuery(name = Artikel.FINDE_ARTIKEL_NACH_BEZ,
 				query = "FROM Artikel a WHERE a.bezeichnung = :" + Artikel.PARAM_BEZ),
+    @NamedQuery(name  = Artikel.FINDE_BEZEICHNUNGEN_NACH_PREFIX,
+		        query = "SELECT   DISTINCT a.bezeichnung FROM  Artikel a WHERE UPPER(a.bezeichnung) LIKE UPPER(:"	
+		                +   Artikel.PARAM_BEZEICHNUNG_PREFIX + ")"),
 	@NamedQuery(name = Artikel.FINDE_VERFUEGBARE_ARTIKEL,
 				query = "FROM Artikel a WHERE a.erhaeltlich = TRUE"),
 	@NamedQuery(name = Artikel.FINDE_NICHT_VERFUEGBARE_ARTIKEL,
@@ -71,6 +75,7 @@ public class Artikel implements Serializable {
 	
 	private static final String PREFIX = "Artikel.";
 	public static final String FINDE_ARTIKEL_NACH_BEZ = PREFIX + "findeArtikelNachBezeichnung";
+	public static final String FINDE_BEZEICHNUNGEN_NACH_PREFIX = PREFIX + "findeBezeichnungenNachPrefix";
 	public static final String FINDE_VERFUEGBARE_ARTIKEL = PREFIX + "findeVerfuegbareArtikel";
 	public static final String FINDE_NICHT_VERFUEGBARE_ARTIKEL = PREFIX + "findeNichtVerfuegbareArtikel";
 	public static final String FINDE_ARTIKEL_NACH_MAX_PREIS = PREFIX + "findeArtikelNachMaxPreis";
@@ -80,6 +85,7 @@ public class Artikel implements Serializable {
 	public static final String FINDE_ARTIKEL_NACH_ARTIKELGRUPPE_ID = PREFIX + "findeArtikelNachArtikelgruppeId";
 	
 	public static final String PARAM_BEZ = "bezeichnung";
+	public static final String PARAM_BEZEICHNUNG_PREFIX = "bezeichnungPrefix";
 	public static final String PARAM_PREIS = "preis";
 	public static final String PARAM_NAME = "name";
 	public static final String PARAM_ID = "id";
