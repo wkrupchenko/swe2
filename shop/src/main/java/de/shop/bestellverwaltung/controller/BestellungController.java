@@ -20,7 +20,7 @@ import de.shop.util.Transactional;
 @RequestScoped
 @Log
 public class BestellungController implements Serializable {
-	private static final long serialVersionUID = -721347962354783L;
+	private static final long serialVersionUID = 1L;
 	
 	private static final String FLASH_BESTELLUNG = "bestellung";
 	private static final String JSF_VIEW_BESTELLUNG = "/bestellverwaltung/viewBestellung";

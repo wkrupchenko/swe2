@@ -23,7 +23,7 @@ import de.shop.util.Transactional;
 @RequestScoped
 @Log
 public class KundeController implements Serializable {
-	private static final long serialVersionUID = -8240672163792003275L;
+	private static final long serialVersionUID = 1L;
 	
 	private static final String FLASH_KUNDE = "kunde";
 	private static final String JSF_VIEW_KUNDE = "/kundenverwaltung/viewKunde";
