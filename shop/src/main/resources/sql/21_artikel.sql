@@ -7,3 +7,4 @@ INSERT INTO artikel (id, version, bezeichnung, erhaeltlich, preis, artikelgruppe
 INSERT INTO artikel (id, version, bezeichnung, erhaeltlich, preis, artikelgruppe_fk, erzeugt, aktualisiert) VALUES (506,0,'Krawatte karriert',0,10.00,402,'12.06.2011 00:00:00','12.06.2011 00:00:00');
 INSERT INTO artikel (id, version, bezeichnung, erhaeltlich, preis, artikelgruppe_fk, erzeugt, aktualisiert) VALUES (507,0,'Bikini gelb',0,10.00,406,'12.06.2011 00:00:00','12.06.2011 00:00:00');
 INSERT INTO artikel (id, version, bezeichnung, erhaeltlich, preis, artikelgruppe_fk, erzeugt, aktualisiert) VALUES (508,0,'Schlauchschal',0,20.89,400,'01.01.2007 00:00:00','01.01.2007 00:00:00');
+INSERT INTO artikel (id, version, bezeichnung, erhaeltlich, preis, artikelgruppe_fk, erzeugt, aktualisiert) VALUES (509,0,'T-Shirt Crazy',1,49.99,401,'22.04.2007 00:00:00','22.04.2007 00:00:00');

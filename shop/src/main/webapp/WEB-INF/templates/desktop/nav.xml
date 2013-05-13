@@ -57,7 +57,7 @@
 						</c:if>
 					</h:outputLink>
 				</rich:panelMenuItem>
-					<rich:panelMenuItem id="artikelverwaltungViewArtikelArtikelgruppeItem">
+				<rich:panelMenuItem id="artikelverwaltungViewArtikelArtikelgruppeItem">
 					<h:outputLink id="artikelverwaltungViewArtikelArtikelgruppe"
 					              value="#{request.contextPath}/artikelverwaltung/viewArtikelArtikelgruppe.jsf">
 						#{msg['nav.artikelverwaltung.viewArtikelArtikelgruppe']}
@@ -74,16 +74,6 @@
 						<f:param id="initParamViewArtikelBezeichnung" name="init" value="true"/>
 						<c:if test="#{not empty javax.enterprise.context.conversation.id}">
 							<f:param id="viewArtikelBezeichnungCid" name="cid" value="#{javax.enterprise.context.conversation.id}"/>
-						</c:if>
-					</h:outputLink>
-				</rich:panelMenuItem>
-				<rich:panelMenuItem id="artikelverwaltungViewArtikelBezeichnungPrefixItem">
-					<h:outputLink id="artikelverwaltungViewArtikelBezeichnungPrefix"
-					              value="#{request.contextPath}/artikelverwaltung/viewArtikelBezeichnungPrefix.jsf">
-						#{msg['nav.artikelverwaltung.viewArtikelBezeichnungPrefix']}
-						<f:param id="initParamViewArtikelBezeichnungPrefix" name="init" value="true"/>
-						<c:if test="#{not empty javax.enterprise.context.conversation.id}">
-							<f:param id="viewArtikelBezeichnungPrefixCid" name="cid" value="#{javax.enterprise.context.conversation.id}"/>
 						</c:if>
 					</h:outputLink>
 				</rich:panelMenuItem>

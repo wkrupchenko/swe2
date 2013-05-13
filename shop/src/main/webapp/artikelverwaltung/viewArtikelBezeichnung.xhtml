@@ -20,8 +20,12 @@
 						<h:outputLabel id="bezeichnungInputLabel"
 									   value="#{msgAv['viewArtikel.bezeichnung']}"
 									   for="bezeichnungInput"/>
-		
-						<h:inputText id="bezeichnungInput" value="#{ac.artikelBezeichnung}"/>
+									   
+						<rich:autocomplete id="bezeichnung"
+				    	               value="#{ac.artikelBezeichnung}"
+					                   mode="ajax"
+					                   minChars="1"
+					                   autocompleteMethod="#{ac.findeBezeichnungenNachPrefix}"/> 
 						
 						<a4j:commandButton id="sucheButton"
 										   action="#{ac.findeArtikelNachBezeichnung}"

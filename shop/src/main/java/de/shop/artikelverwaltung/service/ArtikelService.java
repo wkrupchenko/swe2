@@ -135,25 +135,12 @@ public class ArtikelService implements Serializable {
 		return artikel;
 	}
 	
-	private List<String> findeBezeichnungenNachPrefix(String bezeichnungPrefix) {
+	public List<String> findeBezeichnungenNachPrefix(String bezeichnungPrefix) {
 		final List<String> bezeichnungen = em.createNamedQuery(Artikel.FINDE_BEZEICHNUNGEN_NACH_PREFIX,
 				                                           String.class)
 				                         .setParameter(Artikel.PARAM_BEZEICHNUNG_PREFIX, bezeichnungPrefix + '%')
 				                         .getResultList();
 		return bezeichnungen;
-	}
-	
-	public List<Artikel> findeArtikelNachPrefixBezeichnung(String bezeichnungPrefix) {
-		final List<String> bezeichnungen = findeBezeichnungenNachPrefix(bezeichnungPrefix);
-		List<Artikel> artikel = new ArrayList<Artikel>();
-		
-		for(String bezeichnung : bezeichnungen) {	
-			final List<Artikel> art = em.createNamedQuery(Artikel.FINDE_ARTIKEL_NACH_BEZ, Artikel.class)
-									  .setParameter(Artikel.PARAM_BEZ, bezeichnung)
-									  .getResultList();
-			artikel.addAll(art);
-		}
-		return artikel;
 	}
 	
 	public List<Artikel> findeArtikelNachMaxPreis(double preis) {
