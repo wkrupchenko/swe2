@@ -51,7 +51,6 @@
 					<h:outputLink id="artikelverwaltungViewArtikel"
 					              value="#{request.contextPath}/artikelverwaltung/viewArtikel.jsf">
 						#{msg['nav.artikelverwaltung.viewArtikel']}
-						<f:param id="initParamViewArtikel" name="init" value="true"/>
 						<c:if test="#{not empty javax.enterprise.context.conversation.id}">
 							<f:param id="viewArtikelCid" name="cid" value="#{javax.enterprise.context.conversation.id}"/>
 						</c:if>
@@ -61,7 +60,6 @@
 					<h:outputLink id="artikelverwaltungViewArtikelArtikelgruppe"
 					              value="#{request.contextPath}/artikelverwaltung/viewArtikelArtikelgruppe.jsf">
 						#{msg['nav.artikelverwaltung.viewArtikelArtikelgruppe']}
-						<f:param id="initParamViewArtikelArtikelgruppe" name="init" value="true"/>
 						<c:if test="#{not empty javax.enterprise.context.conversation.id}">
 							<f:param id="viewArtikelArtikelgruppeCid" name="cid" value="#{javax.enterprise.context.conversation.id}"/>
 						</c:if>
@@ -71,7 +69,6 @@
 					<h:outputLink id="artikelverwaltungViewArtikelBezeichnung"
 					              value="#{request.contextPath}/artikelverwaltung/viewArtikelBezeichnung.jsf">
 						#{msg['nav.artikelverwaltung.viewArtikelBezeichnung']}
-						<f:param id="initParamViewArtikelBezeichnung" name="init" value="true"/>
 						<c:if test="#{not empty javax.enterprise.context.conversation.id}">
 							<f:param id="viewArtikelBezeichnungCid" name="cid" value="#{javax.enterprise.context.conversation.id}"/>
 						</c:if>
@@ -81,7 +78,6 @@
 					<h:outputLink id="artikelverwaltungViewArtikelVerfuegbarkeit"
 					              value="#{request.contextPath}/artikelverwaltung/viewArtikelVerfuegbarkeit.jsf">
 						#{msg['nav.artikelverwaltung.viewArtikelVerfuegbarkeit']}
-						<f:param id="initParamViewArtikelVerfuegbarkeit" name="init" value="true"/>
 						<c:if test="#{not empty javax.enterprise.context.conversation.id}">
 							<f:param id="viewArtikelVerfuegbarkeitCid" name="cid" value="#{javax.enterprise.context.conversation.id}"/>
 						</c:if>
@@ -91,7 +87,6 @@
 					<h:outputLink id="artikelverwaltungViewArtikelMaxPreis"
 					              value="#{request.contextPath}/artikelverwaltung/viewArtikelMaxPreis.jsf">
 						#{msg['nav.artikelverwaltung.viewArtikelMaxPreis']}
-						<f:param id="initParamViewArtikelMaxPreis" name="init" value="true"/>
 						<c:if test="#{not empty javax.enterprise.context.conversation.id}">
 							<f:param id="viewArtikelMaxPreisCid" name="cid" value="#{javax.enterprise.context.conversation.id}"/>
 						</c:if>
@@ -101,7 +96,6 @@
 					<h:outputLink id="artikelverwaltungViewArtikelMinPreis"
 					              value="#{request.contextPath}/artikelverwaltung/viewArtikelMinPreis.jsf">
 						#{msg['nav.artikelverwaltung.viewArtikelMinPreis']}
-						<f:param id="initParamViewArtikelMinPreis" name="init" value="true"/>
 						<c:if test="#{not empty javax.enterprise.context.conversation.id}">
 							<f:param id="viewArtikelMinPreisCid" name="cid" value="#{javax.enterprise.context.conversation.id}"/>
 						</c:if>
