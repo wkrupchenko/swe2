@@ -66,19 +66,19 @@
 								</f:facet>
 								#{bestellung.offenAbgeschlossen}
 							</rich:column>
-							
+							 
 							<rich:column id="kundeSpalte">
 								<f:facet name="header">
 									#{msgBv['viewBestellung.kunde']}
 								</f:facet>
-								#{bestellung.kunde}
+								#{bestellung.kunde.nachname}
 							</rich:column>
-							
+							 
 							<rich:column id="lieferungenSpalte">
 								<f:facet name="header">
 									#{msgBv['viewBestellung.lieferungen']}
 								</f:facet>
-								#{bestellung.lieferungen}
+								#{bestellung.lieferungen.liefernr}
 							</rich:column>
 							
 						</rich:dataTable>
