@@ -4,42 +4,37 @@ Artikelverwaltung --> Ingo
 Kundenverwaltung  --> Sebastian
 Bestellverwaltung --> Wladik
 
+MEILENSTEIN 1 ERLEDIGT
+
 MEILENSTEIN 2 	Web-Oberfläche:
 
-- Kunde registrieren und ändern
-- Artikel erfassen und ändern
-- Bestellung aufgeben
+- Kunde:      --> Anlegen bzw. registrieren
+		      --> Ändern
+		      --> Suchen
+		      --> Löschen ???
+- Artikel:    --> Anlegen
+		      --> Ändern
+		      --> Löschen
+		      --> Suchen ---> ERLEDIGT (Kriterien: ID, Bezeichnung, BezeichnungPrefix, MaxPreis, MinPreis)
+- Bestellung: --> Aufgeben (Funktionalität um Lieferung anzulegen und zu ändern hinzufügen)
+			  --> Dazu notwendig Warenkorb
+			  --> Ändern auf offenAbgeschlossen ???
+
+- Navigationsleiste anpassen
+
+- Startseite -> Ladenhüter???
+
 - Login und Sprachänderung
 
 - Konkurrierende Updates für Kunde und Artikel:
 	a4j:push und auch Fehlermeldungen nach OptimisticLockException
 
-- "mvn site"
+- "mvn site" (Fehler beheben)
 
 - Web-Projekt auf beschrifteter CD oder DVD
 
-OPTIONAL 	Android:
+
+MEILSTEIN 3 	Android:
 
 - Kunde mit Bestellungen anzeigen
 - Artikel anzeigen und erfassen
-
-MEILENSTEIN 1:
-
-- Keystore für DB Passwort ERLEDIGT
-
-- Tests: -> ArtikelverwaltungcERLEDIGT
-         -> ArtikelverwaltungConcurency ERLEDIGT
-		 -> Kundenverwaltung ERLEDIGT
-		 -> KundenverwaltungConcurency ERLEDIGT
-		 -> Bestellverwaltung ERLEDIGT
-		 
-- Authentifizierung und Authorisierung implementieren und beim WebServiceTester nutzen ERLEDIGT 
-
-- Download und Upload von Artikelbildern bzw. Multimediadateien zu Artikeln ERLEDIGT
-
-- Maven Site: PMD, Checkstyle und Findbugs beheben  ERLEDIGT
-  Checkstyle: 5 Fehler die nicht sinnvoll abzuschaffen sind
-  Findbugs: 8 Bugs die nicht sinnvoll abschaffbar sind
-  PMD: Ettliche unkritische Meldungen
-
-----------> MEILENSTEIN 1 FERTIG <----------
