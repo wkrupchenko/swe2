@@ -2,6 +2,7 @@ package de.shop.kundenverwaltung.controller;
 
 import java.io.Serializable;
 import java.util.Locale;
+import java.util.Date;
 
 import javax.enterprise.context.RequestScoped;
 import javax.faces.context.Flash;
@@ -46,6 +47,13 @@ public class KundeController implements Serializable {
 
 	public Long getKundeId() {
 		return kundeId;
+	}
+	
+	// Um aktuelles Datum auf Startseite anzuzeigen
+	// Kein Attribut, nur Getter der von der Ajax/JSF aufgerufen wird
+	public Date getAktuellesDatum() {
+		final Date datum = new Date();
+		return datum;
 	}
 
 	/**

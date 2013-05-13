@@ -24,6 +24,9 @@ public class ArtikelController implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private static final String FLASH_ARTIKEL = "artikel";
+	
+	private static final int ANZAHL_LADENHUETER = 5;
+	
 	private static final String JSF_VIEW_ARTIKEL = "/artikelverwaltung/viewArtikel";
 	private static final String JSF_VIEW_ARTIKEL_ARTIKELGRUPPE = "/artikelverwaltung/viewArtikelArtikelgruppe";
 	private static final String JSF_VIEW_ARTIKEL_BEZEICHNUNG = "/artikelverwaltung/viewArtikelBezeichnung";
@@ -44,6 +47,7 @@ public class ArtikelController implements Serializable {
 	private String artikelBezeichnungPrefix;
 	private Boolean artikelErhaeltlich;
 	private double artikelPreis;
+	private List<Artikel> ladenhueter;
 
 	@Override
 	public String toString() {
@@ -97,7 +101,10 @@ public class ArtikelController implements Serializable {
 	public double getArtikelPreis() {
 		return artikelPreis;
 	}
-
+	
+	public List<Artikel> getLadenhueter() {
+		return ladenhueter;
+	}
 
 	/**
 	 * Action Methode, um einen Artikel zu gegebener ID zu suchen
@@ -221,5 +228,14 @@ public class ArtikelController implements Serializable {
 		
 		flash.put(FLASH_ARTIKEL, artikel);
 		return JSF_VIEW_ARTIKEL_MIN_PREIS;
+	}
+	
+	/**
+	 *  Action Methode, um Ladenhüter für Startsiete zu laden
+	 * 
+	 */
+	@Transactional
+	public void loadLadenhueter() {
+		ladenhueter = as.ladenhueter(ANZAHL_LADENHUETER);
 	}
 }

@@ -66,7 +66,9 @@ import static javax.persistence.FetchType.LAZY;
 	@NamedQuery(name = Artikel.FINDE_ARTIKEL_SORTIERT_NACH_ID,
 				query = "Select a From Artikel a Order By a.id"),
 	@NamedQuery(name = Artikel.FINDE_ARTIKEL_NACH_ARTIKELGRUPPE_ID,
-				query = "Select a From Artikel a JOIN a.artikelgruppe ag WHERE ag.id = :" + Artikel.PARAM_ID)
+				query = "Select a From Artikel a JOIN a.artikelgruppe ag WHERE ag.id = :" + Artikel.PARAM_ID),
+	@NamedQuery(name  = Artikel.FINDE_LADENHUETER,
+   	            query = "SELECT a FROM Artikel a WHERE  a NOT IN (SELECT bp.artikel FROM Bestellposition bp)")
 })
 public class Artikel implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -82,6 +84,7 @@ public class Artikel implements Serializable {
 	public static final String FINDE_ARTIKEL_NACH_ARTIKELGRUPPE = PREFIX + "findeArtikelNachArtikelgruppe";
 	public static final String FINDE_ARTIKEL_SORTIERT_NACH_ID = PREFIX + "findeArtikelSortiertNachId";
 	public static final String FINDE_ARTIKEL_NACH_ARTIKELGRUPPE_ID = PREFIX + "findeArtikelNachArtikelgruppeId";
+	public static final String FINDE_LADENHUETER = PREFIX +"findeLadenhueter";
 	
 	public static final String PARAM_BEZ = "bezeichnung";
 	public static final String PARAM_BEZEICHNUNG_PREFIX = "bezeichnungPrefix";
