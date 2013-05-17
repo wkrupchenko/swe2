@@ -1,5 +1,7 @@
 package de.shop.bestellverwaltung.controller;
 
+import static de.shop.util.Konstante.KEINE_ID;
+
 import java.io.Serializable;
 
 import javax.enterprise.context.RequestScoped;
@@ -7,6 +9,7 @@ import javax.faces.context.Flash;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import de.shop.bestellverwaltung.domain.Bestellposition;
 import de.shop.bestellverwaltung.domain.Bestellung;
 import de.shop.bestellverwaltung.service.BestellungService;
 import de.shop.util.Log;
@@ -57,8 +60,12 @@ public class BestellungController implements Serializable {
 			flash.remove(FLASH_BESTELLUNG);
 			return null;
 		}
-		
+						
 		flash.put(FLASH_BESTELLUNG, bestellung);
 		return JSF_VIEW_BESTELLUNG;
 	}
+	
+	 
+	
+	
 }

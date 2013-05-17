@@ -137,7 +137,7 @@ public class Bestellung implements Serializable {
 	@Valid
 	private List<Bestellposition> bestellpositionen;
 	
-	@ManyToMany
+	@ManyToMany(fetch = EAGER)
 	@JoinTable(name = "bestellung_lieferung", joinColumns = @JoinColumn(name = "bestellung_fk"),
 				inverseJoinColumns = @JoinColumn(name = "lieferung_fk"))
 	@OrderColumn(name = "idx", nullable = false)

@@ -53,13 +53,18 @@
 								#{bestellung.id}
 							</rich:column>
 							
-							<rich:column id="bestellpositionenSpalte">
+							 							 
+							 <rich:column id="bestellpositionenSpalte">							
 								<f:facet name="header">
 									#{msgBv['viewBestellung.bestellpositionen']}
 								</f:facet>
-								#{bestellung.bestellpositionen}
+							<c:forEach items="#{bestellung.bestellpositionen}" var="cap">
+								<h:outputText value="#{cap.id}" />
+								<br/>
+							</c:forEach>				
 							</rich:column>
-							
+											
+														
 							<rich:column id="offenAbgeschlossenSpalte">
 								<f:facet name="header">
 									#{msgBv['viewBestellung.offenabgeschlossen']}
@@ -78,9 +83,20 @@
 								<f:facet name="header">
 									#{msgBv['viewBestellung.lieferungen']}
 								</f:facet>
-								#{bestellung.lieferungen}
-							</rich:column>
-							 
+								<c:forEach items="#{bestellung.lieferungen}" var="cap">
+									<h:outputText value="#{cap.id}" />
+									<br/>
+									<h:outputText value="#{cap.version}" />
+									<br/>
+									<h:outputText value="#{cap.inlandOderAusland}" />
+									<br/>
+									<h:outputText value="#{cap.liefernr}" />
+									<br/>
+									<h:outputText value="#{cap.transportArt}" />
+									<br/>
+								</c:forEach>								
+							</rich:column>	
+							  
 						</rich:dataTable>
 						
 					</c:if>
