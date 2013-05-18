@@ -42,6 +42,7 @@ import static de.shop.util.Konstante.ERSTE_VERSION;
 import static javax.persistence.TemporalType.TIMESTAMP;
 import static javax.persistence.CascadeType.PERSIST;
 import static javax.persistence.CascadeType.REMOVE;
+import static javax.persistence.FetchType.EAGER;
 import static javax.persistence.FetchType.LAZY;
 
 @Entity
@@ -70,7 +71,7 @@ import static javax.persistence.FetchType.LAZY;
 	@NamedQuery(name  = Artikel.FINDE_LADENHUETER,
    	            query = "SELECT a FROM Artikel a WHERE  a NOT IN (SELECT bp.artikel FROM Bestellposition bp)")
 })
-public class Artikel implements Serializable {
+public class Artikel implements Serializable, Cloneable {
 	private static final long serialVersionUID = 1L;
 	private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass());
 	

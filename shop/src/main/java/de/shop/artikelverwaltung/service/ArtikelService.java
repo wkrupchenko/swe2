@@ -185,7 +185,7 @@ public class ArtikelService implements Serializable {
 		
 		final Set<ConstraintViolation<Artikel>> violations = validator.validate(artikel, groups);
 		if (!violations.isEmpty()) {
-			throw new ArtikelValidationException(artikel, violations);
+			throw new ArtikelValidationException(violations);
 		}
 	}
 	

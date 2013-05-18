@@ -12,12 +12,13 @@ MEILENSTEIN 2 	Web-Oberfläche:
 		      --> Ändern
 		      --> Suchen
 		      --> Löschen ???
-- Artikel:    --> Anlegen
+- Artikel:    --> Anlegen ERLEDIGT
+			  --> Anlegen Artikelgruppe
 		      --> Ändern
 		      --> Löschen
 		      --> Suchen ---> ERLEDIGT (Kriterien: ID, Artikelgruppe, Bezeichnung (mit Autovervollständigung),
 		      							MaxPreis, MinPreis)
-- Bestellung: --> Aufgeben (Funktionalität um Lieferung anzulegen und zu ändern hinzufügen)
+- Bestellung: --> Aufgeben (Funktionalität um Lieferung anzulegen und zu ändern hinzufügen, evt automatische Erkennung)
 			  --> Dazu notwendig Warenkorb
 			  --> Ändern auf offenAbgeschlossen ???
 
@@ -27,7 +28,7 @@ MEILENSTEIN 2 	Web-Oberfläche:
 
 - Login
 
-- Schnellsuche  ---> ERLEDIGT (nicht voll funktionsfähig)
+- Schnellsuche  ---> ERLEDIGT (ACHTUNG: unter Chrome funktioniert es nicht!)
 
 - Sprachänderung ---> ERLEDIGT
 
