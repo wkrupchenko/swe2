@@ -23,6 +23,7 @@ import de.shop.artikelverwaltung.domain.Artikel;
 import de.shop.artikelverwaltung.domain.Artikelgruppe;
 import de.shop.artikelverwaltung.service.ArtikelService;
 import de.shop.artikelverwaltung.service.InvalidArtikelException;
+import de.shop.artikelverwaltung.service.InvalidArtikelgruppeException;
 import de.shop.util.AbstractShopException;
 import de.shop.util.Client;
 import de.shop.util.Log;
@@ -73,6 +74,10 @@ public class ArtikelController implements Serializable {
 	@Push(topic = "createArtikel")
 	private transient Event<String> neuerArtikelEvent;
 	
+	@Inject
+	@Push(topic = "createArtikelgruppe")
+	private transient Event<String> neueArtikelgruppeEvent;
+	
 	private Long artikelId;
 	private String artikelArtikelgruppe;
 	private String artikelBezeichnung;
@@ -83,6 +88,7 @@ public class ArtikelController implements Serializable {
 	private Artikel neuerArtikel;
 	private List<Artikelgruppe> alleArtikelgruppen;
 	private Long neuerArtikelArtikelgruppeId;
+	private Artikelgruppe neueArtikelgruppe;
 
 	@Override
 	public String toString() {
@@ -152,6 +158,10 @@ public class ArtikelController implements Serializable {
 	
 	public void setNeuerArtikelArtikelgruppeId(Long artikelgruppeId) {
 		this.neuerArtikelArtikelgruppeId = artikelgruppeId;
+	}
+	
+	public Artikelgruppe getNeueArtikelgruppe() {
+		return neueArtikelgruppe;
 	}
 	
 	public Class<?>[] getDefaultGroup() {
@@ -317,7 +327,7 @@ public class ArtikelController implements Serializable {
 		// Push-Event fuer Webbrowser
 		neuerArtikelEvent.fire(String.valueOf(neuerArtikel.getId()));
 		
-		// Aufbereitung fuer viewKunde.xhtml
+		// Aufbereitung fuer viewArtikel.xhtml
 		artikelId = neuerArtikel.getId();
 		artikel = neuerArtikel;
 		neuerArtikel = null;  // zuruecksetzen
@@ -345,5 +355,51 @@ public class ArtikelController implements Serializable {
 			return;
 		}
 		neuerArtikel = new Artikel();
+	}
+	
+	/**
+	 *  Action Methode, um eigentliche Artikelgruppe zu erzeugen bzw zu befüllen
+	 *  
+	 */
+	@Transactional
+	public String createArtikelgruppe() {
+		try {
+			neueArtikelgruppe = as.createArtikelgruppe(neueArtikelgruppe, locale);
+		}
+		catch (InvalidArtikelgruppeException e) {
+			final String outcome = createArtikelgruppeErrorMsg(e);
+			return outcome;
+		}
+
+		// Push-Event fuer Webbrowser
+		neueArtikelgruppeEvent.fire(String.valueOf(neueArtikelgruppe.getId()));
+		
+		// Aufbereitung fuer viewArtikelArtikelgruppe.xhtml
+		artikelArtikelgruppe = neueArtikelgruppe.getBezeichnung();
+		neueArtikelgruppe = null;  // zuruecksetzen
+		
+		return JSF_VIEW_ARTIKEL_ARTIKELGRUPPE + JSF_REDIRECT_SUFFIX;
+	}
+	
+	private String createArtikelgruppeErrorMsg(AbstractShopException e) {
+		final Class<? extends AbstractShopException> exceptionClass = e.getClass();
+
+		if (exceptionClass.equals(InvalidArtikelException.class)) {
+			final InvalidArtikelException orig = (InvalidArtikelException) e;
+			messages.error(orig.getViolations(), null);
+		}
+		
+		return null;
+	}
+	
+	/**
+	 *  Action Methode, um leere Artikelgruppe zu erzeugen. Aufruf durch preRenderView
+	 *  Keine eigene Transaktion, daher kein @Transactional
+	 */
+	public void createEmptyArtikelgruppe() {
+		if (neueArtikelgruppe != null) {
+			return;
+		}
+		neueArtikelgruppe = new Artikelgruppe();
 	}
 }

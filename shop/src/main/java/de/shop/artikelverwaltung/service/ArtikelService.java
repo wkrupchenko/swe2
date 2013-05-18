@@ -297,7 +297,7 @@ public class ArtikelService implements Serializable {
 		
 		final Set<ConstraintViolation<Artikelgruppe>> violations = validator.validate(artikelgruppe, groups);
 		if (!violations.isEmpty()) {
-			throw new ArtikelgruppeValidationException(artikelgruppe, violations);
+			throw new ArtikelgruppeValidationException(violations);
 		}
 	}
 	
