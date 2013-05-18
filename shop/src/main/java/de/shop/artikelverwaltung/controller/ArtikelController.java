@@ -2,18 +2,29 @@ package de.shop.artikelverwaltung.controller;
 
 import static javax.ejb.TransactionAttributeType.REQUIRED;
 import static de.shop.util.Messages.MessagesType.ARTIKELVERWALTUNG;
+import static de.shop.util.Konstante.JSF_REDIRECT_SUFFIX;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Locale;
 
 import javax.ejb.TransactionAttribute;
 import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
+import javax.enterprise.event.Event;
 import javax.faces.context.Flash;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.validation.groups.Default;
+
+import org.richfaces.cdi.push.Push;
 
 import de.shop.artikelverwaltung.domain.Artikel;
+import de.shop.artikelverwaltung.domain.Artikelgruppe;
 import de.shop.artikelverwaltung.service.ArtikelService;
+import de.shop.artikelverwaltung.service.InvalidArtikelException;
+import de.shop.util.AbstractShopException;
+import de.shop.util.Client;
 import de.shop.util.Log;
 import de.shop.util.Messages;
 import de.shop.util.Transactional;
@@ -23,7 +34,7 @@ import de.shop.util.Transactional;
  * Dialogsteuerung fuer die Artikelverwaltung
  */
 @Named("ac")
-@RequestScoped
+@SessionScoped
 @Log
 public class ArtikelController implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -43,6 +54,8 @@ public class ArtikelController implements Serializable {
 	private static final String MSG_KEY_ARTIKEL_NOT_FOUND_BY_BEZEICHNUNG = "viewArtikelBezeichnung.notFound";
 	private static final String CLIENT_ID_ARTIKEL_BEZEICHNUNG = "form:bezeichnung";
 	
+	private static final Class<?>[] DEFAULT_GROUP = { Default.class };
+	
 	@Inject
 	private ArtikelService as;
 	
@@ -52,12 +65,24 @@ public class ArtikelController implements Serializable {
 	@Inject
 	private Messages messages;
 	
+	@Inject
+	@Client
+	private Locale locale;
+	
+	@Inject
+	@Push(topic = "createArtikel")
+	private transient Event<String> neuerArtikelEvent;
+	
 	private Long artikelId;
 	private String artikelArtikelgruppe;
 	private String artikelBezeichnung;
 	private Boolean artikelErhaeltlich;
 	private double artikelPreis;
 	private List<Artikel> ladenhueter;
+	private Artikel artikel;
+	private Artikel neuerArtikel;
+	private List<Artikelgruppe> alleArtikelgruppen;
+	private Long neuerArtikelArtikelgruppeId;
 
 	@Override
 	public String toString() {
@@ -106,6 +131,31 @@ public class ArtikelController implements Serializable {
 	
 	public List<Artikel> getLadenhueter() {
 		return ladenhueter;
+	}
+	
+	public Artikel getArtikel() {
+		return artikel;
+	}
+	
+	public Artikel getNeuerArtikel() {
+		return neuerArtikel;
+	}
+	
+	public List<Artikelgruppe> getAlleArtikelgruppen() {
+		alleArtikelgruppen = as.findeAlleArtikelgruppen();
+		return alleArtikelgruppen;
+	}
+	
+	public Long getNeuerArtikelArtikelgruppeId() {
+		return neuerArtikelArtikelgruppeId;
+	}
+	
+	public void setNeuerArtikelArtikelgruppeId(Long artikelgruppeId) {
+		this.neuerArtikelArtikelgruppeId = artikelgruppeId;
+	}
+	
+	public Class<?>[] getDefaultGroup() {
+		return DEFAULT_GROUP.clone();
 	}
 
 	/**
@@ -244,5 +294,56 @@ public class ArtikelController implements Serializable {
 	@Transactional
 	public void loadLadenhueter() {
 		ladenhueter = as.ladenhueter(ANZAHL_LADENHUETER);
+	}
+	
+	/**
+	 *  Action Methode, um eigentlichen Artikel zu erzeugen bzw zu befüllen
+	 *  
+	 */
+	@Transactional
+	public String createArtikel() {
+		// Artikelgruppe anhand der vorgegebenen ID suchen und anschließend dem Artikel und umgekehrt zuweisen
+		Artikelgruppe ag = as.findeArtikelgruppeNachId(neuerArtikelArtikelgruppeId);
+		neuerArtikel.setArtikelgruppe(ag);
+		ag.addArtikel(neuerArtikel);
+		try {
+			neuerArtikel = as.createArtikel(neuerArtikel, locale);
+		}
+		catch (InvalidArtikelException e) {
+			final String outcome = createArtikelErrorMsg(e);
+			return outcome;
+		}
+
+		// Push-Event fuer Webbrowser
+		neuerArtikelEvent.fire(String.valueOf(neuerArtikel.getId()));
+		
+		// Aufbereitung fuer viewKunde.xhtml
+		artikelId = neuerArtikel.getId();
+		artikel = neuerArtikel;
+		neuerArtikel = null;  // zuruecksetzen
+		
+		return JSF_VIEW_ARTIKEL + JSF_REDIRECT_SUFFIX;
+	}
+	
+	private String createArtikelErrorMsg(AbstractShopException e) {
+		final Class<? extends AbstractShopException> exceptionClass = e.getClass();
+
+		if (exceptionClass.equals(InvalidArtikelException.class)) {
+			final InvalidArtikelException orig = (InvalidArtikelException) e;
+			messages.error(orig.getViolations(), null);
+		}
+		
+		return null;
+	}
+	
+	/**
+	 *  Action Methode, um leeren Artikel zu erzeugen. Aufruf durch preRenderView
+	 *  Keine eigene Transaktion, daher kein @Transactional
+	 */
+	public void createEmptyArtikel() {
+		if (neuerArtikel != null) {
+			return;
+		}
+		neuerArtikel = new Artikel();
 	}
 }

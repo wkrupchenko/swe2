@@ -1,0 +1,85 @@
+<?xml version="1.0"?>
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:ui="http://java.sun.com/jsf/facelets"
+	  xmlns:h="http://java.sun.com/jsf/html"
+	  xmlns:f="http://java.sun.com/jsf/core"
+	  xmlns:rich="http://richfaces.org/rich"
+	  xmlns:c="http://java.sun.com/jstl/core">
+
+	<ui:composition template="/WEB-INF/templates/desktop/main.xml">
+		<ui:define name="metadata">
+			<f:event type="preRenderView" listener="#{ac.createEmptyArtikel}"/>
+		</ui:define>
+		
+		<ui:param name="pageTitle" value="#{msgAv['createArtikel.title']}"/>
+	
+		<ui:define name="article">
+			<h1>
+				#{msgAv['createArtikel.heading']}
+			</h1>
+	
+			<h:form id="createArtikelForm">
+				<rich:jQuery id="bezeichnungFocus" selector="#bezeichnung" query="focus()"/>
+				<rich:graphValidator id="artikelValidator"
+				                     value="#{ac.neuerArtikel}"
+				                      groups="#{ac.defaultGroup}">
+					<rich:messages for="artikelValidator"/>
+					<rich:messages id="fehlermeldungArtikel" globalOnly="true"/>
+					<p id="abstand"/>
+					
+					<h:panelGrid id="createArtikelTabelle"
+					             columns="3">
+			
+						<h:outputLabel id="bezeichnungLabel" for="bezeichnung" value="#{msgAv['createArtikel.bezeichnung']}"/>
+						<h:inputText id="bezeichnung" value="#{ac.neuerArtikel.bezeichnung}">
+							<rich:validator oninvalid="$(#{rich:element('bezeichnung')}).addClass('invalid')"
+                                            onvalid="$(#{rich:element('bezeichnung')}).removeClass('invalid')"/>
+						</h:inputText>
+						<rich:messages id="fehlermeldungenBezeichnung" for="bezeichnung"/>
+			
+						<h:outputText id="erhaeltlichLabel" value="#{msgAv['createArtikel.erhaeltlich']}"/>
+						<h:selectOneRadio id="erhaeltlich" value="#{ac.neuerArtikel.erhaeltlich}">
+							<f:selectItem id="ja" itemValue="true" itemLabel="#{msgAv['createArtikel.erhaeltlich.true']}"/>
+							<f:selectItem id="nein" itemValue="false" itemLabel="#{msgAv['createArtikel.erhaeltlich.false']}"/>
+						</h:selectOneRadio>
+						<f:verbatim/>
+						
+						<h:outputLabel id="preisLabel" for="preis" value="#{msgAv['createArtikel.preis']}"/>
+						<h:inputText id="preis"
+						             value="#{ac.neuerArtikel.preis}"
+						             converterMessage="#{msgAv['createArtikel.preis.convert']}">
+						    <f:convertNumber type="currency"
+							                 currencyCode="EUR"
+							                 maxFractionDigits="2"/>
+							<f:ajax event="blur" render="fehlermeldungenPreis"/>
+						</h:inputText>
+						<rich:messages id="fehlermeldungenPreis" for="preis"/>
+			
+						<h:outputLabel id="artikelgruppeLabel" for="artikelgruppe" value="#{msgAv['createArtikel.artikelgruppe']}"/>
+						<rich:select id="artikelgruppe"
+						             enableManualInput="true"
+						             defaultLabel="#{msgAv['createArtikel.artikelgruppe']}"
+						             value="#{ac.neuerArtikelArtikelgruppeId}">
+						    <c:forEach items="#{ac.alleArtikelgruppen}" var="ag">
+								<f:selectItem id="#{ag.bezeichnung}" itemValue="#{ag.id}" itemLabel="#{ag.bezeichnung}"/>
+							</c:forEach>
+						</rich:select>
+						<f:verbatim/>
+					</h:panelGrid>
+		
+					<p id="buttons">
+						<h:commandButton id="createSubmit" action="#{ac.createArtikel}" value="#{msgAv['createArtikel.submit']}"/>
+						#{' '}
+						<h:commandButton id="reset" type="reset" value="#{msgAv['createArtikel.reset']}"/>
+					</p>
+				</rich:graphValidator>
+			</h:form>
+			
+			<p id="hinweisPflichtfelder">
+				#{msgAv['createArtikel.required']}
+			</p>
+		</ui:define>
+	</ui:composition>
+</html>

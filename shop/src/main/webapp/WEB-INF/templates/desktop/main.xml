@@ -14,9 +14,9 @@
 		
 		<h:head>
 			<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-			<meta http-equiv="language" content="#{userLocale}"/>
-			<meta http-equiv="content-language" content="#{userLocale}"/>
-			<meta name="language" content="#{userLocale}"/>
+			<meta http-equiv="language" content="#{locale}"/>
+			<meta http-equiv="content-language" content="#{locale}"/>
+			<meta name="language" content="#{locale}"/>
 			<meta http-equiv="Content-Style-Type" content="text/css"/>
 			<base href="#{request.contextPath}"/>
 			<title>#{empty pageTitle ? 'Webshop' : pageTitle}</title>

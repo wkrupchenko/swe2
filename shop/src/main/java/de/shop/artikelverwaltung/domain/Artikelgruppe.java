@@ -36,6 +36,7 @@ import org.codehaus.jackson.annotate.JsonProperty;
 import static de.shop.util.Konstante.ERSTE_VERSION;
 import static de.shop.util.Konstante.KEINE_ID;
 import static de.shop.util.Konstante.MIN_ID;
+import static javax.persistence.FetchType.EAGER;
 
 @Entity
 @Table(name = "artikelgruppe")
@@ -76,7 +77,7 @@ public class Artikelgruppe implements Serializable {
 	@Size(max = BEZEICHNUNG_LENGTH_MAX, message = "{artikelverwaltung.artikelgruppe.bezeichnung.length}")
 	private String bezeichnung;
 	
-	@OneToMany
+	@OneToMany(fetch = EAGER)
 	@JoinColumn(name = "artikelgruppe_fk", nullable = false)
 	@JsonIgnore
 	private List<Artikel> artikel;
