@@ -21,6 +21,7 @@ MEILENSTEIN 2 	Web-Oberfläche:
 - Bestellung: --> Aufgeben (Funktionalität um Lieferung anzulegen und zu ändern hinzufügen, evt automatische Erkennung)
 			  --> Dazu notwendig Warenkorb
 			  --> Ändern auf offenAbgeschlossen ???
+			  --> Suchen
 
 - Navigationsleiste anpassen ---> ERLEDIGT (Unterpunkte)
 

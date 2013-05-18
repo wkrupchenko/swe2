@@ -124,6 +124,10 @@
 						</h:outputLink>
 					</rich:panelMenuItem>
 				</rich:panelMenuGroup>
+				<rich:panelMenuGroup id="ändernArtikel"
+			                     label="#{msg['nav.ändern']}"
+			                     expanded="true">
+				</rich:panelMenuGroup>
 			</rich:panelMenuGroup>
 
 			<rich:panelMenuGroup id="bestellverwaltung"
