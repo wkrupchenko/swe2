@@ -64,10 +64,11 @@ import static javax.persistence.TemporalType.TIMESTAMP;
 @Entity
 @Table(name = "bestellung")
 @NamedQueries({
+	 
     @NamedQuery(name  = Bestellung.FINDE_ALLE_OFFENEN_BESTELLUNGEN,
-   	            query = "FROM Bestellung b WHERE b.offenAbgeschlossen = TRUE "),
+   	            query = "FROM Bestellung b WHERE b.offenAbgeschlossen = TRUE"),
     @NamedQuery(name  = Bestellung.FINDE_ALLE_GESCHLOSSENEN_BESTELLUNGEN,
-	            query = "FROM Bestellung b WHERE b.offenAbgeschlossen = FALSE "),
+	            query = "FROM Bestellung b WHERE b.offenAbgeschlossen = FALSE"),	 
     @NamedQuery(name  = Bestellung.FINDE_BESTELLUNGEN_VON_KUNDEN_NACH_ID,
     			query = "SELECT b"
     					+ " FROM   Bestellung b"
@@ -87,7 +88,7 @@ import static javax.persistence.TemporalType.TIMESTAMP;
     @NamedQuery(name  = Bestellung.FINDE_BESTELLUNG_NACH_ID,
 				query = "SELECT b"
 						+ " FROM   Bestellung b"
-						+ " WHERE  b.id = :" + Bestellung.PARAM_ID),
+						+ " WHERE b.id = :" + Bestellung.PARAM_ID),
 	@NamedQuery(name = Bestellung.FINDE_ALLE_BESTELLUNGEN_NACH_ID_SORTIERT,
 				query = "Select b From Bestellung b Order By b.id")
 })

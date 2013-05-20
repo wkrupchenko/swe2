@@ -1,8 +1,7 @@
 package de.shop.bestellverwaltung.controller;
 
-import static de.shop.util.Konstante.KEINE_ID;
-
 import java.io.Serializable;
+import java.util.List;
 
 import javax.enterprise.context.RequestScoped;
 import javax.faces.context.Flash;
@@ -11,6 +10,7 @@ import javax.inject.Named;
 
 import de.shop.bestellverwaltung.domain.Bestellposition;
 import de.shop.bestellverwaltung.domain.Bestellung;
+import de.shop.bestellverwaltung.domain.Lieferung;
 import de.shop.bestellverwaltung.service.BestellungService;
 import de.shop.util.Log;
 import de.shop.util.Transactional;
@@ -26,7 +26,11 @@ public class BestellungController implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private static final String FLASH_BESTELLUNG = "bestellung";
+	private static final String FLASH_LIEFERUNG = "lieferung";
 	private static final String JSF_VIEW_BESTELLUNG = "/bestellverwaltung/viewBestellung";
+	private static final String JSF_BESTELLUNG_STATUS = "/bestellverwaltung/viewBestellungenStatus";
+	private static final String JSF_VIEW_LIEFUNGEN = "/bestellverwaltung/viewLieferungenBestid";
+	private Boolean bestellungStatus;
 	
 	@Inject
 	private BestellungService bs;
@@ -35,6 +39,8 @@ public class BestellungController implements Serializable {
 	private Flash flash;
 	
 	private Long bestellungId;
+	
+	private Long kundeId;
 
 	@Override
 	public String toString() {
@@ -48,6 +54,15 @@ public class BestellungController implements Serializable {
 	public Long getBestellungId() {
 		return bestellungId;
 	}
+	
+	public void setBestellungStatus(Boolean bestellungStatus) {
+		this.bestellungStatus = bestellungStatus;
+	}
+
+	public Boolean getBestellungStatus() {
+		return bestellungStatus;
+	}
+	 
 
 	/**
 	 * Action Methode, um eine Bestellung zu gegebener ID zu suchen
@@ -64,6 +79,56 @@ public class BestellungController implements Serializable {
 		flash.put(FLASH_BESTELLUNG, bestellung);
 		return JSF_VIEW_BESTELLUNG;
 	}
+		 
+	@Transactional
+	public String findeBestellungNachStatus() {
+		if(bestellungStatus) {
+			final List<Bestellung> bestellung = bs.findeBestellungenGeschlossen();
+			 if (bestellung.isEmpty()) {
+				flash.remove(FLASH_BESTELLUNG);
+				return null;
+			}
+			
+		
+			flash.put(FLASH_BESTELLUNG, bestellung);
+			return JSF_BESTELLUNG_STATUS;
+		}
+		else {
+			final List<Bestellung> bestellung = bs.findeBestellungenOffen();
+			 if (bestellung.isEmpty()) {
+				flash.remove(FLASH_BESTELLUNG);
+				return null;
+			}
+			
+			flash.put(FLASH_BESTELLUNG, bestellung);
+			return JSF_BESTELLUNG_STATUS;
+		}
+	}
+	
+	@Transactional
+	public String findeLieferungenNachBestellungId() {
+		final List<Lieferung> lieferungen = bs.findeLieferungenNachBestellungId(bestellungId);
+		if (lieferungen == null) {
+			flash.remove(FLASH_LIEFERUNG);
+			return null;
+		}
+						
+		flash.put(FLASH_LIEFERUNG, lieferungen);
+		return JSF_VIEW_LIEFUNGEN;
+	}
+		 	
+		@Transactional
+	public String findeBestellungenNachKundeId() {
+		final List<Bestellung> bestellungen = bs.findeBestellungenNachKundeId(kundeId);
+		if (bestellungen == null) {
+			flash.remove(FLASH_BESTELLUNG);
+			return null;
+		}
+						
+		flash.put(FLASH_BESTELLUNG, bestellungen);
+		return JSF_VIEW_BESTELLUNG;
+	}
+	
 	
 	 
 	
