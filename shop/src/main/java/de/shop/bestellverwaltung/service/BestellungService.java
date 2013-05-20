@@ -71,22 +71,20 @@ public class BestellungService implements Serializable {
 	public Bestellung findeBestellungNachId(Long id) {
 		final Bestellung bestellung = em.find(Bestellung.class, id);
 		return bestellung;
-	}
-	
-	public List<Bestellung> findeBestellungenGeschlossen() {
-		final List<Bestellung> bestellungen = em.createNamedQuery(Bestellung.FINDE_ALLE_GESCHLOSSENEN_BESTELLUNGEN, 
-												Bestellung.class)
+	}	
+	 	 
+	 public List<Bestellung> findeBestellungenGeschlossen() {
+		final List<Bestellung> result = em.createNamedQuery(Bestellung.FINDE_ALLE_GESCHLOSSENEN_BESTELLUNGEN, Bestellung.class)
 												.getResultList();
-		return bestellungen;
+		return result;
 	}
 	
 	public List<Bestellung> findeBestellungenOffen() {
-		final List<Bestellung> bestellungen = em.createNamedQuery(Bestellung.FINDE_ALLE_OFFENEN_BESTELLUNGEN, 
-												Bestellung.class)
+		final List<Bestellung> result = em.createNamedQuery(Bestellung.FINDE_ALLE_OFFENEN_BESTELLUNGEN, Bestellung.class)
 												.getResultList();
-		return bestellungen;
+		return result;
 	}
-	
+		
 	public List<Bestellung> findeAlleBestellungen() {
 		final List<Bestellung> bestellungen = em.createNamedQuery(Bestellung.FINDE_ALLE_BESTELLUNGEN_NACH_ID_SORTIERT, 
 												Bestellung.class)

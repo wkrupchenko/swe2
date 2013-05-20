@@ -23,23 +23,23 @@
 						<h:inputText id="idInput" value="#{bc.bestellungId}"/>
 						
 						<a4j:commandButton id="sucheButton"
-										   action="#{bc.findBestellungById}"
+										   action="#{bc.findeLieferungenNachBestellungId}"
 										   value="#{msgBv['viewBestellung.submit']}"
-										   render="gesuchteBestellungPanel"/>
+										   render="gesuchteLieferungPanel"/>
 					</h:panelGrid>
 				</rich:panel>
 			
 				<p id="abstand"/>
 								 			
-				<a4j:outputPanel id="gesuchteBestellungPanel">
-					<c:if test="#{not empty flash.bestellung or param.init ne 'true'}">
-						<c:set var="bestellung" value="#{flash.bestellung}" scope="view"/>
+				<a4j:outputPanel id="gesuchteLieferungPanel">
+					<c:if test="#{not empty flash.lieferung or param.init ne 'true'}">
+						<c:set var="lieferung" value="#{flash.lieferung}" scope="view"/>
 						<!-- Fuer den naechsten Request puffern, falls z.B. ein Update-Button angeklickt WUERDE -->
-						<c:set target="#{flash}" property="bestellung" value="#{bestellung}"/>
+						<c:set target="#{flash}" property="lieferung" value="#{lieferung}"/>
 						
-							<rich:dataTable id="bestellungTabelle"
-						                value="#{bestellung}"
-						                var="bestellung"
+							<rich:dataTable id="lieferungTabelle"
+						                value="#{lieferung}"
+						                var="lieferung"
 						                rows="5"
 						                noDataLabel="#{msgBv['viewBestellung.keineDaten']}"
 						                rowClasses="odd-row, even-row"
@@ -48,54 +48,48 @@
 						                rendered="#{not empty bestellung or param.init ne 'true'}">
 							<rich:column id="idSpalte">
 								<f:facet name="header">
-									#{msgBv['viewBestellung.bestellnr']}
+									#{msgBv['viewLieferung.liefernr']}
 								</f:facet>
-								#{bestellung.id}
+								#{lieferung.id}
 							</rich:column>
 							
-							 							 
+							<rich:column id="VersionSpalte">
+								<f:facet name="header">
+									#{msgBv['viewLieferung.version']}
+								</f:facet>
+								#{lieferung.version}
+							</rich:column>
+							 
+							<rich:column id="inlandOderAusland">
+								<f:facet name="header">
+									#{msgBv['viewLieferung.inlandOderAusland']}
+								</f:facet>																
+								#{lieferung.inlandOderAusland}
+							</rich:column>
+							
+							<rich:column id="liefernummer">
+								<f:facet name="header">
+									#{msgBv['viewLieferung.liefernummer']}
+								</f:facet>																
+								#{lieferung.liefernummer}
+							</rich:column>							  
+							 
+							<rich:column id="transportArt">
+								<f:facet name="header">
+									#{msgBv['viewLieferung.transportArt']}
+								</f:facet>																
+								#{lieferung.liefernummer}
+							</rich:column>
+							
 							 <rich:column id="bestellpositionenSpalte">							
 								<f:facet name="header">
-									#{msgBv['viewBestellung.bestellpositionen']}
+									#{msgBv['viewLieferung.bestellpositionen']}
 								</f:facet>
 							<c:forEach items="#{bestellung.bestellpositionen}" var="best">
 								<h:outputText value="#{best.id}" />
 								<br/>
 							</c:forEach>				
 							</rich:column>
-											
-														
-							<rich:column id="offenAbgeschlossenSpalte">
-								<f:facet name="header">
-									#{msgBv['viewBestellung.offenabgeschlossen']}
-								</f:facet>
-								#{bestellung.offenAbgeschlossen}
-							</rich:column>
-							 
-							<rich:column id="kundeSpalte">
-								<f:facet name="header">
-									#{msgBv['viewBestellung.kunde']}
-								</f:facet>																
-								#{bestellung.kunde.nachname}
-							</rich:column>
-														  
-							<rich:column id="lieferungenSpalte">
-								<f:facet name="header">
-									#{msgBv['viewBestellung.lieferungen']}
-								</f:facet>
-								<c:forEach items="#{bestellung.lieferungen}" var="lief">
-									<h:outputText value="#{lief.id}" />
-									<br/>
-									<h:outputText value="#{lief.version}" />
-									<br/>
-									<h:outputText value="#{lief.inlandOderAusland}" />
-									<br/>
-									<h:outputText value="#{lief.liefernr}" />
-									<br/>
-									<h:outputText value="#{lief.transportArt}" />
-									<br/>
-								</c:forEach>								
-							</rich:column>	
 							  
 						</rich:dataTable>
 						
