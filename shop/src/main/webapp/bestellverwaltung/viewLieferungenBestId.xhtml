@@ -71,25 +71,26 @@
 								<f:facet name="header">
 									#{msgBv['viewLieferung.liefernummer']}
 								</f:facet>																
-								#{lieferung.liefernummer}
+								#{lieferung.liefernr}
 							</rich:column>							  
 							 
 							<rich:column id="transportArt">
 								<f:facet name="header">
 									#{msgBv['viewLieferung.transportArt']}
 								</f:facet>																
-								#{lieferung.liefernummer}
+								#{lieferung.transportArt}
 							</rich:column>
-							
-							 <rich:column id="bestellpositionenSpalte">							
+							<!--  
+							 <rich:column id="bestellungenSpalte">							
 								<f:facet name="header">
-									#{msgBv['viewLieferung.bestellpositionen']}
+									#{msgBv['viewLieferung.bestellungen']}
 								</f:facet>
-							<c:forEach items="#{bestellung.bestellpositionen}" var="best">
-								<h:outputText value="#{best.id}" />
+							<c:forEach items="#{lieferung.bestellungen}" var="bst">
+								<h:outputText value="#{bst.id}" />
 								<br/>
 							</c:forEach>				
 							</rich:column>
+							 -->
 							  
 						</rich:dataTable>
 						
