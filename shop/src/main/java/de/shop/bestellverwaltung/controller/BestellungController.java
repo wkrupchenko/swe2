@@ -8,10 +8,11 @@ import javax.faces.context.Flash;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import de.shop.bestellverwaltung.domain.Bestellposition;
 import de.shop.bestellverwaltung.domain.Bestellung;
 import de.shop.bestellverwaltung.domain.Lieferung;
 import de.shop.bestellverwaltung.service.BestellungService;
+import de.shop.kundenverwaltung.domain.Kunde;
+import de.shop.kundenverwaltung.service.KundeService;
 import de.shop.util.Log;
 import de.shop.util.Transactional;
 
@@ -27,21 +28,24 @@ public class BestellungController implements Serializable {
 	
 	private static final String FLASH_BESTELLUNG = "bestellung";
 	private static final String FLASH_LIEFERUNG = "lieferung";
+	private static final String FLASH_KUNDE = "kunde";	
 	private static final String JSF_VIEW_BESTELLUNG = "/bestellverwaltung/viewBestellung";
 	private static final String JSF_BESTELLUNG_STATUS = "/bestellverwaltung/viewBestellungenStatus";
 	private static final String JSF_VIEW_LIEFUNGEN = "/bestellverwaltung/viewLieferungenBestid";
+	private static final String JSF_VIEW_KUNDE = "/bestellverwaltung/viewKundeBestId";
 	private Boolean bestellungStatus;
 	
 	@Inject
 	private BestellungService bs;
 	
 	@Inject
+	private KundeService ks;
+	
+	@Inject
 	private Flash flash;
 	
 	private Long bestellungId;
 	
-	private Long kundeId;
-
 	@Override
 	public String toString() {
 		return "BestellungController [bestellungId=" + bestellungId + "]";
@@ -118,15 +122,15 @@ public class BestellungController implements Serializable {
 	}
 		 	
 		@Transactional
-	public String findeBestellungenNachKundeId() {
-		final List<Bestellung> bestellungen = bs.findeBestellungenNachKundeId(kundeId);
-		if (bestellungen == null) {
-			flash.remove(FLASH_BESTELLUNG);
+		public String findeKundeNachBestellungId() {
+		final Kunde kunde = ks.findeKundeNachBestellung(bestellungId);
+		if (kunde == null) {
+			flash.remove(FLASH_KUNDE);
 			return null;
 		}
 						
-		flash.put(FLASH_BESTELLUNG, bestellungen);
-		return JSF_VIEW_BESTELLUNG;
+		flash.put(FLASH_KUNDE, kunde);
+		return JSF_VIEW_KUNDE;
 	}
 	
 	
