@@ -32,12 +32,12 @@
 				<p id="abstand"/>
 			
 				<a4j:outputPanel id="gesuchterKundePanel">
-					<c:if test="#{not empty flash.kunde}">
+					<c:if test="#{not empty flash.kunde or param.init ne 'true'}">
 						<c:set var="kunde" value="#{flash.kunde}" scope="view"/>
 						<!-- Fuer den naechsten Request puffern, falls z.B. ein Update-Button angeklickt WUERDE -->
 						<c:set target="#{flash}" property="kunde" value="#{kunde}"/>
 						
-						<rich:dataTable id="gesuchterKunde"
+							<rich:dataTable id="KundeVTabelle"
 						                value="#{kunde}"
 						                var="kunde"
 						                rows="5"
@@ -45,7 +45,7 @@
 						                rowClasses="odd-row, even-row"
 						                styleClass="tabelleMitZebrastil"
 						                cellspacing="10"
-						                rendered="#{not empty kunde or param.init ne 'true'}">
+						                rendered="#{not empty bestellung or param.init ne 'true'}">
 										
 							<rich:column id="artLabel">
 								<f:facet name="header">
