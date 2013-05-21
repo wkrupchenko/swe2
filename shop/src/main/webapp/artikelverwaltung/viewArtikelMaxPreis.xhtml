@@ -52,7 +52,7 @@
 						<rich:dataTable id="artikelTabelle"
 						                value="#{artikel}"
 						                var="artikel"
-						                rows="5"
+						                rows="6"
 						                noDataLabel="#{msgAv['viewArtikel.keineDaten']}"
 						                rowClasses="odd-row, even-row"
 						                styleClass="tabelleMitZebrastil"
@@ -91,6 +91,14 @@
 									#{msgAv['viewArtikel.artikelgruppe']}
 								</f:facet>
 								#{artikel.artikelgruppe.bezeichnung}
+							</rich:column>
+							
+							<rich:column id="buttonSpalte"
+							             rendered="#{not empty artikel}">
+								<h:commandButton id="editButton"
+												 image="#{resource['images:edit.gif']}"
+										         action="#{ac.selectForUpdate(artikel)}"
+										         alt="#{msgAv['viewArtikel.editButtonAlt']}"/>
 							</rich:column>
 							
 						</rich:dataTable>

@@ -40,9 +40,9 @@ import static de.shop.util.Konstante.KEINE_ID;
 import static de.shop.util.Konstante.MIN_ID;
 import static de.shop.util.Konstante.ERSTE_VERSION;
 import static javax.persistence.TemporalType.TIMESTAMP;
+import static javax.persistence.CascadeType.MERGE;
 import static javax.persistence.CascadeType.PERSIST;
 import static javax.persistence.CascadeType.REMOVE;
-import static javax.persistence.FetchType.EAGER;
 import static javax.persistence.FetchType.LAZY;
 
 @Entity
@@ -117,7 +117,7 @@ public class Artikel implements Serializable, Cloneable {
 	@Column(nullable = false, precision = 10, scale = 2)
 	private double preis;
 	
-	@ManyToOne(optional = false, cascade = { PERSIST, REMOVE })
+	@ManyToOne(optional = false, cascade = { PERSIST, MERGE, REMOVE })
 	@JoinColumn(name = "artikelgruppe_fk", nullable = false, insertable = false, updatable = false)
 	@NotNull(message = "{artikelverwaltung.artikel.artikelgruppe.notNull}", groups = PreExistingGroup.class)
 	@JsonIgnore

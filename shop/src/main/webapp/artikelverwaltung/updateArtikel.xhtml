@@ -1,0 +1,93 @@
+<?xml version="1.0"?>
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:ui="http://java.sun.com/jsf/facelets"
+	  xmlns:h="http://java.sun.com/jsf/html"
+	  xmlns:f="http://java.sun.com/jsf/core"
+	  xmlns:rich="http://richfaces.org/rich"
+	  xmlns:a4j="http://richfaces.org/a4j"
+	  xmlns:c="http://java.sun.com/jstl/core">
+
+	<ui:composition template="/WEB-INF/templates/desktop/main.xml">
+		<ui:param name="pageTitle" value="#{msgAv['updateArtikel.title']}"/>
+	
+		<ui:define name="article">
+			<h1>
+				<h:outputFormat id="headingArtikel" value="#{msgAv['updateArtikel.heading']}" rendered="#{not empty ac.artikel}">
+					<f:param id="idWert" value="#{ac.artikel.id}"/>
+				</h:outputFormat>
+			</h1>
+			
+			<h:outputText id="fehlerKeinArtikel"
+			              value="#{msgAv['updateArtikel.keinArtikel']}"
+			              class="rf-msg-err"
+			              rendered="#{empty ac.artikel}"/>
+
+			<a4j:push id="updateEvent" address="updateArtikel"
+		              ondataavailable="if (event.rf.data == '#{ac.artikel.id}') { $('#updateMessage').html('&lt;span class=rf-msg-err&gt;#{msgAv['updateArtikel.concurrentUpdate']}&lt;/span&gt;') }"/>
+			<span id="updateMessage"></span>
+			
+			<rich:messages id="fehlermeldungGobal" globalOnly="true"/>
+			<h:form id="updateArtikelForm" rendered="#{not empty ac.artikel}">
+				<rich:jQuery id="bezeichnungFocus" selector="#bezeichnung" query="focus()"/>
+				<!--
+				<rich:focus id="formFocus"/>
+				-->
+				
+				<h:panelGrid id="updateArtikelTabelle"
+				             columns="3">
+					<h:outputLabel id="bezeichnungLabel" for="bezeichnung" value="#{msgAv['updateArtikel.bezeichnung']}"/>
+					<h:inputText id="bezeichnung"
+					             value="#{ac.artikel.bezeichnung}"
+					             valueChangeListener="#{ac.geaendert}">
+						<rich:validator oninvalid="$(#{rich:element('bezeichnung')}).addClass('invalid')"
+                                        onvalid="$(#{rich:element('bezeichnung')}).removeClass('invalid')"/>
+					</h:inputText>
+					<rich:messages id="fehlermeldungenBezeichnung" for="bezeichnung"/>
+					
+					<h:outputText id="erhaeltlichLabel" value="#{msgAv['createArtikel.erhaeltlich']}"/>
+					<h:selectOneRadio id="erhaeltlich" value="#{ac.artikel.erhaeltlich}" valueChangeListener="#{ac.geaendert}">
+						<f:selectItem id="ja" itemValue="true" itemLabel="#{msgAv['updateArtikel.erhaeltlich.true']}"/>
+						<f:selectItem id="nein" itemValue="false" itemLabel="#{msgAv['updateArtikel.erhaeltlich.false']}"/>
+					</h:selectOneRadio>
+					<f:verbatim/>
+					
+					<h:outputLabel id="preisLabel" for="preis" value="#{msgAv['updateArtikel.preis']}"/>
+					<h:inputText id="preis"
+					             value="#{ac.artikel.preis}"
+					             converterMessage="#{msgAv['updateArtikel.preis.convert']}"
+					             valueChangeListener="#{ac.geaendert}">
+						<f:convertNumber type="currency"
+						                 currencyCode="EUR"
+						                 maxFractionDigits="2"/>
+						<f:ajax event="blur" render="updateArtikelForm:fehlermeldungenPreis"/>
+					</h:inputText>
+					<rich:messages id="fehlermeldungenPreis" for="preis"/>
+					
+					<h:outputLabel id="artikelgruppeLabel" for="artikelgruppe" value="#{msgAv['updateArtikel.artikelgruppe']}"/>
+					<rich:select id="artikelgruppe"
+						             enableManualInput="true"
+						             defaultLabel="#{msgAv['updateArtikel.artikelgruppe']}"
+						             value="#{ac.updateArtikelArtikelgruppeId}"
+						             valueChangeListener="#{ac.geaendert}">
+						    <c:forEach items="#{ac.alleArtikelgruppen}" var="ag">
+								<f:selectItem id="#{ag.bezeichnung}" itemValue="#{ag.id}" itemLabel="#{ag.bezeichnung}"/>
+							</c:forEach>
+					</rich:select>
+					<f:verbatim/>
+				</h:panelGrid>
+	
+				<p id="buttons">
+					<h:commandButton id="button" action="#{ac.update}" value="#{msgAv['updateArtikel.submit']}"/>
+					#{' '}
+					<h:commandButton type="reset" value="#{msgAv['updateArtikel.reset']}"/>
+				</p>
+				
+				<p id="hinweisPflichtfelder">
+					#{msgAv['updateArtikel.required']}
+				</p>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</html>
