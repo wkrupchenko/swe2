@@ -14,8 +14,9 @@ MEILENSTEIN 2 	Web-Oberfläche:
 		      --> Löschen ???
 - Artikel:    --> Anlegen ERLEDIGT
 			  --> Anlegen Artikelgruppe ERLEDIGT
-		      --> Ändern
+		      --> Ändern ERLEDIGT
 		      --> Löschen
+		      --> Löschen Artikelgruppe
 		      --> Suchen ---> ERLEDIGT (Kriterien: ID, Artikelgruppe, Bezeichnung (mit Autovervollständigung),
 		      							MaxPreis, MinPreis)
 - Bestellung: --> Aufgeben (Funktionalität um Lieferung anzulegen und zu ändern hinzufügen, evt automatische Erkennung)

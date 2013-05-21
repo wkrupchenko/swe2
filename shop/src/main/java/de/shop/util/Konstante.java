@@ -22,6 +22,7 @@ public final class Konstante {
 	public static final String HASH_CHARSET = "UTF-8";
 	
 	// JSF
+	public static final String JSF_INDEX = "/index";
 	public static final String JSF_REDIRECT_SUFFIX = "?faces-redirect=true";
 	
 	private Konstante() {
