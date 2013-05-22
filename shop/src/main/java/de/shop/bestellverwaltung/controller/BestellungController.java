@@ -87,10 +87,11 @@ public class BestellungController implements Serializable {
 	@Transactional
 	public String findeBestellungNachStatus() {
 		if(bestellungStatus) {
-			final List<Bestellung> bestellung = bs.findeBestellungenGeschlossen();
+			final List<Bestellung> bestellung = bs.findeBestellungenOffen();
 			 if (bestellung.isEmpty()) {
 				flash.remove(FLASH_BESTELLUNG);
 				return null;
+			
 			}
 			
 		
@@ -98,7 +99,7 @@ public class BestellungController implements Serializable {
 			return JSF_BESTELLUNG_STATUS;
 		}
 		else {
-			final List<Bestellung> bestellung = bs.findeBestellungenOffen();
+			final List<Bestellung> bestellung = bs.findeBestellungenGeschlossen();
 			 if (bestellung.isEmpty()) {
 				flash.remove(FLASH_BESTELLUNG);
 				return null;
