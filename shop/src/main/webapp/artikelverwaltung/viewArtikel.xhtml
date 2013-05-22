@@ -87,6 +87,10 @@
 												 image="#{resource['images:edit.gif']}"
 										         action="#{ac.selectForUpdate(artikel)}"
 										         alt="#{msgAv['viewArtikel.editButtonAlt']}"/>
+								<h:commandButton id="deleteButton"
+												 image="#{resource['images:delete.gif']}"
+												 action="#{ac.delete(artikel)}"
+												 alt="#{msgAv['viewArtikel.deleteButtonAlt']}"/>
 							</rich:column>
 							
 						</rich:dataTable>

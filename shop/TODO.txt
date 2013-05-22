@@ -19,6 +19,7 @@ MEILENSTEIN 2 	Web-Oberfläche:
 		      --> Löschen Artikelgruppe
 		      --> Suchen ---> ERLEDIGT (Kriterien: ID, Artikelgruppe, Bezeichnung (mit Autovervollständigung),
 		      							MaxPreis, MinPreis)
+		      --> Upload Files plus anzeigen
 - Bestellung: --> Aufgeben (Funktionalität um Lieferung anzulegen und zu ändern hinzufügen, evt automatische Erkennung)
 			  --> Dazu notwendig Warenkorb
 			  --> Ändern auf offenAbgeschlossen ???

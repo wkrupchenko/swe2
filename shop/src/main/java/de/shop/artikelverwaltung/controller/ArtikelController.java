@@ -24,6 +24,7 @@ import org.richfaces.cdi.push.Push;
 
 import de.shop.artikelverwaltung.domain.Artikel;
 import de.shop.artikelverwaltung.domain.Artikelgruppe;
+import de.shop.artikelverwaltung.service.ArtikelDeleteBestellungException;
 import de.shop.artikelverwaltung.service.ArtikelService;
 import de.shop.artikelverwaltung.service.InvalidArtikelException;
 import de.shop.artikelverwaltung.service.InvalidArtikelgruppeException;
@@ -56,10 +57,12 @@ public class ArtikelController implements Serializable {
 	private static final String JSF_VIEW_ARTIKEL_MAX_PREIS = "/artikelverwaltung/viewArtikelMaxPreis";
 	private static final String JSF_VIEW_ARTIKEL_MIN_PREIS = "/artikelverwaltung/viewArtikelMinPreis";
 	private static final String JSF_UPDATE_ARTIKEL = "/artikelverwaltung/updateArtikel";
+	private static final String JSF_DELETE_OK = "/artikelverwaltung/okDelete";
 	
 	private static final String MSG_KEY_ARTIKEL_NOT_FOUND_BY_BEZEICHNUNG = "viewArtikelBezeichnung.notFound";
 	private static final String MSG_KEY_UPDATE_ARTIKEL_CONCURRENT_UPDATE = "updateArtikel.concurrentUpdate";
 	private static final String MSG_KEY_UPDATE_ARTIKEL_CONCURRENT_DELETE = "updateArtikel.concurrentDelete";
+	private static final String MSG_KEY_DELETE_ARTIKEL_BESTELLUNG = "viewArtikel.deleteArtikelBestellung";
 	
 	private static final String CLIENT_ID_ARTIKEL_BEZEICHNUNG = "form:bezeichnung";
 	
@@ -518,5 +521,20 @@ public class ArtikelController implements Serializable {
 		artikel = ausgewaehlterArtikel;
 		
 		return JSF_UPDATE_ARTIKEL;
+	}
+	
+	@Transactional
+	@TransactionAttribute(REQUIRED)
+	public String delete(Artikel ausgewaehlterArtikel) {
+		try {
+			as.deleteArtikel(ausgewaehlterArtikel);
+		}
+		catch (ArtikelDeleteBestellungException e) {
+			messages.error(ARTIKELVERWALTUNG, MSG_KEY_DELETE_ARTIKEL_BESTELLUNG, null,
+					       e.getKundeId());
+			return null;
+		}
+
+		return JSF_DELETE_OK;
 	}
 }
