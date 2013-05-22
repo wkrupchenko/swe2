@@ -90,14 +90,19 @@
 								<h:commandButton id="deleteButton"
 												 image="#{resource['images:delete.gif']}"
 												 action="#{ac.delete(artikel)}"
-												 alt="#{msgAv['viewArtikel.deleteButtonAlt']}"/>
+												 alt="#{msgAv['viewArtikel.deleteButtonAlt']}"
+												 onclick="return confirm('#{msgAv['viewArtikel.deleteArtikelBestaetigung']}')"
+								           		 render="@form :globaleFehlermeldungen"/>
 							</rich:column>
 							
 						</rich:dataTable>
 						
 					</c:if>
 					
-					<!-- TODO Button zum Aendern und/oder Loeschen -->
+					<p id="abstandZuMeldungen">
+						<rich:messages id="globaleFehlermeldungen" globalOnly="true"/>
+					</p>
+
 				</a4j:outputPanel>
 			</h:form>
 		</ui:define>

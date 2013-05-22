@@ -1,15 +1,17 @@
 package de.shop.artikelverwaltung.controller;
 
 import static javax.ejb.TransactionAttributeType.REQUIRED;
+import static javax.ejb.TransactionAttributeType.SUPPORTS;
+import static javax.persistence.PersistenceContextType.EXTENDED;
 import static de.shop.util.Messages.MessagesType.ARTIKELVERWALTUNG;
 import static de.shop.util.Konstante.JSF_REDIRECT_SUFFIX;
 import static de.shop.util.Konstante.JSF_INDEX;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import javax.ejb.Stateful;
 import javax.ejb.TransactionAttribute;
 import javax.enterprise.context.SessionScoped;
 import javax.enterprise.event.Event;
@@ -17,7 +19,10 @@ import javax.faces.context.Flash;
 import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.persistence.EntityManager;
 import javax.persistence.OptimisticLockException;
+import javax.persistence.PersistenceContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.groups.Default;
 
 import org.richfaces.cdi.push.Push;
@@ -31,7 +36,6 @@ import de.shop.artikelverwaltung.service.InvalidArtikelgruppeException;
 import de.shop.util.AbstractShopException;
 import de.shop.util.Client;
 import de.shop.util.ConcurrentDeletedException;
-import de.shop.util.Log;
 import de.shop.util.Messages;
 import de.shop.util.Transactional;
 
@@ -41,7 +45,8 @@ import de.shop.util.Transactional;
  */
 @Named("ac")
 @SessionScoped
-@Log
+@Stateful
+@TransactionAttribute(SUPPORTS)
 public class ArtikelController implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
@@ -49,6 +54,8 @@ public class ArtikelController implements Serializable {
 	
 	private static final int ANZAHL_LADENHUETER = 5;
 	private static final int MAX_AUTOCOMPLETE = 10;
+	
+	private static final String REQUEST_ARTIKEL_ID = "artikelId";
 	
 	private static final String JSF_VIEW_ARTIKEL = "/artikelverwaltung/viewArtikel";
 	private static final String JSF_VIEW_ARTIKEL_ARTIKELGRUPPE = "/artikelverwaltung/viewArtikelArtikelgruppe";
@@ -67,6 +74,12 @@ public class ArtikelController implements Serializable {
 	private static final String CLIENT_ID_ARTIKEL_BEZEICHNUNG = "form:bezeichnung";
 	
 	private static final Class<?>[] DEFAULT_GROUP = { Default.class };
+	
+	@PersistenceContext(type = EXTENDED)
+	private transient EntityManager em;
+	
+	@Inject
+	private transient HttpServletRequest request;
 	
 	@Inject
 	private ArtikelService as;
@@ -333,9 +346,10 @@ public class ArtikelController implements Serializable {
 	
 	/**
 	 *  Action Methode, um eigentlichen Artikel zu erzeugen bzw zu befüllen
-	 *  
+	 *  @TransactionAttribute(REQUIRED), da Sie die Funktion im Anwendungskern aufruft
+	 *  welche während der Transaktion stattfinden muss
 	 */
-	@Transactional
+	@TransactionAttribute(REQUIRED)
 	public String createArtikel() {
 		// Artikelgruppe anhand der vorgegebenen ID suchen und anschließend dem Artikel und umgekehrt zuweisen
 		Artikelgruppe ag = as.findeArtikelgruppeNachId(neuerArtikelArtikelgruppeId);
@@ -373,7 +387,7 @@ public class ArtikelController implements Serializable {
 	
 	/**
 	 *  Action Methode, um leeren Artikel zu erzeugen. Aufruf durch preRenderView
-	 *  Keine eigene Transaktion, daher kein @Transactional
+	 *  Keine Transaktion, daher kein @Transactional
 	 */
 	public void createEmptyArtikel() {
 		if (neuerArtikel != null) {
@@ -384,9 +398,10 @@ public class ArtikelController implements Serializable {
 	
 	/**
 	 *  Action Methode, um eigentliche Artikelgruppe zu erzeugen bzw zu befüllen
-	 *  
+	 * 	@TransactionAttribute(REQUIRED), da Sie die Funktion im Anwendungskern aufruft
+	 *  welche während der Transaktion stattfinden muss
 	 */
-	@Transactional
+	@TransactionAttribute(REQUIRED)
 	public String createArtikelgruppe() {
 		try {
 			neueArtikelgruppe = as.createArtikelgruppe(neueArtikelgruppe, locale);
@@ -419,7 +434,7 @@ public class ArtikelController implements Serializable {
 	
 	/**
 	 *  Action Methode, um leere Artikelgruppe zu erzeugen. Aufruf durch preRenderView
-	 *  Keine eigene Transaktion, daher kein @Transactional
+	 *  Keine Transaktion, daher kein @Transactional
 	 */
 	public void createEmptyArtikelgruppe() {
 		if (neueArtikelgruppe != null) {
@@ -450,9 +465,10 @@ public class ArtikelController implements Serializable {
 	
 	/**
 	 *  Action Methode, um vorhandenen Artikel zu ändern
+	 * 	@TransactionAttribute(REQUIRED), da Sie die Funktion im Anwendungskern aufruft
+	 *  welche während der Transaktion stattfinden muss
 	 */
-	//@TransactionAttribute(REQUIRED)
-	@Transactional
+	@TransactionAttribute(REQUIRED)
 	public String update() {
 		
 		if (!geaendertArtikel || artikel == null) {
@@ -523,7 +539,12 @@ public class ArtikelController implements Serializable {
 		return JSF_UPDATE_ARTIKEL;
 	}
 	
-	@Transactional
+	/**
+	 * Action-Methode, die aufgerufen wird wnen ein Artikel gelöscht werden soll.
+	 * @TransactionAttribute(REQUIRED), da Sie die Funktion im Anwendungskern aufruft
+	 * welche während der Transaktion stattfinden muss
+	 * @return Die Seite mit der Löschbestätigung
+	 */
 	@TransactionAttribute(REQUIRED)
 	public String delete(Artikel ausgewaehlterArtikel) {
 		try {
@@ -534,6 +555,9 @@ public class ArtikelController implements Serializable {
 					       e.getKundeId());
 			return null;
 		}
+		
+		// Aufbereitung fuer okDelete.xhtml
+		request.setAttribute(REQUEST_ARTIKEL_ID, ausgewaehlterArtikel.getId());
 
 		return JSF_DELETE_OK;
 	}

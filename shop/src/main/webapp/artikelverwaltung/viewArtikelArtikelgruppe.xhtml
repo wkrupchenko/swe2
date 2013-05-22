@@ -102,10 +102,16 @@
 								<h:commandButton id="deleteButton"
 												 image="#{resource['images:delete.gif']}"
 												 action="#{ac.delete(artikel)}"
-												 alt="#{msgAv['viewArtikel.deleteButtonAlt']}"/>		         
+												 alt="#{msgAv['viewArtikel.deleteButtonAlt']}"
+												 onclick="return confirm('#{msgAv['viewArtikel.deleteArtikelBestaetigung']}')"
+								           		 render="@form :globaleFehlermeldungen"/>		         
 							</rich:column>
 							
 						</rich:dataTable>
+						
+						<p id="abstandZuMeldungen">
+							<rich:messages id="globaleFehlermeldungen" globalOnly="true"/>
+						</p>
 						
 						<p id="abstand2"/>
 						
