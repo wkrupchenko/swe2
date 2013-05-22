@@ -78,7 +78,35 @@
 								<f:facet name="header">
 									#{msgAv['viewArtikel.artikelgruppe']}
 								</f:facet>
-								#{artikel.artikelgruppe.bezeichnung}
+								<h:commandLink id="artikelgruppePopup" value="#{artikel.artikelgruppe.bezeichnung}">
+									<rich:componentControl target="popup" operation="show"/>
+								</h:commandLink>
+								
+								<rich:popupPanel id="popup" modal="false" autosized="true" resizeable="false">
+									<f:facet name="header">
+										<h:outputFormat id="popupTitle" value="#{msgAv['viewArtikelgruppePopup.title']}">
+											<f:param id="popupTitleId" value="#{artikelgruppe.id}"/>
+										</h:outputFormat>
+									</f:facet>
+									<f:facet name="controls">
+										<h:outputLink id="hideControl"
+								        	    	  value="#"
+								            	  	  onclick="#{rich:component('popup')}.hide(); return false;">
+											<h:graphicImage id="hideIcon"
+									    		            name="close.png"
+									        		        library="images"
+									           	    	    style="cursor:pointer"
+									               	    	alt="#{msgAv['viewArtikelgruppePopup.hide.button']}"/>
+										</h:outputLink>
+									</f:facet>
+									
+									<ui:include src="viewArtikelgruppePopup.xhtml"/>
+										<h:outputLink id="closeLink"
+							            			  value="#"
+								          			  onclick="#{rich:component('popup')}.hide(); return false;">
+										#{msgAv['viewArtikelgruppePopup.hide.button']}
+										</h:outputLink>
+								</rich:popupPanel>
 							</rich:column>
 							
 							<rich:column id="buttonSpalte"

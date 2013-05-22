@@ -10,9 +10,15 @@ import de.shop.artikelverwaltung.domain.Artikelgruppe;
 @ApplicationException(rollback = true)
 public class ArtikelgruppeDeleteArtikelException extends ArtikelServiceException {
 	private static final long serialVersionUID = 1L;
+	private final Long artikelgruppeId;
 
 	public ArtikelgruppeDeleteArtikelException(Artikelgruppe artikelgruppe) {
 		super("Artikelgruppe mit ID=" + artikelgruppe.getId()
 			  + " kann nicht geloescht werden, es sind Artikel vorhanden!");
+		this.artikelgruppeId = artikelgruppe.getId();
+	}
+	
+	public Long getArtikelgruppeId() {
+		return artikelgruppeId;
 	}
 }

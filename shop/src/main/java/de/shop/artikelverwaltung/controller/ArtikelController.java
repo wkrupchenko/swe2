@@ -31,6 +31,7 @@ import de.shop.artikelverwaltung.domain.Artikel;
 import de.shop.artikelverwaltung.domain.Artikelgruppe;
 import de.shop.artikelverwaltung.service.ArtikelDeleteBestellungException;
 import de.shop.artikelverwaltung.service.ArtikelService;
+import de.shop.artikelverwaltung.service.ArtikelgruppeDeleteArtikelException;
 import de.shop.artikelverwaltung.service.InvalidArtikelException;
 import de.shop.artikelverwaltung.service.InvalidArtikelgruppeException;
 import de.shop.util.AbstractShopException;
@@ -56,6 +57,7 @@ public class ArtikelController implements Serializable {
 	private static final int MAX_AUTOCOMPLETE = 10;
 	
 	private static final String REQUEST_ARTIKEL_ID = "artikelId";
+	private static final String REQUEST_ARTIKELGRUPPE_ID = "artikelgruppeId";
 	
 	private static final String JSF_VIEW_ARTIKEL = "/artikelverwaltung/viewArtikel";
 	private static final String JSF_VIEW_ARTIKEL_ARTIKELGRUPPE = "/artikelverwaltung/viewArtikelArtikelgruppe";
@@ -65,11 +67,13 @@ public class ArtikelController implements Serializable {
 	private static final String JSF_VIEW_ARTIKEL_MIN_PREIS = "/artikelverwaltung/viewArtikelMinPreis";
 	private static final String JSF_UPDATE_ARTIKEL = "/artikelverwaltung/updateArtikel";
 	private static final String JSF_DELETE_OK = "/artikelverwaltung/okDelete";
+	private static final String JSF_DELETE_ARTIKELGRUPPE_OK = "/artikelverwaltung/okDeleteArtikelgruppe";
 	
 	private static final String MSG_KEY_ARTIKEL_NOT_FOUND_BY_BEZEICHNUNG = "viewArtikelBezeichnung.notFound";
 	private static final String MSG_KEY_UPDATE_ARTIKEL_CONCURRENT_UPDATE = "updateArtikel.concurrentUpdate";
 	private static final String MSG_KEY_UPDATE_ARTIKEL_CONCURRENT_DELETE = "updateArtikel.concurrentDelete";
 	private static final String MSG_KEY_DELETE_ARTIKEL_BESTELLUNG = "viewArtikel.deleteArtikelBestellung";
+	private static final String MSG_KEY_DELETE_ARTIKELGRUPPE_ARTIKEL = "viewArtikel.deleteArtikelgrupeArtikel";
 	
 	private static final String CLIENT_ID_ARTIKEL_BEZEICHNUNG = "form:bezeichnung";
 	
@@ -106,19 +110,24 @@ public class ArtikelController implements Serializable {
 	@Push(topic = "updateArtikel")
 	private transient Event<String> updateArtikelEvent;
 	
+	private Artikel artikel;
 	private Long artikelId;
 	private String artikelArtikelgruppe;
 	private String artikelBezeichnung;
 	private Boolean artikelErhaeltlich;
 	private double artikelPreis;
+	
 	private List<Artikel> ladenhueter;
-	private Artikel artikel;
+	
 	private boolean geaendertArtikel;    // fuer ValueChangeListener
+	
 	private Artikel neuerArtikel;
-	private List<Artikelgruppe> alleArtikelgruppen;
 	private Long neuerArtikelArtikelgruppeId;
-	private Artikelgruppe neueArtikelgruppe;
 	private Long updateArtikelArtikelgruppeId;
+	
+	private List<Artikelgruppe> alleArtikelgruppen;
+	
+	private Artikelgruppe neueArtikelgruppe;
 
 	@Override
 	public String toString() {
@@ -552,7 +561,7 @@ public class ArtikelController implements Serializable {
 		}
 		catch (ArtikelDeleteBestellungException e) {
 			messages.error(ARTIKELVERWALTUNG, MSG_KEY_DELETE_ARTIKEL_BESTELLUNG, null,
-					       e.getKundeId());
+					       e.getArtikelId());
 			return null;
 		}
 		
@@ -560,5 +569,28 @@ public class ArtikelController implements Serializable {
 		request.setAttribute(REQUEST_ARTIKEL_ID, ausgewaehlterArtikel.getId());
 
 		return JSF_DELETE_OK;
+	}
+	
+	/**
+	 * Action-Methode, die aufgerufen wird wnen ein Artikel gelöscht werden soll.
+	 * @TransactionAttribute(REQUIRED), da Sie die Funktion im Anwendungskern aufruft
+	 * welche während der Transaktion stattfinden muss
+	 * @return Die Seite mit der Löschbestätigung
+	 */
+	@TransactionAttribute(REQUIRED)
+	public String deleteArtikelgruppe(Artikelgruppe ausgewaehlteArtikelgruppe) {
+		try {
+			as.deleteArtikelgruppe(ausgewaehlteArtikelgruppe);
+		}
+		catch (ArtikelgruppeDeleteArtikelException e) {
+			messages.error(ARTIKELVERWALTUNG, MSG_KEY_DELETE_ARTIKELGRUPPE_ARTIKEL, null,
+					       e.getArtikelgruppeId());
+			return null;
+		}
+		
+		// Aufbereitung fuer okDelete.xhtml
+		request.setAttribute(REQUEST_ARTIKELGRUPPE_ID, ausgewaehlteArtikelgruppe.getId());
+
+		return JSF_DELETE_ARTIKELGRUPPE_OK;
 	}
 }
