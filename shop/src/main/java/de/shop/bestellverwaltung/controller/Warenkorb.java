@@ -25,9 +25,9 @@ import de.shop.util.Log;
 @ConversationScoped
 @Log
 public class Warenkorb implements Serializable {
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -1981070683990640854L;
 
-	private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass());
+	private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 	
 	private static final String JSF_VIEW_WARENKORB = "/bestellverwaltung/viewWarenkorb?init=true";
 	private static final int TIMEOUT = 5;

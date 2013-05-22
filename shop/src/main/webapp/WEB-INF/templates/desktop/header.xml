@@ -42,13 +42,12 @@
 					<f:facet name="label">
 						#{msg['header.sprache']}
 					</f:facet>
-					
-					<rich:menuItem id="englisch"
-					               label="#{msg['header.sprache.englisch']}"
-					               actionListener="#{sprache.change('en')}"/>
 					<rich:menuItem id="deutsch"
 					               label="#{msg['header.sprache.deutsch']}"
 					               actionListener="#{sprache.change('de')}"/>
+					<rich:menuItem id="englisch"
+					               label="#{msg['header.sprache.englisch']}"
+					               actionListener="#{sprache.change('en')}"/>					
 				</rich:dropDownMenu>
 			</h:form>
 	</rich:toolbar>
