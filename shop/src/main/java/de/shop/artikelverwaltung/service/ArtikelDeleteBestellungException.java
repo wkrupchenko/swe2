@@ -17,7 +17,7 @@ public class ArtikelDeleteBestellungException extends ArtikelServiceException {
 		this.artikelId = artikel.getId();
 	}
 
-	public Long getKundeId() {
+	public Long getArtikelId() {
 		return artikelId;
 	}
 }

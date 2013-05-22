@@ -1,0 +1,101 @@
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+			    xmlns:h="http://java.sun.com/jsf/html"
+			    xmlns:f="http://java.sun.com/jsf/core"
+			     xmlns:c="http://java.sun.com/jsp/jstl/core"
+			    xmlns:rich="http://richfaces.org/rich"
+			    xmlns:a4j="http://richfaces.org/a4j">		    
+			    
+	<rich:tabPanel id="tabPanel" switchType="client">
+		<rich:tab id="stammdatenTab">
+			<f:facet name="header">
+				<h:panelGroup id="stammdatenLabel">
+					<h:graphicImage id="stammdatenGif"
+					                name="stammdaten.gif"
+					                library="images"/>
+					#{msgAv['viewArtikelgruppePopup.stammdaten']}
+				</h:panelGroup>
+			</f:facet>
+			
+			<rich:panel id="stammdatenPanel">
+				<h:panelGrid id="stammdatenGrid" columns="2">
+					<h:outputText id="idLabel" value="#{msgAv['viewArtikelgruppePopup.id']}"/>
+					<h:outputText id="id" value="#{artikel.artikelgruppe.id}"/>
+			
+					<h:outputText id="bezeichnungLabel" value="#{msgAv['viewArtikelgruppePopup.bezeichnung']}"/>
+					<h:outputText id="bezeichnung" value="#{artikel.artikelgruppe.bezeichnung}"/>
+				
+				</h:panelGrid>
+			</rich:panel>
+		</rich:tab>
+		
+		<rich:tab id="artikelTab" rendered="#{not empty artikel.artikelgruppe.artikel}">
+			<f:facet name="header">
+				<h:panelGroup id="artikeLabel">
+					<h:graphicImage id="artikelGif"
+					                name="t-shirt.gif"
+					                library="images"/>
+					#{' '}
+					#{msgAv['viewArtikelgruppePopup.artikelgruppe.artikel']}
+				</h:panelGroup>
+			</f:facet>
+			
+			<rich:dataTable id="artikelTabelle"
+			                value="#{artikel.artikelgruppe.artikel}"
+			                var="artikel"
+			                rows="6"
+			                rowClasses="odd-row, even-row"
+			                styleClass="tabelleMitZebrastil"
+			                cellspacing="10">
+						<rich:column id="idSpalte">
+							<f:facet name="header">
+								#{msgAv['viewArtikelgruppePopup.artikel.id']}
+							</f:facet>
+								#{artikel.id}
+						</rich:column>
+							
+						<rich:column id="bezeichnungSpalte">
+							<f:facet name="header">
+								#{msgAv['viewArtikelgruppePopup.artikel.bezeichnung']}
+							</f:facet>
+							#{artikel.bezeichnung}
+						</rich:column>
+						
+						<rich:column id="preisSpalte">
+							<f:facet name="header">
+								#{msgAv['viewArtikelgruppePopup.artikel.preis']}
+							</f:facet>
+							#{artikel.preis}
+						</rich:column>
+							
+						<rich:column id="verfuegbarkeitSpalte">
+							<f:facet name="header">
+								#{msgAv['viewArtikelgruppePopup.artikel.erhaeltlich']}
+							</f:facet>
+								#{artikel.erhaeltlich}
+						</rich:column>
+			
+						<a4j:outputPanel id="outputPanelZebra" ajaxRendered="true">
+							<rich:jQuery id="odd"
+					       		         selector=".tabelleMitZebrastil tr:odd"
+					             		 query="addClass('odd-row')"
+					             		 timing="domready"/>
+							<rich:jQuery id="even"
+					           	         selector=".tabelleMitZebrastil tr:even"
+					            		 query="addClass('even-row')"
+					        	         timing="domready"/>
+							<rich:jQuery id="mouseover"
+					             		 selector=".tabelleMitZebrastil tr"
+					                     event="mouseover"
+					                     query="jQuery(this).addClass('active-row')"
+					                     timing="domready"/>
+							<rich:jQuery id="mouseout"
+					        	         selector=".tabelleMitZebrastil tr"
+					             		 event="mouseout"
+					             		 query="jQuery(this).removeClass('active-row')"
+					             		 timing="domready"/>
+						</a4j:outputPanel>
+			</rich:dataTable>
+		</rich:tab>
+		
+	</rich:tabPanel>
+</ui:composition>
