@@ -1,7 +1,7 @@
 AUFTEILUNG:
 
 Artikelverwaltung --> Ingo
-Kundenverwaltung  --> Sebastian
+Kundenverwaltung  --> Sebastian / Ingo
 Bestellverwaltung --> Wladik
 
 MEILENSTEIN 1 ERLEDIGT
