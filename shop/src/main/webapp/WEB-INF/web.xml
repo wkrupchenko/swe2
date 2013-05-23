@@ -186,7 +186,7 @@
     <env-entry-value>de,en</env-entry-value>
   </env-entry>
   <login-config> 
-    <auth-method>BASIC</auth-method>
+    <auth-method>FORM</auth-method>
     <realm-name>Webshop</realm-name>
   </login-config>
   <security-constraint>

@@ -10,8 +10,8 @@ MEILENSTEIN 2 	Web-Oberfläche:
 
 - Kunde:      --> Anlegen bzw. registrieren
 		      --> Ändern
-		      --> Suchen
-		      --> Löschen ???
+		      --> Suchen (Popup mit Bestellungen etc.)
+		      --> Löschen
 - Artikel:    --> Anlegen ERLEDIGT
 			  --> Anlegen Artikelgruppe ERLEDIGT
 		      --> Ändern ERLEDIGT
@@ -30,14 +30,20 @@ MEILENSTEIN 2 	Web-Oberfläche:
 
 - Startseite  ---> ERLEDIGT (Ladenhüter)
 
-- Login
+- Login und Logout ---> ERLEDIGT
+
+- Autorisierung und Authentifizierung für Web-Oberfläche
+	---> Artikel anlegen und ändern ab Admin ----> ERLEDIGT
+	---> Artikelgrupppe anlegen ab Admin ----> ERLEDIGT
+	---> Artikel löschen nur Abteilungsleiter ----> ERLEDIGT
+	---> Artikelgruppe löschen nur Abteilungsleiter ----> ERLEDIGT
 
 - Schnellsuche  ---> ERLEDIGT (ACHTUNG: unter Chrome funktioniert es nicht!)
 
 - Sprachänderung ---> ERLEDIGT
 
 - Konkurrierende Updates für Kunde und Artikel:
-	a4j:push und auch Fehlermeldungen nach OptimisticLockException
+	a4j:push und auch Fehlermeldungen nach OptimisticLockException  ---> Testen ???
 
 - "mvn site" (Fehler beheben)
 

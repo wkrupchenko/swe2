@@ -105,7 +105,7 @@ public class KundeService implements Serializable {
 	}
 	
 	
-	public Kunde findKundeByUserName(String userName) {
+	public Kunde findeKundeNachUserName(String userName) {
 		Kunde kunde;
 		try {
 			kunde = em.createNamedQuery(Kunde.FIND_KUNDE_BY_USERNAME, Kunde.class)

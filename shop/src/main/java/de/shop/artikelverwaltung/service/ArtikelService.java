@@ -39,7 +39,6 @@ import de.shop.util.ValidatorProvider;
 import de.shop.bestellverwaltung.service.BestellungService;
 import de.shop.bestellverwaltung.domain.Bestellung;
 import de.shop.bestellverwaltung.domain.Bestellposition;
-import de.shop.kundenverwaltung.domain.Kunde;
 import de.shop.util.IdGroup;
 
 @Log

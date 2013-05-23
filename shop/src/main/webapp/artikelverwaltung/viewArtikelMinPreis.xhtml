@@ -98,13 +98,15 @@
 								<h:commandButton id="editButton"
 												 image="#{resource['images:edit.gif']}"
 										         action="#{ac.selectForUpdate(artikel)}"
-										         alt="#{msgAv['viewArtikel.editButtonAlt']}"/>
+										         alt="#{msgAv['viewArtikel.editButtonAlt']}"
+										       	 rendered="#{rich:isUserInRole('admin')}"/>
 						         <h:commandButton id="deleteButton"
 												 image="#{resource['images:delete.gif']}"
 												 action="#{ac.delete(artikel)}"
 												 alt="#{msgAv['viewArtikel.deleteButtonAlt']}"
 												 onclick="return confirm('#{msgAv['viewArtikel.deleteArtikelBestaetigung']}')"
-								           		 render="@form :globaleFehlermeldungen"/>
+								           		 render="@form :globaleFehlermeldungen"
+								           		 rendered="#{rich:isUserInRole('abteilungsleiter')}"/>
 							</rich:column>
 							
 						</rich:dataTable>

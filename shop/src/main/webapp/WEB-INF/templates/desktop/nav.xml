@@ -103,8 +103,9 @@
 				</rich:panelMenuItem>
 				</rich:panelMenuGroup>
 				<rich:panelMenuGroup id="anlegenArtikel"
-			                     label="#{msg['nav.anlegen']}"
-			                     expanded="true">
+			                   		 label="#{msg['nav.anlegen']}"
+			                         expanded="true"
+			                         rendered="#{rich:isUserInRole('admin')}">
 					<rich:panelMenuItem id="artikelverwaltungCreateArtikelItem">
 						<h:outputLink id="artikelverwaltungCreateArtikel"
 					    	          value="#{request.contextPath}/artikelverwaltung/createArtikel.jsf">
@@ -126,7 +127,8 @@
 				</rich:panelMenuGroup>
 				<rich:panelMenuGroup id="löschenArtikelgruppe"
 			                     label="#{msg['nav.loeschen']}"
-			                     expanded="true">
+			                     expanded="true"
+			                     rendered="#{rich:isUserInRole('mitarbeiter')}">
 					<rich:panelMenuItem id="artikelverwaltungDeleteArtikelgruppeItem">
 						<h:outputLink id="artikelverwaltungDeleteArtikelgruppe"
 					    	          value="#{request.contextPath}/artikelverwaltung/deleteArtikelgruppe.jsf">

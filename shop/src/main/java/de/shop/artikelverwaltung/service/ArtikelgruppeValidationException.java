@@ -5,7 +5,6 @@ import java.util.Collection;
 import javax.ejb.ApplicationException;
 import javax.validation.ConstraintViolation;
 
-import de.shop.artikelverwaltung.domain.Artikel;
 import de.shop.artikelverwaltung.domain.Artikelgruppe;
 
 
