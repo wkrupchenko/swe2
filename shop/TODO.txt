@@ -54,5 +54,4 @@ MEILENSTEIN 2 	Web-Oberfläche:
 
 MEILSTEIN 3 	Android:
 
-- Kunde mit Bestellungen anzeigen
-- Artikel anzeigen und erfassen
+KOMPLETT OFFEN
