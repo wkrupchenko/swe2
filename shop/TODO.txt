@@ -20,9 +20,10 @@ MEILENSTEIN 2 	Web-Oberfläche:
 		      --> Suchen ---> ERLEDIGT (Kriterien: ID, Artikelgruppe (mit Autovervollständigung), Bezeichnung (mit Autovervollständigung),
 		      							MaxPreis, MinPreis
 		      							Zusätzliches: Popup Artikelgruppe (nur bei viewArtikel möglich))
+		      --> Artikel in Warenkorb legen ERLEDIGT
 		      --> Upload Files plus anzeigen
 - Bestellung: --> Aufgeben (Funktionalität um Lieferung anzulegen und zu ändern hinzufügen, evt automatische Erkennung)
-			  --> Dazu notwendig Warenkorb
+			  --> Dazu notwendig Warenkorb ERLEDIGT
 			  --> Ändern auf offenAbgeschlossen ???
 			  --> Suchen
 
@@ -33,10 +34,10 @@ MEILENSTEIN 2 	Web-Oberfläche:
 - Login und Logout ---> ERLEDIGT
 
 - Autorisierung und Authentifizierung für Web-Oberfläche
-	---> Artikel anlegen und ändern ab Admin ----> ERLEDIGT
-	---> Artikelgrupppe anlegen ab Admin ----> ERLEDIGT
-	---> Artikel löschen nur Abteilungsleiter ----> ERLEDIGT
-	---> Artikelgruppe löschen nur Abteilungsleiter ----> ERLEDIGT
+	---> Artikel anlegen und ändern ab Admin ERLEDIGT
+	---> Artikelgrupppe anlegen ab Admin ERLEDIGT
+	---> Artikel löschen nur Abteilungsleiter ERLEDIGT
+	---> Artikelgruppe löschen nur Abteilungsleiter ERLEDIGT
 
 - Schnellsuche  ---> ERLEDIGT (ACHTUNG: unter Chrome funktioniert es nicht!)
 

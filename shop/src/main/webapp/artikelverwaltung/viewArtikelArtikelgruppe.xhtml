@@ -110,7 +110,11 @@
 												 alt="#{msgAv['viewArtikel.deleteButtonAlt']}"
 												 onclick="return confirm('#{msgAv['viewArtikel.deleteArtikelBestaetigung']}')"
 								           		 render="@form :globaleFehlermeldungen"
-								           		 rendered="#{rich:isUserInRole('abteilungsleiter')}"/>		         
+								           		 rendered="#{rich:isUserInRole('abteilungsleiter')}"/>		
+								<h:commandButton id="warenkorbButton"
+												 image="#{resource['images:warenkorb.gif']}"
+										         action="#{wk.add(artikel)}"
+										         alt="#{msgAv['viewArtikel.alt.warenkorb']}"/>         
 							</rich:column>
 							
 						</rich:dataTable>
