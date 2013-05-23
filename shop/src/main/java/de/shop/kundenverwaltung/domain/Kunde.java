@@ -6,8 +6,10 @@ import static de.shop.util.Konstante.ERSTE_VERSION;
 import static javax.persistence.CascadeType.PERSIST;
 import static javax.persistence.CascadeType.REMOVE;
 import static javax.persistence.FetchType.EAGER;
+import static javax.persistence.FetchType.LAZY;
 import static javax.persistence.TemporalType.DATE;
 import static javax.persistence.TemporalType.TIMESTAMP;
+
 import javax.persistence.UniqueConstraint;
 
 import java.io.Serializable;
@@ -251,7 +253,7 @@ public class Kunde implements Serializable {
 	@NotNull(message = "{kundenverwaltung.kunde.adresse.notNull}")
 	private Adresse adresse;
 	
-	@OneToMany
+	@OneToMany(fetch = EAGER)
 	@JoinColumn(name = "kunde_fk", nullable = false)
 	@OrderColumn(name = "idx", nullable = false)
 	@JsonIgnore

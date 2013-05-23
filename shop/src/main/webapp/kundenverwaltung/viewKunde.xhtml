@@ -41,117 +41,70 @@
 							<rich:dataTable id="KundeVTabelle"
 						                value="#{kunde}"
 						                var="kunde"
-						                rows="5"
+						                rows="4"
 						                noDataLabel="#{msgKv['viewKunde.keineDaten']}"
 						                rowClasses="odd-row, even-row"
 						                styleClass="tabelleMitZebrastil"
 						                cellspacing="10"
-						                rendered="#{not empty bestellung or param.init ne 'true'}">
-										
-							<rich:column id="artLabel">
-								<f:facet name="header">
-									#{msgKv['viewKunde.art']}
-								</f:facet>
-								#{kunde.art}
-							</rich:column>							
+						                rendered="#{not empty bestellung or param.init ne 'true'}">						
 							 							 
 							 <rich:column id="kundeIdLabel">							
 								<f:facet name="header">
 									#{msgKv['viewKunde.kundenr']}
 								</f:facet>
 							 #{kunde.id}							 				
-							</rich:column>											
+							</rich:column>	
+							
+							<rich:column id="vornameLabel">
+								<f:facet name="header">
+									#{msgKv['viewKunde.vorname']}
+								</f:facet>																
+							#{kunde.vorname}
+							</rich:column>										
 														
 							<rich:column id="nachnameLabel">
 								<f:facet name="header">
 									#{msgKv['viewKunde.nachname']}
 								</f:facet>
-								#{kunde.nachname}
-							</rich:column>
-							 
-							<rich:column id="vornameLabel">
-								<f:facet name="header">
-									#{msgKv['viewKunde.vorname']}
-								</f:facet>																
-								#{kunde.vorname}
+								<h:commandLink id="nachnamePopup" value="#{kunde.nachname}">
+									<rich:componentControl target="popup" operation="show"/>
+								</h:commandLink>
+	
+								<rich:popupPanel id="popup" modal="false" autosized="true" resizeable="false">
+									<f:facet name="header">
+										<h:outputFormat id="popupTitle" value="#{msgKv['viewKundePopup.title']}">
+											<f:param id="popupTitleId" value="#{kunde.id}"/>
+										</h:outputFormat>
+									</f:facet>
+									<f:facet name="controls">
+										<h:outputLink id="hideControl"
+								        		      value="#"
+								              		  onclick="#{rich:component('popup')}.hide(); return false;">
+										<h:graphicImage id="hideIcon"
+									    	            name="close.png"
+									        	        library="images"
+									            	    style="cursor:pointer"
+									                	alt="#{msgKv['viewKundePopup.hide.button']}"/>
+										</h:outputLink>
+									</f:facet>
+									
+									<ui:include src="viewKundePopup.xhtml"/>
+							
+									<h:outputLink id="closeLink"
+							        		      value="#"
+								          		  onclick="#{rich:component('popup')}.hide(); return false;">
+										#{msgKv['viewKundePopup.hide.button']}
+									</h:outputLink>
+								</rich:popupPanel>
 							</rich:column>
 							
 							<rich:column id="emailLabel">
 								<f:facet name="header">
 									#{msgKv['viewKunde.email']}
 								</f:facet>																
-								#{kunde.email}
+							#{kunde.email}
 							</rich:column>
 							
-							<rich:column id="geschlechtLabel">
-								<f:facet name="header">
-									#{msgKv['viewKunde.geschlecht']}
-								</f:facet>																
-								#{kunde.geschlecht}
-							</rich:column>
-							
-							<rich:column id="familienstandLabel">
-								<f:facet name="header">
-									#{msgKv['viewKunde.familienstand']}
-								</f:facet>																
-								#{kunde.familienstand}
-							</rich:column>
-							
-							<rich:column id="newsletterLabel">
-								<f:facet name="header">
-									#{msgKv['viewKunde.newsletter']}
-								</f:facet>																
-								#{kunde.newsletter}
-							</rich:column>							
-							
-							<rich:column id="umsatzLabel">
-								<f:facet name="header">
-									#{msgKv['viewKunde.umsatz']}
-								</f:facet>																
-								#{kunde.umsatz}
-							</rich:column>
-							
-							<rich:column id="rabattLabel">
-								<f:facet name="header">
-									#{msgKv['viewKunde.rabatt']}
-								</f:facet>																
-								#{kunde.rabatt}
-							</rich:column>
-							
-							<rich:column id="seitLabel">
-								<f:facet name="header">
-									#{msgKv['viewKunde.seit']}
-								</f:facet>																
-								#{kunde.seit}
-							</rich:column>
-							
-							<rich:column id="strasseLabel">
-								<f:facet name="header">
-									#{msgKv['viewKunde.strasse']}
-								</f:facet>																
-								#{kunde.adresse.strasse}
-							</rich:column>
-							
-							<rich:column id="hausnrLabel">
-								<f:facet name="header">
-									#{msgKv['viewKunde.hausnr']}
-								</f:facet>																
-								#{kunde.adresse.hausnr}
-							</rich:column>
-							
-							<rich:column id="plzLabel">
-								<f:facet name="header">
-									#{msgKv['viewKunde.plz']}
-								</f:facet>																
-								#{kunde.adresse.plz}
-							</rich:column>
-							
-							<rich:column id="ortLabel">
-								<f:facet name="header">
-									#{msgKv['viewKunde.ort']}
-								</f:facet>																
-								#{kunde.adresse.ort}
-							</rich:column>
 						</rich:dataTable>
 					</c:if>
 					

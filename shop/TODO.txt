@@ -10,7 +10,8 @@ MEILENSTEIN 2 	Web-Oberfläche:
 
 - Kunde:      --> Anlegen bzw. registrieren
 		      --> Ändern
-		      --> Suchen (Popup mit Bestellungen etc.)
+		      --> Suchen ---> OFFEN/ERLEDIGT (Kriterien: ID, weitere FEHLEN
+		      						          Zusätzliches: Popup Kunde mit Details und Bestellungen)
 		      --> Löschen
 - Artikel:    --> Anlegen ERLEDIGT
 			  --> Anlegen Artikelgruppe ERLEDIGT

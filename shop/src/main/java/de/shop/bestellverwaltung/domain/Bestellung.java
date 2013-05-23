@@ -305,6 +305,10 @@ public class Bestellung implements Serializable {
 	public Date getErzeugt() {
 		return this.erzeugt == null ? null : (Date) this.erzeugt.clone();
 	}
+	
+	public Date getErzeugt(String format) {
+		return this.erzeugt == null ? null : (Date) this.erzeugt.clone();
+	}
 
 	public void setErzeugt(Date erzeugt) {
 		this.erzeugt = erzeugt == null ? null : (Date) erzeugt.clone();
