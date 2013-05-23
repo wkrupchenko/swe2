@@ -52,6 +52,7 @@ public class ArtikelController implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private static final String FLASH_ARTIKEL = "artikel";
+	private static final String FLASH_ARTIKELGRUPPE = "artikelgruppe";
 	
 	private static final int ANZAHL_LADENHUETER = 5;
 	private static final int MAX_AUTOCOMPLETE = 10;
@@ -68,14 +69,17 @@ public class ArtikelController implements Serializable {
 	private static final String JSF_UPDATE_ARTIKEL = "/artikelverwaltung/updateArtikel";
 	private static final String JSF_DELETE_OK = "/artikelverwaltung/okDelete";
 	private static final String JSF_DELETE_ARTIKELGRUPPE_OK = "/artikelverwaltung/okDeleteArtikelgruppe";
+	private static final String JSF_DELETE_ARTIKELGRUPPE = "/artikelverwaltung/deleteArtikelgruppe";
 	
 	private static final String MSG_KEY_ARTIKEL_NOT_FOUND_BY_BEZEICHNUNG = "viewArtikelBezeichnung.notFound";
 	private static final String MSG_KEY_UPDATE_ARTIKEL_CONCURRENT_UPDATE = "updateArtikel.concurrentUpdate";
 	private static final String MSG_KEY_UPDATE_ARTIKEL_CONCURRENT_DELETE = "updateArtikel.concurrentDelete";
 	private static final String MSG_KEY_DELETE_ARTIKEL_BESTELLUNG = "viewArtikel.deleteArtikelBestellung";
-	private static final String MSG_KEY_DELETE_ARTIKELGRUPPE_ARTIKEL = "viewArtikel.deleteArtikelgrupeArtikel";
+	private static final String MSG_KEY_DELETE_ARTIKELGRUPPE_ARTIKEL = "deleteArtikelgruppe.deleteArtikelgruppeArtikel";
+	private static final String MSG_KEY_ARTIKELGRUPPE_NOT_FOUND_BY_BEZEICHNUNG = "viewArtikelArtikelgruppe.notFound";
 	
 	private static final String CLIENT_ID_ARTIKEL_BEZEICHNUNG = "form:bezeichnung";
+	private static final String CLIENT_ID_ARTIKELGRUPPE_BEZEICHNUNG = "form:bezeichnung";
 	
 	private static final Class<?>[] DEFAULT_GROUP = { Default.class };
 	
@@ -128,6 +132,8 @@ public class ArtikelController implements Serializable {
 	private List<Artikelgruppe> alleArtikelgruppen;
 	
 	private Artikelgruppe neueArtikelgruppe;
+	
+	private Long artikelgruppeId;
 
 	@Override
 	public String toString() {
@@ -211,6 +217,14 @@ public class ArtikelController implements Serializable {
 		this.updateArtikelArtikelgruppeId = artikelgruppeId;
 	}
 	
+	public void setArtikelgruppeId(Long artikelgruppeId) {
+		this.artikelgruppeId = artikelgruppeId;
+	}
+
+	public Long getArtikelgruppeId() {
+		return artikelgruppeId;
+	}
+	
 	public Class<?>[] getDefaultGroup() {
 		return DEFAULT_GROUP.clone();
 	}
@@ -254,12 +268,6 @@ public class ArtikelController implements Serializable {
 	@Transactional
 	public String findeArtikelNachBezeichnung() {
 		final List<Artikel> artikel = as.findeArtikelNachBezeichnung(artikelBezeichnung);
-		/*
-		if (artikel.isEmpty()) {
-			flash.remove(FLASH_ARTIKEL);
-			return null;
-		}
-		*/
 		
 		flash.put(FLASH_ARTIKEL, artikel);
 		return JSF_VIEW_ARTIKEL_BEZEICHNUNG;
@@ -578,9 +586,9 @@ public class ArtikelController implements Serializable {
 	 * @return Die Seite mit der Löschbestätigung
 	 */
 	@TransactionAttribute(REQUIRED)
-	public String deleteArtikelgruppe(Artikelgruppe ausgewaehlteArtikelgruppe) {
+	public String deleteArtikelgruppe(Artikelgruppe artikelgruppe) {
 		try {
-			as.deleteArtikelgruppe(ausgewaehlteArtikelgruppe);
+			as.deleteArtikelgruppe(artikelgruppe);
 		}
 		catch (ArtikelgruppeDeleteArtikelException e) {
 			messages.error(ARTIKELVERWALTUNG, MSG_KEY_DELETE_ARTIKELGRUPPE_ARTIKEL, null,
@@ -589,8 +597,43 @@ public class ArtikelController implements Serializable {
 		}
 		
 		// Aufbereitung fuer okDelete.xhtml
-		request.setAttribute(REQUEST_ARTIKELGRUPPE_ID, ausgewaehlteArtikelgruppe.getId());
+		request.setAttribute(REQUEST_ARTIKELGRUPPE_ID, artikelgruppe.getId());
 
 		return JSF_DELETE_ARTIKELGRUPPE_OK;
+	}
+	
+	/**
+	 * Action Methode, um eine Artikelgruppe zu gegebener ID zu suchen
+	 * @return URL fuer Anzeige des gefundenen Artikelgruppe; sonst null
+	 */
+	@Transactional
+	public String findeArtikelgruppeNachId() {
+		final Artikelgruppe artikelgruppe = as.findeArtikelgruppeNachId(artikelgruppeId);
+		if (artikelgruppe == null) {
+			flash.remove(FLASH_ARTIKELGRUPPE);
+			return null;
+		}
+		
+		flash.put(FLASH_ARTIKELGRUPPE, artikelgruppe);
+		return JSF_DELETE_ARTIKELGRUPPE;
+	}
+	
+	/**
+	 * Für rich:autocomplete um potentielle Bezeichnungen zu Prefix zu erhalten
+	 * @return Liste der potenziellen Bezeichnungen
+	 */
+	@TransactionAttribute(REQUIRED)
+	public List<String> findeArtikelgruppeBezeichnungenNachPrefix(String artikelgruppeBezeichnungPrefix) {
+		final List<String> bezeichnungen = as.findeArtikelgruppeBezeichnungenNachPrefix(artikelgruppeBezeichnungPrefix);
+		if (bezeichnungen.isEmpty()) {
+			messages.error(ARTIKELVERWALTUNG, MSG_KEY_ARTIKELGRUPPE_NOT_FOUND_BY_BEZEICHNUNG, CLIENT_ID_ARTIKELGRUPPE_BEZEICHNUNG, artikelgruppeId);
+			return bezeichnungen;
+		}
+
+		if (bezeichnungen.size() > MAX_AUTOCOMPLETE) {
+			return bezeichnungen.subList(0, MAX_AUTOCOMPLETE);
+		}
+
+		return bezeichnungen;
 	}
 }

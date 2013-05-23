@@ -20,7 +20,11 @@
 									   value="#{msgAv['viewArtikel.artikelgruppe']}"
 									   for="artikelgruppeInput"/>
 		
-						<h:inputText id="artikelgruppeInput" value="#{ac.artikelArtikelgruppe}"/>
+						<rich:autocomplete id="bezeichnungInput"
+				    		               value="#{ac.artikelArtikelgruppe}"
+					        	           mode="ajax"
+					            	       minChars="1"
+					                	   autocompleteMethod="#{ac.findeArtikelgruppeBezeichnungenNachPrefix}"/> 
 						
 						<a4j:commandButton id="sucheButton"
 										   action="#{ac.findeArtikelNachArtikelgruppe}"

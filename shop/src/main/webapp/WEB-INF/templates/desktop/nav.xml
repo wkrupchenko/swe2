@@ -124,9 +124,21 @@
 						</h:outputLink>
 					</rich:panelMenuItem>
 				</rich:panelMenuGroup>
+				<rich:panelMenuGroup id="löschenArtikelgruppe"
+			                     label="#{msg['nav.loeschen']}"
+			                     expanded="true">
+					<rich:panelMenuItem id="artikelverwaltungDeleteArtikelgruppeItem">
+						<h:outputLink id="artikelverwaltungDeleteArtikelgruppe"
+					    	          value="#{request.contextPath}/artikelverwaltung/deleteArtikelgruppe.jsf">
+							#{msg['nav.artikelverwaltung.deleteArtikelgruppe']}
+							<c:if test="#{not empty javax.enterprise.context.conversation.id}">
+								<f:param id="deleteArtikelgruppeCid" name="cid" value="#{javax.enterprise.context.conversation.id}"/>
+							</c:if>
+						</h:outputLink>
+					</rich:panelMenuItem>
 			</rich:panelMenuGroup>
-
-			<rich:panelMenuGroup id="bestellverwaltung"
+		</rich:panelMenuGroup>
+		<rich:panelMenuGroup id="bestellverwaltung"
 			                     label="#{msg['nav.bestellverwaltung']}"
 			                     expanded="true">
 				<rich:panelMenuGroup id="sucheBestellung"

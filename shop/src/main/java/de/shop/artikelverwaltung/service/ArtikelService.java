@@ -3,7 +3,6 @@ package de.shop.artikelverwaltung.service;
 import static de.shop.util.Konstante.KEINE_ID;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
@@ -284,6 +283,14 @@ public class ArtikelService implements Serializable {
 				.FINDE_ARTIKELGRUPPE_NACH_BEZEICHNUNG, Artikelgruppe.class)
 				.setParameter(Artikelgruppe.PARAM_BEZEICHNUNG, name).getResultList();
 		return artikelgruppe;
+	}
+	
+	public List<String> findeArtikelgruppeBezeichnungenNachPrefix(String bezeichnungPrefix) {
+		final List<String> bezeichnungen = em.createNamedQuery(Artikelgruppe.FINDE_BEZEICHNUNGEN_NACH_PREFIX,
+				                                           String.class)
+				                         .setParameter(Artikelgruppe.PARAM_BEZEICHNUNG_PREFIX, bezeichnungPrefix + '%')
+				                         .getResultList();
+		return bezeichnungen;
 	}
 	
 	public Artikelgruppe findeArtikelgruppeNachId(Long id) {

@@ -16,10 +16,10 @@ MEILENSTEIN 2 	Web-Oberfläche:
 			  --> Anlegen Artikelgruppe ERLEDIGT
 		      --> Ändern ERLEDIGT
 		      --> Löschen ERLEDIGT
-		      --> Löschen Artikelgruppe
-		      --> Suchen ---> ERLEDIGT (Kriterien: ID, Artikelgruppe, Bezeichnung (mit Autovervollständigung),
+		      --> Löschen Artikelgruppe ERLEDIGT
+		      --> Suchen ---> ERLEDIGT (Kriterien: ID, Artikelgruppe (mit Autovervollständigung), Bezeichnung (mit Autovervollständigung),
 		      							MaxPreis, MinPreis
-		      							Zusätzliches: Popup Artikelgruppe)
+		      							Zusätzliches: Popup Artikelgruppe (nur bei viewArtikel möglich))
 		      --> Upload Files plus anzeigen
 - Bestellung: --> Aufgeben (Funktionalität um Lieferung anzulegen und zu ändern hinzufügen, evt automatische Erkennung)
 			  --> Dazu notwendig Warenkorb

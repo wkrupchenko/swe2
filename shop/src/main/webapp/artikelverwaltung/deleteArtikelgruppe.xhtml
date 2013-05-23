@@ -1,0 +1,85 @@
+<?xml version="1.0"?>
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:ui="http://java.sun.com/jsf/facelets"
+	  xmlns:h="http://java.sun.com/jsf/html"
+	  xmlns:f="http://java.sun.com/jsf/core"
+	  xmlns:c="http://java.sun.com/jsp/jstl/core"
+	  xmlns:rich="http://richfaces.org/rich"
+	  xmlns:a4j="http://richfaces.org/a4j">
+
+	<ui:composition template="/WEB-INF/templates/desktop/main.xml">
+		<ui:param name="pageTitle" value="#{msgAv['deleteArtikelgruppe.title']}"/>
+
+		<ui:define name="article">
+			<h:form id="sucheForm">
+				<rich:panel id="suchePanel" header="#{msgAv['deleteArtikelgruppe.sucheNeu']}">
+					<h:panelGrid id="suchePanelGrid" columns="3">
+						<h:outputLabel id="idInputLabel"
+									   value="#{msgAv['deleteArtikelgruppe.artikelgruppenr']}"
+									   for="idInput"/>
+		
+						<h:inputText id="idInput" value="#{ac.artikelgruppeId}"/>
+						
+						<a4j:commandButton id="sucheButton"
+										   action="#{ac.findeArtikelgruppeNachId}"
+										   value="#{msgAv['deleteArtikelgruppe.submit']}"
+										   render="gesuchteArtikelgruppePanel"/>
+					</h:panelGrid>
+				</rich:panel>
+			
+				<p id="abstand"/>
+			
+				<a4j:outputPanel id="gesuchteArtikelgruppePanel">
+					<c:if test="#{not empty flash.artikelgruppe or param.init ne 'true'}">
+						<c:set var="artikelgruppe" value="#{flash.artikelgruppe}" scope="view"/>
+						<!-- Fuer den naechsten Request puffern, falls z.B. ein Update-Button angeklickt WUERDE -->
+						<c:set target="#{flash}" property="artikelgruppe" value="#{artikelgruppe}"/>
+						
+							<rich:dataTable id="artikelgruppeTabelle"
+						                value="#{artikelgruppe}"
+						                var="artikelgruppe"
+						                rows="6"
+						                noDataLabel="#{msgAv['deleteArtikelgruppe.keineDaten']}"
+						                rowClasses="odd-row, even-row"
+						                styleClass="tabelleMitZebrastil"
+						                cellspacing="10"
+						                rendered="#{not empty artikelgruppe or param.init ne 'true'}">
+							<rich:column id="idSpalte">
+								<f:facet name="header">
+									#{msgAv['deleteArtikelgruppe.artikelgruppenr']}
+								</f:facet>
+								#{artikelgruppe.id}
+							</rich:column>
+							
+							<rich:column id="bezeichnungSpalte">
+								<f:facet name="header">
+									#{msgAv['deleteArtikelgruppe.bezeichnung']}
+								</f:facet>
+								#{artikelgruppe.bezeichnung}
+							</rich:column>
+							
+							<rich:column id="buttonSpalte"
+							             rendered="#{not empty artikelgruppe}">
+								<h:commandButton id="deleteButton"
+												 image="#{resource['images:delete.gif']}"
+												 action="#{ac.deleteArtikelgruppe(artikelgruppe)}"
+												 alt="#{msgAv['deleteArtikelgruppe.deleteButtonAlt']}"
+												 onclick="return confirm('#{msgAv['deleteArtikelgruppe.deleteArtikelgruppeBestaetigung']}')"
+								           		 render="@form :globaleFehlermeldungen"/>
+							</rich:column>
+							
+						</rich:dataTable>
+						
+					</c:if>
+					
+					<p id="abstandZuMeldungen">
+						<rich:messages id="globaleFehlermeldungen" globalOnly="true"/>
+					</p>
+
+				</a4j:outputPanel>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</html>

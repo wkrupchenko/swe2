@@ -37,7 +37,6 @@ import static de.shop.util.Konstante.ERSTE_VERSION;
 import static de.shop.util.Konstante.KEINE_ID;
 import static de.shop.util.Konstante.MIN_ID;
 import static javax.persistence.FetchType.EAGER;
-import static javax.persistence.FetchType.LAZY;
 
 @Entity
 @Table(name = "artikelgruppe")
@@ -47,7 +46,10 @@ import static javax.persistence.FetchType.LAZY;
 	@NamedQuery(name = Artikelgruppe.FINDE_ARTIKELGRUPPE_NACH_ARTIKEL_ID,
 				query = "Select ag From Artikelgruppe ag JOIN ag.artikel a Where a.id = :" + Artikelgruppe.PARAM_ID),
 	@NamedQuery(name = Artikelgruppe.FINDE_ARTIKELGRUPPE_NACH_BEZEICHNUNG,
-				query = "From Artikelgruppe ag Where ag.bezeichnung = :" + Artikelgruppe.PARAM_BEZEICHNUNG)
+				query = "From Artikelgruppe ag Where ag.bezeichnung = :" + Artikelgruppe.PARAM_BEZEICHNUNG),
+	@NamedQuery(name  = Artikelgruppe.FINDE_BEZEICHNUNGEN_NACH_PREFIX,
+		        query = "SELECT DISTINCT ag.bezeichnung FROM  Artikelgruppe ag WHERE UPPER(ag.bezeichnung) LIKE UPPER(:"	
+		        		+   Artikelgruppe.PARAM_BEZEICHNUNG_PREFIX + ")")
 })
 public class Artikelgruppe implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -59,9 +61,11 @@ public class Artikelgruppe implements Serializable {
 	public static final String FINDE_ARTIKELGRUPPEN_SORTIERT_NACH_ID = PREFIX + "findeArtikelgruppenSortiertNachId";
 	public static final String FINDE_ARTIKELGRUPPE_NACH_ARTIKEL_ID = PREFIX + "findeArtikelgruppeNachArtikelId";
 	public static final String FINDE_ARTIKELGRUPPE_NACH_BEZEICHNUNG = PREFIX + "findeArtikelgruppeNachBEZEICHNUNG";
+	public static final String FINDE_BEZEICHNUNGEN_NACH_PREFIX = PREFIX + "findeArtikelgruppeBezeichnungenNachPrefix";
 	
 	public static final String PARAM_ID = "id";
 	public static final String PARAM_BEZEICHNUNG = "bezeichnung";
+	public static final String PARAM_BEZEICHNUNG_PREFIX = "bezeichnungPrefix";
 
 	@Id
 	@GeneratedValue
