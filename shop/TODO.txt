@@ -13,12 +13,12 @@ MEILENSTEIN 2 	Web-Oberfläche:
 		      --> Suchen ---> OFFEN/ERLEDIGT (Kriterien: ID, weitere FEHLEN
 		      						          Zusätzliches: Popup Kunde mit Details und Bestellungen)
 		      --> Löschen
-- Artikel:    --> KOMPLETT ERLEDIGT
+		      
+- Artikel:    --> KOMPLETT ERLEDIGT  ( FEHLER: Suche klappt nicht mehr, auser nach ID )
 
-- Bestellung: --> Aufgeben (Funktionalität um Lieferung anzulegen und zu ändern hinzufügen, evt automatische Erkennung)
-			  --> Dazu notwendig Warenkorb ERLEDIGT
+- Bestellung: --> Aufgeben --> ERLEDIGT
 			  --> Ändern auf offenAbgeschlossen
-			  --> Suchen
+			  --> Suchen   --> OFFEN/ERLEDIGT
 
 - Navigationsleiste anpassen ---> ERLEDIGT (Unterpunkte)
 
@@ -38,7 +38,8 @@ MEILENSTEIN 2 	Web-Oberfläche:
 - Sprachänderung ---> ERLEDIGT
 
 - Konkurrierende Updates für Kunde und Artikel:
-	a4j:push und auch Fehlermeldungen nach OptimisticLockException  ---> Testen ???
+	a4j:push und auch Fehlermeldungen nach OptimisticLockException  ---> Testen
+																			---> Update funktioniert bei Artikel, bei Delete findet er die Nachricht nicht...
 
 - "mvn site" (Fehler beheben)
 
