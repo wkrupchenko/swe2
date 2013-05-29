@@ -1,20 +1,36 @@
 package de.shop.bestellverwaltung.controller;
 
 import java.io.Serializable;
+import java.lang.invoke.MethodHandles;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import javax.enterprise.context.RequestScoped;
 import javax.faces.context.Flash;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.jboss.logging.Logger;
+
+import static de.shop.util.Konstante.JSF_DEFAULT_ERROR;
+import de.shop.bestellverwaltung.domain.Bestellposition;
 import de.shop.bestellverwaltung.domain.Bestellung;
 import de.shop.bestellverwaltung.domain.Lieferung;
+import de.shop.bestellverwaltung.domain.TransportTyp;
 import de.shop.bestellverwaltung.service.BestellungService;
+import de.shop.bestellverwaltung.service.BestellungValidationException;
 import de.shop.kundenverwaltung.domain.Kunde;
 import de.shop.kundenverwaltung.service.KundeService;
+import de.shop.kundenverwaltung.service.KundeService.FetchType;
+import de.shop.util.Client;
 import de.shop.util.Log;
 import de.shop.util.Transactional;
+import de.shop.auth.controller.AuthController;
+import de.shop.auth.controller.KundeLoggedIn;
+import static javax.ejb.TransactionAttributeType.REQUIRED;
+
+import javax.ejb.TransactionAttribute;
 
 
 /**
@@ -25,6 +41,8 @@ import de.shop.util.Transactional;
 @Log
 public class BestellungController implements Serializable {
 	private static final long serialVersionUID = 1L;
+	
+	private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass());
 	
 	private static final String FLASH_BESTELLUNG = "bestellung";
 	private static final String FLASH_LIEFERUNG = "lieferung";
@@ -43,8 +61,28 @@ public class BestellungController implements Serializable {
 	
 	@Inject
 	private Flash flash;
+		
+	@Inject
+	private Warenkorb warenkorb;	 
+	
+	@Inject
+	private AuthController auth;
+	
+	@Inject
+	@KundeLoggedIn
+	private Kunde kunde;
+	
+	@Inject
+	@Client
+	private Locale locale;	
 	
 	private Long bestellungId;
+	
+	final static String inlandOderAusland = "I";
+	
+	final static String liefernr = "500123-729";
+	
+	private TransportTyp transportArt = TransportTyp.STRASSE;
 	
 	@Override
 	public String toString() {
@@ -122,8 +160,8 @@ public class BestellungController implements Serializable {
 		return JSF_VIEW_LIEFUNGEN;
 	}
 		 	
-		@Transactional
-		public String findeKundeNachBestellungId() {
+	@Transactional
+	public String findeKundeNachBestellungId() {
 		final Kunde kunde = ks.findeKundeNachBestellung(bestellungId);
 		if (kunde == null) {
 			flash.remove(FLASH_KUNDE);
@@ -134,8 +172,69 @@ public class BestellungController implements Serializable {
 		return JSF_VIEW_KUNDE;
 	}
 	
-	
-	 
-	
-	
-}
+	@Transactional
+		public String createBestellung() {
+		  auth.preserveLogin();
+			
+			if (warenkorb == null || warenkorb.getPositionen() == null || warenkorb.getPositionen().isEmpty()) {
+				// Darf nicht passieren, wenn der Button zum Bestellen verfuegbar ist
+				return JSF_DEFAULT_ERROR;
+			}
+			
+			// Den eingeloggten Kunden mit seinen Bestellungen ermitteln, und dann die neue Bestellung zu ergaenzen
+			kunde = ks.findeKundeNachId(kunde.getId(), FetchType.MIT_BESTELLUNGEN, locale);
+			
+			
+			
+			// Aus dem Warenkorb nur Positionen mit Anzahl > 0
+			final List<Bestellposition> positionen = warenkorb.getPositionen();
+			final List<Bestellposition> neuePositionen = new ArrayList<>(positionen.size());
+			for (Bestellposition bp : positionen) {
+				if (bp.getAnzahl() > 0) {
+					neuePositionen.add(bp);
+				}
+			}
+			
+			// Warenkorb zuruecksetzen
+			warenkorb.endConversation();
+			
+			// Neue Bestellung mit neuen Bestellpositionen erstellen
+			Bestellung bestellung = new Bestellung();
+			bestellung.setBestellpositionen(neuePositionen);
+			Lieferung lieferung = new Lieferung();
+			lieferung.setInlandOderAusland(inlandOderAusland);
+			lieferung.setLiefernr(liefernr);
+			lieferung.setTransportArt(transportArt);
+			lieferung.addBestellung(bestellung);
+			bestellung.addLieferung(lieferung);
+			final List<Bestellung> bestellungen = new ArrayList<>();
+			bestellungen.add(bestellung);
+			
+			
+			LOGGER.debugf("Neue Bestellung: %s\nBestellpositionen: %s", bestellung, bestellung.getBestellpositionen());
+			try {
+				lieferung = bs.createLieferung(lieferung, bestellungen);
+			}
+			catch (BestellungValidationException e) {
+				// Validierungsfehler KOENNEN NICHT AUFTRETEN, da Attribute durch JSF validiert wurden
+				// und in der Klasse Bestellung keine Validierungs-Methoden vorhanden sind
+				throw new IllegalStateException(e);
+			}
+			// Bestellung mit VORHANDENEM Kunden verknuepfen:
+			// dessen Bestellungen muessen geladen sein, weil es eine bidirektionale Beziehung ist
+			try {
+				bestellung = bs.createBestellung(bestellung, kunde, lieferung, locale);
+			}
+			catch (BestellungValidationException e) {
+				// Validierungsfehler KOENNEN NICHT AUFTRETEN, da Attribute durch JSF validiert wurden
+				// und in der Klasse Bestellung keine Validierungs-Methoden vorhanden sind
+				throw new IllegalStateException(e);
+			}
+			
+			
+			// Bestellung im Flash speichern wegen anschliessendem Redirect
+			flash.put(FLASH_BESTELLUNG, bestellung);
+			
+			return JSF_VIEW_BESTELLUNG;
+		}
+	}
