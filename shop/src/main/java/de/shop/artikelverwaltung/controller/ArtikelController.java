@@ -24,8 +24,11 @@ import javax.persistence.OptimisticLockException;
 import javax.persistence.PersistenceContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.groups.Default;
+import javax.xml.bind.DatatypeConverter;
 
 import org.richfaces.cdi.push.Push;
+import org.richfaces.event.FileUploadEvent;
+import org.richfaces.model.UploadedFile;
 
 import de.shop.artikelverwaltung.domain.Artikel;
 import de.shop.artikelverwaltung.domain.Artikelgruppe;
@@ -37,6 +40,8 @@ import de.shop.artikelverwaltung.service.InvalidArtikelgruppeException;
 import de.shop.util.AbstractShopException;
 import de.shop.util.Client;
 import de.shop.util.ConcurrentDeletedException;
+import de.shop.util.File;
+import de.shop.util.FileHelper;
 import de.shop.util.Messages;
 import de.shop.util.Transactional;
 
@@ -114,6 +119,9 @@ public class ArtikelController implements Serializable {
 	@Push(topic = "updateArtikel")
 	private transient Event<String> updateArtikelEvent;
 	
+	@Inject
+	private FileHelper fileHelper;
+	
 	private Artikel artikel;
 	private Long artikelId;
 	private String artikelArtikelgruppe;
@@ -134,6 +142,9 @@ public class ArtikelController implements Serializable {
 	private Artikelgruppe neueArtikelgruppe;
 	
 	private Long artikelgruppeId;
+	
+	private byte[] bytes;
+	private String contentType;
 
 	@Override
 	public String toString() {
@@ -635,5 +646,44 @@ public class ArtikelController implements Serializable {
 		}
 
 		return bezeichnungen;
+	}
+	
+	public void uploadListener(FileUploadEvent event) {
+		final UploadedFile uploadedFile = event.getUploadedFile();
+		contentType = uploadedFile.getContentType();
+		bytes = uploadedFile.getData();
+	}
+
+	/* Action-Methode um Multimedia Dateien hochzuladen
+	 * 
+	 */
+	@TransactionAttribute(REQUIRED)
+	public String upload() {
+		artikel = as.findeArtikelNachId(artikelId);
+		if (artikel == null) {
+			return null;
+		}
+		as.setFile(artikel, bytes, contentType);
+
+		// Zurücksetzen
+		artikelId = null;
+		bytes = null;
+		contentType = null;
+		artikel = null;
+
+		return JSF_INDEX;
+	}
+	
+	public String getFilename(File file) {
+		if (file == null) {
+			return "";
+		}
+		
+		fileHelper.store(file);
+		return file.getFilename();
+	}
+	
+	public String getBase64(File file) {
+		return DatatypeConverter.printBase64Binary(file.getBytes());
 	}
 }

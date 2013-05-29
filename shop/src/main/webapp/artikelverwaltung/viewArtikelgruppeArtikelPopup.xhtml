@@ -1,0 +1,80 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+			    xmlns:h="http://java.sun.com/jsf/html"
+			    xmlns:f="http://java.sun.com/jsf/core"
+			    xmlns:c="http://java.sun.com/jsp/jstl/core"
+			    xmlns:rich="http://richfaces.org/rich"
+			    xmlns:a4j="http://richfaces.org/a4j">
+			    
+	<rich:tabPanel id="tabPanelAgA" switchType="client">
+		<rich:tab id="stammdatenTabAgA">
+			<f:facet name="header">
+				<h:panelGroup id="stammdatenLabelAgA">
+					<h:graphicImage id="stammdatenGifAgA"
+					                name="stammdaten.gif"
+					                library="images"/>
+					#{' '}
+					#{msgAv['viewArtikelPopup.artikel.stammdaten']}
+				</h:panelGroup>
+			</f:facet>
+			
+			<rich:panel id="stammdatenPanelAgA">
+				<h:panelGrid id="stammdatenGridAgA" columns="2">
+					<h:outputText id="idLabelAgA" value="#{msgAv['viewArtikel.artikelnr']}"/>
+					<h:outputText id="idAgA" value="#{artikel.id}"/>
+			
+					<h:outputText id="bezeichnungLabelAgA" value="#{msgAv['viewArtikel.bezeichnung']}"/>
+					<h:outputText id="bezeichnungAgA" value="#{artikel.bezeichnung}"/>
+		
+					<h:outputText id="preisLabel" value="#{msgAv['viewArtikel.preis']}"/>
+					<h:outputText id="preis" value="#{artikel.preis}">
+						<f:convertNumber type="currency"
+						                 currencyCode="EUR"/>
+					</h:outputText>
+					
+					<h:outputText id="erhaeltlichLabel" value="#{msgAv['viewArtikel.erhaeltlich']}"/>
+					<h:outputText id="erhaeltlich" value="#{artikel.erhaeltlich}"/>
+					
+					<h:outputText id="artikelgruppeLabel" value="#{msgAv['viewArtikel.artikelgruppe']}"/>
+					<h:outputText id="artikelgruppe" value ="#{artikel.artikelgruppe.bezeichnung}"/>
+				</h:panelGrid>
+			</rich:panel>
+		</rich:tab>
+		
+		<rich:tab id="multimediaTab" rendered="#{not empty artikel.file}">
+			<f:facet name="header">
+				<h:panelGroup id="multimediaLabel">
+					<h:graphicImage id="multimediaGif"
+					                name="bild.gif"
+					                library="images"/>
+					#{' '}
+					#{msgAv['viewArtikelPopup.artikel.bildVideo']}
+				</h:panelGroup>
+			</f:facet>
+			
+			<c:set var="file" value="${artikel.file}" scope="view"/>
+			<c:set var="multimediaType" value="${file.multimediaType}" scope="view"/>
+			<c:set var="filename" value="#{ac.getFilename(file)}" scope="view"/>
+			<c:choose>
+				<c:when test="${multimediaType eq 'IMAGE'}">
+					<h:graphicImage id="bild"
+									name="#{filename}"
+									library="filesDb"
+									alt="#{msgAv['viewArtikelPopup.artikel.bild.alt']}"/>
+				</c:when>
+					
+				<c:when test="${multimediaType eq 'VIDEO'}">
+					<h:outputScript id="jsVideo" library="js" name="mediaelement-and-player.min.js"/>
+					<h:outputStylesheet id="cssVideo" library="css" name="mediaelementplayer.css"/>
+					<video id="video"
+						   controls="controls"
+						   width="640"
+						   height="480">
+						<source src="#{request.contextPath}/resources/filesDb/#{filename}"
+						        type="#{file.mimeType.toString()}"/>
+					</video>
+				</c:when>
+			</c:choose>
+		</rich:tab>
+	</rich:tabPanel>
+</ui:composition>

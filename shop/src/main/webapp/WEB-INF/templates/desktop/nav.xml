@@ -124,6 +124,15 @@
 							</c:if>
 						</h:outputLink>
 					</rich:panelMenuItem>
+					<rich:panelMenuItem id="artikelverwaltungUploadItem">
+						<h:outputLink id="artikelverwaltungUpload"
+					    	          value="#{request.contextPath}/artikelverwaltung/upload.jsf">
+							#{msg['nav.artikelverwaltung.upload']}
+							<c:if test="#{not empty javax.enterprise.context.conversation.id}">
+								<f:param id="uploadCid" name="cid" value="#{javax.enterprise.context.conversation.id}"/>
+							</c:if>
+						</h:outputLink>
+					</rich:panelMenuItem>
 				</rich:panelMenuGroup>
 				<rich:panelMenuGroup id="löschenArtikelgruppe"
 			                     label="#{msg['nav.loeschen']}"

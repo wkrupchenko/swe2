@@ -73,7 +73,35 @@
 								<f:facet name="header">
 									#{msgAv['viewArtikel.bezeichnung']}
 								</f:facet>
-								#{artikel.bezeichnung}
+								<h:commandLink id="artikelPopup" value="#{artikel.bezeichnung}">
+									<rich:componentControl target="popupA" operation="show"/>
+								</h:commandLink>
+								
+								<rich:popupPanel id="popupA" modal="false" autosized="true" resizeable="false">
+									<f:facet name="header">
+										<h:outputFormat id="popupTitleA" value="#{artikel.bezeichnung}">
+											<f:param id="popupTitleIdA" value="#{artikel.id}"/>
+										</h:outputFormat>
+									</f:facet>
+									<f:facet name="controls">
+										<h:outputLink id="hideControlA"
+								        	    	  value="#"
+								            	  	  onclick="#{rich:component('popup')}.hide(); return false;">
+											<h:graphicImage id="hideIconA"
+									    		            name="close.png"
+									        		        library="images"
+									           	    	    style="cursor:pointer"
+									               	    	alt="#{msgAv['viewArtikelPopup.hide.button']}"/>
+										</h:outputLink>
+									</f:facet>
+									
+									<ui:include src="viewArtikelPopup.xhtml"/>
+										<h:outputLink id="closeLinkA"
+							            			  value="#"
+								          			  onclick="#{rich:component('popup')}.hide(); return false;">
+										#{msgAv['viewArtikelPopup.hide.button']}
+										</h:outputLink>
+								</rich:popupPanel>
 							</rich:column>
 							
 							<rich:column id="preisSpalte">
