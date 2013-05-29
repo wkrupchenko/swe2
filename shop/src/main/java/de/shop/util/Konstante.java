@@ -24,6 +24,7 @@ public final class Konstante {
 	// JSF
 	public static final String JSF_INDEX = "/index";
 	public static final String JSF_REDIRECT_SUFFIX = "?faces-redirect=true";
+	public static final String JSF_DEFAULT_ERROR = "/error/defaultError";
 	
 	private Konstante() {
 	}
