@@ -10,8 +10,7 @@ MEILENSTEIN 2 	Web-Oberfläche:
 
 - Kunde:      --> Anlegen bzw. registrieren
 		      --> Ändern
-		      --> Suchen ---> OFFEN/ERLEDIGT (Kriterien: ID, weitere FEHLEN
-		      						          Zusätzliches: Popup Kunde mit Details und Bestellungen)
+		      --> Suchen ---> ERLEDIGT
 		      --> Löschen
 		      
 - Artikel:    --> KOMPLETT ERLEDIGT  ( FEHLER: Suche klappt nicht mehr, auser nach ID )
