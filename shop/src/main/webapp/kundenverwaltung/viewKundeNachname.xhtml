@@ -4,65 +4,79 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	  xmlns:ui="http://java.sun.com/jsf/facelets"
 	  xmlns:h="http://java.sun.com/jsf/html"
+	  xmlns:f="http://java.sun.com/jsf/core"
 	  xmlns:c="http://java.sun.com/jsp/jstl/core"
 	  xmlns:rich="http://richfaces.org/rich"
-	  xmlns:a4j="http://richfaces.org/a4j"
-	  xmlns:f="http://java.sun.com/jsf/core">
-	  
+	  xmlns:a4j="http://richfaces.org/a4j">
 
-	<ui:composition template="/WEB-INF/templates/desktop/main.xml">
-		<ui:param name="pageTitle" value="#{msgKv['viewKunde.title']}"/>
+<ui:composition template="/WEB-INF/templates/desktop/main.xml">
+	<ui:param name="pageTitle" value="#{msgKv['viewKundeNachname.title']}"/>
 
-		<ui:define name="article">
-			<h:form id="sucheForm">
-				<rich:panel id="suchePanel" header="#{msgKv['viewKunde.sucheNeu']}">
-					<h:panelGrid id="suchePanelGrid" columns="3">
-						<h:outputLabel id="idInputLabel"
-									   value="#{msgKv['viewKunde.kundenr']}"
-									   for="idInput"/>
-		
-						<h:inputText id="idInput" value="#{kc.kundeId}"/>
-						
-						<a4j:commandButton id="sucheButton"
-										   action="#{kc.findeKundeNachId}"
-										   value="#{msgKv['viewKunde.submit']}"
-										   render="gesuchterKundePanel"/>
-					</h:panelGrid>
-				</rich:panel>
+	<ui:define name="article">
+		<h:form id="form">
+			<rich:panel id="suchePanel" header="#{msgKv['viewKundeNachname.sucheNeu']}">
+				<h:panelGrid id="sucheGrid" columns="4">
+					<h:outputLabel id="kundeNachnameInputLabel"
+					               value="#{msgKv['viewKunde.nachname']}"
+					               for="kundeNachnameInput"/>
+					             
+					<rich:autocomplete id="kundeNachnameInput"
+					                   value="#{kc.nachname}"
+					                   mode="ajax"
+					                   minChars="1"
+					                   autocompleteMethod="#{kc.findeNachnameNachPrefix}"/> 
+	
+					<a4j:commandButton id="sucheButton"
+					                   action="#{kc.findKundenNachNachname()}"
+									   value="#{msgKv['viewKunde.submit']}"
+									   render="gesuchterKundeNachnamePanel"/>
+									   
+					<a4j:status id="statusStart">
+						<f:facet name="start">
+							<h:panelGroup id="waitingGroup">
+								<h:graphicImage id="waitingGif"
+								                name="waiting.gif"
+								                library="images"/>
+								#{msgKv['viewKunde.inBearbeitung']}
+							</h:panelGroup>
+						</f:facet>
+					</a4j:status>
+				</h:panelGrid>
+			</rich:panel>
+
+			<p id="abstand1"/>
 			
-				<p id="abstand"/>
-			
-				<a4j:outputPanel id="gesuchterKundePanel">
-					<c:if test="#{not empty flash.kunde or param.init ne 'true'}">
+			<a4j:outputPanel id="gesuchterKundeNachnamePanel">
+				<c:if test="#{not empty flash.kunde or param.init ne 'true'}">
 						<c:set var="kunde" value="#{flash.kunde}" scope="view"/>
 						<!-- Fuer den naechsten Request puffern, falls z.B. ein Update-Button angeklickt WUERDE -->
 						<c:set target="#{flash}" property="kunde" value="#{kunde}"/>
 						
-							<rich:dataTable id="KundeTabelle"
-						                value="#{kc.kunde}"
+						<rich:dataTable id="kundeNachnameTabelle"
+						                value="#{kc.kunden}"
 						                var="kunde"
 						                rows="10"
 						                noDataLabel="#{msgKv['viewKunde.keineDaten']}"
 						                rowClasses="odd-row, even-row"
 						                styleClass="tabelleMitZebrastil"
 						                cellspacing="10"
-						                rendered="#{not empty bestellung or param.init ne 'true'}">						
-							 							 
-							 <rich:column id="kundeIdLabel">							
+						                rendered="#{not empty kc.kunden or param.init ne 'true'}">
+							
+							<rich:column id="idSpalte">
 								<f:facet name="header">
 									#{msgKv['viewKunde.kundenr']}
 								</f:facet>
-							 #{kunde.id}							 				
-							</rich:column>	
+								#{kunde.id}
+							</rich:column>
 							
-							<rich:column id="vornameLabel">
+							<rich:column id="vornameSpalte">
 								<f:facet name="header">
 									#{msgKv['viewKunde.vorname']}
-								</f:facet>																
-							#{kunde.vorname}
-							</rich:column>										
-														
-							<rich:column id="nachnameLabel">
+								</f:facet>
+								#{kunde.vorname}
+							</rich:column>
+							
+							<rich:column id="nachnameSpalte">
 								<f:facet name="header">
 									#{msgKv['viewKunde.nachname']}
 								</f:facet>
@@ -98,14 +112,25 @@
 								</rich:popupPanel>
 							</rich:column>
 							
-							<rich:column id="emailLabel">
+							<rich:column id="emailSpalte">
 								<f:facet name="header">
 									#{msgKv['viewKunde.email']}
-								</f:facet>																
-							#{kunde.email}
+								</f:facet>
+								#{kunde.email}
 							</rich:column>
 							
 						</rich:dataTable>
+						
+						<p id="abstandZuMeldungen">
+							<rich:messages id="globaleFehlermeldungen" globalOnly="true"/>
+						</p>
+		
+						<p id="abstand2"/>
+						
+						<rich:dataScroller id="dataScroller"
+						                   for="kundeNachnameTabelle"
+						                   maxPages="10"
+						                   rendered="#{not empty kunde}"/>
 						
 						<a4j:outputPanel id="outputPanelZebra" ajaxRendered="true">
 							<rich:jQuery id="odd"
@@ -128,10 +153,10 @@
 							             timing="domready"/>
 						</a4j:outputPanel>
 					</c:if>
-					
+						
 					<!-- TODO Button zum Aendern und/oder Loeschen -->
 				</a4j:outputPanel>
-			</h:form>
-		</ui:define>
-	</ui:composition>
+		</h:form>
+	</ui:define>
+</ui:composition>
 </html>

@@ -38,7 +38,43 @@
 						</c:if>
 					</h:outputLink>
 				</rich:panelMenuItem>
-				</rich:panelMenuGroup>
+				<rich:panelMenuItem id="kundenverwaltungViewKundeNachnameItem">
+					<h:outputLink id="kundenverwaltungViewKundeNachname"
+					              value="#{request.contextPath}/kundenverwaltung/viewKundeNachname.jsf">
+						#{msg['nav.kundenverwaltung.viewKundeNachname']}
+						<c:if test="#{not empty javax.enterprise.context.conversation.id}">
+							<f:param id="viewKundeNachnameCid" name="cid" value="#{javax.enterprise.context.conversation.id}"/>
+						</c:if>
+					</h:outputLink>
+				</rich:panelMenuItem>
+				<rich:panelMenuItem id="kundenverwaltungViewKundeUsernameItem">
+					<h:outputLink id="kundenverwaltungViewKundeUsername"
+					              value="#{request.contextPath}/kundenverwaltung/viewKundeUsername.jsf">
+						#{msg['nav.kundenverwaltung.viewKundeUsername']}
+						<c:if test="#{not empty javax.enterprise.context.conversation.id}">
+							<f:param id="viewKundeUsernameCid" name="cid" value="#{javax.enterprise.context.conversation.id}"/>
+						</c:if>
+					</h:outputLink>
+				</rich:panelMenuItem>
+				<rich:panelMenuItem id="kundenverwaltungViewKundeEmailItem">
+					<h:outputLink id="kundenverwaltungViewKundeEmail"
+					              value="#{request.contextPath}/kundenverwaltung/viewKundeEmail.jsf">
+						#{msg['nav.kundenverwaltung.viewKundeEmail']}
+						<c:if test="#{not empty javax.enterprise.context.conversation.id}">
+							<f:param id="viewKundeEmailCid" name="cid" value="#{javax.enterprise.context.conversation.id}"/>
+						</c:if>
+					</h:outputLink>
+				</rich:panelMenuItem>
+				<rich:panelMenuItem id="kundenverwaltungViewKundePlzlItem">
+					<h:outputLink id="kundenverwaltungViewKundePlz"
+					              value="#{request.contextPath}/kundenverwaltung/viewKundePlz.jsf">
+						#{msg['nav.kundenverwaltung.viewKundePlz']}
+						<c:if test="#{not empty javax.enterprise.context.conversation.id}">
+							<f:param id="viewKundePlzlCid" name="cid" value="#{javax.enterprise.context.conversation.id}"/>
+						</c:if>
+					</h:outputLink>
+				</rich:panelMenuItem>
+			  </rich:panelMenuGroup>
 			</rich:panelMenuGroup>
 
 			<rich:panelMenuGroup id="artikelverwaltung"

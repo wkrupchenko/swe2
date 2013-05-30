@@ -11,35 +11,35 @@
 	  
 
 	<ui:composition template="/WEB-INF/templates/desktop/main.xml">
-		<ui:param name="pageTitle" value="#{msgKv['viewKunde.title']}"/>
+		<ui:param name="pageTitle" value="#{msgKv['viewKundePlz.title']}"/>
 
 		<ui:define name="article">
 			<h:form id="sucheForm">
-				<rich:panel id="suchePanel" header="#{msgKv['viewKunde.sucheNeu']}">
+				<rich:panel id="suchePanel" header="#{msgKv['viewKundePlz.sucheNeu']}">
 					<h:panelGrid id="suchePanelGrid" columns="3">
-						<h:outputLabel id="idInputLabel"
-									   value="#{msgKv['viewKunde.kundenr']}"
-									   for="idInput"/>
+						<h:outputLabel id="kundePlzInputLabel"
+									   value="#{msgKv['viewKunde.plz']}"
+									   for="kundePlzInput"/>
 		
-						<h:inputText id="idInput" value="#{kc.kundeId}"/>
+						<h:inputText id="kundePlzInput" value="#{kc.plz}"/>
 						
 						<a4j:commandButton id="sucheButton"
-										   action="#{kc.findeKundeNachId}"
+										   action="#{kc.findKundenNachPlz()}"
 										   value="#{msgKv['viewKunde.submit']}"
-										   render="gesuchterKundePanel"/>
+										   render="gesuchterKundePlzPanel"/>
 					</h:panelGrid>
 				</rich:panel>
 			
 				<p id="abstand"/>
 			
-				<a4j:outputPanel id="gesuchterKundePanel">
+				<a4j:outputPanel id="gesuchterKundePlzPanel">
 					<c:if test="#{not empty flash.kunde or param.init ne 'true'}">
 						<c:set var="kunde" value="#{flash.kunde}" scope="view"/>
 						<!-- Fuer den naechsten Request puffern, falls z.B. ein Update-Button angeklickt WUERDE -->
 						<c:set target="#{flash}" property="kunde" value="#{kunde}"/>
 						
-							<rich:dataTable id="KundeTabelle"
-						                value="#{kc.kunde}"
+							<rich:dataTable id="KundePlzTabelle"
+						                value="#{kc.kunden}"
 						                var="kunde"
 						                rows="10"
 						                noDataLabel="#{msgKv['viewKunde.keineDaten']}"
@@ -106,6 +106,17 @@
 							</rich:column>
 							
 						</rich:dataTable>
+						
+						<p id="abstandZuMeldungen">
+							<rich:messages id="globaleFehlermeldungen" globalOnly="true"/>
+						</p>
+		
+						<p id="abstand2"/>
+						
+						<rich:dataScroller id="dataScroller"
+						                   for="kundePlzTabelle"
+						                   maxPages="10"
+						                   rendered="#{not empty kunde}"/>
 						
 						<a4j:outputPanel id="outputPanelZebra" ajaxRendered="true">
 							<rich:jQuery id="odd"
