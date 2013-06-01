@@ -101,8 +101,12 @@
 							<rich:column id="emailLabel">
 								<f:facet name="header">
 									#{msgKv['viewKunde.email']}
-								</f:facet>																
-							#{kunde.email}
+								</f:facet>
+								<h:outputLink
+								    value="mailto:#{kunde.email}">
+								  <h:outputText value="#{kunde.email}" />
+								</h:outputLink>																
+							
 							</rich:column>
 							
 						</rich:dataTable>

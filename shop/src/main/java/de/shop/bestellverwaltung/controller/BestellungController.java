@@ -2,9 +2,16 @@ package de.shop.bestellverwaltung.controller;
 
 import java.io.Serializable;
 import java.lang.invoke.MethodHandles;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
-import java.util.Locale;
+import java.util.Locale; 
+import java.util.Random; 
+import java.util.*;
+import static java.text.DateFormat.*;
 
 import javax.enterprise.context.RequestScoped;
 import javax.faces.context.Flash;
@@ -78,9 +85,11 @@ public class BestellungController implements Serializable {
 	
 	private Long bestellungId;
 	
+	private Long lieferungId;	
+	
 	final static String inlandOderAusland = "I";
 	
-	final static String liefernr = "500123-729";
+	final static String liefernr = "500123-728";
 	
 	private TransportTyp transportArt = TransportTyp.STRASSE;
 	
@@ -103,6 +112,16 @@ public class BestellungController implements Serializable {
 
 	public Boolean getBestellungStatus() {
 		return bestellungStatus;
+	}
+			
+	public static String generateString()
+	{
+		Calendar cal = Calendar.getInstance();
+		final String result;
+	    DateFormat df;
+	    df = DateFormat.getDateTimeInstance( SHORT, MEDIUM );
+	    result = df.format(cal.getTime()).toString();
+	    return result;	    
 	}
 	 
 
@@ -203,7 +222,7 @@ public class BestellungController implements Serializable {
 			bestellung.setBestellpositionen(neuePositionen);
 			Lieferung lieferung = new Lieferung();
 			lieferung.setInlandOderAusland(inlandOderAusland);
-			lieferung.setLiefernr(liefernr);
+			lieferung.setLiefernr(generateString());
 			lieferung.setTransportArt(transportArt);
 			lieferung.addBestellung(bestellung);
 			bestellung.addLieferung(lieferung);
