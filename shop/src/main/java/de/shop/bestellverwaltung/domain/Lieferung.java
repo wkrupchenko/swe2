@@ -64,7 +64,7 @@ import de.shop.util.PreExistingGroup;
 public class Lieferung implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
-	private static final int LIEFERNR_LAENGE_MAX = 12;
+	private static final int LIEFERNR_LAENGE_MAX = 22;
 	
 	private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass());
 	public static final String PARAM_ID = "id";

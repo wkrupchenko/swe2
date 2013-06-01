@@ -254,38 +254,7 @@
 						</c:if>
 					</h:outputLink>
 				</rich:panelMenuItem>
-				</rich:panelMenuGroup>
-				<rich:panelMenuGroup id="anlegenBestellung"
-			                     label="#{msg['nav.anlegen']}"
-			                     expanded="true">
-				<rich:panelMenuItem id="bestellverwaltungCreateBestellungItem">
-						<h:outputLink id="bestellverwaltungCreateBestellung"
-					    	          value="#{request.contextPath}/bestellverwaltung/createBestellung.jsf">
-							#{msg['nav.bestellverwaltung.createBestellung']}
-							<c:if test="#{not empty javax.enterprise.context.conversation.id}">
-								<f:param id="createBestellungCid" name="cid" value="#{javax.enterprise.context.conversation.id}"/>
-							</c:if>
-						</h:outputLink>
-					</rich:panelMenuItem>
-					<rich:panelMenuItem id="bestellverwaltungCreateBestellpositionItem">
-						<h:outputLink id="bestellverwaltungCreateBestellposition"
-					    	          value="#{request.contextPath}/bestellverwaltung/createBestellposition.jsf">
-							#{msg['nav.bestellverwaltung.createBestellposition']}
-							<c:if test="#{not empty javax.enterprise.context.conversation.id}">
-								<f:param id="createBestellpositionCid" name="cid" value="#{javax.enterprise.context.conversation.id}"/>
-							</c:if>
-						</h:outputLink>
-					</rich:panelMenuItem>
-					<rich:panelMenuItem id="bestellverwaltungCreateLieferungItem">
-						<h:outputLink id="bestellverwaltungCreateLieferung"
-					    	          value="#{request.contextPath}/bestellverwaltung/createLieferung.jsf">
-							#{msg['nav.bestellverwaltung.createLieferung']}
-							<c:if test="#{not empty javax.enterprise.context.conversation.id}">
-								<f:param id="createLieferungCid" name="cid" value="#{javax.enterprise.context.conversation.id}"/>
-							</c:if>
-						</h:outputLink>
-					</rich:panelMenuItem>
-			</rich:panelMenuGroup>
+				</rich:panelMenuGroup>				
 			</rich:panelMenuGroup>
 			
 		</rich:panelMenu>
