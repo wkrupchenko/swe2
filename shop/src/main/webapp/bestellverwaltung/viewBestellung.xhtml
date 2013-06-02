@@ -184,7 +184,7 @@
 								</h:commandLink>
 								</c:forEach>
 	
-								<rich:popupPanel id="popupLieferung" modal="false" autosized="true" resizeable="false">
+								<rich:popupPanel id="popupLieferung" modal="false" autosized="true" resizeable="true">
 									<f:facet name="header">
 										<h:outputFormat id="popupTitleLieferung" value="#{msgBv['viewLieferungPopup.title']}">
 											<f:param id="popupTitleIdLieferung" value="#{lief.id}"/>
@@ -193,7 +193,7 @@
 									<f:facet name="controls">
 										<h:outputLink id="hideControl1"
 								        		      value="#"
-								              		  onclick="#{rich:component('popup')}.hide(); return false;">
+								              		  onclick="#{rich:component('popupLieferung')}.hide(); return false;">
 										<h:graphicImage id="hideIcon1"
 									    	            name="close.png"
 									        	        library="images"
@@ -206,7 +206,7 @@
 							
 									<h:outputLink id="closeLink1"
 							        		      value="#"
-								          		  onclick="#{rich:component('popup')}.hide(); return false;">
+								          		  onclick="#{rich:component('popupLieferung')}.hide(); return false;">
 										#{msgKv['viewKundePopup.hide.button']}
 									</h:outputLink>
 								</rich:popupPanel>
