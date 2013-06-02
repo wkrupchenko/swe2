@@ -184,11 +184,13 @@
 								</h:commandLink>
 								</c:forEach>
 	
-								<rich:popupPanel id="popupLieferung" modal="false" autosized="true" resizeable="true">
+								<rich:popupPanel id="popupLieferung" modal="false" autosized="true" resizeable="false">
 									<f:facet name="header">
+									<c:forEach items="#{bestellung.lieferungen}" var="lief1">
 										<h:outputFormat id="popupTitleLieferung" value="#{msgBv['viewLieferungPopup.title']}">
-											<f:param id="popupTitleIdLieferung" value="#{lief.id}"/>
+											<f:param id="popupTitleIdLieferung" value="#{lief1.id}"/>
 										</h:outputFormat>
+										</c:forEach>
 									</f:facet>
 									<f:facet name="controls">
 										<h:outputLink id="hideControl1"
@@ -202,7 +204,7 @@
 										</h:outputLink>
 									</f:facet>
 									
-									<!-- <ui:include src="viewArtikelPopupB.xhtml"/> -->
+									 <ui:include src="viewLieferungPopup.xhtml"/>
 							
 									<h:outputLink id="closeLink1"
 							        		      value="#"

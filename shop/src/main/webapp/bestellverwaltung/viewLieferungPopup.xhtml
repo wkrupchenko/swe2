@@ -1,0 +1,69 @@
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+			    xmlns:h="http://java.sun.com/jsf/html"
+			    xmlns:f="http://java.sun.com/jsf/core"
+			     xmlns:c="http://java.sun.com/jsp/jstl/core"
+			    xmlns:rich="http://richfaces.org/rich"
+			    xmlns:a4j="http://richfaces.org/a4j">
+			    
+	<rich:tabPanel id="tabPanel1" switchType="client">
+		<rich:tab id="stammdatenTab1">
+			<f:facet name="header">
+				<h:panelGroup id="stammdatenLabel1">
+					<h:graphicImage id="stammdatenGif1"
+					                name="stammdaten.gif"
+					                library="images"/>
+					#{' '}
+					#{msgKv['viewKundePopup.kunde.stammdaten']}
+				</h:panelGroup>
+			</f:facet>
+			
+			<rich:panel id="stammdatenPanel1">
+				<h:panelGrid id="stammdatenGrid1" columns="2">
+				 
+								<c:forEach items="#{bestellung.lieferungen}" var="lief">
+									<h:outputText value="#{lief.id}" />
+									<br/>
+									<h:outputText value="#{lief.version}" />
+									<br/>
+									<h:outputText value="#{lief.inlandOderAusland}" />
+									<br/>
+									<h:outputText value="#{lief.liefernr}" />
+									<br/>
+									<h:outputText value="#{lief.transportArt}" />
+									<br/>
+								</c:forEach>								
+							 	
+				
+				<!-- <h:outputText id="idLabel" value="#{msgKv['viewKundePopup.kundenr']}"/>
+					<h:outputText id="id" value="#{kunde.id}"/> -->
+				
+					
+			
+					 
+	
+				</h:panelGrid>
+			</rich:panel>
+				<a4j:outputPanel id="outputPanelZebra" ajaxRendered="true">
+					<rich:jQuery id="odd"
+					             selector=".tabelleMitZebrastil tr:odd"
+					             query="addClass('odd-row')"
+					             timing="domready"/>
+					<rich:jQuery id="even"
+					             selector=".tabelleMitZebrastil tr:even"
+					             query="addClass('even-row')"
+					             timing="domready"/>
+					<rich:jQuery id="mouseover"
+					             selector=".tabelleMitZebrastil tr"
+					             event="mouseover"
+					             query="jQuery(this).addClass('active-row')"
+					             timing="domready"/>
+					<rich:jQuery id="mouseout"
+					             selector=".tabelleMitZebrastil tr"
+					             event="mouseout"
+					             query="jQuery(this).removeClass('active-row')"
+					             timing="domready"/>
+				</a4j:outputPanel>
+		</rich:tab>
+		
+	</rich:tabPanel>
+</ui:composition>
