@@ -21,7 +21,7 @@
 									   for="idInput"/>
 		
 						<h:inputText id="idInput" value="#{ac.artikelId}"/>
-						
+						<rich:jQuery id="jquery" selector="#idInput" query="focus()"/>
 						<a4j:commandButton id="sucheButton"
 										   action="#{ac.findeArtikelNachId}"
 										   value="#{msgAv['viewArtikel.submit']}"

@@ -22,7 +22,7 @@
 									   for="idInput"/>
 		
 						<h:inputText id="idInput" value="#{kc.kundeId}"/>
-						
+						<rich:jQuery id="jquery" selector="#idInput" query="focus()"/>
 						<a4j:commandButton id="sucheButton"
 										   action="#{kc.findeKundeNachId}"
 										   value="#{msgKv['viewKunde.submit']}"
