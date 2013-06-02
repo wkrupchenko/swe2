@@ -1,0 +1,141 @@
+<?xml version="1.0"?>
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:ui="http://java.sun.com/jsf/facelets"
+	  xmlns:h="http://java.sun.com/jsf/html"
+	  xmlns:c="http://java.sun.com/jsp/jstl/core"
+	  xmlns:rich="http://richfaces.org/rich"
+	  xmlns:a4j="http://richfaces.org/a4j"
+	  xmlns:f="http://java.sun.com/jsf/core">
+	  
+
+	<ui:composition template="/WEB-INF/templates/desktop/main.xml">
+		<ui:param name="pageTitle" value="#{msgKv['viewKunde.title']}"/>
+
+		<ui:define name="article">
+			<h:form id="sucheForm">
+				<rich:panel id="suchePanel" header="#{msgKv['viewKunde.sucheNeu']}">
+					<h:panelGrid id="suchePanelGrid" columns="3">
+						<h:outputLabel id="idInputLabel"
+									   value="#{msgKv['viewKunde.kundenr']}"
+									   for="idInput"/>
+		
+						<h:inputText id="idInput" value="#{kc.kundeId}"/>
+						
+						<a4j:commandButton id="sucheButton"
+										   action="#{kc.findeKundeNachId}"
+										   value="#{msgKv['viewKunde.submit']}"
+										   render="gesuchterKundePanel"/>
+					</h:panelGrid>
+				</rich:panel>
+			
+				<p id="abstand"/>
+			
+				<a4j:outputPanel id="gesuchterKundePanel">
+					<c:if test="#{not empty flash.kunde or param.init ne 'true'}">
+						<c:set var="kunde" value="#{flash.kunde}" scope="view"/>
+						<!-- Fuer den naechsten Request puffern, falls z.B. ein Update-Button angeklickt WUERDE -->
+						<c:set target="#{flash}" property="kunde" value="#{kunde}"/>
+						
+							<rich:dataTable id="KundeTabelle"
+						                value="#{kc.kunde}"
+						                var="kunde"
+						                rows="10"
+						                noDataLabel="#{msgKv['viewKunde.keineDaten']}"
+						                rowClasses="odd-row, even-row"
+						                styleClass="tabelleMitZebrastil"
+						                cellspacing="10"
+						                rendered="#{not empty bestellung or param.init ne 'true'}">						
+							 							 
+							 <rich:column id="kundeIdLabel">							
+								<f:facet name="header">
+									#{msgKv['viewKunde.kundenr']}
+								</f:facet>
+							 #{kunde.id}							 				
+							</rich:column>	
+							
+							<rich:column id="vornameLabel">
+								<f:facet name="header">
+									#{msgKv['viewKunde.vorname']}
+								</f:facet>																
+							#{kunde.vorname}
+							</rich:column>										
+														
+							<rich:column id="nachnameLabel">
+								<f:facet name="header">
+									#{msgKv['viewKunde.nachname']}
+								</f:facet>
+								<h:commandLink id="nachnamePopup" value="#{kunde.nachname}">
+									<rich:componentControl target="popup" operation="show"/>
+								</h:commandLink>
+	
+								<rich:popupPanel id="popup" modal="false" autosized="true" resizeable="false">
+									<f:facet name="header">
+										<h:outputFormat id="popupTitle" value="#{msgKv['viewKundePopup.title']}">
+											<f:param id="popupTitleId" value="#{kunde.id}"/>
+										</h:outputFormat>
+									</f:facet>
+									<f:facet name="controls">
+										<h:outputLink id="hideControl"
+								        		      value="#"
+								              		  onclick="#{rich:component('popup')}.hide(); return false;">
+										<h:graphicImage id="hideIcon"
+									    	            name="close.png"
+									        	        library="images"
+									            	    style="cursor:pointer"
+									                	alt="#{msgKv['viewKundePopup.hide.button']}"/>
+										</h:outputLink>
+									</f:facet>
+									
+									<ui:include src="viewKundePopupB.xhtml"/>
+							
+									<h:outputLink id="closeLink"
+							        		      value="#"
+								          		  onclick="#{rich:component('popup')}.hide(); return false;">
+										#{msgKv['viewKundePopup.hide.button']}
+									</h:outputLink>
+								</rich:popupPanel>
+							</rich:column>
+							
+							<rich:column id="emailLabel">
+								<f:facet name="header">
+									#{msgKv['viewKunde.email']}
+								</f:facet>
+								<h:outputLink
+								    value="mailto:#{kunde.email}">
+								  <h:outputText value="#{kunde.email}" />
+								</h:outputLink>																
+							
+							</rich:column>
+							
+						</rich:dataTable>
+						
+						<a4j:outputPanel id="outputPanelZebra" ajaxRendered="true">
+							<rich:jQuery id="odd"
+							             selector=".tabelleMitZebrastil tr:odd"
+							             query="addClass('odd-row')"
+							             timing="domready"/>
+							<rich:jQuery id="even"
+							             selector=".tabelleMitZebrastil tr:even"
+							             query="addClass('even-row')"
+							             timing="domready"/>
+							<rich:jQuery id="mouseover"
+							             selector=".tabelleMitZebrastil tr"
+							             event="mouseover"
+							             query="jQuery(this).addClass('active-row')"
+							             timing="domready"/>
+							<rich:jQuery id="mouseout"
+							             selector=".tabelleMitZebrastil tr"
+							             event="mouseout"
+							             query="jQuery(this).removeClass('active-row')"
+							             timing="domready"/>
+						</a4j:outputPanel>
+					</c:if>
+					
+					<!-- TODO Button zum Aendern und/oder Loeschen -->
+				</a4j:outputPanel>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</html>

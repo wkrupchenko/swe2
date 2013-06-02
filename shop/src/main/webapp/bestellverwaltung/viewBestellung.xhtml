@@ -53,7 +53,7 @@
 								#{bestellung.id}
 							</rich:column>
 							
-							 							 
+							<!--   							 
 							 <rich:column id="bestellpositionenSpalte">							
 								<f:facet name="header">
 									#{msgBv['viewBestellung.bestellpositionen']}
@@ -63,7 +63,44 @@
 								<br/>
 							</c:forEach>				
 							</rich:column>
-											
+							-->
+							<rich:column id="BPLabel">
+								<f:facet name="header">
+									#{msgBv['viewBestellung.bestellpositionen']}
+								</f:facet>
+								<h:commandLink id="bpPopup" value="#{msgBv['viewBestellung.bestellpositionen']}">
+									<rich:componentControl target="popa" operation="show"/>
+								</h:commandLink>
+	                            <!--  
+								<rich:popupPanel id="popup" modal="false" autosized="true" resizeable="false">
+									<f:facet name="header">
+										<h:outputFormat id="popupTitle" value="#{msgBv['viewBPPopup.title']}">
+											<f:param id="popupBPId" value="#{bp.id}"/>
+										</h:outputFormat>
+									</f:facet>
+									<f:facet name="controls">
+										<h:outputLink id="hideControl"
+								        		      value="bestellung.bestellpositionen"
+								              		  onclick="#{rich:component('popup')}.hide(); return false;">
+										<h:graphicImage id="hideIcon"
+									    	            name="close.png"
+									        	        library="images"
+									            	    style="cursor:pointer"
+									                	alt="#{msgBv['viewBestellungPopup.hide.button']}"/>
+										</h:outputLink>
+									</f:facet>
+									
+									<ui:include src="viewBestellungPopup.xhtml"/>
+							
+									<h:outputLink id="closeLink"
+							        		      value="#"
+								          		  onclick="#{rich:component('popup')}.hide(); return false;">
+										#{msgKv['viewBestellungPopup.hide.button']}
+									</h:outputLink>
+								</rich:popupPanel>
+								-->
+							</rich:column>				
+							
 														
 							<rich:column id="offenAbgeschlossenSpalte">
 								<f:facet name="header">
@@ -71,14 +108,51 @@
 								</f:facet>
 								#{bestellung.offenAbgeschlossen}
 							</rich:column>
-							 
+							<!--   
 							<rich:column id="kundeSpalte">
 								<f:facet name="header">
 									#{msgBv['viewBestellung.kunde']}
 								</f:facet>																
 								#{bestellung.kunde.nachname}
 							</rich:column>
-														  
+								-->	
+							
+							<rich:column id="nachnameLabel">
+								<f:facet name="header">
+									#{msgKv['viewKunde.nachname']}
+								</f:facet>
+								<h:commandLink id="nachnamePopup" value="#{bestellung.kunde.nachname}">
+									<rich:componentControl target="popup" operation="show"/>
+								</h:commandLink>
+	
+								<rich:popupPanel id="popup" modal="false" autosized="true" resizeable="false">
+									<f:facet name="header">
+										<h:outputFormat id="popupTitle" value="#{msgKv['viewKundePopup.title']}">
+											<f:param id="popupTitleId" value="#{bestellung.kunde.id}"/>
+										</h:outputFormat>
+									</f:facet>
+									<f:facet name="controls">
+										<h:outputLink id="hideControl"
+								        		      value="#"
+								              		  onclick="#{rich:component('popup')}.hide(); return false;">
+										<h:graphicImage id="hideIcon"
+									    	            name="close.png"
+									        	        library="images"
+									            	    style="cursor:pointer"
+									                	alt="#{msgKv['viewKundePopup.hide.button']}"/>
+										</h:outputLink>
+									</f:facet>
+									
+									<ui:include src="viewKundePopupB.xhtml"/> 
+							
+									<h:outputLink id="closeLink"
+							        		      value="#"
+								          		  onclick="#{rich:component('popup')}.hide(); return false;">
+										#{msgKv['viewKundePopup.hide.button']}
+									</h:outputLink>
+								</rich:popupPanel>
+							</rich:column>
+												  
 							<rich:column id="lieferungenSpalte">
 								<f:facet name="header">
 									#{msgBv['viewBestellung.lieferungen']}
@@ -99,6 +173,26 @@
 							  
 						</rich:dataTable>
 						
+						<a4j:outputPanel id="outputPanelZebra" ajaxRendered="true">
+							<rich:jQuery id="odd"
+							             selector=".tabelleMitZebrastil tr:odd"
+							             query="addClass('odd-row')"
+							             timing="domready"/>
+							<rich:jQuery id="even"
+							             selector=".tabelleMitZebrastil tr:even"
+							             query="addClass('even-row')"
+							             timing="domready"/>
+							<rich:jQuery id="mouseover"
+							             selector=".tabelleMitZebrastil tr"
+							             event="mouseover"
+							             query="jQuery(this).addClass('active-row')"
+							             timing="domready"/>
+							<rich:jQuery id="mouseout"
+							             selector=".tabelleMitZebrastil tr"
+							             event="mouseout"
+							             query="jQuery(this).removeClass('active-row')"
+							             timing="domready"/>
+						</a4j:outputPanel>											
 					</c:if>
 					
 					<!-- TODO Button zum Aendern und/oder Loeschen -->
