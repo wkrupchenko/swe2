@@ -129,8 +129,6 @@ public class ArtikelController implements Serializable {
 	private Boolean artikelErhaeltlich;
 	private double artikelPreis;
 	
-	private List<Artikel> listArtikel;
-	
 	private List<Artikel> ladenhueter;
 	
 	private boolean geaendertArtikel;    // fuer ValueChangeListener
@@ -191,14 +189,6 @@ public class ArtikelController implements Serializable {
 
 	public double getArtikelPreis() {
 		return artikelPreis;
-	}
-	
-	public List<Artikel> getListArtikel() {
-		return listArtikel;
-	}
-	
-	public void setListArtikel(List<Artikel> listArtikel) {
-		this.listArtikel = listArtikel;
 	}
 	
 	public List<Artikel> getLadenhueter() {
@@ -272,17 +262,13 @@ public class ArtikelController implements Serializable {
 	 */
 	@Transactional
 	public String findeArtikelNachArtikelgruppe() {
-		listArtikel = as.findeArtikelNachArtikelgruppe(artikelArtikelgruppe);
-		//final List<Artikel> artikel = as.findeArtikelNachArtikelgruppe(artikelArtikelgruppe);
-		/*if (artikel.isEmpty()) {
+		final List<Artikel> artikel = as.findeArtikelNachArtikelgruppe(artikelArtikelgruppe);
+		if (artikel.isEmpty()) {
 			flash.remove(FLASH_ARTIKEL);
-			return null;
-		}*/
-		if(listArtikel.isEmpty()) {
 			return null;
 		}
 		
-		//flash.put(FLASH_ARTIKEL, artikel);
+		flash.put(FLASH_ARTIKEL, artikel);
 		return JSF_VIEW_ARTIKEL_ARTIKELGRUPPE;
 	}
 	
@@ -298,7 +284,7 @@ public class ArtikelController implements Serializable {
 			return null;
 		}
 		
-		flash.put("listeArtikel", artikel);
+		flash.put(FLASH_ARTIKEL, artikel);
 		return JSF_VIEW_ARTIKEL_BEZEICHNUNG;
 	}
 	
