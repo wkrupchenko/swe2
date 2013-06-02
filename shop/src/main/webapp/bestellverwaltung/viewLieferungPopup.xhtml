@@ -21,26 +21,27 @@
 				<h:panelGrid id="stammdatenGrid1" columns="2">
 				 
 								<c:forEach items="#{bestellung.lieferungen}" var="lief">
+								    <h:outputText id="idLabel1" value="#{msgBv['viewLieferungPopup.id']}"/>
+								     
 									<h:outputText value="#{lief.id}" />
-									<br/>
+									
+									<h:outputText id="idLabel2" value="#{msgBv['viewLieferungPopup.version']}"/>
+									 
 									<h:outputText value="#{lief.version}" />
-									<br/>
+									
+									<h:outputText id="idLabel3" value="#{msgBv['viewLieferungPopup.inlandOderAusland']}"/>
+									 
 									<h:outputText value="#{lief.inlandOderAusland}" />
-									<br/>
+									
+									<h:outputText id="idLabel4" value="#{msgBv['viewLieferungPopup.liefernr']}"/>
+									 
 									<h:outputText value="#{lief.liefernr}" />
-									<br/>
+									
+									<h:outputText id="idLabel5" value="#{msgBv['viewLieferungPopup.transportArt']}"/>
+									 
 									<h:outputText value="#{lief.transportArt}" />
-									<br/>
-								</c:forEach>								
-							 	
-				
-				<!-- <h:outputText id="idLabel" value="#{msgKv['viewKundePopup.kundenr']}"/>
-					<h:outputText id="id" value="#{kunde.id}"/> -->
-				
-					
-			
-					 
-	
+									
+								</c:forEach>	
 				</h:panelGrid>
 			</rich:panel>
 				<a4j:outputPanel id="outputPanelZebra" ajaxRendered="true">
