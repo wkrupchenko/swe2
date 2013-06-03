@@ -21,22 +21,22 @@
 			<rich:panel id="stammdatenPanelAgA">
 				<h:panelGrid id="stammdatenGridAgA" columns="2">
 					<h:outputText id="idLabelAgA" value="#{msgAv['viewArtikel.artikelnr']}"/>
-					<h:outputText id="idAgA" value="#{artikel.id}"/>
+					<h:outputText id="idAgA" value="#{arti.id}"/>
 			
 					<h:outputText id="bezeichnungLabelAgA" value="#{msgAv['viewArtikel.bezeichnung']}"/>
-					<h:outputText id="bezeichnungAgA" value="#{artikel.bezeichnung}"/>
+					<h:outputText id="bezeichnungAgA" value="#{arti.bezeichnung}"/>
 		
 					<h:outputText id="preisLabel" value="#{msgAv['viewArtikel.preis']}"/>
-					<h:outputText id="preis" value="#{artikel.preis}">
+					<h:outputText id="preis" value="#{arti.preis}">
 						<f:convertNumber type="currency"
 						                 currencyCode="EUR"/>
 					</h:outputText>
 					
 					<h:outputText id="erhaeltlichLabel" value="#{msgAv['viewArtikel.erhaeltlich']}"/>
-					<h:outputText id="erhaeltlich" value="#{artikel.erhaeltlich}"/>
+					<h:outputText id="erhaeltlich" value="#{arti.erhaeltlich}"/>
 					
 					<h:outputText id="artikelgruppeLabel" value="#{msgAv['viewArtikel.artikelgruppe']}"/>
-					<h:outputText id="artikelgruppe" value ="#{artikel.artikelgruppe.bezeichnung}"/>
+					<h:outputText id="artikelgruppe" value ="#{arti.artikelgruppe.bezeichnung}"/>
 				</h:panelGrid>
 			</rich:panel>
 		</rich:tab>

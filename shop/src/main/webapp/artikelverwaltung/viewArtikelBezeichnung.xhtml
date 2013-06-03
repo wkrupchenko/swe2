@@ -14,6 +14,7 @@
 
 		<ui:define name="article">
 			<h:form id="sucheForm">
+				<rich:focus id="sucheFocus"/>
 				<rich:panel id="suchePanel" header="#{msgAv['viewArtikel.sucheNeu']}">
 					<h:panelGrid id="suchePanelGrid" columns="4">
 						<h:outputLabel id="bezeichnungInputLabel"
@@ -55,7 +56,7 @@
 						
 						<rich:dataTable id="artikelTabelle"
 						                value="#{artikel}"
-						                var="artikel"
+						                var="art"
 						                rows="6"
 						                noDataLabel="#{msgAv['viewArtikel.keineDaten']}"
 						                rowClasses="odd-row, even-row"
@@ -66,21 +67,21 @@
 								<f:facet name="header">
 									#{msgAv['viewArtikel.artikelnr']}
 								</f:facet>
-								#{artikel.id}
+								#{art.id}
 							</rich:column>
 							
 							<rich:column id="bezeichnungSpalte">
 								<f:facet name="header">
 									#{msgAv['viewArtikel.bezeichnung']}
 								</f:facet>
-								<h:commandLink id="artikelPopup" value="#{artikel.bezeichnung}">
+								<h:commandLink id="artikelPopup" value="#{art.bezeichnung}">
 									<rich:componentControl target="popupA" operation="show"/>
 								</h:commandLink>
 								
 								<rich:popupPanel id="popupA" modal="false" autosized="true" resizeable="false">
 									<f:facet name="header">
-										<h:outputFormat id="popupTitleA" value="#{artikel.bezeichnung}">
-											<f:param id="popupTitleIdA" value="#{artikel.id}"/>
+										<h:outputFormat id="popupTitleA" value="#{art.bezeichnung}">
+											<f:param id="popupTitleIdA" value="#{art.id}"/>
 										</h:outputFormat>
 									</f:facet>
 									<f:facet name="controls">
@@ -108,28 +109,28 @@
 								<f:facet name="header">
 									#{msgAv['viewArtikel.preis']}
 								</f:facet>
-								#{artikel.preis}
+								#{art.preis}
 							</rich:column>
 							
 							<rich:column id="verfuegbarkeitSpalte">
 								<f:facet name="header">
 									#{msgAv['viewArtikel.erhaeltlich']}
 								</f:facet>
-								#{artikel.erhaeltlich}
+								#{art.erhaeltlich}
 							</rich:column>
 							
 							<rich:column id="artikelgruppeSpalte">
 								<f:facet name="header">
 									#{msgAv['viewArtikel.artikelgruppe']}
 								</f:facet>
-								<h:commandLink id="artikelgruppePopup" value="#{artikel.artikelgruppe.bezeichnung}">
+								<h:commandLink id="artikelgruppePopup" value="#{art.artikelgruppe.bezeichnung}">
 									<rich:componentControl target="popup" operation="show"/>
 								</h:commandLink>
 								
 								<rich:popupPanel id="popup" modal="false" autosized="true" resizeable="false">
 									<f:facet name="header">
-										<h:outputFormat id="popupTitle" value="#{artikel.artikelgruppe.bezeichnung}">
-											<f:param id="popupTitleId" value="#{artikel.artikelgruppe.id}"/>
+										<h:outputFormat id="popupTitle" value="#{art.artikelgruppe.bezeichnung}">
+											<f:param id="popupTitleId" value="#{art.artikelgruppe.id}"/>
 										</h:outputFormat>
 									</f:facet>
 									<f:facet name="controls">
@@ -154,7 +155,7 @@
 							</rich:column>
 							
 							<rich:column id="buttonSpalte"
-							             rendered="#{not empty artikel}">
+							             rendered="#{not empty art}">
 								<h:commandButton id="editButton"
 												 image="#{resource['images:edit.gif']}"
 										         action="#{ac.selectForUpdate(artikel)}"
@@ -184,7 +185,7 @@
 						<rich:dataScroller id="dataScroller"
 						                   for="artikelTabelle"
 						                   maxPages="10"
-						                   rendered="#{not empty artikel}"/>
+						                   rendered="#{not empty art}"/>
 						
 						<a4j:outputPanel id="outputPanelZebra" ajaxRendered="true">
 							<rich:jQuery id="odd"

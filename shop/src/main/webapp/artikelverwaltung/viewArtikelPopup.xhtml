@@ -21,29 +21,29 @@
 			<rich:panel id="stammdatenPanelA">
 				<h:panelGrid id="stammdatenGridA" columns="2">
 					<h:outputText id="idLabelA" value="#{msgAv['viewArtikel.artikelnr']}"/>
-					<h:outputText id="idA" value="#{artikel.id}"/>
+					<h:outputText id="idA" value="#{art.id}"/>
 			
 					<h:outputText id="bezeichnungLabelA" value="#{msgAv['viewArtikel.bezeichnung']}"/>
-					<h:outputText id="bezeichnungA" value="#{artikel.bezeichnung}"/>
+					<h:outputText id="bezeichnungA" value="#{art.bezeichnung}"/>
 		
 					<h:outputText id="preisLabel" value="#{msgAv['viewArtikel.preis']}"/>
-					<h:outputText id="preis" value="#{artikel.preis}">
+					<h:outputText id="preis" value="#{art.preis}">
 						<f:convertNumber type="currency"
 						                 currencyCode="EUR"/>
 					</h:outputText>
 					
 					<h:outputText id="erhaeltlichLabel" value="#{msgAv['viewArtikel.erhaeltlich']}"/>
-					<h:outputText id="erhaeltlich" value="#{artikel.erhaeltlich}"/>
+					<h:outputText id="erhaeltlich" value="#{art.erhaeltlich}"/>
 					
 					<h:outputText id="artikelgruppeLabel" value="#{msgAv['viewArtikel.artikelgruppe']}"/>
-					<h:commandLink id="artikelgruppePopupAg" value="#{artikel.artikelgruppe.bezeichnung}">
+					<h:commandLink id="artikelgruppePopupAg" value="#{art.artikelgruppe.bezeichnung}">
 									<rich:componentControl target="popupAg" operation="show"/>
 								</h:commandLink>
 								
 								<rich:popupPanel id="popupAg" modal="false" autosized="true" resizeable="false">
 									<f:facet name="header">
-										<h:outputFormat id="popupTitleAg" value="#{artikel.artikelgruppe.bezeichnung}">
-											<f:param id="popupTitleIdAg" value="#{artikel.artikelgruppe}"/>
+										<h:outputFormat id="popupTitleAg" value="#{art.artikelgruppe.bezeichnung}">
+											<f:param id="popupTitleIdAg" value="#{art.artikelgruppe}"/>
 										</h:outputFormat>
 									</f:facet>
 									<f:facet name="controls">
@@ -67,6 +67,42 @@
 							</rich:popupPanel>
 				</h:panelGrid>
 			</rich:panel>
+		</rich:tab>
+		
+		<rich:tab id="multimediaTab" rendered="#{not empty art.file}">
+			<f:facet name="header">
+				<h:panelGroup id="multimediaLabel">
+					<h:graphicImage id="multimediaGif"
+					                name="bild.gif"
+					                library="images"/>
+					#{' '}
+					#{msgAv['viewArtikelPopup.artikel.bildVideo']}
+				</h:panelGroup>
+			</f:facet>
+			
+			<c:set var="file" value="${art.file}" scope="view"/>
+			<c:set var="multimediaType" value="${file.multimediaType}" scope="view"/>
+			<c:set var="filename" value="#{ac.getFilename(file)}" scope="view"/>
+			<c:choose>
+				<c:when test="${multimediaType eq 'IMAGE'}">
+					<h:graphicImage id="bild"
+									name="#{filename}"
+									library="filesDb"
+									alt="#{msgAv['viewArtikelPopup.artikel.bild.alt']}"/>
+				</c:when>
+					
+				<c:when test="#{art.file.multimediaType eq 'VIDEO'}">
+					<h:outputScript id="jsVideo" library="js" name="mediaelement-and-player.min.js"/>
+					<h:outputStylesheet id="cssVideo" library="css" name="mediaelementplayer.css"/>
+					<video id="video"
+						   controls="controls"
+						   width="640"
+						   height="480">
+						<source src="#{request.contextPath}/resources/filesDb/#{filename}"
+						        type="#{file.mimeType.toString()}"/>
+					</video>
+				</c:when>
+			</c:choose>
 		</rich:tab>
 		
 	</rich:tabPanel>
