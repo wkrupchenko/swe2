@@ -37,6 +37,7 @@ import static de.shop.util.Konstante.ERSTE_VERSION;
 import static de.shop.util.Konstante.KEINE_ID;
 import static de.shop.util.Konstante.MIN_ID;
 import static javax.persistence.FetchType.EAGER;
+import static javax.persistence.FetchType.LAZY;
 
 @Entity
 @Table(name = "artikelgruppe")

@@ -47,7 +47,7 @@
 			
 			<rich:dataTable id="artikelTabelle"
 			                value="#{artikel.artikelgruppe.artikel}"
-			                var="artikel"
+			                var="art"
 			                rows="6"
 			                rowClasses="odd-row, even-row"
 			                styleClass="tabelleMitZebrastil"
@@ -56,21 +56,21 @@
 							<f:facet name="header">
 								#{msgAv['viewArtikelgruppePopup.artikel.id']}
 							</f:facet>
-								#{artikel.id}
+								#{art.id}
 						</rich:column>
 							
 						<rich:column id="bezeichnungSpalte">
 								<f:facet name="header">
 									#{msgAv['viewArtikelgruppePopup.artikel.bezeichnung']}
 								</f:facet>
-								<h:commandLink id="artikelPopupAgA" value="#{artikel.bezeichnung}">
+								<h:commandLink id="artikelPopupAgA" value="#{art.bezeichnung}">
 									<rich:componentControl target="popupAgA" operation="show"/>
 								</h:commandLink>
 								
 								<rich:popupPanel id="popupAgA" modal="false" autosized="true" resizeable="false">
 									<f:facet name="header">
-										<h:outputFormat id="popupTitleAgA" value="#{artikel.bezeichnung}">
-											<f:param id="popupTitleIdAgA" value="#{artikel.id}"/>
+										<h:outputFormat id="popupTitleAgA" value="#{art.bezeichnung}">
+											<f:param id="popupTitleIdAgA" value="#{art.id}"/>
 										</h:outputFormat>
 									</f:facet>
 									<f:facet name="controls">
@@ -98,14 +98,14 @@
 							<f:facet name="header">
 								#{msgAv['viewArtikelgruppePopup.artikel.preis']}
 							</f:facet>
-							#{artikel.preis}
+							#{art.preis}
 						</rich:column>
 							
 						<rich:column id="verfuegbarkeitSpalte">
 							<f:facet name="header">
 								#{msgAv['viewArtikelgruppePopup.artikel.erhaeltlich']}
 							</f:facet>
-								#{artikel.erhaeltlich}
+								#{art.erhaeltlich}
 						</rich:column>
 			
 						<a4j:outputPanel id="outputPanelZebra" ajaxRendered="true">

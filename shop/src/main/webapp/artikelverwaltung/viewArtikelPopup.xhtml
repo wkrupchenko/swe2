@@ -43,7 +43,7 @@
 								<rich:popupPanel id="popupAg" modal="false" autosized="true" resizeable="false">
 									<f:facet name="header">
 										<h:outputFormat id="popupTitleAg" value="#{artikel.artikelgruppe.bezeichnung}">
-											<f:param id="popupTitleIdAg" value="#{artikelgruppe.id}"/>
+											<f:param id="popupTitleIdAg" value="#{artikel.artikelgruppe}"/>
 										</h:outputFormat>
 									</f:facet>
 									<f:facet name="controls">
@@ -69,40 +69,5 @@
 			</rich:panel>
 		</rich:tab>
 		
-		<rich:tab id="multimediaTab" rendered="#{not empty artikel.file}">
-			<f:facet name="header">
-				<h:panelGroup id="multimediaLabel">
-					<h:graphicImage id="multimediaGif"
-					                name="bild.gif"
-					                library="images"/>
-					#{' '}
-					#{msgAv['viewArtikelPopup.artikel.bildVideo']}
-				</h:panelGroup>
-			</f:facet>
-			
-			<c:set var="file" value="${artikel.file}" scope="view"/>
-			<c:set var="multimediaType" value="${file.multimediaType}" scope="view"/>
-			<c:set var="filename" value="#{ac.getFilename(file)}" scope="view"/>
-			<c:choose>
-				<c:when test="${multimediaType eq 'IMAGE'}">
-					<h:graphicImage id="bild"
-									name="#{filename}"
-									library="filesDb"
-									alt="#{msgAv['viewArtikelPopup.artikel.bild.alt']}"/>
-				</c:when>
-					
-				<c:when test="${multimediaType eq 'VIDEO'}">
-					<h:outputScript id="jsVideo" library="js" name="mediaelement-and-player.min.js"/>
-					<h:outputStylesheet id="cssVideo" library="css" name="mediaelementplayer.css"/>
-					<video id="video"
-						   controls="controls"
-						   width="640"
-						   height="480">
-						<source src="#{request.contextPath}/resources/filesDb/#{filename}"
-						        type="#{file.mimeType.toString()}"/>
-					</video>
-				</c:when>
-			</c:choose>
-		</rich:tab>
 	</rich:tabPanel>
 </ui:composition>
