@@ -20,13 +20,13 @@
 						<f:facet name="header">
 							#{msgAv['viewArtikel.artikelnr']}
 						</f:facet>
-						<a4j:region id="articleId">
-						     <h:commandLink id="articleId1" value="#{pos.artikel.id}" action="http://localhost:8080/shop/artikelverwaltung/viewArtikel.jsf">						 
-						 
-						   <!-- <f:param name="#{ac.artikelId}" value="#{pos.artikel.id}"  action="#{ac.findeArtikelNachId}"/>  -->
-						 								
-						    </h:commandLink>
-					    </a4j:region>						 
+						<h:link id="idlink"
+							outcome="/artikelverwaltung/viewArtikel"
+							value="#{pos.artikel.id}">
+							<f:param id="idlinkparam"
+							param="artikelId"
+							value="#{pos.artikel.id}"/>
+						</h:link>						 						 
 					</rich:column>
 		
 					<rich:column id="bezeichnungSpalteSub1">
