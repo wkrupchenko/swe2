@@ -33,47 +33,47 @@
 				<p id="abstand"/>
 			
 				<a4j:outputPanel id="gesuchterKundeEmailPanel">
-					<c:if test="#{not empty flash.kunde or param.init ne 'true'}">
-						<c:set var="kunde" value="#{flash.kunde}" scope="view"/>
+					<c:if test="#{not empty flash.kundeEmail or param.init ne 'true'}">
+						<c:set var="kundeEmail" value="#{flash.kundeEmail}" scope="view"/>
 						<!-- Fuer den naechsten Request puffern, falls z.B. ein Update-Button angeklickt WUERDE -->
-						<c:set target="#{flash}" property="kunde" value="#{kunde}"/>
+						<c:set target="#{flash}" property="kundeEmail" value="#{kundeEmail}"/>
 						
 							<rich:dataTable id="kundeEmailTabelle"
-						                value="#{kc.kunde}"
-						                var="kunde"
+						                value="#{kundeEmail}"
+						                var="kundeEmail"
 						                rows="10"
 						                noDataLabel="#{msgKv['viewKunde.keineDaten']}"
 						                rowClasses="odd-row, even-row"
 						                styleClass="tabelleMitZebrastil"
 						                cellspacing="10"
-						                rendered="#{not empty bestellung or param.init ne 'true'}">						
+						                rendered="#{not empty kundeEmail or param.init ne 'true'}">						
 							 							 
 							 <rich:column id="kundeIdLabel">							
 								<f:facet name="header">
 									#{msgKv['viewKunde.kundenr']}
 								</f:facet>
-							 #{kunde.id}							 				
+							 #{kundeEmail.id}							 				
 							</rich:column>	
 							
 							<rich:column id="vornameLabel">
 								<f:facet name="header">
 									#{msgKv['viewKunde.vorname']}
 								</f:facet>																
-							#{kunde.vorname}
+							#{kundeEmail.vorname}
 							</rich:column>										
 														
 							<rich:column id="nachnameLabel">
 								<f:facet name="header">
 									#{msgKv['viewKunde.nachname']}
 								</f:facet>
-								<h:commandLink id="nachnamePopup" value="#{kunde.nachname}">
+								<h:commandLink id="nachnamePopup" value="#{kundeEmail.nachname}">
 									<rich:componentControl target="popup" operation="show"/>
 								</h:commandLink>
 	
 								<rich:popupPanel id="popup" modal="false" autosized="true" resizeable="false">
 									<f:facet name="header">
 										<h:outputFormat id="popupTitle" value="#{msgKv['viewKundePopup.title']}">
-											<f:param id="popupTitleId" value="#{kunde.id}"/>
+											<f:param id="popupTitleId" value="#{kundeEmail.id}"/>
 										</h:outputFormat>
 									</f:facet>
 									<f:facet name="controls">
@@ -102,7 +102,7 @@
 								<f:facet name="header">
 									#{msgKv['viewKunde.email']}
 								</f:facet>																
-							#{kunde.email}
+							#{kundeEmail.email}
 							</rich:column>
 							
 						</rich:dataTable>
@@ -116,7 +116,7 @@
 						<rich:dataScroller id="dataScroller"
 						                   for="kundeEmailTabelle"
 						                   maxPages="10"
-						                   rendered="#{not empty kunde}"/>
+						                   rendered="#{not empty kundeEmail}"/>
 						
 						<a4j:outputPanel id="outputPanelZebra" ajaxRendered="true">
 							<rich:jQuery id="odd"
