@@ -86,7 +86,7 @@
 									<f:facet name="controls">
 										<h:outputLink id="hideControlA"
 								        	    	  value="#"
-								            	  	  onclick="#{rich:component('popup')}.hide(); return false;">
+								            	  	  onclick="#{rich:component('popupA')}.hide(); return false;">
 											<h:graphicImage id="hideIconA"
 									    		            name="close.png"
 									        		        library="images"
@@ -98,7 +98,7 @@
 									<ui:include src="viewArtikelPopup.xhtml"/>
 										<h:outputLink id="closeLinkA"
 							            			  value="#"
-								          			  onclick="#{rich:component('popup')}.hide(); return false;">
+								          			  onclick="#{rich:component('popupA')}.hide(); return false;">
 										#{msgAv['viewArtikelPopup.hide.button']}
 										</h:outputLink>
 								</rich:popupPanel>
@@ -122,7 +122,35 @@
 								<f:facet name="header">
 									#{msgAv['viewArtikel.artikelgruppe']}
 								</f:facet>
-								#{artikel.artikelgruppe.bezeichnung}     
+								<h:commandLink id="artikelgruppePopup" value="#{artikel.artikelgruppe.bezeichnung}">
+									<rich:componentControl target="popup" operation="show"/>
+								</h:commandLink>
+								
+								<rich:popupPanel id="popup" modal="false" autosized="true" resizeable="false">
+									<f:facet name="header">
+										<h:outputFormat id="popupTitle" value="#{artikel.artikelgruppe.bezeichnung}">
+											<f:param id="popupTitleId" value="#{artikel.artikelgruppe.id}"/>
+										</h:outputFormat>
+									</f:facet>
+									<f:facet name="controls">
+										<h:outputLink id="hideControl"
+								        	    	  value="#"
+								            	  	  onclick="#{rich:component('popup')}.hide(); return false;">
+											<h:graphicImage id="hideIcon"
+									    		            name="close.png"
+									        		        library="images"
+									           	    	    style="cursor:pointer"
+									               	    	alt="#{msgAv['viewArtikelgruppePopup.hide.button']}"/>
+										</h:outputLink>
+									</f:facet>
+									
+									<ui:include src="viewArtikelgruppePopup.xhtml"/>
+										<h:outputLink id="closeLinkAg"
+							            			  value="#"
+								          			  onclick="#{rich:component('popup')}.hide(); return false;">
+										#{msgAv['viewArtikelgruppePopup.hide.button']}
+										</h:outputLink>
+								</rich:popupPanel>
 							</rich:column>
 							
 							<rich:column id="buttonSpalte"
