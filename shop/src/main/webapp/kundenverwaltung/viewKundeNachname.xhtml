@@ -5,7 +5,7 @@
 	  xmlns:ui="http://java.sun.com/jsf/facelets"
 	  xmlns:h="http://java.sun.com/jsf/html"
 	  xmlns:f="http://java.sun.com/jsf/core"
-	  xmlns:c="http://java.sun.com/jsp/jstl/core"
+	  xmlns:fn="http://java.sun.com/jsp/jstl/functions"
 	  xmlns:rich="http://richfaces.org/rich"
 	  xmlns:a4j="http://richfaces.org/a4j">
 
@@ -27,9 +27,9 @@
 					                   autocompleteMethod="#{kc.findeNachnameNachPrefix}"/> 
 	
 					<a4j:commandButton id="sucheButton"
-					                   action="#{kc.findKundenNachNachname()}"
+					                   action="#{kc.findKundenNachNachname}"
 									   value="#{msgKv['viewKunde.submit']}"
-									   render="gesuchterKundeNachnamePanel"/>
+									   render="gesuchterKundeNachnamePanel fehlermeldungNachname"/>
 									   
 					<a4j:status id="statusStart">
 						<f:facet name="start">
@@ -42,95 +42,127 @@
 						</f:facet>
 					</a4j:status>
 				</h:panelGrid>
+
+				<rich:messages id="fehlermeldungNachname" for="nachname"/>
+				<rich:jQuery id="focus" selector="#nachname" query="focus()"/>
 			</rich:panel>
 
-			<p id="abstand1"/>
-			
-			<a4j:outputPanel id="gesuchterKundeNachnamePanel">
-				<c:if test="#{not empty flash.kunde or param.init ne 'true'}">
-						<c:set var="kunde" value="#{flash.kunde}" scope="view"/>
-						<!-- Fuer den naechsten Request puffern, falls z.B. ein Update-Button angeklickt WUERDE -->
-						<c:set target="#{flash}" property="kunde" value="#{kunde}"/>
-						
-						<rich:dataTable id="kundeNachnameTabelle"
-						                value="#{kc.kunden}"
-						                var="kunde"
-						                rows="10"
-						                noDataLabel="#{msgKv['viewKunde.keineDaten']}"
-						                rowClasses="odd-row, even-row"
-						                styleClass="tabelleMitZebrastil"
-						                cellspacing="10"
-						                rendered="#{not empty kc.kunden or param.init ne 'true'}">
-							
-							<rich:column id="idSpalte">
-								<f:facet name="header">
-									#{msgKv['viewKunde.kundenr']}
-								</f:facet>
-								#{kunde.id}
-							</rich:column>
-							
-							<rich:column id="vornameSpalte">
-								<f:facet name="header">
-									#{msgKv['viewKunde.vorname']}
-								</f:facet>
-								#{kunde.vorname}
-							</rich:column>
-							
-							<rich:column id="nachnameSpalte">
-								<f:facet name="header">
-									#{msgKv['viewKunde.nachname']}
-								</f:facet>
-								<h:commandLink id="nachnamePopup" value="#{kunde.nachname}">
-									<rich:componentControl target="popup" operation="show"/>
-								</h:commandLink>
-	
-								<rich:popupPanel id="popup" modal="false" autosized="true" resizeable="false">
-									<f:facet name="header">
-										<h:outputFormat id="popupTitle" value="#{msgKv['viewKundePopup.title']}">
-											<f:param id="popupTitleId" value="#{kunde.id}"/>
-										</h:outputFormat>
-									</f:facet>
-									<f:facet name="controls">
-										<h:outputLink id="hideControl"
-								        		      value="#"
-								              		  onclick="#{rich:component('popup')}.hide(); return false;">
-										<h:graphicImage id="hideIcon"
-									    	            name="close.png"
-									        	        library="images"
-									            	    style="cursor:pointer"
-									                	alt="#{msgKv['viewKundePopup.hide.button']}"/>
-										</h:outputLink>
-									</f:facet>
-									
-									<ui:include src="viewKundePopup.xhtml"/>
-							
-									<h:outputLink id="closeLink"
-							        		      value="#"
-								          		  onclick="#{rich:component('popup')}.hide(); return false;">
-										#{msgKv['viewKundePopup.hide.button']}
-									</h:outputLink>
-								</rich:popupPanel>
-							</rich:column>
-							
-							<rich:column id="emailSpalte">
-								<f:facet name="header">
-									#{msgKv['viewKunde.email']}
-								</f:facet>
-								#{kunde.email}
-							</rich:column>
-							
-						</rich:dataTable>
-						
-						<p id="abstandZuMeldungen">
-							<rich:messages id="globaleFehlermeldungen" globalOnly="true"/>
-						</p>
+			<p id="abstandZuMeldungen">
+				<rich:messages id="globaleFehlermeldungen" globalOnly="true"/>
+			</p>
 		
-						<p id="abstand2"/>
+			<a4j:outputPanel id="gesuchterKundeNachnamePanel">
+				<rich:dataTable id="kundeNachnameTabelle"
+				                value="#{kc.kunden}"
+				                var="kunde"
+				                rows="10"
+				                noDataLabel="#{msgKv['viewKunde.keineDaten']}"
+				                rowClasses="odd-row, even-row"
+				                styleClass="tabelleMitZebrastil"
+				                cellspacing="10"
+				                rendered="#{not empty kc.kunden or param.init ne 'true'}">
+					
+					<rich:column id="idSpalte">
+						<f:facet name="header">
+			                 #{msgKv['viewKunde.kundenr']}
+						</f:facet>
+						#{kunde.id}
+					</rich:column>
+					
+					<rich:column id="vornameSpalte">
+							<f:facet name="header">
+								#{msgKv['viewKunde.vorname']}
+							</f:facet>
+						#{kunde.vorname}
+					</rich:column>
+							
+					<rich:column id="nachnameSpalte">
+						<f:facet name="header">
+							#{msgKv['viewKunde.nachname']}
+						</f:facet>
+						<h:commandLink id="nachnamePopup" value="#{kunde.nachname}">
+							<rich:componentControl target="popup" operation="show"/>
+						</h:commandLink>
+	
+						<rich:popupPanel id="popup" modal="false" autosized="true" resizeable="false">
+							<f:facet name="header">
+								<h:outputFormat id="popupTitle" value="#{msgKv['viewKundePopup.title']}">
+									<f:param id="popupTitleId" value="#{kunde.id}"/>
+								</h:outputFormat>
+							</f:facet>
+							<f:facet name="controls">
+								<h:outputLink id="hideControl"
+								              value="#"
+								              onclick="#{rich:component('popup')}.hide(); return false;">
+									<h:graphicImage id="hideIcon"
+									                name="close.png"
+									                library="images"
+									                style="cursor:pointer"
+									                alt="#{msgKv['viewKundePopup.hide.button']}"/>
+								</h:outputLink>
+							</f:facet>
+							<ui:include src="viewKundePopup.xhtml"/>
+							
+							<h:outputLink id="closeLink"
+							              value="#"
+								          onclick="#{rich:component('popup')}.hide(); return false;">
+								#{msgKv['viewKundePopup.hide.button']}
+							</h:outputLink>
+						</rich:popupPanel>
+
+						<rich:contextMenu id="ctxmenu"
+						                  attachTo="nachnamePopup"
+						                  hideDelay="600"
+						                  jointPoint="bottomLeft"
+						                  direction="autoRight"
+						                  mode="server">
+							<rich:menuItem id="updateContext"
+								           label="#{msgKv['viewKunde.editButton']}"
+								           icon="#{resource['images:edit.gif']}"
+								           action="#{kc.selectForUpdate(kunde)}"/>
+							<rich:menuSeparator id="menuSeparatorDelete"
+							                    rendered="#{rich:isUserInRole('admin')}"/>
+							<rich:menuItem id="deleteContext"
+								           label="#{msgKv['viewKunde.deleteButton']}"
+								           icon="#{resource['images:delete.gif']}"
+								           action="#{kc.delete(kunde)}"
+								           rendered="#{rich:isUserInRole('admin')}"/>
+						</rich:contextMenu>
+
+					</rich:column>
 						
+					<rich:column id="emailLabel">
+						<f:facet name="header">
+							#{msgKv['viewKunde.email']}
+						</f:facet>
+						<h:outputLink
+							value="mailto:#{kunde.email}">
+							<h:outputText value="#{kunde.email}" />
+						</h:outputLink>																
+					</rich:column>
+							
+					<rich:column id="editSpalte" rendered="#{not empty kc.kunden}">
+						<h:commandButton id="editButton"
+										 image="#{resource['images:edit.gif']}"
+								         action="#{kc.selectForUpdate(kunde)}"
+								         alt="#{msgKv['viewKunde.editButton']}"/>
+					</rich:column>
+					
+					<rich:column id="deleteSpalte" rendered="#{not empty kc.kunden and rich:isUserInRole('admin')}">
+						<a4j:commandButton id="deleteButton"
+										   image="#{resource['images:delete.gif']}"
+								           action="#{kc.delete(kunde)}"
+								           alt="#{msgKv['viewKunde.deleteButton']}"
+								           onclick="return confirm('#{msgKc['listKunden.deleteKundeBestaetigung']}')"
+								           render="@form :globaleFehlermeldungen"/>
+					</rich:column>
+				</rich:dataTable>
+				
+				<p id="abstandZuScroller">
+					<h:panelGroup id="scrollerGroup" rendered="#{not empty kc.kunden}">
 						<rich:dataScroller id="dataScroller"
 						                   for="kundeNachnameTabelle"
-						                   maxPages="10"
-						                   rendered="#{not empty kunde}"/>
+						                   maxPages="10"/>
 						
 						<a4j:outputPanel id="outputPanelZebra" ajaxRendered="true">
 							<rich:jQuery id="odd"
@@ -152,10 +184,9 @@
 							             query="jQuery(this).removeClass('active-row')"
 							             timing="domready"/>
 						</a4j:outputPanel>
-					</c:if>
-						
-					<!-- TODO Button zum Aendern und/oder Loeschen -->
-				</a4j:outputPanel>
+					</h:panelGroup>
+				</p>
+			</a4j:outputPanel>
 		</h:form>
 	</ui:define>
 </ui:composition>
