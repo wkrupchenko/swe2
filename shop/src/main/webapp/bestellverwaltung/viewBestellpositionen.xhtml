@@ -6,65 +6,43 @@
 			    xmlns:a4j="http://richfaces.org/a4j">
 			    
 	<rich:tabPanel id="tabPanelBP" switchType="client">
-		 
-		
-		<rich:tab id="bestellpositionenTab" rendered="#{not empty bestellung.kunde.bestellungen}">
-			<f:facet name="header">
-				<h:panelGroup id="bestellpositionenLabel">
-					<h:graphicImage id="bestellpositionenGif"
-					                name="bestellungen.gif"
-					                library="images"/>
-					#{' '}
-					#{msgKv['viewKundePopup.kunde.bestellungen']}
-				</h:panelGroup>
-			</f:facet>
-			
-			<rich:dataTable id="bestellpositionenTabelle" value="#{bestellung.kunde.bestellungen}" var="bestellung">
-				<f:facet name="header">
-					<rich:columnGroup id="bestellpositionenpositionenSpalten">
-						<rich:column id="artikelIdSpalte1">
-							#{msgKv['viewKundePopup.artikel.id']}
-						</rich:column>
-						<rich:column id="bezeichnungSpalte1">
-							#{msgKv['viewKundePopup.artikel.bezeichnung']}
-						</rich:column>
-						<rich:column id="anzahlSpalte1">
-							#{msgKv['viewKundePopup.artikel.anzahl']}
-						</rich:column>
-					</rich:columnGroup>
-				</f:facet>
-				
-				<rich:column id="togglerSpalte1" colspan="3">
-					<rich:collapsibleSubTableToggler id="subTableToggler" for="positionenSubtable"
-					                                 collapsedLabel="#{msgKv['viewKundePopup.bestellung']} #{bestellung.id} : #{bestellung.getErzeugt('yyyy-MM-dd')}"
-					                                 expandedLabel="#{msgKv['viewKundePopup.bestellung']} #{bestellung.id} : #{bestellung.getErzeugt('yyyy-MM-dd')}"/>
-				</rich:column>
-				
-				<rich:collapsibleSubTable id="bestellpositionenSubtable"
+		 		 
+ 			<rich:dataTable id="bestellpositionenSubtable"
 				                          value="#{bestellung.bestellpositionen}"
 				                          var="pos"
 				                          rowClasses="odd-row, even-row"
 					                      styleClass="tabelleMitZebrastil"
+					                      width="100%"
 				                          expandMode="client"
 				                          expanded="#{false}"> <!-- https://issues.jboss.org/browse/RF-10715 -->
+				                          				                           
 					<rich:column id="artikelIdSpalteSub1">
-					<a4j:region id="posArtikelhg1">
-						<h:commandLink id="posArtikel1" value="#{pos.artikel.id}" action="http://localhost:8080/shop/artikelverwaltung/viewArtikel.jsf">						 
+						<f:facet name="header">
+							#{msgAv['viewArtikel.artikelnr']}
+						</f:facet>
+						<a4j:region id="articleId">
+						     <h:commandLink id="articleId1" value="#{pos.artikel.id}" action="http://localhost:8080/shop/artikelverwaltung/viewArtikel.jsf">						 
 						 
 						   <!-- <f:param name="#{ac.artikelId}" value="#{pos.artikel.id}"  action="#{ac.findeArtikelNachId}"/>  -->
 						 								
-						</h:commandLink>
-					</a4j:region>						
+						    </h:commandLink>
+					    </a4j:region>						 
 					</rich:column>
 		
 					<rich:column id="bezeichnungSpalteSub1">
-						#{pos.artikel.bezeichnung}
+						<f:facet name="header">
+							#{msgAv['viewArtikel.bezeichnung']}
+						</f:facet>						   
+					     #{pos.artikel.bezeichnung}						
 					</rich:column>
 		
 					<rich:column id="anzahlSpalteSub1">
-						#{pos.anzahl}
+						<f:facet name="header">
+							#{msgAv['viewArtikel.anzahl']}
+						</f:facet>						 
+					     #{pos.anzahl}						
 					</rich:column>
-				</rich:collapsibleSubTable>		
+				 		
 			
 				<a4j:outputPanel id="outputPanelZebra" ajaxRendered="true">
 					<rich:jQuery id="odd"
@@ -87,7 +65,7 @@
 					             timing="domready"/>
 				</a4j:outputPanel>
 			</rich:dataTable>
-		</rich:tab>
+		 
 		
 	</rich:tabPanel>
 </ui:composition>
