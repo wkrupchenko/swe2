@@ -91,7 +91,7 @@
 									alt="#{msgAv['viewArtikelPopup.artikel.bild.alt']}"/>
 				</c:when>
 					
-				<c:when test="#{art.file.multimediaType eq 'VIDEO'}">
+				<c:when test="${multimediaType eq 'VIDEO'}">
 					<h:outputScript id="jsVideo" library="js" name="mediaelement-and-player.min.js"/>
 					<h:outputStylesheet id="cssVideo" library="css" name="mediaelementplayer.css"/>
 					<video id="video"
