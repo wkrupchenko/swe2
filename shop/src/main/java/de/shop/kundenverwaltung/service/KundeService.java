@@ -279,7 +279,7 @@ public class KundeService implements Serializable {
 		
 		final Set<ConstraintViolation<Kunde>> violations = validator.validate(kunde, groups);
 		if (!violations.isEmpty()) {
-			throw new KundeValidationException(kunde, violations);
+			throw new KundeValidationException(violations);
 		}
 	}
 	

@@ -197,6 +197,7 @@ public class Kunde implements Serializable {
 	private String art;
 
 	@Column(length = EMAIL_LAENGE_MAX, unique = true)
+	@NotNull(message = "{kundenverwaltung.kunde.email.notNull}")
 	@Email(message = "{kundenverwaltung.kunde.email.pattern}")
 	private String email;
 
@@ -214,6 +215,7 @@ public class Kunde implements Serializable {
 	private String nachname;
 	
 	@Column(length = VORNAME_LAENGE_MAX, nullable = false)
+	@NotNull(message = "{kundenverwaltung.kunde.vorname.notNull}")
 	@Size(max = VORNAME_LAENGE_MAX, message = "{kundenverwaltung.kunde.vorname.length}")
 	private String vorname;
 
@@ -221,6 +223,7 @@ public class Kunde implements Serializable {
 	private boolean newsletter;
 
 	@Column(length = PASSWORT_LAENGE_MAX, nullable = false)
+	@NotNull(message = "{kundenverwaltung.kunde.passwort.notNull}")
 	@Size(max = PASSWORT_LAENGE_MAX, message = "{kundenverwaltung.kunde.password.length}")
 	private String passwort;
 	
