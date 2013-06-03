@@ -119,11 +119,13 @@
 				                          expanded="#{false}"> <!-- https://issues.jboss.org/browse/RF-10715 -->
 					<rich:column id="artikelIdSpalteSub">
 					<a4j:region id="posArtikelhg">
-						<h:commandLink id="posArtikel" value="#{pos.artikel.id}" action="http://localhost:8080/shop/artikelverwaltung/viewArtikel.jsf">						 
-						 
-						   <!-- <f:param name="#{ac.artikelId}" value="#{pos.artikel.id}"  action="#{ac.findeArtikelNachId}"/>  -->
-						 								
-						</h:commandLink>
+						<h:link id="idlink"
+							outcome="/artikelverwaltung/viewArtikel"
+							value="#{pos.artikel.id}">
+							<f:param id="idlinkparam"
+							param="artikelId"
+							value="#{pos.artikel.id}"/>
+						</h:link>
 					</a4j:region>						
 					</rich:column>
 		
