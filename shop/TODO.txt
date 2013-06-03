@@ -8,41 +8,18 @@ MEILENSTEIN 1 ERLEDIGT
 
 MEILENSTEIN 2 	Web-Oberfläche:
 
-- Kunde:      --> Anlegen bzw. registrieren
-		      --> Ändern
-		      --> Suchen ---> ERLEDIGT
-		      --> Löschen
-		      
-- Artikel:    --> KOMPLETT ERLEDIGT  ( FEHLER: Suche klappt nicht mehr, auser nach ID )
+Es fehlt:
 
-- Bestellung: --> Aufgeben --> ERLEDIGT
-			  --> Ändern auf offenAbgeschlossen
-			  --> Suchen   --> OFFEN/ERLEDIGT
+Kunde anlegen, ändern, löschen
+Bestellung ändern offfenAbgeschlossen
+Autorisierung und Atheentifizierung bei Kunde und Bestellung
+Konkurrierende Updates testen für Kunde und Artikel
+mvn site (Fehler beheben)
+Web-Projekt auf beschrifteter CD oder DVD
 
-- Navigationsleiste anpassen ---> ERLEDIGT (Unterpunkte)
+Bugs:
 
-- Startseite  ---> ERLEDIGT (Ladenhüter)
-
-- Login und Logout ---> ERLEDIGT
-
-- Autorisierung und Authentifizierung für Web-Oberfläche
-	---> Artikel anlegen und ändern ab Admin ERLEDIGT
-	---> Artikelgrupppe anlegen ab Admin ERLEDIGT
-	---> Artikel löschen nur Abteilungsleiter ERLEDIGT
-	---> Artikelgruppe löschen nur Abteilungsleiter ERLEDIGT
-	---> Rest fehlt noch!
-
-- Schnellsuche  ---> ERLEDIGT (ACHTUNG: unter Chrome funktioniert es nicht!)
-
-- Sprachänderung ---> ERLEDIGT
-
-- Konkurrierende Updates für Kunde und Artikel:
-	a4j:push und auch Fehlermeldungen nach OptimisticLockException  ---> Testen
-																			---> Update funktioniert bei Artikel, bei Delete findet er die Nachricht nicht...
-
-- "mvn site" (Fehler beheben)
-
-- Web-Projekt auf beschrifteter CD oder DVD
+Ergebnisse löschen bei neuer Suche
 
 
 MEILSTEIN 3 	Android:
