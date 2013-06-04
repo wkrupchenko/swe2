@@ -200,6 +200,9 @@ public class ArtikelController implements Serializable {
 	}
 	
 	public Artikel getArtikelListRow(int row) {
+		if(artikelList == null) {
+			return null;
+		}
 		if(artikelList.size() == 0) {
 			return null;
 		}
@@ -263,7 +266,12 @@ public class ArtikelController implements Serializable {
 		artikel = as.findeArtikelNachId(artikelId);
 		
 		// In Liste hinzufügen, um einheitlich für alle Views eine Liste zu haben
-		artikelList.clear();
+		if(artikelList != null) {
+			artikelList.clear();
+		}
+		if(artikelList == null) {
+			artikelList = new ArrayList<Artikel>();
+		}
 		artikelList.add(artikel);
 		if (artikel == null) {
 			return null;
@@ -701,6 +709,14 @@ public class ArtikelController implements Serializable {
 			return;
 		}
 		artikel = as.findeArtikelNachId(ausgewaehlterArtikel.getId());
+	}
+	
+	/*
+	 * Methode um Artikel zu leeren, damit Tabelle immer wieder leer ist
+	 */
+	public void clearArtikel() {
+		artikel = null;
+		artikelList = null;
 	}
 
 }

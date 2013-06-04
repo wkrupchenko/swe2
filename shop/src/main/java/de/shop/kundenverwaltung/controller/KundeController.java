@@ -476,5 +476,14 @@ public class KundeController implements Serializable {
 		
 		return null;
 	}
+	
+	/*
+	 * Methode um Kunden zu leeren, damit Tabelle immer wieder leer ist
+	 */
+	public void clearKunde() {
+		flash.clear();
+		kunde = null;
+		kunden = null;
+	}
 
 }

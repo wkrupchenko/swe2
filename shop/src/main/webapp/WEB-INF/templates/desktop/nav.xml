@@ -32,7 +32,8 @@
 			                     expanded="true">
 				<rich:panelMenuItem id="kundenverwaltungViewKundeItem">
 					<h:outputLink id="kundenverwaltungViewKunde"
-					              value="#{request.contextPath}/kundenverwaltung/viewKunde.jsf">
+					              value="#{request.contextPath}/kundenverwaltung/viewKunde.jsf"
+					               onclick="#{kc.clearKunde()}">
 						#{msg['nav.kundenverwaltung.viewKunde']}
 						<c:if test="#{not empty javax.enterprise.context.conversation.id}">
 							<f:param id="viewKundeCid" name="cid" value="#{javax.enterprise.context.conversation.id}"/>
@@ -41,7 +42,8 @@
 				</rich:panelMenuItem>
 				<rich:panelMenuItem id="kundenverwaltungViewKundeNachnameItem">
 					<h:outputLink id="kundenverwaltungViewKundeNachname"
-					              value="#{request.contextPath}/kundenverwaltung/viewKundeNachname.jsf">
+					              value="#{request.contextPath}/kundenverwaltung/viewKundeNachname.jsf"
+					                onclick="#{kc.clearKunde()}">
 						#{msg['nav.kundenverwaltung.viewKundeNachname']}
 						<c:if test="#{not empty javax.enterprise.context.conversation.id}">
 							<f:param id="viewKundeNachnameCid" name="cid" value="#{javax.enterprise.context.conversation.id}"/>
@@ -50,7 +52,8 @@
 				</rich:panelMenuItem>
 				<rich:panelMenuItem id="kundenverwaltungViewKundeUsernameItem">
 					<h:outputLink id="kundenverwaltungViewKundeUsername"
-					              value="#{request.contextPath}/kundenverwaltung/viewKundeUsername.jsf">
+					              value="#{request.contextPath}/kundenverwaltung/viewKundeUsername.jsf"
+					                onclick="#{kc.clearKunde()}">
 						#{msg['nav.kundenverwaltung.viewKundeUsername']}
 						<c:if test="#{not empty javax.enterprise.context.conversation.id}">
 							<f:param id="viewKundeUsernameCid" name="cid" value="#{javax.enterprise.context.conversation.id}"/>
@@ -59,7 +62,8 @@
 				</rich:panelMenuItem>
 				<rich:panelMenuItem id="kundenverwaltungViewKundeEmailItem">
 					<h:outputLink id="kundenverwaltungViewKundeEmail"
-					              value="#{request.contextPath}/kundenverwaltung/viewKundeEmail.jsf">
+					              value="#{request.contextPath}/kundenverwaltung/viewKundeEmail.jsf"
+					                onclick="#{kc.clearKunde()}">
 						#{msg['nav.kundenverwaltung.viewKundeEmail']}
 						<c:if test="#{not empty javax.enterprise.context.conversation.id}">
 							<f:param id="viewKundeEmailCid" name="cid" value="#{javax.enterprise.context.conversation.id}"/>
@@ -68,7 +72,8 @@
 				</rich:panelMenuItem>
 				<rich:panelMenuItem id="kundenverwaltungViewKundePlzlItem">
 					<h:outputLink id="kundenverwaltungViewKundePlz"
-					              value="#{request.contextPath}/kundenverwaltung/viewKundePlz.jsf">
+					              value="#{request.contextPath}/kundenverwaltung/viewKundePlz.jsf"
+					                onclick="#{kc.clearKunde()}">
 						#{msg['nav.kundenverwaltung.viewKundePlz']}
 						<c:if test="#{not empty javax.enterprise.context.conversation.id}">
 							<f:param id="viewKundePlzlCid" name="cid" value="#{javax.enterprise.context.conversation.id}"/>
@@ -101,7 +106,8 @@
 			                     expanded="true">
 				<rich:panelMenuItem id="artikelverwaltungViewArtikelItem">
 					<h:outputLink id="artikelverwaltungViewArtikel"
-					              value="#{request.contextPath}/artikelverwaltung/viewArtikel.jsf">
+					              value="#{request.contextPath}/artikelverwaltung/viewArtikel.jsf"
+					              onclick="#{ac.clearArtikel()}">
 						#{msg['nav.artikelverwaltung.viewArtikel']}
 						<c:if test="#{not empty javax.enterprise.context.conversation.id}">
 							<f:param id="viewArtikelCid" name="cid" value="#{javax.enterprise.context.conversation.id}"/>
@@ -110,7 +116,8 @@
 				</rich:panelMenuItem>
 				<rich:panelMenuItem id="artikelverwaltungViewArtikelArtikelgruppeItem">
 					<h:outputLink id="artikelverwaltungViewArtikelArtikelgruppe"
-					              value="#{request.contextPath}/artikelverwaltung/viewArtikelArtikelgruppe.jsf">
+					              value="#{request.contextPath}/artikelverwaltung/viewArtikelArtikelgruppe.jsf"
+					               onclick="#{ac.clearArtikel()}">
 						#{msg['nav.artikelverwaltung.viewArtikelArtikelgruppe']}
 						<c:if test="#{not empty javax.enterprise.context.conversation.id}">
 							<f:param id="viewArtikelArtikelgruppeCid" name="cid" value="#{javax.enterprise.context.conversation.id}"/>
@@ -119,7 +126,8 @@
 				</rich:panelMenuItem>
 				<rich:panelMenuItem id="artikelverwaltungViewArtikelBezeichnungItem">
 					<h:outputLink id="artikelverwaltungViewArtikelBezeichnung"
-					              value="#{request.contextPath}/artikelverwaltung/viewArtikelBezeichnung.jsf">
+					              value="#{request.contextPath}/artikelverwaltung/viewArtikelBezeichnung.jsf"
+					               onclick="#{ac.clearArtikel()}">
 						#{msg['nav.artikelverwaltung.viewArtikelBezeichnung']}
 						<c:if test="#{not empty javax.enterprise.context.conversation.id}">
 							<f:param id="viewArtikelBezeichnungCid" name="cid" value="#{javax.enterprise.context.conversation.id}"/>
@@ -128,7 +136,8 @@
 				</rich:panelMenuItem>
 				<rich:panelMenuItem id="artikelverwaltungViewArtikelVerfuegbarkeitItem">
 					<h:outputLink id="artikelverwaltungViewArtikelVerfuegbarkeit"
-					              value="#{request.contextPath}/artikelverwaltung/viewArtikelVerfuegbarkeit.jsf">
+					              value="#{request.contextPath}/artikelverwaltung/viewArtikelVerfuegbarkeit.jsf"
+					               onclick="#{ac.clearArtikel()}">
 						#{msg['nav.artikelverwaltung.viewArtikelVerfuegbarkeit']}
 						<c:if test="#{not empty javax.enterprise.context.conversation.id}">
 							<f:param id="viewArtikelVerfuegbarkeitCid" name="cid" value="#{javax.enterprise.context.conversation.id}"/>
@@ -137,7 +146,8 @@
 				</rich:panelMenuItem>
 				<rich:panelMenuItem id="artikelverwaltungViewArtikelMaxPreisItem">
 					<h:outputLink id="artikelverwaltungViewArtikelMaxPreis"
-					              value="#{request.contextPath}/artikelverwaltung/viewArtikelMaxPreis.jsf">
+					              value="#{request.contextPath}/artikelverwaltung/viewArtikelMaxPreis.jsf"
+					               onclick="#{ac.clearArtikel()}">
 						#{msg['nav.artikelverwaltung.viewArtikelMaxPreis']}
 						<c:if test="#{not empty javax.enterprise.context.conversation.id}">
 							<f:param id="viewArtikelMaxPreisCid" name="cid" value="#{javax.enterprise.context.conversation.id}"/>
@@ -146,7 +156,8 @@
 				</rich:panelMenuItem>
 				<rich:panelMenuItem id="artikelverwaltungViewArtikelMinPreisItem">
 					<h:outputLink id="artikelverwaltungViewArtikelMinPreis"
-					              value="#{request.contextPath}/artikelverwaltung/viewArtikelMinPreis.jsf">
+					              value="#{request.contextPath}/artikelverwaltung/viewArtikelMinPreis.jsf"
+					               onclick="#{ac.clearArtikel()}">
 						#{msg['nav.artikelverwaltung.viewArtikelMinPreis']}
 						<c:if test="#{not empty javax.enterprise.context.conversation.id}">
 							<f:param id="viewArtikelMinPreisCid" name="cid" value="#{javax.enterprise.context.conversation.id}"/>

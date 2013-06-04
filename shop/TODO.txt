@@ -13,13 +13,14 @@ Es fehlt:
 Kunde anlegen, ändern, löschen
 Autorisierung und Atheentifizierung bei Bestellung
 Konkurrierende Updates (UpdateUpdate und DeleteUpdate) testen für Kunde
+Bei Lieferung Popup die Bestellungen anzeigen
+Bei Suche BestellungStatus alle Attribute und Popups wie bei Suche BestellungID
 mvn site (Fehler beheben)
 Web-Projekt auf beschrifteter CD oder DVD
 
 Bugs:
 
-Ergebnisse löschen bei neuer Suche
-Autokorrektur nur beim ersten Mal
+Ergebnisse löschen bei neuer Suche bei Bestellungen
 
 
 MEILSTEIN 3 	Android:
