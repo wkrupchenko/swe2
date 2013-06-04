@@ -48,20 +48,16 @@
 				<p id="abstand1"/>
 			
 				<a4j:outputPanel id="gesuchterArtikelPanel">
-					<c:if test="#{not empty flash.artikel or param.init ne 'true'}">
-						<c:set var="artikel" value="#{flash.artikel}" scope="view"/>
-						<!-- Fuer den naechsten Request puffern, falls z.B. ein Update-Button angeklickt WUERDE -->
-						<c:set target="#{flash}" property="artikel" value="#{artikel}"/>
 						
 						<rich:dataTable id="artikelTabelle"
-						                value="#{artikel}"
+						                value="#{ac.artikelList}"
 						                var="art"
 						                rows="6"
 						                noDataLabel="#{msgAv['viewArtikel.keineDaten']}"
 						                rowClasses="odd-row, even-row"
 						                styleClass="tabelleMitZebrastil"
 						                cellspacing="10"
-						                rendered="#{not empty artikel or param.init ne 'true'}">
+						                rendered="#{not empty ac.artikelList or param.init ne 'true'}">
 							<rich:column id="idSpalte">
 								<f:facet name="header">
 									#{msgAv['viewArtikel.artikelnr']}
@@ -184,7 +180,7 @@
 						<rich:dataScroller id="dataScroller"
 						                   for="artikelTabelle"
 						                   maxPages="10"
-						                   rendered="#{not empty artikel}"/>
+						                   rendered="#{not empty ac.artikelList}"/>
 						
 						<a4j:outputPanel id="outputPanelZebra" ajaxRendered="true">
 							<rich:jQuery id="odd"
@@ -207,7 +203,6 @@
 							             timing="domready"/>
 						</a4j:outputPanel>
 						
-					</c:if>
 					
 					<!-- TODO Button zum Aendern und/oder Loeschen -->
 				</a4j:outputPanel>

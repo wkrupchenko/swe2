@@ -10,9 +10,6 @@
 	  xmlns:a4j="http://richfaces.org/a4j">
 
 	<ui:composition template="/WEB-INF/templates/desktop/main.xml">
-		<ui:define name="metadata">
-			<f:event type="preRenderView" listener="#{ac.clearArtikel}"/>
-		</ui:define>
 		<ui:param name="pageTitle" value="#{msgAv['viewArtikel.title']}"/>
 
 		<ui:define name="article">
@@ -35,20 +32,15 @@
 				<p id="abstand"/>
 			
 				<a4j:outputPanel id="gesuchterArtikelPanel">
-					<c:if test="#{not empty flash.artikel or param.init ne 'true'}">
-						<c:set var="artikel" value="#{flash.artikel}" scope="view"/>
-						<!-- Fuer den naechsten Request puffern, falls z.B. ein Update-Button angeklickt WUERDE -->
-						<c:set target="#{flash}" property="artikel" value="#{artikel}"/>
-						
 							<rich:dataTable id="artikelTabelle"
-						                value="#{artikel}"
+						                value="#{ac.artikel}"
 						                var="art"
 						                rows="6"
 						                noDataLabel="#{msgAv['viewArtikel.keineDaten']}"
 						                rowClasses="odd-row, even-row"
 						                styleClass="tabelleMitZebrastil"
 						                cellspacing="10"
-						                rendered="#{not empty artikel or param.init ne 'true'}">
+						                rendered="#{not empty ac.artikel or param.init ne 'true'}">
 							<rich:column id="idSpalte">
 								<f:facet name="header">
 									#{msgAv['viewArtikel.artikelnr']}
@@ -141,7 +133,7 @@
 							</rich:column>
 							
 							<rich:column id="buttonSpalte"
-							             rendered="#{not empty artikel}">
+							             rendered="#{not empty ac.artikel}">
 								<h:commandButton id="editButton"
 												 image="#{resource['images:edit.gif']}"
 										         action="#{ac.selectForUpdate(artikel)}"
@@ -161,8 +153,7 @@
 							</rich:column>
 							
 						</rich:dataTable>
-						
-					</c:if>
+					
 					
 					<p id="abstandZuMeldungen">
 						<rich:messages id="globaleFehlermeldungen" globalOnly="true"/>

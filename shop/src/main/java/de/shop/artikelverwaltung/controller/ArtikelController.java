@@ -13,6 +13,7 @@ import java.util.Locale;
 
 import javax.ejb.Stateful;
 import javax.ejb.TransactionAttribute;
+import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
 import javax.enterprise.event.Event;
 import javax.faces.context.Flash;
@@ -56,9 +57,6 @@ import de.shop.util.Transactional;
 public class ArtikelController implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
-	private static final String FLASH_ARTIKEL = "artikel";
-	private static final String FLASH_ARTIKELGRUPPE = "artikelgruppe";
-	
 	private static final int ANZAHL_LADENHUETER = 5;
 	private static final int MAX_AUTOCOMPLETE = 10;
 	
@@ -98,9 +96,6 @@ public class ArtikelController implements Serializable {
 	private ArtikelService as;
 	
 	@Inject
-	private Flash flash;
-	
-	@Inject
 	private Messages messages;
 	
 	@Inject
@@ -130,6 +125,7 @@ public class ArtikelController implements Serializable {
 	private double artikelPreis;
 	
 	private List<Artikel> ladenhueter;
+	private List<Artikel> artikelList;
 	
 	private boolean geaendertArtikel;    // fuer ValueChangeListener
 	
@@ -137,7 +133,7 @@ public class ArtikelController implements Serializable {
 	private Long neuerArtikelArtikelgruppeId;
 	private Long updateArtikelArtikelgruppeId;
 	
-	private List<Artikelgruppe> alleArtikelgruppen;
+	private Artikelgruppe artikelgruppe;
 	
 	private Artikelgruppe neueArtikelgruppe;
 	
@@ -195,17 +191,16 @@ public class ArtikelController implements Serializable {
 		return ladenhueter;
 	}
 	
+	public List<Artikel> getArtikelList() {
+		return artikelList;
+	}
+	
 	public Artikel getArtikel() {
 		return artikel;
 	}
 	
 	public Artikel getNeuerArtikel() {
 		return neuerArtikel;
-	}
-	
-	public List<Artikelgruppe> getAlleArtikelgruppen() {
-		alleArtikelgruppen = as.findeAlleArtikelgruppen();
-		return alleArtikelgruppen;
 	}
 	
 	public Long getNeuerArtikelArtikelgruppeId() {
@@ -228,6 +223,10 @@ public class ArtikelController implements Serializable {
 		this.updateArtikelArtikelgruppeId = artikelgruppeId;
 	}
 	
+	public Artikelgruppe getArtikelgruppe() {
+		return artikelgruppe;
+	}
+	
 	public void setArtikelgruppeId(Long artikelgruppeId) {
 		this.artikelgruppeId = artikelgruppeId;
 	}
@@ -246,13 +245,11 @@ public class ArtikelController implements Serializable {
 	 */
 	@Transactional
 	public String findeArtikelNachId() {
-		final Artikel artikel = as.findeArtikelNachId(artikelId);
+		artikel = as.findeArtikelNachId(artikelId);
 		if (artikel == null) {
-			flash.remove(FLASH_ARTIKEL);
 			return null;
 		}
 		
-		flash.put(FLASH_ARTIKEL, artikel);
 		return JSF_VIEW_ARTIKEL;
 	}
 	
@@ -262,13 +259,11 @@ public class ArtikelController implements Serializable {
 	 */
 	@Transactional
 	public String findeArtikelNachArtikelgruppe() {
-		final List<Artikel> artikel = as.findeArtikelNachArtikelgruppe(artikelArtikelgruppe);
-		if (artikel.isEmpty()) {
-			flash.remove(FLASH_ARTIKEL);
+		artikelList = as.findeArtikelNachArtikelgruppe(artikelArtikelgruppe);
+		if (artikelList.isEmpty()) {
 			return null;
 		}
 		
-		flash.put(FLASH_ARTIKEL, artikel);
 		return JSF_VIEW_ARTIKEL_ARTIKELGRUPPE;
 	}
 	
@@ -278,13 +273,11 @@ public class ArtikelController implements Serializable {
 	 */
 	@Transactional
 	public String findeArtikelNachBezeichnung() {
-		final List<Artikel> artikel = as.findeArtikelNachBezeichnung(artikelBezeichnung);
-		if(artikel.isEmpty()) {
-			flash.remove(artikel);
+		artikelList = as.findeArtikelNachBezeichnung(artikelBezeichnung);
+		if(artikelList.isEmpty()) {
 			return null;
 		}
 		
-		flash.put(FLASH_ARTIKEL, artikel);
 		return JSF_VIEW_ARTIKEL_BEZEICHNUNG;
 	}
 	
@@ -314,23 +307,19 @@ public class ArtikelController implements Serializable {
 	@Transactional
 	public String findeArtikelNachVerfuegbarkeit() {
 		if(artikelErhaeltlich) {
-			final List<Artikel> artikel = as.findeVerfuegbareArtikel();
-			if (artikel.isEmpty()) {
-				flash.remove(FLASH_ARTIKEL);
+			artikelList = as.findeVerfuegbareArtikel();
+			if (artikelList.isEmpty()) {
 				return null;
 			}
 		
-			flash.put(FLASH_ARTIKEL, artikel);
 			return JSF_VIEW_ARTIKEL_VERFUEGBARKEIT;
 		}
 		else {
-			final List<Artikel> artikel = as.findeNichtVerfuegbareArtikel();
-			if (artikel.isEmpty()) {
-				flash.remove(FLASH_ARTIKEL);
+			artikelList = as.findeNichtVerfuegbareArtikel();
+			if (artikelList.isEmpty()) {
 				return null;
 			}
 		
-			flash.put(FLASH_ARTIKEL, artikel);
 			return JSF_VIEW_ARTIKEL_VERFUEGBARKEIT;
 		}
 	}
@@ -341,13 +330,11 @@ public class ArtikelController implements Serializable {
 	 */
 	@Transactional
 	public String findeArtikelNachMaxPreis() {
-		final List<Artikel> artikel = as.findeArtikelNachMaxPreis(artikelPreis);
-		if (artikel.isEmpty()) {
-			flash.remove(FLASH_ARTIKEL);
+		artikelList = as.findeArtikelNachMaxPreis(artikelPreis);
+		if (artikelList.isEmpty()) {
 			return null;
 		}
 		
-		flash.put(FLASH_ARTIKEL, artikel);
 		return JSF_VIEW_ARTIKEL_MAX_PREIS;
 	}
 	
@@ -357,13 +344,11 @@ public class ArtikelController implements Serializable {
 	 */
 	@Transactional
 	public String findeArtikelNachMinPreis() {
-		final List<Artikel> artikel = as.findeArtikelNachMinPreis(artikelPreis);
-		if (artikel.isEmpty()) {
-			flash.remove(FLASH_ARTIKEL);
+		artikelList = as.findeArtikelNachMinPreis(artikelPreis);
+		if (artikelList.isEmpty()) {
 			return null;
 		}
 		
-		flash.put(FLASH_ARTIKEL, artikel);
 		return JSF_VIEW_ARTIKEL_MIN_PREIS;
 	}
 	
@@ -623,13 +608,11 @@ public class ArtikelController implements Serializable {
 	 */
 	@Transactional
 	public String findeArtikelgruppeNachId() {
-		final Artikelgruppe artikelgruppe = as.findeArtikelgruppeNachId(artikelgruppeId);
+		artikelgruppe = as.findeArtikelgruppeNachId(artikelgruppeId);
 		if (artikelgruppe == null) {
-			flash.remove(FLASH_ARTIKELGRUPPE);
 			return null;
 		}
 		
-		flash.put(FLASH_ARTIKELGRUPPE, artikelgruppe);
 		return JSF_DELETE_ARTIKELGRUPPE;
 	}
 	
@@ -689,21 +672,5 @@ public class ArtikelController implements Serializable {
 	
 	public String getBase64(File file) {
 		return DatatypeConverter.printBase64Binary(file.getBytes());
-	}
-	
-	/**
-	 *  Action Methode, um Artikel zu leere, damit Suche immer wieder leer ist. Aufruf durch preRenderView
-	 *  Keine Transaktion, daher kein @Transactional
-	 */
-	public void clearArtikel() {
-		artikel = null;
-	}
-	
-	/**
-	 *  Action Methode, um Artikelliste zu leere, damit Suche immer wieder leer ist. Aufruf durch preRenderView
-	 *  Keine Transaktion, daher kein @Transactional
-	 */
-	public void clearArtikelList() {
-		artikelList = null;
 	}
 }
