@@ -690,4 +690,20 @@ public class ArtikelController implements Serializable {
 	public String getBase64(File file) {
 		return DatatypeConverter.printBase64Binary(file.getBytes());
 	}
+	
+	/**
+	 *  Action Methode, um Artikel zu leere, damit Suche immer wieder leer ist. Aufruf durch preRenderView
+	 *  Keine Transaktion, daher kein @Transactional
+	 */
+	public void clearArtikel() {
+		artikel = null;
+	}
+	
+	/**
+	 *  Action Methode, um Artikelliste zu leere, damit Suche immer wieder leer ist. Aufruf durch preRenderView
+	 *  Keine Transaktion, daher kein @Transactional
+	 */
+	public void clearArtikelList() {
+		artikelList = null;
+	}
 }

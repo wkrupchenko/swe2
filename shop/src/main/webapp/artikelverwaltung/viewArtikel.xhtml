@@ -10,6 +10,9 @@
 	  xmlns:a4j="http://richfaces.org/a4j">
 
 	<ui:composition template="/WEB-INF/templates/desktop/main.xml">
+		<ui:define name="metadata">
+			<f:event type="preRenderView" listener="#{ac.clearArtikel}"/>
+		</ui:define>
 		<ui:param name="pageTitle" value="#{msgAv['viewArtikel.title']}"/>
 
 		<ui:define name="article">
