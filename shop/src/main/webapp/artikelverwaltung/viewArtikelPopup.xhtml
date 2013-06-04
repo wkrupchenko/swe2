@@ -79,12 +79,11 @@
 					#{msgAv['viewArtikelPopup.artikel.bildVideo']}
 				</h:panelGroup>
 			</f:facet>
-			
-			<c:set var="file" value="${art.file}" scope="view"/>
+			<c:set var="file" value="${ac.artikel.file}" scope="view"/>
 			<c:set var="multimediaType" value="${file.multimediaType}" scope="view"/>
 			<c:set var="filename" value="#{ac.getFilename(file)}" scope="view"/>
 			<c:choose>
-				<c:when test="${multimediaType eq 'IMAGE'}">
+				<c:when test="#{multimediaType eq 'IMAGE'}">
 					<h:graphicImage id="bild"
 									name="#{filename}"
 									library="filesDb"
