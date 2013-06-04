@@ -15,7 +15,6 @@ import java.util.Locale;
 
 import javax.ejb.Stateful;
 import javax.ejb.TransactionAttribute;
-import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
 import javax.enterprise.event.Event;
 import javax.faces.context.Flash;
@@ -28,6 +27,7 @@ import javax.validation.ConstraintViolation;
 
 import org.richfaces.cdi.push.Push;
 
+import de.shop.kundenverwaltung.domain.Adresse;
 import de.shop.kundenverwaltung.domain.Kunde;
 import de.shop.kundenverwaltung.domain.PasswordGroup;
 import de.shop.kundenverwaltung.service.EmailExistsException;
@@ -39,6 +39,7 @@ import de.shop.kundenverwaltung.service.KundeDeleteBestellungException;
 import de.shop.kundenverwaltung.service.KundeService;
 import de.shop.kundenverwaltung.service.KundeService.FetchType;
 import de.shop.kundenverwaltung.service.KundeService.OrderType;
+import de.shop.util.AbstractShopException;
 import de.shop.util.Client;
 import de.shop.util.ConcurrentDeletedException;
 import de.shop.util.Log;
@@ -58,9 +59,6 @@ public class KundeController implements Serializable {
 
 	private static final int MAX_AUTOCOMPLETE = 10;
 	private static final String FLASH_KUNDE = "kunde";
-	private static final String FLASH_KUNDE_PLZ = "kundePlz";
-	private static final String FLASH_KUNDE_EMAIL = "kundeEmail";
-	private static final String FLASH_KUNDE_USERNAME = "kundeUsername";
 	private static final String JSF_VIEW_KUNDE = "/kundenverwaltung/viewKunde";
 	private static final String JSF_VIEW_KUNDE_NACHNAME = "/kundenverwaltung/viewKundeNachname";
 	private static final String JSF_VIEW_KUNDE_EMAIL = "/kundenverwaltung/viewKundeEmail";
@@ -73,14 +71,16 @@ public class KundeController implements Serializable {
 
 	private static final String MSG_KEY_UPDATE_KUNDE_CONCURRENT_UPDATE = "updateKunde.concurrentUpdate";
 	private static final String MSG_KEY_UPDATE_KUNDE_CONCURRENT_DELETE = "updateKunde.concurrentDelete";
+	private static final String MSG_KEY_UPDATE_KUNDE_DUPLIKAT = "updateKunde.duplikat";
 	private static final String MSG_KEY_DELETE_KUNDE_BESTELLUNG = "viewKunde.deleteKundeBestellung";
+	private static final String MSG_KEY_CREATE_KUNDE_EMAIL_EXISTS = "createKunde.emailExists";
 
 	private static final String CLIENT_ID_KUNDEN_NACHNAME = "form:nachname";
 	private static final String CLIENT_ID_KUNDEN_EMAIL = "form:email";
 	private static final String CLIENT_ID_KUNDEN = "form:id";
 	private static final String CLIENT_ID_UPDATE_PASSWORD = "updateKundeForm:password";
 	private static final String CLIENT_ID_UPDATE_EMAIL = "updateKundeForm:email";
-	private static final String MSG_KEY_UPDATE_KUNDE_DUPLIKAT = "updateKunde.duplikat";
+	private static final String CLIENT_ID_CREATE_EMAIL = "createKundeForm:email";
 
 	private static final String REQUEST_KUNDE_ID = "kundeId";
 
@@ -267,7 +267,7 @@ public class KundeController implements Serializable {
 	public String findKundenNachUsername() {
 		if (username == null || username.isEmpty()) {
 			kunden = ks.findeAlleKunden(FetchType.MIT_BESTELLUNGEN, OrderType.ID);
-			flash.put(FLASH_KUNDE_USERNAME, kunden);
+			flash.put(FLASH_KUNDE, kunden);
 			return JSF_VIEW_KUNDE_USERNAME;
 		}
 
@@ -278,7 +278,7 @@ public class KundeController implements Serializable {
 			return null;
 		}
 		
-		flash.put(FLASH_KUNDE_USERNAME, kunde);
+		flash.put(FLASH_KUNDE, kunde);
 		return JSF_VIEW_KUNDE_USERNAME;
 	}
 
@@ -290,7 +290,7 @@ public class KundeController implements Serializable {
 	public String findKundenNachEmail() {
 		if (email == null || email.isEmpty()) {
 			kunden = ks.findeAlleKunden(FetchType.MIT_BESTELLUNGEN, OrderType.ID);
-			flash.put(FLASH_KUNDE_EMAIL, kunden);
+			flash.put(FLASH_KUNDE, kunden);
 			return JSF_VIEW_KUNDE_EMAIL;
 		}
 
@@ -303,7 +303,7 @@ public class KundeController implements Serializable {
 			return null;
 		}
 		
-		flash.put(FLASH_KUNDE_EMAIL, kunde);
+		flash.put(FLASH_KUNDE, kunde);
 		return JSF_VIEW_KUNDE_EMAIL;
 	}
 
@@ -315,7 +315,7 @@ public class KundeController implements Serializable {
 	public String findKundenNachPlz() {
 		if (plz == null || plz.isEmpty()) {
 			kunden = ks.findeAlleKunden(FetchType.MIT_BESTELLUNGEN, OrderType.ID);
-			flash.put(FLASH_KUNDE_PLZ, kunden);
+			flash.put(FLASH_KUNDE, kunden);
 			return JSF_VIEW_KUNDE_PLZ;
 		}
 
@@ -326,7 +326,7 @@ public class KundeController implements Serializable {
 			return null;
 		}
 		
-		flash.put(FLASH_KUNDE_PLZ, kunden);
+		flash.put(FLASH_KUNDE, kunden);
 		return JSF_VIEW_KUNDE_PLZ;
 	}
 
@@ -410,7 +410,7 @@ public class KundeController implements Serializable {
 	}
 	
 	/**
-	 * Action-Methode, die aufgerufen wird wnen ein Kunde gelöscht werden soll.
+	 * Action-Methode, die aufgerufen wird wennn ein Kunde gelöscht werden soll.
 	 * @TransactionAttribute(REQUIRED), da Sie die Funktion im Anwendungskern aufruft
 	 * welche während der Transaktion stattfinden muss
 	 * @return Die Seite mit der Löschbestätigung
@@ -432,38 +432,49 @@ public class KundeController implements Serializable {
 		return JSF_DELETE_OK;
 	}
 	
-//	@TransactionAttribute(REQUIRED)
-//	public String createKunde() {
-//		try {
-//			neuerKunde = (Kunde) ks.createKunde(neuerKunde, locale);
-//		}
-//		catch (InvalidKundeException | EmailExistsException e) {
-//			final String outcome = createKundeErrorMsg(e);
-//			return outcome;
-//		}
-//
-//		// Push-Event fuer Webbrowser
-//		neuerKundeEvent.fire(String.valueOf(neuerKunde.getId()));
-//		
-//		// Aufbereitung fuer viewKunde.xhtml
-//		kundeId = neuerKunde.getId();
-//		kunde = neuerKunde;
-//		neuerKunde = null;
-//		
-//		return JSF_VIEW_KUNDE + JSF_REDIRECT_SUFFIX;
-//	}
-//
-//	private String createKundeErrorMsg(AbstractShopException e) {
-//		final Class<? extends AbstractShopException> exceptionClass = e.getClass();
-//		if (exceptionClass.equals(EmailExistsException.class)) {
-//			messages.error(orig.getViolations(), null);
-//		}
-//		else if (exceptionClass.equals(InvalidKundeException.class)) {
-//			final InvalidKundeException orig = (InvalidKundeException) e;
-//			messages.error(orig.getViolations(), null);
-//		}
-//		
-//		return null;
-//	}
+	public void createEmptyKunde() {
+		if (neuerKunde != null) {
+			return;
+		}
+
+		neuerKunde = new Kunde();
+		final Adresse adresse = new Adresse();
+		adresse.setKunde(neuerKunde);
+		neuerKunde.setAdresse(adresse);
+	}
+
+	@TransactionAttribute(REQUIRED)
+	public String createKunde() {
+		try {
+			neuerKunde = (Kunde) ks.createKunde(neuerKunde, locale);
+		}
+		catch (InvalidKundeException | EmailExistsException e) {
+			final String outcome = createKundeErrorMsg(e);
+			return outcome;
+		}
+
+		// Push-Event fuer Webbrowser
+		neuerKundeEvent.fire(String.valueOf(neuerKunde.getId()));
+		
+		// Aufbereitung fuer viewKunde.xhtml
+		kundeId = neuerKunde.getId();
+		kunde = neuerKunde;
+		neuerKunde = null;  // zuruecksetzen
+		
+		return JSF_VIEW_KUNDE + JSF_REDIRECT_SUFFIX;
+	}
+
+	private String createKundeErrorMsg(AbstractShopException e) {
+		final Class<? extends AbstractShopException> exceptionClass = e.getClass();
+		if (exceptionClass.equals(EmailExistsException.class)) {
+			messages.error(KUNDENVERWALTUNG, MSG_KEY_CREATE_KUNDE_EMAIL_EXISTS, CLIENT_ID_CREATE_EMAIL);
+		}
+		else if (exceptionClass.equals(InvalidKundeException.class)) {
+			final InvalidKundeException orig = (InvalidKundeException) e;
+			messages.error(orig.getViolations(), null);
+		}
+		
+		return null;
+	}
 
 }

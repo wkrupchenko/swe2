@@ -52,28 +52,28 @@
 								<f:facet name="header">
 									#{msgKv['viewKunde.kundenr']}
 								</f:facet>
-							 #{kundePlz.id}							 				
+							 #{kunde.id}							 				
 							</rich:column>	
 							
 							<rich:column id="vornameLabel">
 								<f:facet name="header">
 									#{msgKv['viewKunde.vorname']}
 								</f:facet>																
-							#{kundePlz.vorname}
+							#{kunde.vorname}
 							</rich:column>										
 														
 							<rich:column id="nachnameLabel">
 								<f:facet name="header">
 									#{msgKv['viewKunde.nachname']}
 								</f:facet>
-								<h:commandLink id="nachnamePopup" value="#{kundePlz.nachname}">
+								<h:commandLink id="nachnamePopup" value="#{kunde.nachname}">
 									<rich:componentControl target="popup" operation="show"/>
 								</h:commandLink>
 	
 								<rich:popupPanel id="popup" modal="false" autosized="true" resizeable="false">
 									<f:facet name="header">
 										<h:outputFormat id="popupTitle" value="#{msgKv['viewKundePopup.title']}">
-											<f:param id="popupTitleId" value="#{kundePlz.id}"/>
+											<f:param id="popupTitleId" value="#{kunde.id}"/>
 										</h:outputFormat>
 									</f:facet>
 									<f:facet name="controls">
@@ -97,14 +97,33 @@
 									</h:outputLink>
 								</rich:popupPanel>
 							</rich:column>
-							
+								
 							<rich:column id="emailLabel">
 								<f:facet name="header">
 									#{msgKv['viewKunde.email']}
-								</f:facet>																
-							#{kundePlz.email}
+								</f:facet>
+								<h:outputLink 
+									value="mailto:#{kunde.email}">
+									<h:outputText value="#{kunde.email}" />
+								</h:outputLink>																
+							</rich:column>
+									
+							<rich:column id="editSpalte" rendered="#{not empty kunde and rich:isUserInRole('mitarbeiter') and rich:isUserInRole('abteilungsleiter')}">
+								<h:commandButton id="editButton"
+												 image="#{resource['images:edit.gif']}"
+										         action="#{kc.selectForUpdate(kunde)}"
+										         alt="#{msgKv['viewKunde.editButton']}"/>
 							</rich:column>
 							
+							<rich:column id="deleteSpalte" rendered="#{not empty kunde and rich:isUserInRole('abteilungsleiter')}">
+								<a4j:commandButton id="deleteButton"
+												   image="#{resource['images:delete.gif']}"
+										           action="#{kc.delete(kunde)}"
+										           alt="#{msgKv['viewKunde.deleteButton']}"
+										           onclick="return confirm('#{msgKc['viewKunde.deleteKundeBestaetigung']}')"
+										           render="@form :globaleFehlermeldungen"/>
+							</rich:column>
+					
 						</rich:dataTable>
 						
 						<p id="abstandZuMeldungen">

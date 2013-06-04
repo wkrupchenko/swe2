@@ -25,7 +25,8 @@
 			</rich:panelMenuGroup>
 			<rich:panelMenuGroup id="kundenverwaltung"
 			                     label="#{msg['nav.kundenverwaltung']}"
-			                     expanded="true">
+			                     expanded="true"
+			                     rendered="#{rich:isUserInRole('mitarbeiter') and rich:isUserInRole('admin')}">
 				<rich:panelMenuGroup id="sucheKunde"
 			                     label="#{msg['nav.suche']}"
 			                     expanded="true">
@@ -71,6 +72,21 @@
 						#{msg['nav.kundenverwaltung.viewKundePlz']}
 						<c:if test="#{not empty javax.enterprise.context.conversation.id}">
 							<f:param id="viewKundePlzlCid" name="cid" value="#{javax.enterprise.context.conversation.id}"/>
+						</c:if>
+					</h:outputLink>
+				</rich:panelMenuItem>
+			  </rich:panelMenuGroup>
+			  
+			  <rich:panelMenuGroup id="createKunde"
+			                       label="#{msg['nav.anlegen']}"
+			                       expanded="true"
+			                       rendered="#{rich:isUserInRole('admin')}">
+				<rich:panelMenuItem id="kundenverwaltungCreateKundeItem">
+					<h:outputLink id="kundenverwaltungCreateKunde"
+					              value="#{request.contextPath}/kundenverwaltung/createKunde.jsf">
+						#{msg['nav.kundenverwaltung.createKunde']}
+						<c:if test="#{not empty javax.enterprise.context.conversation.id}">
+							<f:param id="createKundeCid" name="cid" value="#{javax.enterprise.context.conversation.id}"/>
 						</c:if>
 					</h:outputLink>
 				</rich:panelMenuItem>

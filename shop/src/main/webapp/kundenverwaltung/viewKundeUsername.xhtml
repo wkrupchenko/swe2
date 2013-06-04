@@ -33,47 +33,47 @@
 				<p id="abstand"/>
 			
 				<a4j:outputPanel id="gesuchterKundeUsernamePanel">
-					<c:if test="#{not empty flash.kundeUsername or param.init ne 'true'}">
-						<c:set var="kundeUsername" value="#{flash.kundeUsername}" scope="view"/>
+					<c:if test="#{not empty flash.kunde or param.init ne 'true'}">
+						<c:set var="kunde" value="#{flash.kunde}" scope="view"/>
 						<!-- Fuer den naechsten Request puffern, falls z.B. ein Update-Button angeklickt WUERDE -->
-						<c:set target="#{flash}" property="kundeUsername" value="#{kundeUsername}"/>
+						<c:set target="#{flash}" property="kunde" value="#{kunde}"/>
 						
 							<rich:dataTable id="kundeUsernameTabelle"
-						                value="#{kundeUsername}"
-						                var="kundeUsername"
+						                value="#{kunde}"
+						                var="kunde"
 						                rows="10"
 						                noDataLabel="#{msgKv['viewKunde.keineDaten']}"
 						                rowClasses="odd-row, even-row"
 						                styleClass="tabelleMitZebrastil"
 						                cellspacing="10"
-						                rendered="#{not empty kundeUsername or param.init ne 'true'}">						
+						                rendered="#{not empty kunde or param.init ne 'true'}">						
 							 							 
 							 <rich:column id="kundeIdLabel">							
 								<f:facet name="header">
 									#{msgKv['viewKunde.kundenr']}
 								</f:facet>
-							 #{kundeUsername.id}							 				
+							 #{kunde.id}							 				
 							</rich:column>	
 							
 							<rich:column id="vornameLabel">
 								<f:facet name="header">
 									#{msgKv['viewKunde.vorname']}
 								</f:facet>																
-							#{kundeUsername.vorname}
+							#{kunde.vorname}
 							</rich:column>										
 														
 							<rich:column id="nachnameLabel">
 								<f:facet name="header">
 									#{msgKv['viewKunde.nachname']}
 								</f:facet>
-								<h:commandLink id="nachnamePopup" value="#{kundeUsername.nachname}">
+								<h:commandLink id="nachnamePopup" value="#{kunde.nachname}">
 									<rich:componentControl target="popup" operation="show"/>
 								</h:commandLink>
 	
 								<rich:popupPanel id="popup" modal="false" autosized="true" resizeable="false">
 									<f:facet name="header">
 										<h:outputFormat id="popupTitle" value="#{msgKv['viewKundePopup.title']}">
-											<f:param id="popupTitleId" value="#{kundeUsername.id}"/>
+											<f:param id="popupTitleId" value="#{kunde.id}"/>
 										</h:outputFormat>
 									</f:facet>
 									<f:facet name="controls">
@@ -101,10 +101,29 @@
 							<rich:column id="emailLabel">
 								<f:facet name="header">
 									#{msgKv['viewKunde.email']}
-								</f:facet>																
-							#{kundeUsername.email}
+								</f:facet>
+								<h:outputLink 
+									value="mailto:#{kunde.email}">
+									<h:outputText value="#{kunde.email}" />
+								</h:outputLink>																
+							</rich:column>
+									
+							<rich:column id="editSpalte" rendered="#{not empty kunde and rich:isUserInRole('mitarbeiter') and rich:isUserInRole('abteilungsleiter')}">
+								<h:commandButton id="editButton"
+												 image="#{resource['images:edit.gif']}"
+										         action="#{kc.selectForUpdate(kunde)}"
+										         alt="#{msgKv['viewKunde.editButton']}"/>
 							</rich:column>
 							
+							<rich:column id="deleteSpalte" rendered="#{not empty kunde and rich:isUserInRole('abteilungsleiter')}">
+								<a4j:commandButton id="deleteButton"
+												   image="#{resource['images:delete.gif']}"
+										           action="#{kc.delete(kunde)}"
+										           alt="#{msgKv['viewKunde.deleteButton']}"
+										           onclick="return confirm('#{msgKc['viewKunde.deleteKundeBestaetigung']}')"
+										           render="@form :globaleFehlermeldungen"/>
+							</rich:column>
+					
 						</rich:dataTable>
 						
 						<p id="abstandZuMeldungen">
@@ -116,7 +135,7 @@
 						<rich:dataScroller id="dataScroller"
 						                   for="kundeUsernameTabelle"
 						                   maxPages="10"
-						                   rendered="#{not empty kundeUsername}"/>
+						                   rendered="#{not empty kunde}"/>
 						
 						<a4j:outputPanel id="outputPanelZebra" ajaxRendered="true">
 							<rich:jQuery id="odd"
