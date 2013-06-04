@@ -210,7 +210,7 @@
 					</h:outputLink>
 				</rich:panelMenuItem>
 								 
-				<rich:panelMenuItem id="bestellverwaltungViewLieferungItem">
+				<rich:panelMenuItem id="bestellverwaltungViewLieferungItem" rendered="#{rich:isUserInRole('admin') or rich:isUserInRole('mitarbeiter')}">
 					<h:outputLink id="bestellverwaltungViewLieferung"
 					              value="#{request.contextPath}/bestellverwaltung/viewLieferung.jsf">
 						#{msg['nav.bestellverwaltung.viewLieferung']}
@@ -221,8 +221,8 @@
 				</rich:panelMenuItem>
 				<rich:panelMenuItem id="bestellverwaltungBestellungenNachLieferungIdItem">
 					<h:outputLink id="bestellverwaltungBestellungenNachLieferungId"
-					              value="#{request.contextPath}/bestellverwaltung/viewBestellungenNachLieferungId.jsf">
-						#{msg['nav.bestellverwaltung.viewBestellungenNachLieferungId']}
+					              value="#{request.contextPath}/bestellverwaltung/viewBestellungLieferNr.jsf">
+						#{msg['nav.bestellverwaltung.viewBestellungenNachLieferNr']}
 						<c:if test="#{not empty javax.enterprise.context.conversation.id}">
 							<f:param id="viewBestellungenNachLieferungIdCid" name="cid" value="#{javax.enterprise.context.conversation.id}"/>
 						</c:if>

@@ -21,10 +21,10 @@
 									   value="#{msgBv['viewBestellung.bestellnr']}"
 									   for="idInput"/>
 									   					 
-						<h:inputText id="idInput" value="#{bc.bestellungId}"/>
+						<h:inputText id="idInput" value="#{bc.liefernummer}"/>
 						
 						<a4j:commandButton id="sucheButton"
-										   action="#{bc.findBestellungById}"
+										   action="#{bc.findeBestellungenNachLieferungLiefernr}"
 										   value="#{msgBv['viewBestellung.submit']}"
 										   render="gesuchteBestellungPanel"/>
 					</h:panelGrid>
@@ -120,7 +120,7 @@
 							
 							<rich:column id="nachnameLabel">
 								<f:facet name="header">
-									#{msgKv['viewKunde']}
+									#{msgKv['viewKunde.nachname']}
 								</f:facet>
 								<h:commandLink id="nachnamePopup" value="#{bestellung.kunde.nachname}">
 									<rich:componentControl target="popup" operation="show"/>
