@@ -56,7 +56,7 @@ public class BestellungController implements Serializable {
 	private static final String FLASH_KUNDE = "kunde";	
 	private static final String JSF_VIEW_BESTELLUNG = "/bestellverwaltung/viewBestellung";
 	private static final String JSF_BESTELLUNG_STATUS = "/bestellverwaltung/viewBestellungenStatus";
-	private static final String JSF_VIEW_LIEFUNGEN = "/bestellverwaltung/viewLieferungenBestid";
+	private static final String JSF_VIEW_LIEFERUNG = "/bestellverwaltung/viewLieferung";
 	private static final String JSF_VIEW_KUNDE = "/bestellverwaltung/viewKundeBestId";
 	private Boolean bestellungStatus;
 	
@@ -95,7 +95,7 @@ public class BestellungController implements Serializable {
 	
 	@Override
 	public String toString() {
-		return "BestellungController [bestellungId=" + bestellungId + "]";
+		return "BestellungController [bestellungId=" + bestellungId + " lieferungId=" + lieferungId + "]";
 	}
 
 	public void setBestellungId(Long bestellungId) {
@@ -104,6 +104,14 @@ public class BestellungController implements Serializable {
 
 	public Long getBestellungId() {
 		return bestellungId;
+	}
+	
+	public void setLieferungId(Long lieferungId) {
+		this.lieferungId = lieferungId;
+	}
+
+	public Long getLieferungId() {
+		return lieferungId;
 	}
 	
 	public void setBestellungStatus(Boolean bestellungStatus) {
@@ -139,6 +147,18 @@ public class BestellungController implements Serializable {
 						
 		flash.put(FLASH_BESTELLUNG, bestellung);
 		return JSF_VIEW_BESTELLUNG;
+	}
+	
+	@Transactional
+	public String findLieferungById() {
+		final Lieferung lieferung = bs.findeLieferungNachId(lieferungId);
+		if (lieferung == null) {
+			flash.remove(FLASH_LIEFERUNG);
+			return null;
+		}
+						
+		flash.put(FLASH_LIEFERUNG, lieferung);
+		return JSF_VIEW_LIEFERUNG;
 	}
 		 
 	@Transactional
@@ -176,7 +196,7 @@ public class BestellungController implements Serializable {
 		}
 						
 		flash.put(FLASH_LIEFERUNG, lieferungen);
-		return JSF_VIEW_LIEFUNGEN;
+		return JSF_VIEW_LIEFERUNG;
 	}
 		 	
 	@Transactional

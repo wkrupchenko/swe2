@@ -14,12 +14,13 @@
 
 		<ui:define name="article">
 			<h:form id="sucheForm">
+			 <rich:focus id="sucheFocus"/>
 				<rich:panel id="suchePanel" header="#{msgBv['viewBestellung.sucheNeu']}">
 					<h:panelGrid id="suchePanelGrid" columns="3">
 						<h:outputLabel id="idInputLabel"
 									   value="#{msgBv['viewBestellung.bestellnr']}"
 									   for="idInput"/>
-					<rich:jQuery id="jquery" selector="#idInput" query="focus()"/>
+									   					 
 						<h:inputText id="idInput" value="#{bc.bestellungId}"/>
 						
 						<a4j:commandButton id="sucheButton"
