@@ -33,14 +33,15 @@
 			
 				<a4j:outputPanel id="gesuchterArtikelPanel">
 							<rich:dataTable id="artikelTabelle"
-						                value="#{ac.artikel}"
+						                value="#{ac.artikelList}"
 						                var="art"
 						                rows="6"
 						                noDataLabel="#{msgAv['viewArtikel.keineDaten']}"
 						                rowClasses="odd-row, even-row"
 						                styleClass="tabelleMitZebrastil"
 						                cellspacing="10"
-						                rendered="#{not empty ac.artikel or param.init ne 'true'}">
+						                rendered="#{not empty ac.artikelList or param.init ne 'true'}"
+						                rowKeyVar="row">
 							<rich:column id="idSpalte">
 								<f:facet name="header">
 									#{msgAv['viewArtikel.artikelnr']}
@@ -133,7 +134,7 @@
 							</rich:column>
 							
 							<rich:column id="buttonSpalte"
-							             rendered="#{not empty ac.artikel}">
+							             rendered="#{not empty ac.artikelList}">
 								<h:commandButton id="editButton"
 												 image="#{resource['images:edit.gif']}"
 										         action="#{ac.selectForUpdate(art)}"

@@ -8,6 +8,7 @@ import static de.shop.util.Konstante.JSF_REDIRECT_SUFFIX;
 import static de.shop.util.Konstante.JSF_INDEX;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -123,7 +124,7 @@ public class ArtikelController implements Serializable {
 	private double artikelPreis;
 	
 	private List<Artikel> ladenhueter;
-	private List<Artikel> artikelList;
+	private List<Artikel> artikelList = new ArrayList<Artikel>();
 	
 	private boolean geaendertArtikel;    // fuer ValueChangeListener
 	
@@ -194,6 +195,13 @@ public class ArtikelController implements Serializable {
 		return artikelList;
 	}
 	
+	public Artikel getArtikelListRow(int row) {
+		if(artikelList.size() == 0) {
+			return null;
+		}
+		return artikelList.get(row);
+	}
+	
 	public Artikel getArtikel() {
 		return artikel;
 	}
@@ -249,6 +257,10 @@ public class ArtikelController implements Serializable {
 	@Transactional
 	public String findeArtikelNachId() {
 		artikel = as.findeArtikelNachId(artikelId);
+		
+		// In Liste hinzufügen, um einheitlich für alle Views eine Liste zu haben
+		artikelList.clear();
+		artikelList.add(artikel);
 		if (artikel == null) {
 			return null;
 		}

@@ -57,7 +57,8 @@
 						                rowClasses="odd-row, even-row"
 						                styleClass="tabelleMitZebrastil"
 						                cellspacing="10"
-						                rendered="#{not empty ac.artikelList or param.init ne 'true'}">
+						                rendered="#{not empty ac.artikelList or param.init ne 'true'}"
+						                rowKeyVar="row">
 							<rich:column id="idSpalte">
 								<f:facet name="header">
 									#{msgAv['viewArtikel.artikelnr']}
@@ -69,9 +70,9 @@
 								<f:facet name="header">
 									#{msgAv['viewArtikel.bezeichnung']}
 								</f:facet>
-								<a4j:commandLink id="artikelPopup" value="#{art.bezeichnung}" action="#{ac.loadArtikel(art)}">
+								<h:commandLink id="artikelPopup" value="#{art.bezeichnung}">
 									<rich:componentControl target="popupA" operation="show"/>
-								</a4j:commandLink>
+								</h:commandLink>
 								
 								<rich:popupPanel id="popupA" modal="false" autosized="true" resizeable="false">
 									<f:facet name="header">
