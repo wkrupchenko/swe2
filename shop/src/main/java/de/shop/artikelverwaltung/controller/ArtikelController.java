@@ -3,7 +3,11 @@ package de.shop.artikelverwaltung.controller;
 import static javax.ejb.TransactionAttributeType.REQUIRED;
 import static javax.ejb.TransactionAttributeType.SUPPORTS;
 import static javax.persistence.PersistenceContextType.EXTENDED;
+import static org.jboss.security.auth.spi.Util.createPasswordHash;
 import static de.shop.util.Messages.MessagesType.ARTIKELVERWALTUNG;
+import static de.shop.util.Konstante.HASH_ALGORITHM;
+import static de.shop.util.Konstante.HASH_CHARSET;
+import static de.shop.util.Konstante.HASH_ENCODING;
 import static de.shop.util.Konstante.JSF_REDIRECT_SUFFIX;
 import static de.shop.util.Konstante.JSF_INDEX;
 
