@@ -20,7 +20,7 @@
 									   value="#{msgBv['viewBestellung.bestellnr']}"
 									   for="idInput"/>
 		
-						<h:inputText id="idInput" value="#{bc.bestellungId}"/>
+						<h:inputText id="idInput" value="#{bc.liefernummer}"/>
 						
 						<a4j:commandButton id="sucheButton"
 										   action="#{bc.findeLieferungenNachBestellungId}"
@@ -37,7 +37,7 @@
 						<!-- Fuer den naechsten Request puffern, falls z.B. ein Update-Button angeklickt WUERDE -->
 						<c:set target="#{flash}" property="lieferung" value="#{lieferung}"/>
 						
-							<rich:dataTable id="lieferungTabelle"
+							<rich:dataTable id="LieferungTabelle"
 						                value="#{lieferung}"
 						                var="lieferung"
 						                rows="5"
@@ -45,54 +45,41 @@
 						                rowClasses="odd-row, even-row"
 						                styleClass="tabelleMitZebrastil"
 						                cellspacing="10"
-						                rendered="#{not empty bestellung or param.init ne 'true'}">
-						                 
+						                rendered="#{not empty lieferung or param.init ne 'true'}">
 							<rich:column id="idSpalte">
 								<f:facet name="header">
-									#{msgBv['viewLieferung.liefernr']}
+									#{msgBv['viewLieferung.id']}
 								</f:facet>
 								#{lieferung.id}
-							</rich:column>
-							
-							<rich:column id="VersionSpalte">
+							</rich:column>							
+							 							 
+							 <rich:column id="lieferungVersionSpalte">							
 								<f:facet name="header">
 									#{msgBv['viewLieferung.version']}
-								</f:facet>
-								#{lieferung.version}
-							</rich:column>
-							 
-							<rich:column id="inlandOderAusland">
+								</f:facet>							 
+								 #{lieferung.version}								 				
+							</rich:column>											
+														
+							<rich:column id="inlandAuslandSpalte">
 								<f:facet name="header">
 									#{msgBv['viewLieferung.inlandOderAusland']}
-								</f:facet>																
+								</f:facet>
 								#{lieferung.inlandOderAusland}
 							</rich:column>
-							
-							<rich:column id="liefernummer">
+							 
+							<rich:column id="LiefernummerSpalte">
 								<f:facet name="header">
 									#{msgBv['viewLieferung.liefernummer']}
 								</f:facet>																
 								#{lieferung.liefernr}
-							</rich:column>							  
-							 
-							<rich:column id="transportArt">
+							</rich:column>									  
+							 	
+							 <rich:column id="TransportArtSpalte">
 								<f:facet name="header">
 									#{msgBv['viewLieferung.transportArt']}
 								</f:facet>																
 								#{lieferung.transportArt}
-							</rich:column>
-							
-							
-							 <rich:column id="bestellungenSpalte">							
-								<f:facet name="header">
-									#{msgBv['viewLieferung.bestellungen']}
-								</f:facet>
-							<c:forEach items="#{lieferung.bestellungen}" var="bst">								  
-									<h:outputText value="#{bst.id}" />								 
-							</c:forEach>				
-							</rich:column>
-						
-							  
+							</rich:column> 
 						</rich:dataTable>
 						
 					</c:if>

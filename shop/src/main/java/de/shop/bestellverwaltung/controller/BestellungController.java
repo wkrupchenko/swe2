@@ -57,6 +57,7 @@ public class BestellungController implements Serializable {
 	private static final String JSF_VIEW_BESTELLUNG = "/bestellverwaltung/viewBestellung";
 	private static final String JSF_BESTELLUNG_STATUS = "/bestellverwaltung/viewBestellungenStatus";
 	private static final String JSF_VIEW_LIEFERUNG = "/bestellverwaltung/viewLieferung";
+	private static final String JSF_VIEW_LIEFERUNGEN = "/bestellverwaltung/viewLieferungenBestId";
 	private static final String JSF_VIEW_KUNDE = "/bestellverwaltung/viewKundeBestId";
 	private Boolean bestellungStatus;
 	
@@ -85,7 +86,9 @@ public class BestellungController implements Serializable {
 	
 	private Long bestellungId;
 	
-	private Long lieferungId;	
+	private Long lieferungId;
+	
+	private String liefernummer;
 	
 	final static String inlandOderAusland = "I";
 	
@@ -95,7 +98,7 @@ public class BestellungController implements Serializable {
 	
 	@Override
 	public String toString() {
-		return "BestellungController [bestellungId=" + bestellungId + " lieferungId=" + lieferungId + "]";
+		return "BestellungController [bestellungId=" + bestellungId + " lieferungId=" + lieferungId + " liefernummer=" + liefernummer + "]";
 	}
 
 	public void setBestellungId(Long bestellungId) {
@@ -104,6 +107,14 @@ public class BestellungController implements Serializable {
 
 	public Long getBestellungId() {
 		return bestellungId;
+	}
+	
+	public void setLiefernummer(String liefernummer) {
+		this.liefernummer = liefernummer;
+	}
+
+	public String getLiefernummer() {
+		return liefernummer;
 	}
 	
 	public void setLieferungId(Long lieferungId) {
@@ -188,15 +199,15 @@ public class BestellungController implements Serializable {
 	}
 	
 	@Transactional
-	public String findeLieferungenNachBestellungId() {
-		final List<Lieferung> lieferungen = bs.findeLieferungenNachBestellungId(bestellungId);
-		if (lieferungen == null) {
-			flash.remove(FLASH_LIEFERUNG);
+	public String findeBestellungenNachLieferungLiefernr() {
+		final List<Bestellung> bestellungen = bs.findeBestellungenNachLieferungLiefernr(liefernummer);
+		if (bestellungen == null) {
+			flash.remove(FLASH_BESTELLUNG);
 			return null;
 		}
 						
-		flash.put(FLASH_LIEFERUNG, lieferungen);
-		return JSF_VIEW_LIEFERUNG;
+		flash.put(FLASH_BESTELLUNG, bestellungen);
+		return JSF_VIEW_BESTELLUNG;
 	}
 		 	
 	@Transactional
