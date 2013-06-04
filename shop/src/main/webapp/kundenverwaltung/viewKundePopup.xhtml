@@ -22,36 +22,11 @@
 					<h:outputText id="idLabel" value="#{msgKv['viewKundePopup.kundenr']}"/>
 					<h:outputText id="id" value="#{kunde.id}"/>
 			
-					<h:outputText id="nachnamePopupLabel" value="#{msgKv['viewKundePopup.nachname']}"/>
-					<h:outputText id="nachname" value="#{kunde.nachname}"/>
-		
-					<h:outputText id="vornamePopupLabel" value="#{msgKv['viewKundePopup.vorname']}"/>
-					<h:outputText id="vorname" value="#{kunde.vorname}"/>
-					
-					<h:outputText id="seitLabel" value="#{msgKv['viewKundePopup.seit']}"/>
-					<h:outputText id="seit" value="#{kunde.seit}">
-						<f:convertDateTime type="date" dateStyle="long"/>
-					</h:outputText>
-					
-					<h:outputText id="umsatzLabel" value="#{msgKv['viewKundePopup.umsatz']}"/>
-					<h:outputText id="umsatz" value="#{kunde.umsatz}">
-						<f:convertNumber type="currency"
-						                 currencyCode="EUR"/>
-					</h:outputText>
-		
-					<h:outputText id="emailPopupLabel" value="#{msgKv['viewKundePopup.email']}"/>
-					<h:outputText id="email" value="#{kunde.email}"/>
-	
 					<h:outputText id="firmenkundeLabel" value="#{msgKv['viewKundePopup.kundenart']}" rendered="#{kunde.art eq 'f'}"/>
 					<h:outputText id="firmenkunde" value="#{msgKv['viewKundePopup.firmenkunde']}" rendered="#{kunde.art eq 'f'}"/>
 		
 					<h:outputText id="privatkundeLabel" value="#{msgKv['viewKundePopup.kundenart']}" rendered="#{kunde.art eq 'p'}"/>
 					<h:outputText id="privatkunde" value="#{msgKv['viewKundePopup.privatkunde']}" rendered="#{kunde.art eq 'p'}"/>
-					
-					<h:outputText id="rabattLabel" value="#{msgKv['viewKundePopup.rabatt']}"/>
-					<h:outputText id="rabatt" value="#{kunde.rabatt}">
-						<f:convertNumber type="percent" maxFractionDigits="2"/>
-					</h:outputText>
 					
 					<h:outputText id="familienstandLabel" value="#{msgKv['viewKundePopup.familienstand']}" rendered="#{kunde.art eq 'p' and kunde.familienstand eq 'LEDIG'}"/>
 					<h:outputText id="familienstand" value="#{msgKv['viewKundePopup.familienstand.ledig']}" rendered="#{kunde.art eq 'p' and kunde.familienstand eq 'LEDIG'}"/>
@@ -71,6 +46,43 @@
 					<h:outputText id="maennlichLabel" value="#{msgKv['viewKundePopup.geschlecht']}" rendered="#{kunde.art eq 'p' and kunde.geschlecht eq 'MAENNLICH'}"/>
 					<h:outputText id="maennlich" value="#{msgKv['viewKundePopup.geschlecht.maennlich']}" rendered="#{kunde.art eq 'p' and kunde.geschlecht eq 'MAENNLICH'}"/>
 	
+					<h:outputText id="nachnamePopupLabel" value="#{msgKv['viewKundePopup.nachname']}"/>
+					<h:outputText id="nachname" value="#{kunde.nachname}"/>
+		
+					<h:outputText id="vornamePopupLabel" value="#{msgKv['viewKundePopup.vorname']}"/>
+					<h:outputText id="vorname" value="#{kunde.vorname}"/>
+					
+					<h:outputText id="emailPopupLabel" value="#{msgKv['viewKundePopup.email']}"/>
+					<h:outputText id="email" value="#{kunde.email}"/>
+	
+					<h:outputLabel id="plzPopupLabel" value="#{msgKv['viewKundePopup.plz']}"/>
+					<h:outputText id="plz" value="#{kunde.adresse.plz}"/>
+						
+					<h:outputLabel id="ortPopupLabel" value="#{msgKv['viewKundePopup.ort']}"/>
+					<h:outputText id="ort" value="#{kunde.adresse.ort}"/>
+						
+					<h:outputLabel id="strassePopupLabel" value="#{msgKv['viewKundePopup.strasse']}"/>
+					<h:outputText id="strasse" value="#{kunde.adresse.strasse}"/>
+						
+					<h:outputLabel id="hausnrPopupLabel" value="#{msgKv['viewKundePopup.hausnr']}"/>
+					<h:outputText id="hausnr" value="#{kunde.adresse.hausnr}"/>
+						
+					<h:outputText id="seitLabel" value="#{msgKv['viewKundePopup.seit']}"/>
+					<h:outputText id="seit" value="#{kunde.seit}">
+						<f:convertDateTime type="date" dateStyle="long"/>
+					</h:outputText>
+					
+					<h:outputText id="umsatzLabel" value="#{msgKv['viewKundePopup.umsatz']}"/>
+					<h:outputText id="umsatz" value="#{kunde.umsatz}">
+						<f:convertNumber type="currency"
+						                 currencyCode="EUR"/>
+					</h:outputText>
+		
+					<h:outputText id="rabattLabel" value="#{msgKv['viewKundePopup.rabatt']}"/>
+					<h:outputText id="rabatt" value="#{kunde.rabatt}">
+						<f:convertNumber type="percent" maxFractionDigits="2"/>
+					</h:outputText>
+					
 					<h:outputText id="newsletterLabel" value="#{msgKv['viewKundePopup.newsletter']}"/>
 					<h:selectBooleanCheckbox id="newsletter" value="#{kunde.newsletter}" disabled="true" readonly="true"/>
 	

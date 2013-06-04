@@ -16,7 +16,7 @@
 		<ui:define name="article">
 			<h:form id="sucheForm">
 				<rich:panel id="suchePanel" header="#{msgKv['viewKunde.sucheNeu']}">
-					<h:panelGrid id="suchePanelGrid" columns="3">
+					<h:panelGrid id="suchePanelGrid" columns="4">
 						<h:outputLabel id="idInputLabel"
 									   value="#{msgKv['viewKunde.kundenr']}"
 									   for="idInput"/>
@@ -105,10 +105,25 @@
 								<h:outputLink
 								    value="mailto:#{kunde.email}">
 								  <h:outputText value="#{kunde.email}" />
-								</h:outputLink>																
-							
+								</h:outputLink>	
+							</rich:column>
+									
+							<rich:column id="editSpalte" rendered="#{not empty kunde and rich:isUserInRole('mitarbeiter') and rich:isUserInRole('admin')}">
+								<h:commandButton id="editButton"
+												 image="#{resource['images:edit.gif']}"
+										         action="#{kc.selectForUpdate(kunde)}"
+										         alt="#{msgKv['viewKunde.editButton']}"/>
 							</rich:column>
 							
+							<rich:column id="deleteSpalte" rendered="#{not empty kunde and rich:isUserInRole('admin')}">
+								<a4j:commandButton id="deleteButton"
+												   image="#{resource['images:delete.gif']}"
+										           action="#{kc.delete(kunde)}"
+										           alt="#{msgKv['viewKunde.deleteButton']}"
+										           onclick="return confirm('#{msgKc['viewKunde.deleteKundeBestaetigung']}')"
+										           render="@form :globaleFehlermeldungen"/>
+							</rich:column>
+					
 						</rich:dataTable>
 						
 						<a4j:outputPanel id="outputPanelZebra" ajaxRendered="true">
@@ -132,8 +147,6 @@
 							             timing="domready"/>
 						</a4j:outputPanel>
 					</c:if>
-					
-					<!-- TODO Button zum Aendern und/oder Loeschen -->
 				</a4j:outputPanel>
 			</h:form>
 		</ui:define>
