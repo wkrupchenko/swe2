@@ -72,31 +72,28 @@
 					<rich:messages id="fehlermeldungenEmail" for="email"/>
 					
 					<h:outputLabel id="plzLabel" for="plz" value="#{msgKv['updateKunde.plz']}"/>
-					<h:inputText id="plz"
-					             value="#{kc.kunde.adresse.plz}">
+					<h:inputText id="plz" value="#{kc.kunde.adresse.plz}" valueChangeListener="#{kc.geaendert}">
 						<rich:validator oninvalid="$(#{rich:element('plz')}).addClass('invalid')"
                                         onvalid="$(#{rich:element('plz')}).removeClass('invalid')"/>
 					</h:inputText>
 					<rich:messages id="fehlermeldungPlz" for="plz"/>
 						
 					<h:outputLabel id="ortLabel" for="ort" value="#{msgKv['updateKunde.ort']}"/>
-					<h:inputText id="ort"
-					             value="#{kc.kunde.adresse.ort}">
+					<h:inputText id="ort" value="#{kc.kunde.adresse.ort}" valueChangeListener="#{kc.geaendert}">
 						<rich:validator oninvalid="$(#{rich:element('ort')}).addClass('invalid')"
                                         onvalid="$(#{rich:element('ort')}).removeClass('invalid')"/>
 					</h:inputText>
 					<rich:messages id="fehlermeldungOrt" for="ort"/>
 						
 					<h:outputLabel id="strasseLabel" for="strasse" value="#{msgKv['updateKunde.strasse']}"/>
-					<h:inputText id="strasse"
-					             value="#{kc.kunde.adresse.strasse}">
+					<h:inputText id="strasse" value="#{kc.kunde.adresse.strasse}" valueChangeListener="#{kc.geaendert}">
 						<rich:validator oninvalid="$(#{rich:element('strasse')}).addClass('invalid')"
                                         onvalid="$(#{rich:element('strasse')}).removeClass('invalid')"/>
 					</h:inputText>
 					<rich:messages id="fehlermeldungStrasse" for="strasse"/>
 						
 					<h:outputLabel id="hausnrLabel" for="hausnr" value="#{msgKv['updateKunde.hausnr']}"/>
-					<h:inputText id="hausnr" value="#{kc.kunde.adresse.hausnr}"/>
+					<h:inputText id="hausnr" value="#{kc.kunde.adresse.hausnr}" valueChangeListener="#{kc.geaendert}"/>
 					<f:verbatim/>
 						
 					<h:outputLabel id="umsatzLabel" for="umsatz" value="#{msgKv['updateKunde.umsatz']}"/>
