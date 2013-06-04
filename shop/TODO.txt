@@ -16,6 +16,7 @@ Autorisierung und Atheentifizierung bei Kunde und Bestellung
 Konkurrierende Updates testen für Kunde und Artikel
 mvn site (Fehler beheben)
 Web-Projekt auf beschrifteter CD oder DVD
+Verschlüsselte Passwörter von Kunden in DB von eintragen
 
 Bugs:
 

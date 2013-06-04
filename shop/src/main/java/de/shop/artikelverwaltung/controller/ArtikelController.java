@@ -132,6 +132,7 @@ public class ArtikelController implements Serializable {
 	private Long updateArtikelArtikelgruppeId;
 	
 	private Artikelgruppe artikelgruppe;
+	private List<Artikelgruppe> alleArtikelgruppen;
 	
 	private Artikelgruppe neueArtikelgruppe;
 	
@@ -223,6 +224,10 @@ public class ArtikelController implements Serializable {
 	
 	public Artikelgruppe getArtikelgruppe() {
 		return artikelgruppe;
+	}
+	
+	public List<Artikelgruppe> getAlleArtikelgruppen() {
+		return alleArtikelgruppen = as.findeAlleArtikelgruppen();
 	}
 	
 	public void setArtikelgruppeId(Long artikelgruppeId) {
