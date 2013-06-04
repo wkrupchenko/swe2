@@ -676,5 +676,15 @@ public class ArtikelController implements Serializable {
 	public String getBase64(File file) {
 		return DatatypeConverter.printBase64Binary(file.getBytes());
 	}
+	
+	/*
+	 * Methode um Artikel zu laden, damit richtiges Bild angezeigt werden kann
+	 */
+	public void loadArtikel(Artikel ausgewaehlterArtikel) {
+		if(ausgewaehlterArtikel == null) {
+			return;
+		}
+		artikel = as.findeArtikelNachId(ausgewaehlterArtikel.getId());
+	}
 
 }
