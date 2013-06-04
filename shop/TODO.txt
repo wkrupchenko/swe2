@@ -20,6 +20,7 @@ Web-Projekt auf beschrifteter CD oder DVD
 Bugs:
 
 Ergebnisse löschen bei neuer Suche
+Autokorrektur nur beim ersten Mal
 
 
 MEILSTEIN 3 	Android:
