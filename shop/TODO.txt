@@ -11,8 +11,7 @@ MEILENSTEIN 2 	Web-Oberfläche:
 Es fehlt:
 
 Kunde anlegen, ändern, löschen
-Bestellung ändern offfenAbgeschlossen
-Autorisierung und Atheentifizierung bei Kunde und Bestellung (Links verstecken sowie aber auch URL schützen!)
+Autorisierung und Atheentifizierung bei Bestellung
 Konkurrierende Updates (UpdateUpdate und DeleteUpdate) testen für Kunde
 mvn site (Fehler beheben)
 Web-Projekt auf beschrifteter CD oder DVD

@@ -276,6 +276,30 @@
       <url-pattern>/artikelverwaltung/deleteArtikelgruppe.jsf</url-pattern>
       <url-pattern>/artikelverwaltung/deleteArtikelgruppe.faces</url-pattern>
       <url-pattern>/faces/artikelverwaltung/deleteArtikelgruppe.xhtml</url-pattern>
+      <url-pattern>/kundenverwaltung/viewKunde.jsf</url-pattern>
+      <url-pattern>/kundenverwaltung/viewKunde.faces</url-pattern>
+      <url-pattern>/faces/kundenverwaltung/viewKunde.xhtml</url-pattern>
+      <url-pattern>/kundenverwaltung/viewKundeEmail.jsf</url-pattern>
+      <url-pattern>/kundenverwaltung/viewKundeEmail.faces</url-pattern>
+      <url-pattern>/faces/kundenverwaltung/viewKundeEmail.xhtml</url-pattern>
+      <url-pattern>/kundenverwaltung/viewKundeNachname.jsf</url-pattern>
+      <url-pattern>/kundenverwaltung/viewKundeNachname.faces</url-pattern>
+      <url-pattern>/faces/kundenverwaltung/viewKundeNachname.xhtml</url-pattern>
+      <url-pattern>/kundenverwaltung/viewKundePlz.jsf</url-pattern>
+      <url-pattern>/kundenverwaltung/viewKundePlz.faces</url-pattern>
+      <url-pattern>/faces/kundenverwaltung/viewKundePlz.xhtml</url-pattern>
+      <url-pattern>/kundenverwaltung/viewKundeUsername.jsf</url-pattern>
+      <url-pattern>/kundenverwaltung/viewKundeUsername.faces</url-pattern>
+      <url-pattern>/faces/kundenverwaltung/viewKundeUsername.xhtml</url-pattern>
+      <url-pattern>/kundenverwaltung/createKunde.jsf</url-pattern>
+      <url-pattern>/kundenverwaltung/createKunde.faces</url-pattern>
+      <url-pattern>/faces/kundenverwaltung/createKunde.xhtml</url-pattern>
+      <url-pattern>/kundenverwaltung/updateKunde.jsf</url-pattern>
+      <url-pattern>/kundenverwaltung/updateKunde.faces</url-pattern>
+      <url-pattern>/faces/kundenverwaltung/updateKunde.xhtml</url-pattern>
+      <url-pattern>/kundenverwaltung/okDeleteKunde.jsf</url-pattern>
+      <url-pattern>/kundenverwaltung/okDeleteKunde.faces</url-pattern>
+      <url-pattern>/faces/kundenverwaltung/okDeleteKunde.xhtml</url-pattern>
       <http-method>POST</http-method>
       <http-method>GET</http-method>
     </web-resource-collection>

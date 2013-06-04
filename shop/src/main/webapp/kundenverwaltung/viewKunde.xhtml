@@ -108,14 +108,14 @@
 								</h:outputLink>	
 							</rich:column>
 									
-							<rich:column id="editSpalte" rendered="#{not empty kunde and rich:isUserInRole('mitarbeiter') and rich:isUserInRole('admin')}">
+							<rich:column id="editSpalte" rendered="#{not empty kunde and rich:isUserInRole('mitarbeiter') and rich:isUserInRole('abteilungsleiter')}">
 								<h:commandButton id="editButton"
 												 image="#{resource['images:edit.gif']}"
 										         action="#{kc.selectForUpdate(kunde)}"
 										         alt="#{msgKv['viewKunde.editButton']}"/>
 							</rich:column>
 							
-							<rich:column id="deleteSpalte" rendered="#{not empty kunde and rich:isUserInRole('admin')}">
+							<rich:column id="deleteSpalte" rendered="#{not empty kunde and rich:isUserInRole('abteilungsleiter')}">
 								<a4j:commandButton id="deleteButton"
 												   image="#{resource['images:delete.gif']}"
 										           action="#{kc.delete(kunde)}"
