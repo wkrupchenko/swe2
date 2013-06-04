@@ -43,6 +43,7 @@ import static javax.persistence.TemporalType.TIMESTAMP;
 import static javax.persistence.CascadeType.MERGE;
 import static javax.persistence.CascadeType.PERSIST;
 import static javax.persistence.CascadeType.REMOVE;
+import static javax.persistence.FetchType.EAGER;
 import static javax.persistence.FetchType.LAZY;
 
 @Entity
@@ -127,7 +128,7 @@ public class Artikel implements Serializable, Cloneable {
 	@JsonProperty("artikelgruppe")
 	private URI artikelgruppeUri;
 	
-	@OneToOne(fetch = LAZY, cascade = { PERSIST, REMOVE })
+	@OneToOne(fetch = EAGER, cascade = { PERSIST, REMOVE })
 	@JoinColumn(name = "file_fk")
 	@JsonIgnore
 	private File file;

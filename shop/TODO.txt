@@ -13,7 +13,7 @@ Es fehlt:
 Kunde anlegen, ändern, löschen
 Bestellung ändern offfenAbgeschlossen
 Autorisierung und Atheentifizierung bei Kunde und Bestellung
-Konkurrierende Updates testen für Kunde und Artikel
+Konkurrierende Updates (UpdateUpdate und DeleteUpdate) testen für Kunde
 mvn site (Fehler beheben)
 Web-Projekt auf beschrifteter CD oder DVD
 Verschlüsselte Passwörter von Kunden in DB von eintragen

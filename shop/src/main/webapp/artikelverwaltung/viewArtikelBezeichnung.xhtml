@@ -58,7 +58,8 @@
 						                rowClasses="odd-row, even-row"
 						                styleClass="tabelleMitZebrastil"
 						                cellspacing="10"
-						                rendered="#{not empty ac.artikelList or param.init ne 'true'}">
+						                rendered="#{not empty ac.artikelList or param.init ne 'true'}"
+						                rowKeyVar="row">
 							<rich:column id="idSpalte">
 								<f:facet name="header">
 									#{msgAv['viewArtikel.artikelnr']}
