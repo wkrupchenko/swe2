@@ -43,8 +43,8 @@
 						             enableManualInput="true"
 						             defaultLabel="#{msgKv['createKunde.art.privatkunde']}"
 						             value="#{kc.neuerKunde.art}">
-							<f:selectItem id="p" itemValue="PRIVATKUNDE" itemLabel="#{msgKv['createKunde.art.privatkunde']}"/>
-							<f:selectItem id="f" itemValue="FIRMENKUNDE" itemLabel="#{msgKv['createKunde.art.firmenkunde']}"/>
+							<f:selectItem id="P" itemValue="P" itemLabel="#{msgKv['createKunde.art.privatkunde']}"/>
+							<f:selectItem id="F" itemValue="F" itemLabel="#{msgKv['createKunde.art.firmenkunde']}"/>
 						</rich:select>
 						<f:verbatim/>
 						
@@ -114,8 +114,7 @@
 						<rich:messages id="fehlermeldungOrt" for="ort"/>
 						
 						<h:outputLabel id="strasseLabel" for="strasse" value="#{msgKv['createKunde.strasse']}"/>
-						<h:inputText id="strasse"
-						             value="#{kc.neuerKunde.adresse.strasse}">
+						<h:inputText id="strasse" value="#{kc.neuerKunde.adresse.strasse}">
 							<rich:validator oninvalid="$(#{rich:element('strasse')}).addClass('invalid')"
                                             onvalid="$(#{rich:element('strasse')}).removeClass('invalid')"/>
 						</h:inputText>

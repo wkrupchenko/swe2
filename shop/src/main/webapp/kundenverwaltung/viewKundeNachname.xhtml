@@ -134,13 +134,13 @@
 								         action="#{kc.selectForUpdate(kunde)}"
 								         alt="#{msgKv['viewKunde.editButton']}"/>
 					</rich:column>
-					
+					  		 
 					<rich:column id="deleteSpalte" rendered="#{not empty kunde and rich:isUserInRole('abteilungsleiter')}">
 						<a4j:commandButton id="deleteButton"
 										   image="#{resource['images:delete.gif']}"
 								           action="#{kc.delete(kunde)}"
 								           alt="#{msgKv['viewKunde.deleteButton']}"
-								           onclick="return confirm('#{msgKc['viewKunde.deleteKundeBestaetigung']}')"
+								           onclick="return confirm('#{msgKv['viewKunde.deleteKundeBestaetigung']}')"
 								           render="@form :globaleFehlermeldungen"/>
 						</rich:column>
 					</rich:dataTable>

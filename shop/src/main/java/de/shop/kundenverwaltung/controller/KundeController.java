@@ -66,7 +66,7 @@ public class KundeController implements Serializable {
 	private static final String JSF_VIEW_KUNDE_PLZ = "/kundenverwaltung/viewKundePlz";
 
 	private static final String JSF_UPDATE_KUNDE = "/kundenverwaltung/updateKunde";
-	private static final String JSF_DELETE_KUNDE = "/kundenverwaltung/deleteKunde";
+	private static final String JSF_DELETE_KUNDE_FEHLER = "/kundenverwaltung/deleteKundeError";
 	private static final String JSF_DELETE_OK = "/kundenverwaltung/okDelete";
 
 	private static final String MSG_KEY_UPDATE_KUNDE_CONCURRENT_UPDATE = "updateKunde.concurrentUpdate";
