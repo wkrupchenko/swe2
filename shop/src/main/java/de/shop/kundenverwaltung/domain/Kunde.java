@@ -310,8 +310,26 @@ public class Kunde implements Serializable {
 	protected void postLoad() {
 		passwortWdh = passwort;
 	}
+
+	public Kunde() {
+		super();
+	}
 	
-	
+	public Kunde(String art, String email, FamilienstandTyp familienstand,
+			GeschlechtTyp geschlecht, String nachname, String vorname,
+			BigDecimal rabatt, BigDecimal umsatz, Date seit) {
+		super();
+		this.art = art;
+		this.email = email;
+		this.familienstand = familienstand;
+		this.geschlecht = geschlecht;
+		this.nachname = nachname;
+		this.vorname = vorname;
+		this.rabatt = rabatt;
+		this.umsatz = umsatz;
+		this.seit = seit;
+	}
+
 	public void setWerte(Kunde k) {
 		version = k.version;
 		art = k.art;

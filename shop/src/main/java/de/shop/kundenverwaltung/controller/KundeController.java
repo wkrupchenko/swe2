@@ -24,6 +24,7 @@ import javax.inject.Named;
 import javax.persistence.OptimisticLockException;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolation;
+import javax.validation.groups.Default;
 
 import org.richfaces.cdi.push.Push;
 
@@ -94,7 +95,7 @@ public class KundeController implements Serializable {
 	private List<Kunde> kunden = Collections.emptyList();
 	private boolean geaendertKunde;
 
-	private static final Class<?>[] PASSWORD_GROUP = { PasswordGroup.class };
+	private static final Class<?>[] PASSWORD_GROUP = { Default.class };
 	
 	@Inject
 	@Client
@@ -113,7 +114,7 @@ public class KundeController implements Serializable {
 	private transient HttpServletRequest request;
 	
 	@Inject
-	@Push(topic = "marketing")
+	@Push(topic = "createArtikel")
 	private transient Event<String> neuerKundeEvent;
 
 	@Inject
@@ -446,7 +447,7 @@ public class KundeController implements Serializable {
 	@TransactionAttribute(REQUIRED)
 	public String createKunde() {
 		try {
-			neuerKunde = (Kunde) ks.createKunde(neuerKunde, locale);
+			neuerKunde = ks.createKunde(neuerKunde, locale);
 		}
 		catch (InvalidKundeException | EmailExistsException e) {
 			final String outcome = createKundeErrorMsg(e);
@@ -481,6 +482,8 @@ public class KundeController implements Serializable {
 	 * Methode um Kunden zu leeren, damit Tabelle immer wieder leer ist
 	 */
 	public void clearKunde() {
+		kunde = null;
+		kunden = null;
 		flash.clear();
 	}
 
