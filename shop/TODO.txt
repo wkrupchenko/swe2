@@ -12,7 +12,7 @@ Es fehlt:
 
 Kunde anlegen
 Autorisierung und Authentifizierung bei Bestellung
-Paar Sachen Bestellung
+Paar Sachen Bestellung (Wladik Textdatei)
 mvn site (Fehler beheben)
 Web-Projekt auf beschrifteter CD oder DVD
 
@@ -20,6 +20,7 @@ Bugs:
 
 Ergebnisse löschen bei neuer Suche bei Bestellungen
 Konkurrierende Updates (UpdateUpdate) EVENTUELL ABBRUCH ANSTATT NUR MELDUNG (UpdateDelete funktionier)
+Loginformular funktioniert nicht wenn es im Fenster selbst erscheint, nachdem man auf Link ohne Zugriff geklickt hat.
 
 
 MEILSTEIN 3 	Android:
