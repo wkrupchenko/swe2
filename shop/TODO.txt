@@ -10,7 +10,6 @@ MEILENSTEIN 2 	Web-Oberfläche:
 
 Es fehlt:
 
-Kunde anlegen
 Autorisierung und Authentifizierung bei Bestellung
 Paar Sachen Bestellung (Wladik Textdatei)
 mvn site (Fehler beheben)
@@ -21,6 +20,8 @@ Bugs:
 Ergebnisse löschen bei neuer Suche bei Bestellungen
 Konkurrierende Updates (UpdateUpdate) EVENTUELL ABBRUCH ANSTATT NUR MELDUNG (UpdateDelete funktionier)
 Loginformular funktioniert nicht wenn es im Fenster selbst erscheint, nachdem man auf Link ohne Zugriff geklickt hat.
+ConstraintViolations als richtige Fehlermeldungen
+Ebenso Fehlermeldungen für diverse Seiten (siehe Jürgen Beispiel)
 
 
 MEILSTEIN 3 	Android:
