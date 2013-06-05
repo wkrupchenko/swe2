@@ -58,6 +58,7 @@ import javax.validation.constraints.Size;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.ScriptAssert;
 
 import de.shop.bestellverwaltung.domain.Bestellung;
 import de.shop.util.IdGroup;

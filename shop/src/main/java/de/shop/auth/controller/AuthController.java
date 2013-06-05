@@ -175,6 +175,37 @@ public class AuthController implements Serializable {
 	}
 	
 	/**
+	 * Einloggen eines registrierten Kunden mit Benutzername und Password nachträglich.
+	 */
+	@Transactional
+	public String loginN() {
+		if (username == null || "".equals(username)) {
+			reset();
+			messages.error(SHOP, MSG_KEY_LOGIN_ERROR, CLIENT_ID_USERNAME);
+			return null;   // Gleiche Seite nochmals aufrufen: mit den fehlerhaften Werten
+		}
+		
+		try {
+			request.login(username, passwort);
+		}
+		catch (ServletException e) {
+			LOGGER.tracef("username=%s, passwort=%s", username, passwort);
+			reset();
+			messages.error(SHOP, MSG_KEY_LOGIN_ERROR, CLIENT_ID_USERNAME);
+			return null;   // Gleiche Seite nochmals aufrufen: mit den fehlerhaften Werten
+		}
+		
+		user = ks.findeKundeNachUserName(username);
+		if (user == null) {
+			logout();
+			throw new InternalError("Kein Kunde mit dem Loginnamen \"" + username + "\" gefunden");
+		}
+		
+		// Zur Startseite
+		return JSF_INDEX;
+	}
+	
+	/**
 	 * Nachtraegliche Einloggen eines registrierten Kunden mit Benutzername und Password.
 	 */
 	@Transactional

@@ -12,24 +12,25 @@
 	
 		<ui:define name="article">
 			<rich:panel id="loginPanel" header="#{msg['login.heading']}" style="width:300px">
-				<form id="loginForm" action="j_security_check" method="post">
-					<h:panelGrid id="loginGrid" columns="3">
-						<h:outputLabel id="usernameLabel"
-						               value="#{msg['login.kundeId']}"
-						               for="username"/>
-						<h:inputText id="j_username"/>
-						<f:verbatim/>
-								
-						<h:outputLabel id="passwortLabel"
-						               value="#{msg['login.passwort']}"
-						               for="passwort"/>
-						<h:inputSecret id="j_passwort"/>
-						<h:commandButton id="loginButton" value="#{msg['login.submit']}"/>
-					</h:panelGrid>
-				</form>
+				<h:form id="loginFormHeaderN" rendered="#{not auth.loggedIn}">
+				<h:panelGrid id="loginGridN" columns="3">
+					<h:outputLabel id="usernameLabelN"
+					               value="#{msg['login.kundeId']}"
+					               for="usernameN"/>
+					<h:inputText id="usernameN" value="#{auth.username}"/>
+					<f:verbatim/>
+							
+					<h:outputLabel id="passwortLabelN"
+					               value="#{msg['login.passwort']}"
+					               for="passwortN"/>
+					<h:inputSecret id="passwortN" value="#{auth.passwort}"/>
+					<h:commandButton id="loginButtonN" action="#{auth.loginN}" value="#{msg['login.submit']}"/>
+				</h:panelGrid>
+				<rich:message id="fehlermeldungLoginN" for="usernameN"/>
+			</h:form>
 				
-				<h:panelGroup id="fehlermeldungGroup" rendered="#{param.error eq 'true'}">
-					<p id="abstandZuForm" class="rf-msg-err">
+				<h:panelGroup id="fehlermeldungGroupN" rendered="#{param.error eq 'true'}">
+					<p id="abstandZuFormN" class="rf-msg-err">
 						#{msg['login.error']}
 					</p>
 				</h:panelGroup>		
