@@ -136,7 +136,7 @@
 					</rich:column>
 					  		 
 					<rich:column id="deleteSpalte" rendered="#{not empty kunde and rich:isUserInRole('abteilungsleiter')}">
-						<a4j:commandButton id="deleteButton"
+						<h:commandButton id="deleteButton"
 										   image="#{resource['images:delete.gif']}"
 								           action="#{kc.delete(kunde)}"
 								           alt="#{msgKv['viewKunde.deleteButton']}"
@@ -144,6 +144,10 @@
 								           render="@form :globaleFehlermeldungen"/>
 						</rich:column>
 					</rich:dataTable>
+					
+					<p id="abstandZuMeldungen">
+						<rich:messages id="globaleFehlermeldungen" globalOnly="true"/>
+					</p>
 				
 					<p id="abstandZuScroller">
 						<h:panelGroup id="scrollerGroup" rendered="#{not empty kunde}">

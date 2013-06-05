@@ -116,7 +116,7 @@
 							</rich:column>
 							
 							<rich:column id="deleteSpalte" rendered="#{not empty kunde and rich:isUserInRole('abteilungsleiter')}">
-								<a4j:commandButton id="deleteButton"
+								<h:commandButton id="deleteButton"
 												   image="#{resource['images:delete.gif']}"
 										           action="#{kc.delete(kunde)}"
 										           alt="#{msgKv['viewKunde.deleteButton']}"
@@ -125,6 +125,10 @@
 							</rich:column>
 					
 						</rich:dataTable>
+						
+						<p id="abstandZuMeldungen">
+							<rich:messages id="globaleFehlermeldungen" globalOnly="true"/>
+						</p>
 						
 						<a4j:outputPanel id="outputPanelZebra" ajaxRendered="true">
 							<rich:jQuery id="odd"

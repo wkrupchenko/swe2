@@ -10,11 +10,9 @@ MEILENSTEIN 2 	Web-Oberfläche:
 
 Es fehlt:
 
-Kunde anlegen, ändern, löschen
+Kunde anlegen, ändern
 Autorisierung und Atheentifizierung bei Bestellung
 Konkurrierende Updates (UpdateUpdate und DeleteUpdate) testen für Kunde
-Bei Lieferung Popup die Bestellungen anzeigen
-Bei Suche BestellungStatus alle Attribute und Popups wie bei Suche BestellungID
 mvn site (Fehler beheben)
 Web-Projekt auf beschrifteter CD oder DVD
 
