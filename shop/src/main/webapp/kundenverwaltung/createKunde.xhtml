@@ -45,8 +45,10 @@
 						             value="#{kc.neuerKunde.art}">
 							<f:selectItem id="P" itemValue="P" itemLabel="#{msgKv['createKunde.art.privatkunde']}"/>
 							<f:selectItem id="F" itemValue="F" itemLabel="#{msgKv['createKunde.art.firmenkunde']}"/>
+							<rich:validator oninvalid="$(#{rich:element('art')}).addClass('invalid')"
+                                            onvalid="$(#{rich:element('art')}).removeClass('invalid')"/>
 						</rich:select>
-						<f:verbatim/>
+						<rich:messages id="fehlermeldungenArt" for="art"/>
 						
 						<h:outputLabel id="familienstandLabel" for="familienstand" value="#{msgKv['createKunde.familienstand']}"/>
 						<rich:select id="familienstand"
@@ -132,9 +134,6 @@
 							                 currencyCode="EUR"
 							                 maxFractionDigits="2"/>
 							<f:ajax event="blur" render="fehlermeldungenUmsatz"/>
-							<!-- https://issues.jboss.org/browse/RF-10224
-							<rich:validator/>
-							-->
 						</h:inputText>
 						<rich:messages id="fehlermeldungenUmsatz" for="umsatz"/>
 			
@@ -156,9 +155,6 @@
 						               datePattern="#{msgKv['createKunde.calendar.pattern']}"
 						               value="#{kc.neuerKunde.seit}"
 						               timezone="CET">
-						    <!-- https://issues.jboss.org/browse/RF-10224
-							<rich:validator/>
-							-->
 							<rich:placeholder id="seitPlaceholder" value="#{msgKv['createKunde.seit.placeholder']}" />
 						</rich:calendar>
 						<rich:messages id="fehlermeldungenSeit" for="seit"/>

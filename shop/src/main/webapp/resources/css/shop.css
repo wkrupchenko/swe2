@@ -41,14 +41,20 @@ h1 {
 
 .tabelleMitZebrastil {
 }
+
 .odd-row {
 	background-color: #ECF3FE;
 }
+
 .even-row {
 	background-color: #FCFFFE;
 }
+
 .active-row {
 	background-color: #FFEBDA;
 	cursor: pointer;
 }
 
+.invalid {
+	border-color: #D91C0D !important;
+}
