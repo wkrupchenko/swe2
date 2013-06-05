@@ -22,6 +22,7 @@ Konkurrierende Updates (UpdateUpdate) EVENTUELL ABBRUCH ANSTATT NUR MELDUNG (Upd
 Loginformular funktioniert nicht wenn es im Fenster selbst erscheint, nachdem man auf Link ohne Zugriff geklickt hat.
 ConstraintViolations als richtige Fehlermeldungen
 Ebenso Fehlermeldungen für diverse Seiten (siehe Jürgen Beispiel)
+Seitentitel passend bennnen
 
 
 MEILSTEIN 3 	Android:
