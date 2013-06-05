@@ -10,15 +10,16 @@ MEILENSTEIN 2 	Web-Oberfläche:
 
 Es fehlt:
 
-Kunde anlegen, ändern
-Autorisierung und Atheentifizierung bei Bestellung
-Konkurrierende Updates (UpdateUpdate und DeleteUpdate) testen für Kunde
+Kunde anlegen
+Autorisierung und Authentifizierung bei Bestellung
+Paar Sachen Bestellung
 mvn site (Fehler beheben)
 Web-Projekt auf beschrifteter CD oder DVD
 
 Bugs:
 
 Ergebnisse löschen bei neuer Suche bei Bestellungen
+Konkurrierende Updates (UpdateUpdate) EVENTUELL ABBRUCH ANSTATT NUR MELDUNG (UpdateDelete funktionier)
 
 
 MEILSTEIN 3 	Android:
