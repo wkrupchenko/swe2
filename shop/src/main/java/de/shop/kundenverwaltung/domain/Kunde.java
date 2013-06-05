@@ -5,6 +5,7 @@ import static de.shop.util.Konstante.MIN_ID;
 import static de.shop.util.Konstante.ERSTE_VERSION;
 import static javax.persistence.CascadeType.PERSIST;
 import static javax.persistence.CascadeType.REMOVE;
+import static javax.persistence.CascadeType.MERGE;
 import static javax.persistence.FetchType.EAGER;
 import static javax.persistence.FetchType.LAZY;
 import static javax.persistence.TemporalType.DATE;
@@ -251,7 +252,7 @@ public class Kunde implements Serializable {
 	@Past(message = "{kundenverwaltung.kunde.seit.past}")
 	private Date seit;
 	
-	@OneToOne(mappedBy = "kunde", cascade = { PERSIST, REMOVE })
+	@OneToOne(mappedBy = "kunde", cascade = { PERSIST, MERGE, REMOVE })
 	@Valid
 	@NotNull(message = "{kundenverwaltung.kunde.adresse.notNull}")
 	private Adresse adresse;

@@ -482,8 +482,6 @@ public class KundeController implements Serializable {
 	 */
 	public void clearKunde() {
 		flash.clear();
-		kunde = null;
-		kunden = null;
 	}
 
 }
