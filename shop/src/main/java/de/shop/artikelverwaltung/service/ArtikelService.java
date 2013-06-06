@@ -3,6 +3,7 @@ package de.shop.artikelverwaltung.service;
 import static de.shop.util.Konstante.KEINE_ID;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;

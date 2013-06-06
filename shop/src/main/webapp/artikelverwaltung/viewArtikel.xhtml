@@ -2,166 +2,157 @@
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml"
-	  xmlns:ui="http://java.sun.com/jsf/facelets"
-	  xmlns:h="http://java.sun.com/jsf/html"
-	  xmlns:f="http://java.sun.com/jsf/core"
-	  xmlns:c="http://java.sun.com/jsp/jstl/core"
-	  xmlns:rich="http://richfaces.org/rich"
-	  xmlns:a4j="http://richfaces.org/a4j">
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j">
 
-	<ui:composition template="/WEB-INF/templates/desktop/main.xml">
-		<ui:param name="pageTitle" value="#{msgAv['viewArtikel.title']}"/>
+<ui:composition template="/WEB-INF/templates/desktop/main.xml">
+	<ui:param name="pageTitle" value="#{msgAv['viewArtikel.title']}" />
 
-		<ui:define name="article">
-			<h:form id="sucheForm">
-				<rich:focus id="sucheFocus"/>
-				<rich:panel id="suchePanel" header="#{msgAv['viewArtikel.sucheNeu']}">
-					<h:panelGrid id="suchePanelGrid" columns="3">
-						<h:outputLabel id="idInputLabel"
-									   value="#{msgAv['viewArtikel.artikelnr']}"
-									   for="idInput"/>
-		
-						<h:inputText id="idInput" value="#{ac.artikelId}"/>
-						<a4j:commandButton id="sucheButton"
-										   action="#{ac.findeArtikelNachId}"
-										   value="#{msgAv['viewArtikel.submit']}"
-										   render="gesuchterArtikelPanel"/>
-					</h:panelGrid>
-				</rich:panel>
-			
-				<p id="abstand"/>
-			
-				<a4j:outputPanel id="gesuchterArtikelPanel">
-							<rich:dataTable id="artikelTabelle"
-						                value="#{ac.artikelList}"
-						                var="art"
-						                rows="6"
-						                noDataLabel="#{msgAv['viewArtikel.keineDaten']}"
-						                rowClasses="odd-row, even-row"
-						                styleClass="tabelleMitZebrastil"
-						                cellspacing="10"
-						                rendered="#{not empty ac.artikelList or param.init ne 'true'}"
-						                rowKeyVar="row">
-							<rich:column id="idSpalte">
-								<f:facet name="header">
+	<ui:define name="article">
+		<h:form id="sucheForm">
+			<rich:focus id="sucheFocus" />
+			<rich:panel id="suchePanel" header="#{msgAv['viewArtikel.sucheNeu']}">
+				<h:panelGrid id="suchePanelGrid" columns="3">
+					<h:outputLabel id="idInputLabel"
+						value="#{msgAv['viewArtikel.artikelnr']}" for="idInput" />
+
+					<h:inputText id="idInput" value="#{ac.artikelId}" />
+					<a4j:commandButton id="sucheButton"
+						action="#{ac.findeArtikelNachId}"
+						value="#{msgAv['viewArtikel.submit']}"
+						render="gesuchterArtikelPanel" />
+				</h:panelGrid>
+			</rich:panel>
+
+			<p id="abstand" />
+
+			<a4j:outputPanel id="gesuchterArtikelPanel">
+				<rich:dataTable id="artikelTabelle" value="#{ac.artikelList}"
+					var="art" rows="6" noDataLabel="#{msgAv['viewArtikel.keineDaten']}"
+					rowClasses="odd-row, even-row" styleClass="tabelleMitZebrastil"
+					cellspacing="10"
+					rendered="#{not empty ac.artikelList or param.init ne 'true'}"
+					rowKeyVar="row">
+					<rich:column id="idSpalte">
+						<f:facet name="header">
 									#{msgAv['viewArtikel.artikelnr']}
 								</f:facet>
 								#{art.id}
 							</rich:column>
-							
-							<rich:column id="bezeichnungSpalte">
-								<f:facet name="header">
+
+					<rich:column id="bezeichnungSpalte">
+						<f:facet name="header">
 									#{msgAv['viewArtikel.bezeichnung']}
 								</f:facet>
-								<h:commandLink id="artikelPopup" value="#{art.bezeichnung}">
-									<rich:componentControl target="popupA" operation="show"/>
-								</h:commandLink>
-								
-								<rich:popupPanel id="popupA" modal="false" autosized="true" resizeable="false">
-									<f:facet name="header">
-										<h:outputFormat id="popupTitleA" value="#{art.bezeichnung}">
-											<f:param id="popupTitleIdA" value="#{art.id}"/>
-										</h:outputFormat>
-									</f:facet>
-									<f:facet name="controls">
-										<h:outputLink id="hideControlA"
-								        	    	  value="#"
-								            	  	  onclick="#{rich:component('popupA')}.hide(); return false;">
-											<h:graphicImage id="hideIconA"
-									    		            name="close.png"
-									        		        library="images"
-									           	    	    style="cursor:pointer"
-									               	    	alt="#{msgAv['viewArtikelPopup.hide.button']}"/>
-										</h:outputLink>
-									</f:facet>
-									
-									<ui:include src="viewArtikelPopup.xhtml"/>
-										<h:outputLink id="closeLinkA"
-							            			  value="#"
-								          			  onclick="#{rich:component('popupA')}.hide(); return false;">
+						<h:commandLink id="artikelPopup" value="#{art.bezeichnung}">
+							<rich:componentControl target="popupA" operation="show" />
+						</h:commandLink>
+
+						<rich:popupPanel id="popupA" modal="false" autosized="true"
+							resizeable="false">
+							<f:facet name="header">
+								<h:outputFormat id="popupTitleA" value="#{art.bezeichnung}">
+									<f:param id="popupTitleIdA" value="#{art.id}" />
+								</h:outputFormat>
+							</f:facet>
+							<f:facet name="controls">
+								<h:outputLink id="hideControlA" value="#"
+									onclick="#{rich:component('popupA')}.hide(); return false;">
+									<h:graphicImage id="hideIconA" name="close.png"
+										library="images" style="cursor:pointer"
+										alt="#{msgAv['viewArtikelPopup.hide.button']}" />
+								</h:outputLink>
+							</f:facet>
+
+							<ui:include src="viewArtikelPopup.xhtml" />
+							<h:outputLink id="closeLinkA" value="#"
+								onclick="#{rich:component('popupA')}.hide(); return false;">
 										#{msgAv['viewArtikelPopup.hide.button']}
 										</h:outputLink>
-								</rich:popupPanel>
-							</rich:column>
-							
-							<rich:column id="preisSpalte">
-								<f:facet name="header">
+						</rich:popupPanel>
+					</rich:column>
+
+					<rich:column id="preisSpalte">
+						<f:facet name="header">
 									#{msgAv['viewArtikel.preis']}
 								</f:facet>
 								#{art.preis}
 							</rich:column>
-							
-							<rich:column id="verfuegbarkeitSpalte">
-								<f:facet name="header">
+
+					<rich:column id="verfuegbarkeitSpalte">
+						<f:facet name="header">
 									#{msgAv['viewArtikel.erhaeltlich']}
 								</f:facet>
 								#{art.erhaeltlich}
 							</rich:column>
-							
-							<rich:column id="artikelgruppeSpalte">
-								<f:facet name="header">
+
+					<rich:column id="artikelgruppeSpalte">
+						<f:facet name="header">
 									#{msgAv['viewArtikel.artikelgruppe']}
 								</f:facet>
-								<h:commandLink id="artikelgruppePopup" value="#{art.artikelgruppe.bezeichnung}">
-									<rich:componentControl target="popup" operation="show"/>
-								</h:commandLink>
-								
-								<rich:popupPanel id="popup" modal="false" autosized="true" resizeable="false">
-									<f:facet name="header">
-										<h:outputFormat id="popupTitle" value="#{art.artikelgruppe.bezeichnung}">
-											<f:param id="popupTitleId" value="#{art.artikelgruppe.id}"/>
-										</h:outputFormat>
-									</f:facet>
-									<f:facet name="controls">
-										<h:outputLink id="hideControl"
-								        	    	  value="#"
-								            	  	  onclick="#{rich:component('popup')}.hide(); return false;">
-											<h:graphicImage id="hideIcon"
-									    		            name="close.png"
-									        		        library="images"
-									           	    	    style="cursor:pointer"
-									               	    	alt="#{msgAv['viewArtikelgruppePopup.hide.button']}"/>
-										</h:outputLink>
-									</f:facet>
-									
-									<ui:include src="viewArtikelgruppePopup.xhtml"/>
-										<h:outputLink id="closeLinkAg"
-							            			  value="#"
-								          			  onclick="#{rich:component('popup')}.hide(); return false;">
+						<h:commandLink id="artikelgruppePopup"
+							value="#{art.artikelgruppe.bezeichnung}">
+							<rich:componentControl target="popup" operation="show" />
+						</h:commandLink>
+
+						<rich:popupPanel id="popup" modal="false" autosized="true"
+							resizeable="false">
+							<f:facet name="header">
+								<h:outputFormat id="popupTitle"
+									value="#{art.artikelgruppe.bezeichnung}">
+									<f:param id="popupTitleId" value="#{art.artikelgruppe.id}" />
+								</h:outputFormat>
+							</f:facet>
+							<f:facet name="controls">
+								<h:outputLink id="hideControl" value="#"
+									onclick="#{rich:component('popup')}.hide(); return false;">
+									<h:graphicImage id="hideIcon" name="close.png" library="images"
+										style="cursor:pointer"
+										alt="#{msgAv['viewArtikelgruppePopup.hide.button']}" />
+								</h:outputLink>
+							</f:facet>
+
+							<ui:include src="viewArtikelgruppePopup.xhtml" />
+							<h:outputLink id="closeLinkAg" value="#"
+								onclick="#{rich:component('popup')}.hide(); return false;">
 										#{msgAv['viewArtikelgruppePopup.hide.button']}
 										</h:outputLink>
-								</rich:popupPanel>
-							</rich:column>
-							
-							<rich:column id="buttonSpalte"
-							             rendered="#{not empty ac.artikelList}">
-								<h:commandButton id="editButton"
-												 image="#{resource['images:edit.gif']}"
-										         action="#{ac.selectForUpdate(art)}"
-										         alt="#{msgAv['viewArtikel.editButtonAlt']}"
-										         rendered="#{rich:isUserInRole('admin')}"/>
-								<h:commandButton id="deleteButton"
-												 image="#{resource['images:delete.gif']}"
-												 action="#{ac.delete(art)}"
-												 alt="#{msgAv['viewArtikel.deleteButtonAlt']}"
-												 onclick="return confirm('#{msgAv['viewArtikel.deleteArtikelBestaetigung']}')"
-								           		 render="@form :globaleFehlermeldungen"
-								           		 rendered="#{rich:isUserInRole('abteilungsleiter')}"/>
-								<h:commandButton id="warenkorbButton"
-												 image="#{resource['images:warenkorb.gif']}"
-										         action="#{wk.add(art)}"
-										         alt="#{msgAv['viewArtikel.alt.warenkorb']}"/>
-							</rich:column>
-							
-						</rich:dataTable>
-					
-					
-					<p id="abstandZuMeldungen">
-						<rich:messages id="globaleFehlermeldungen" globalOnly="true"/>
-					</p>
+						</rich:popupPanel>
+					</rich:column>
 
-				</a4j:outputPanel>
-			</h:form>
-		</ui:define>
-	</ui:composition>
+					<rich:column id="buttonSpalte"
+						rendered="#{not empty ac.artikelList}">
+						<h:commandButton id="editButton"
+							image="#{resource['images:edit.gif']}"
+							action="#{ac.selectForUpdate(art)}"
+							alt="#{msgAv['viewArtikel.editButtonAlt']}"
+							rendered="#{rich:isUserInRole('admin')}" />
+						<h:commandButton id="deleteButton"
+							image="#{resource['images:delete.gif']}"
+							action="#{ac.delete(art)}"
+							alt="#{msgAv['viewArtikel.deleteButtonAlt']}"
+							onclick="return confirm('#{msgAv['viewArtikel.deleteArtikelBestaetigung']}')"
+							render="@form :globaleFehlermeldungen"
+							rendered="#{rich:isUserInRole('abteilungsleiter')}" />
+						<h:commandButton id="warenkorbButton"
+							image="#{resource['images:warenkorb.gif']}"
+							action="#{wk.add(art)}"
+							alt="#{msgAv['viewArtikel.alt.warenkorb']}" />
+					</rich:column>
+
+				</rich:dataTable>
+
+
+				<p id="abstandZuMeldungen">
+					<rich:messages id="globaleFehlermeldungen" globalOnly="true" />
+				</p>
+
+			</a4j:outputPanel>
+		</h:form>
+	</ui:define>
+</ui:composition>
 </html>
