@@ -1,17 +1,14 @@
 package de.shop.kundenverwaltung.domain;
 
+import static de.shop.util.Konstante.ERSTE_VERSION;
 import static de.shop.util.Konstante.KEINE_ID;
 import static de.shop.util.Konstante.MIN_ID;
-import static de.shop.util.Konstante.ERSTE_VERSION;
+import static javax.persistence.CascadeType.MERGE;
 import static javax.persistence.CascadeType.PERSIST;
 import static javax.persistence.CascadeType.REMOVE;
-import static javax.persistence.CascadeType.MERGE;
 import static javax.persistence.FetchType.EAGER;
-import static javax.persistence.FetchType.LAZY;
 import static javax.persistence.TemporalType.DATE;
 import static javax.persistence.TemporalType.TIMESTAMP;
-
-import javax.persistence.UniqueConstraint;
 
 import java.io.Serializable;
 import java.lang.invoke.MethodHandles;
@@ -22,8 +19,6 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
-
-import org.jboss.logging.Logger;
 
 import javax.persistence.Basic;
 import javax.persistence.CollectionTable;
@@ -46,6 +41,7 @@ import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.Transient;
+import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 import javax.validation.Valid;
 import javax.validation.constraints.AssertTrue;
@@ -58,11 +54,11 @@ import javax.validation.constraints.Size;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.ScriptAssert;
+import org.jboss.logging.Logger;
 
+import de.shop.auth.service.jboss.AuthService.RolleType;
 import de.shop.bestellverwaltung.domain.Bestellung;
 import de.shop.util.IdGroup;
-import de.shop.auth.service.jboss.AuthService.RolleType;
 
 /**
  * The persistent class for the kunde database table.
@@ -315,19 +311,17 @@ public class Kunde implements Serializable {
 		super();
 	}
 	
-	public Kunde(String art, String email, FamilienstandTyp familienstand,
+	public Kunde(String art, FamilienstandTyp familienstand,
 			GeschlechtTyp geschlecht, String nachname, String vorname,
-			BigDecimal rabatt, BigDecimal umsatz, Date seit) {
+			BigDecimal rabatt, BigDecimal umsatz) {
 		super();
 		this.art = art;
-		this.email = email;
 		this.familienstand = familienstand;
 		this.geschlecht = geschlecht;
 		this.nachname = nachname;
 		this.vorname = vorname;
 		this.rabatt = rabatt;
 		this.umsatz = umsatz;
-		this.seit = seit;
 	}
 
 	public void setWerte(Kunde k) {

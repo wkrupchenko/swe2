@@ -30,7 +30,6 @@ import org.richfaces.cdi.push.Push;
 
 import de.shop.kundenverwaltung.domain.Adresse;
 import de.shop.kundenverwaltung.domain.Kunde;
-import de.shop.kundenverwaltung.domain.PasswordGroup;
 import de.shop.kundenverwaltung.service.EmailExistsException;
 import de.shop.kundenverwaltung.service.InvalidEmailException;
 import de.shop.kundenverwaltung.service.InvalidKundeException;
@@ -79,7 +78,7 @@ public class KundeController implements Serializable {
 	private static final String CLIENT_ID_KUNDEN_NACHNAME = "form:nachname";
 	private static final String CLIENT_ID_KUNDEN_EMAIL = "form:email";
 	private static final String CLIENT_ID_KUNDEN = "form:id";
-	private static final String CLIENT_ID_UPDATE_PASSWORD = "updateKundeForm:password";
+	private static final String CLIENT_ID_UPDATE_PASSWORT = "updateKundeForm:passwort";
 	private static final String CLIENT_ID_UPDATE_EMAIL = "updateKundeForm:email";
 	private static final String CLIENT_ID_CREATE_EMAIL = "createKundeForm:email";
 
@@ -95,7 +94,8 @@ public class KundeController implements Serializable {
 	private List<Kunde> kunden = Collections.emptyList();
 	private boolean geaendertKunde;
 
-	private static final Class<?>[] PASSWORD_GROUP = { Default.class };
+	private static final Class<?>[] PASSWORT_GROUP = {
+		Default.class };
 	
 	@Inject
 	@Client
@@ -190,8 +190,8 @@ public class KundeController implements Serializable {
 		this.kunden = kunden;
 	}
 
-	public Class<?>[] getPasswordGroup() {
-		return PASSWORD_GROUP.clone();
+	public Class<?>[] getPasswortGroup() {
+		return PASSWORT_GROUP.clone();
 	}
 
 	// Um aktuelles Datum auf Startseite anzuzeigen
@@ -322,7 +322,7 @@ public class KundeController implements Serializable {
 
 		kunden = ks.findeKundeNachPlz(plz);
 		
-		if(kunden.isEmpty()) {
+		if (kunden.isEmpty()) {
 			flash.remove(kunden);
 			return null;
 		}
@@ -393,10 +393,10 @@ public class KundeController implements Serializable {
 	private String updateKundeErrorMsg(RuntimeException es) {
 		final Class<? extends RuntimeException> exceptionClass = es.getClass();
 		if (exceptionClass.equals(InvalidKundeIdException.class)) {
-			// Ungueltiges Password: Attribute wurden bereits von JSF validiert
+			// Ungueltiges Passwort: Attribute wurden bereits von JSF validiert
 			final InvalidKundeException orig = (InvalidKundeException) es;
 			final Collection<ConstraintViolation<Kunde>> violations = orig.getViolations();
-			messages.error(violations, CLIENT_ID_UPDATE_PASSWORD);
+			messages.error(violations, CLIENT_ID_UPDATE_PASSWORT);
 		}
 		else if (exceptionClass.equals(EmailExistsException.class)) {
 			messages.error(KUNDENVERWALTUNG, MSG_KEY_UPDATE_KUNDE_DUPLIKAT, CLIENT_ID_UPDATE_EMAIL);

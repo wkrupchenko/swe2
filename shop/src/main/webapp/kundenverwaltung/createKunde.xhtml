@@ -24,9 +24,8 @@
 				
 				<rich:graphValidator id="kundeValidator"
 				                     value="#{kc.neuerKunde}"
-				                     groups="#{kc.passwordGroup}">
+				                     groups="#{kc.passwortGroup}">
 					<rich:messages for="kundeValidator"/>
-					<rich:messages id="fehlermeldungPassword" globalOnly="true"/>
 					<p id="abstand"/>
 					
 					<h:panelGrid id="createKundeTabelle" columns="3">
@@ -83,21 +82,27 @@
 						</h:inputText>
 						<rich:messages id="fehlermeldungEmail" for="email"/>
 		
-						<h:outputLabel id="passwordLabel"
-						               for="password"
-						               value="#{msgKv['createKunde.password']}"/>
-						<h:inputSecret id="password"
+						<h:outputLabel id="passwortLabel"
+						               for="passwort"
+						               value="#{msgKv['createKunde.passwort']}"/>
+						<h:inputSecret id="passwort"
 						               value="#{kc.neuerKunde.passwort}"
-						               redisplay="true"/>
-						<f:verbatim/>
+						               redisplay="true">
+							<rich:validator oninvalid="$(#{rich:element('passwort')}).addClass('invalid')"
+                                            onvalid="$(#{rich:element('passwort')}).removeClass('invalid')"/>
+                        </h:inputSecret>
+						<rich:messages id="fehlermeldungPasswort" for="passwort"/>
 						
-						<h:outputLabel id="passwordWdhLabel"
-						               for="passwordWdh"
-						               value="#{msgKv['createKunde.passwordWdh']}"/>
-						<h:inputSecret id="passwordWdh"
+						<h:outputLabel id="passwortWdhLabel"
+						               for="passwortWdh"
+						               value="#{msgKv['createKunde.passwortWdh']}"/>
+						<h:inputSecret id="passwortWdh"
 						               value="#{kc.neuerKunde.passwortWdh}"
-						               redisplay="true"/>
-						<f:verbatim/>
+						               redisplay="true">
+							<rich:validator oninvalid="$(#{rich:element('passwortWdh')}).addClass('invalid')"
+                                            onvalid="$(#{rich:element('passwortWdh')}).removeClass('invalid')"/>
+						</h:inputSecret>
+						<rich:messages id="fehlermeldungPasswortWdh" for="passwortWdh"/>
 		
 						<h:outputLabel id="plzLabel" for="plz" value="#{msgKv['createKunde.plz']}"/>
 						<h:inputText id="plz"
