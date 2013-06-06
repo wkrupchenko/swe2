@@ -81,7 +81,46 @@
 								</f:facet>																
 								#{lieferung.transportArt}
 							</rich:column> 
+							
+							<rich:column id="BestellungLabel">
+								<f:facet name="header">
+									#{msgBv['viewBestellung.bestellnr']}
+								</f:facet>
+								<h:commandLink id="bPopup" value="#{msgBv['viewBestellung.title']}">
+									<rich:componentControl target="popup" operation="show"/>
+								</h:commandLink>
+	                           
+								<rich:popupPanel id="popup" modal="false" autosized="true" resizeable="false">
+									<f:facet name="header">
+										<h:outputFormat id="popupTitleBestellung" value="#{msgBv['viewLieferung.bestellungen']}">
+											<f:param id="popup1" value=""/>
+										</h:outputFormat>
+									</f:facet>
+									<f:facet name="controls">
+										<h:outputLink id="hideControl"
+								        		      value="lieferung.bestellungen"
+								              		  onclick="#{rich:component('popup')}.hide(); return false;">
+										<h:graphicImage id="hideIconBP"
+									    	            name="close.png"
+									        	        library="images"
+									            	    style="cursor:pointer"
+									                	alt="#{msgKv['viewKundePopup.hide.button']}"/>
+										</h:outputLink>
+									</f:facet>
+									
+									<ui:include src="viewLieferungBestellungPopup.xhtml"/>
+							
+									<h:outputLink id="closeLinkBP"
+							        		      value="#"
+								          		  onclick="#{rich:component('popup')}.hide(); return false;">
+										#{msgKv['viewKundePopup.hide.button']}
+									</h:outputLink>
+								</rich:popupPanel>
+								 
+							</rich:column>
 						</rich:dataTable>
+						
+						
 						
 					</c:if>
 					

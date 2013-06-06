@@ -20,65 +20,65 @@
 			<rich:panel id="stammdatenPanel">
 				<h:panelGrid id="stammdatenGrid" columns="2">
 					<h:outputText id="idLabel" value="#{msgKv['viewKundePopup.kundenr']}"/>
-					<h:outputText id="id" value="#{bestellung.kunde.id}"/>
+					<h:outputText id="id" value="#{best.kunde.id}"/>
 			
 					<h:outputText id="nachnamePopupLabel" value="#{msgKv['viewKundePopup.nachname']}"/>
-					<h:outputText id="nachname" value="#{bestellung.kunde.nachname}"/>
+					<h:outputText id="nachname" value="#{best.kunde.nachname}"/>
 		
 					<h:outputText id="vornamePopupLabel" value="#{msgKv['viewKundePopup.vorname']}"/>
-					<h:outputText id="vorname" value="#{bestellung.kunde.vorname}"/>
+					<h:outputText id="vorname" value="#{best.kunde.vorname}"/>
 					
 					<h:outputText id="seitLabel" value="#{msgKv['viewKundePopup.seit']}"/>
-					<h:outputText id="seit" value="#{bestellung.kunde.seit}">
+					<h:outputText id="seit" value="#{best.kunde.seit}">
 						<f:convertDateTime type="date" dateStyle="long"/>
 					</h:outputText>
 					
 					<h:outputText id="umsatzLabel" value="#{msgKv['viewKundePopup.umsatz']}"/>
-					<h:outputText id="umsatz" value="#{bestellung.kunde.umsatz}">
+					<h:outputText id="umsatz" value="#{best.kunde.umsatz}">
 						<f:convertNumber type="currency"
 						                 currencyCode="EUR"/>
 					</h:outputText>
 		
 					<h:outputText id="emailPopupLabel" value="#{msgKv['viewKundePopup.email']}"/>
-					<h:outputText id="email" value="#{bestellung.kunde.email}"/>
+					<h:outputText id="email" value="#{best.kunde.email}"/>
 	
-					<h:outputText id="firmenkundeLabel" value="#{msgKv['viewKundePopup.kundenart']}" rendered="#{bestellung.kunde.art eq 'f'}"/>
-					<h:outputText id="firmenkunde" value="#{msgKv['viewKundePopup.firmenkunde']}" rendered="#{bestellung.kunde.art eq 'f'}"/>
+					<h:outputText id="firmenkundeLabel" value="#{msgKv['viewKundePopup.kundenart']}" rendered="#{best.kunde.art eq 'f'}"/>
+					<h:outputText id="firmenkunde" value="#{msgKv['viewKundePopup.firmenkunde']}" rendered="#{best.kunde.art eq 'f'}"/>
 		
-					<h:outputText id="privatkundeLabel" value="#{msgKv['viewKundePopup.kundenart']}" rendered="#{bestellung.kunde.art eq 'p'}"/>
-					<h:outputText id="privatkunde" value="#{msgKv['viewKundePopup.privatkunde']}" rendered="#{bestellung.kunde.art eq 'p'}"/>
+					<h:outputText id="privatkundeLabel" value="#{msgKv['viewKundePopup.kundenart']}" rendered="#{best.kunde.art eq 'p'}"/>
+					<h:outputText id="privatkunde" value="#{msgKv['viewKundePopup.privatkunde']}" rendered="#{best.kunde.art eq 'p'}"/>
 					
 					<h:outputText id="rabattLabel" value="#{msgKv['viewKundePopup.rabatt']}"/>
-					<h:outputText id="rabatt" value="#{bestellung.kunde.rabatt}">
+					<h:outputText id="rabatt" value="#{best.kunde.rabatt}">
 						<f:convertNumber type="percent" maxFractionDigits="2"/>
 					</h:outputText>
 					
-					<h:outputText id="familienstandLabel" value="#{msgKv['viewKundePopup.familienstand']}" rendered="#{bestellung.kunde.art eq 'p' and bestellung.kunde.familienstand eq 'LEDIG'}"/>
-					<h:outputText id="familienstand" value="#{msgKv['viewKundePopup.familienstand.ledig']}" rendered="#{bestellung.kunde.art eq 'p' and bestellung.kunde.familienstand eq 'LEDIG'}"/>
+					<h:outputText id="familienstandLabel" value="#{msgKv['viewKundePopup.familienstand']}" rendered="#{best.kunde.art eq 'p' and best.kunde.familienstand eq 'LEDIG'}"/>
+					<h:outputText id="familienstand" value="#{msgKv['viewKundePopup.familienstand.ledig']}" rendered="#{best.kunde.art eq 'p' and best.kunde.familienstand eq 'LEDIG'}"/>
 		
-					<h:outputText id="verheiratetLabel" value="#{msgKv['viewKundePopup.familienstand']}" rendered="#{bestellung.kunde.art eq 'p' and bestellung.kunde.familienstand eq 'VERHEIRATET'}"/>
-					<h:outputText id="verheiratet" value="#{msgKv['viewKundePopup.familienstand.verheiratet']}" rendered="#{bestellung.kunde.art eq 'p' and bestellung.kunde.familienstand eq 'VERHEIRATET'}"/>
+					<h:outputText id="verheiratetLabel" value="#{msgKv['viewKundePopup.familienstand']}" rendered="#{best.kunde.art eq 'p' and best.kunde.familienstand eq 'VERHEIRATET'}"/>
+					<h:outputText id="verheiratet" value="#{msgKv['viewKundePopup.familienstand.verheiratet']}" rendered="#{best.kunde.art eq 'p' and best.kunde.familienstand eq 'VERHEIRATET'}"/>
 		
-					<h:outputText id="geschiedenLabel" value="#{msgKv['viewKundePopup.familienstand']}" rendered="#{bestellung.kunde.art eq 'p' and bestellung.kunde.familienstand eq 'GESCHIEDEN'}"/>
-					<h:outputText id="geschieden" value="#{msgKv['viewKundePopup.familienstand.geschieden']}" rendered="#{bestellung.kunde.art eq 'p' and bestellung.kunde.familienstand eq 'GESCHIEDEN'}"/>
+					<h:outputText id="geschiedenLabel" value="#{msgKv['viewKundePopup.familienstand']}" rendered="#{best.kunde.art eq 'p' and best.kunde.familienstand eq 'GESCHIEDEN'}"/>
+					<h:outputText id="geschieden" value="#{msgKv['viewKundePopup.familienstand.geschieden']}" rendered="#{best.kunde.art eq 'p' and best.kunde.familienstand eq 'GESCHIEDEN'}"/>
 		
-					<h:outputText id="verwitwetLabel" value="#{msgKv['viewKundePopup.familienstand']}" rendered="#{bestellung.kunde.art eq 'p' and bestellung.kunde.familienstand eq 'VERWITWET'}"/>
-					<h:outputText id="verwitwet" value="#{msgKv['viewKundePopup.familienstand.verwitwet']}" rendered="#{bestellung.kunde.art eq 'p' and bestellung.kunde.familienstand eq 'VERWITWET'}"/>
+					<h:outputText id="verwitwetLabel" value="#{msgKv['viewKundePopup.familienstand']}" rendered="#{best.kunde.art eq 'p' and best.kunde.familienstand eq 'VERWITWET'}"/>
+					<h:outputText id="verwitwet" value="#{msgKv['viewKundePopup.familienstand.verwitwet']}" rendered="#{best.kunde.art eq 'p' and best.kunde.familienstand eq 'VERWITWET'}"/>
 		
-					<h:outputText id="weiblichLabel" value="#{msgKv['viewKundePopup.geschlecht']}" rendered="#{bestellung.kunde.art eq 'p' and bestellung.kunde.geschlecht eq 'WEIBLICH'}"/>
-					<h:outputText id="weiblich" value="#{msgKv['viewKundePopup.geschlecht.weiblich']}" rendered="#{bestellung.kunde.art eq 'p' and bestellung.kunde.geschlecht eq 'WEIBLICH'}"/>
+					<h:outputText id="weiblichLabel" value="#{msgKv['viewKundePopup.geschlecht']}" rendered="#{best.kunde.art eq 'p' and best.kunde.geschlecht eq 'WEIBLICH'}"/>
+					<h:outputText id="weiblich" value="#{msgKv['viewKundePopup.geschlecht.weiblich']}" rendered="#{best.kunde.art eq 'p' and best.kunde.geschlecht eq 'WEIBLICH'}"/>
 		
-					<h:outputText id="maennlichLabel" value="#{msgKv['viewKundePopup.geschlecht']}" rendered="#{bestellung.kunde.art eq 'p' and bestellung.kunde.geschlecht eq 'MAENNLICH'}"/>
-					<h:outputText id="maennlich" value="#{msgKv['viewKundePopup.geschlecht.maennlich']}" rendered="#{bestellung.kunde.art eq 'p' and bestellung.kunde.geschlecht eq 'MAENNLICH'}"/>
+					<h:outputText id="maennlichLabel" value="#{msgKv['viewKundePopup.geschlecht']}" rendered="#{best.kunde.art eq 'p' and best.kunde.geschlecht eq 'MAENNLICH'}"/>
+					<h:outputText id="maennlich" value="#{msgKv['viewKundePopup.geschlecht.maennlich']}" rendered="#{best.kunde.art eq 'p' and best.kunde.geschlecht eq 'MAENNLICH'}"/>
 	
 					<h:outputText id="newsletterLabel" value="#{msgKv['viewKundePopup.newsletter']}"/>
-					<h:selectBooleanCheckbox id="newsletter" value="#{bestellung.kunde.newsletter}" disabled="true" readonly="true"/>
+					<h:selectBooleanCheckbox id="newsletter" value="#{best.kunde.newsletter}" disabled="true" readonly="true"/>
 	
 				</h:panelGrid>
 			</rich:panel>
 		</rich:tab>
 		
-		<rich:tab id="bestellungenTab" rendered="#{not empty bestellung.kunde.bestellungen}">
+		<rich:tab id="bestellungenTab" rendered="#{not empty VARbestellung.kunde.bestellungen}">
 			<f:facet name="header">
 				<h:panelGroup id="bestellungenLabel">
 					<h:graphicImage id="bestellungenGif"
@@ -89,15 +89,17 @@
 				</h:panelGroup>
 			</f:facet>
 			
-			<rich:dataTable id="bestellungenTabelle" value="#{bestellung.kunde.bestellungen}" var="bestellung">
+			<rich:dataTable id="bestellungenTabelle" value="#{VARbestellung.kunde.bestellungen}" var="bes">
 				<f:facet name="header">
 					<rich:columnGroup id="positionenSpalten">
 						<rich:column id="artikelIdSpalte">
 							#{msgKv['viewKundePopup.artikel.id']}
 						</rich:column>
+						
 						<rich:column id="bezeichnungSpalte">
 							#{msgKv['viewKundePopup.artikel.bezeichnung']}
 						</rich:column>
+																	
 						<rich:column id="anzahlSpalte">
 							#{msgKv['viewKundePopup.artikel.anzahl']}
 						</rich:column>
@@ -106,12 +108,12 @@
 				
 				<rich:column id="togglerSpalte" colspan="3">
 					<rich:collapsibleSubTableToggler id="subTableToggler" for="positionenSubtable"
-					                                 collapsedLabel="#{msgKv['viewKundePopup.bestellung']} #{bestellung.id} : #{bestellung.getErzeugt('yyyy-MM-dd')}"
-					                                 expandedLabel="#{msgKv['viewKundePopup.bestellung']} #{bestellung.id} : #{bestellung.getErzeugt('yyyy-MM-dd')}"/>
+					                                 collapsedLabel="#{msgKv['viewKundePopup.bestellung']} #{bes.id} : #{bes.getErzeugt('yyyy-MM-dd')}"
+					                                 expandedLabel="#{msgKv['viewKundePopup.bestellung']} #{bes.id} : #{bes.getErzeugt('yyyy-MM-dd')}"/>
 				</rich:column>
 				
 				<rich:collapsibleSubTable id="positionenSubtable"
-				                          value="#{bestellung.bestellpositionen}"
+				                          value="#{bes.bestellpositionen}"
 				                          var="pos"
 				                          rowClasses="odd-row, even-row"
 					                      styleClass="tabelleMitZebrastil"
@@ -120,11 +122,48 @@
 					<rich:column id="artikelIdSpalteSub">
 					 		#{pos.artikel.id}						 						
 					</rich:column>
-		
+		           
+		           <!--  
 					<rich:column id="bezeichnungSpalteSub">
 						#{pos.artikel.bezeichnung}
 					</rich:column>
-		
+					--> 
+					 
+					<rich:column id="bezeichnungSpalte">
+								<f:facet name="header">
+									#{msgAv['viewArtikelgruppePopup.artikel.bezeichnung']}
+								</f:facet>
+								<h:commandLink id="artikelPopupAgA" value="#{pos.artikel.bezeichnung}">
+									<rich:componentControl target="popupAgA" operation="show"/>
+								</h:commandLink>
+								
+								<rich:popupPanel id="popupAgA" modal="false" autosized="true" resizeable="false">
+									<f:facet name="header">
+										<h:outputFormat id="popupTitleAgA" value="#{pos.artikel.bezeichnung}">
+											<f:param id="popupTitleIdAgA" value="#{pos.artikel.id}"/>
+										</h:outputFormat>
+									</f:facet>
+									<f:facet name="controls">
+										<h:outputLink id="hideControlAgA"
+								        	    	  value="#"
+								            	  	  onclick="#{rich:component('popupAga')}.hide(); return false;">
+											<h:graphicImage id="hideIconAgA"
+									    		            name="close.png"
+									        		        library="images"
+									           	    	    style="cursor:pointer"
+									               	    	alt="#{msgAv['viewArtikelPopup.hide.button']}"/>
+										</h:outputLink>
+									</f:facet>
+									
+									<ui:include src="viewBArtikelPopup.xhtml"/>
+										<h:outputLink id="closeLinkAgA"
+							            			  value="#"
+								          			  onclick="#{rich:component('popupAgA')}.hide(); return false;">
+										#{msgAv['viewArtikelPopup.hide.button']}
+										</h:outputLink>
+								</rich:popupPanel>
+							</rich:column>
+		                
 					<rich:column id="anzahlSpalteSub">
 						#{pos.anzahl}
 					</rich:column>

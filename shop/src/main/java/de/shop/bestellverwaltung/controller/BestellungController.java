@@ -86,7 +86,7 @@ public class BestellungController implements Serializable {
 	
 	private Long bestellungId;
 	
-	private Long lieferungId;
+	private Long lieferungId;	 
 	
 	private String liefernummer;
 	
@@ -148,17 +148,20 @@ public class BestellungController implements Serializable {
 	 * Action Methode, um eine Bestellung zu gegebener ID zu suchen
 	 * @return URL fuer Anzeige der gefundenen Bestellung; sonst null
 	 */
+	
 	@Transactional
 	public String findBestellungById() {
 		final Bestellung bestellung = bs.findeBestellungNachId(bestellungId);
-		if (bestellung == null) {
+	 	if (bestellung == null) {
 			flash.remove(FLASH_BESTELLUNG);
 			return null;
 		}
 						
 		flash.put(FLASH_BESTELLUNG, bestellung);
+	 
 		return JSF_VIEW_BESTELLUNG;
 	}
+	
 	
 	@Transactional
 	public String findLieferungById() {
@@ -175,6 +178,7 @@ public class BestellungController implements Serializable {
 	@Transactional
 	public String findeBestellungNachStatus() {
 		if(bestellungStatus) {
+			flash.remove(FLASH_BESTELLUNG);
 			final List<Bestellung> bestellung = bs.findeBestellungenOffen();
 			 if (bestellung.isEmpty()) {
 				flash.remove(FLASH_BESTELLUNG);
@@ -187,6 +191,7 @@ public class BestellungController implements Serializable {
 			return JSF_BESTELLUNG_STATUS;
 		}
 		else {
+			flash.remove(FLASH_BESTELLUNG);
 			final List<Bestellung> bestellung = bs.findeBestellungenGeschlossen();
 			 if (bestellung.isEmpty()) {
 				flash.remove(FLASH_BESTELLUNG);
@@ -198,17 +203,6 @@ public class BestellungController implements Serializable {
 		}
 	}
 	
-	@Transactional
-	public String findeBestellungenNachLieferungLiefernr() {
-		final List<Bestellung> bestellungen = bs.findeBestellungenNachLieferungLiefernr(liefernummer);
-		if (bestellungen == null) {
-			flash.remove(FLASH_BESTELLUNG);
-			return null;
-		}
-						
-		flash.put(FLASH_BESTELLUNG, bestellungen);
-		return JSF_VIEW_BESTELLUNG;
-	}
 		 	
 	@Transactional
 	public String findeKundeNachBestellungId() {

@@ -20,7 +20,7 @@
 			<rich:panel id="stammdatenPanel1">
 				<h:panelGrid id="stammdatenGrid1" columns="2">
 				 
-								<c:forEach items="#{bestellung.lieferungen}" var="lief">
+								<c:forEach items="#{VARbestellung.lieferungen}" var="lief">
 								    <h:outputText id="idLabel1" value="#{msgBv['viewLieferungPopup.id']}"/>
 								     
 									<h:outputText value="#{lief.id}" />
@@ -44,7 +44,39 @@
 								</c:forEach>	
 				</h:panelGrid>
 			</rich:panel>
-				<a4j:outputPanel id="outputPanelZebra" ajaxRendered="true">
+				 
+		</rich:tab>
+		<!--  
+		<rich:tab id="bestellungenTabL">
+			<f:facet name="header">
+				<h:panelGroup id="bestellungenLabelL">
+					<h:graphicImage id="bestellungenGifL"
+					                name="bestellungen.gif"
+					                library="images"/>
+					#{' '}
+					#{msgKv['viewKundePopup.kunde.bestellungen']}
+				</h:panelGroup>
+			</f:facet>
+			<rich:dataTable id="bestellungLTabelle"
+						                value="#{VARbestellung.lieferungen.toArray().array[0].bestellungen}"
+						                var="BL"
+						                rows="2"
+						                noDataLabel="#{msgBv['viewBestellung.keineDaten']}"
+						                rowClasses="odd-row, even-row"
+						                styleClass="tabelleMitZebrastil"
+						                cellspacing="10">
+						                 
+							<rich:column id="idSpalte">
+								<f:facet name="header">
+									#{msgBv['viewBestellung.bestellnr']}
+								</f:facet>
+								#{BL.id}
+							</rich:column>
+			</rich:dataTable>
+				 
+		</rich:tab>
+		-->	
+		<a4j:outputPanel id="outputPanelZebra" ajaxRendered="true">
 					<rich:jQuery id="odd"
 					             selector=".tabelleMitZebrastil tr:odd"
 					             query="addClass('odd-row')"
@@ -63,8 +95,7 @@
 					             event="mouseout"
 					             query="jQuery(this).removeClass('active-row')"
 					             timing="domready"/>
-				</a4j:outputPanel>
-		</rich:tab>
-		
+				</a4j:outputPanel>	 		
+		 		
 	</rich:tabPanel>
 </ui:composition>

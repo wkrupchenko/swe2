@@ -21,8 +21,8 @@
 									   for="BestStatusInput"/>
 		
 						<h:selectOneRadio id="BestStatusInput" value="#{bc.bestellungStatus}">
-							<f:selectItem id="offen" itemLabel="offen" itemValue="true"/>
-							<f:selectItem id="abgeschlossen" itemLabel="abgeschlossen" itemValue="false"/>
+							<f:selectItem id="offenb" itemLabel="offen" itemValue="true"/>
+							<f:selectItem id="abgeschlossenb" itemLabel="abgeschlossen" itemValue="false"/>
 						</h:selectOneRadio>
 						
 						 
@@ -51,60 +51,124 @@
 												 			
 				<a4j:outputPanel id="gesuchteBestellungPanel">
 					    <c:if test="#{not empty flash.bestellung or param.init ne 'true'}">   
-						<c:set var="bestellung" value="#{flash.bestellung}" scope="view"/>
+						<c:set var="VARbestellung" value="#{flash.bestellung}" scope="view"/>
 						<!-- Fuer den naechsten Request puffern, falls z.B. ein Update-Button angeklickt WUERDE -->
-						<c:set target="#{flash}" property="bestellung" value="#{bestellung}"/>
+						 
 						
 							<rich:dataTable id="bestellungTabelle"
-						                value="#{bestellung}"
-						                var="bestellung"
+						                value="#{VARbestellung}"
+						                var="bestl"
 						                rows="15"
 						                noDataLabel="#{msgBv['viewBestellung.keineDaten']}"
 						                rowClasses="odd-row, even-row"
 						                styleClass="tabelleMitZebrastil"
 						                cellspacing="10"
-						                rendered="#{not empty bestellung or param.init ne 'true'}">
+						                rendered="#{not empty VARbestellung or param.init ne 'true'}">
+						   
 						    
 						                						               
 							<rich:column id="idSpalte">
 								<f:facet name="header">
 									#{msgBv['viewBestellung.bestellnr']}
 								</f:facet>
-								#{bestellung.id}
+								#{best.id}
 							</rich:column>
 							
-							 <!-- 						 
-							 <rich:column id="bestellpositionenSpalte">							
+							 <rich:column id="BPLabel">
 								<f:facet name="header">
 									#{msgBv['viewBestellung.bestellpositionen']}
 								</f:facet>
-							<c:forEach items="#{bestellung.bestellpositionen}" var="cap">
-								<h:outputText value="#{cap.id}" />
-								<br/>
-							</c:forEach>				
-							</rich:column>
-							  -->		
+								<h:commandLink id="bpPopup" value="#{msgBv['viewBestellung.bestellpositionen']}">
+									<rich:componentControl target="popupBP" operation="show"/>
+								</h:commandLink>
+	                           
+								<rich:popupPanel id="popupBP" modal="false" autosized="true" resizeable="false">
+									<f:facet name="header">
+										<h:outputFormat id="popupTitleBP" value="#{msgBv['viewBPOverview.title']}">
+											<f:param id="popupBPId" value=""/>
+										</h:outputFormat>
+									</f:facet>
+									<f:facet name="controls">
+										<h:outputLink id="hideControlBP"
+								        		      value="best.bestellpositionen"
+								              		  onclick="#{rich:component('popupBP')}.hide(); return false;">
+										<h:graphicImage id="hideIconBP"
+									    	            name="close.png"
+									        	        library="images"
+									            	    style="cursor:pointer"
+									                	alt="#{msgKv['viewKundePopup.hide.button']}"/>
+										</h:outputLink>
+									</f:facet>
+									
+									<ui:include src="viewBestellpositionen.xhtml"/>
+							
+									<h:outputLink id="closeLinkBP"
+							        		      value="#"
+								          		  onclick="#{rich:component('popupBP')}.hide(); return false;">
+										#{msgKv['viewKundePopup.hide.button']}
+									</h:outputLink>
+								</rich:popupPanel>
+								 
+							</rich:column>		
 														
 							<rich:column id="offenAbgeschlossenSpalte">
 								<f:facet name="header">
 									#{msgBv['viewBestellung.offenabgeschlossen']}
 								</f:facet>
-								#{bestellung.offenAbgeschlossen}
+								#{best.offenAbgeschlossen}
 							</rich:column>
 							
-							 
+							<!--  
 							<rich:column id="kundeSpalte">
 								<f:facet name="header">
 									#{msgBv['viewBestellung.kunde']}
 								</f:facet>																
-								#{bestellung.kunde.nachname}
+								#{best.kunde.nachname}
 							</rich:column>
-							 <!--   							  
+							--> 
+							
+							<rich:column id="nachnameLabel">
+								<f:facet name="header">
+									#{msgKv['viewKunde']}
+								</f:facet>
+								<h:commandLink id="nachnamePopup" value="#{best.kunde.nachname}">
+									<rich:componentControl target="popup" operation="show"/>
+								</h:commandLink>
+	
+								<rich:popupPanel id="popup" modal="false" autosized="true" resizeable="false">
+									<f:facet name="header">
+										<h:outputFormat id="popupTitle" value="#{msgKv['viewKundePopup.title']}">
+											<f:param id="popupTitleId" value="#{best.kunde.id}"/>
+										</h:outputFormat>
+									</f:facet>
+									<f:facet name="controls">
+										<h:outputLink id="hideControl"
+								        		      value="#"
+								              		  onclick="#{rich:component('popup')}.hide(); return false;">
+										<h:graphicImage id="hideIcon"
+									    	            name="close.png"
+									        	        library="images"
+									            	    style="cursor:pointer"
+									                	alt="#{msgKv['viewKundePopup.hide.button']}"/>
+										</h:outputLink>
+									</f:facet>
+									
+									<ui:include src="viewBstatusKundePopup.xhtml"/> 
+							
+									<h:outputLink id="closeLink"
+							        		      value="#"
+								          		  onclick="#{rich:component('popup')}.hide(); return false;">
+										#{msgKv['viewKundePopup.hide.button']}
+									</h:outputLink>
+								</rich:popupPanel>
+							</rich:column>
+							
+							 							  
 							<rich:column id="lieferungenSpalte">
 								<f:facet name="header">
 									#{msgBv['viewBestellung.lieferungen']}
 								</f:facet>
-								<c:forEach items="#{bestellung.lieferungen}" var="cap">
+								<c:forEach items="#{best.lieferungen}" var="cap">
 									<h:outputText value="#{cap.id}" />
 									<br/>
 									<h:outputText value="#{cap.version}" />
@@ -117,7 +181,9 @@
 									<br/>
 								</c:forEach>								
 							</rich:column>	
-							 -->
+							 
+							 
+							  
 						</rich:dataTable>
 						
 						<p id="abstand2"/>
