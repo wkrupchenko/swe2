@@ -1,12 +1,18 @@
 package de.shop.artikelverwaltung.domain;
 
+import static de.shop.util.Konstante.ERSTE_VERSION;
+import static de.shop.util.Konstante.KEINE_ID;
+import static de.shop.util.Konstante.MIN_ID;
+import static javax.persistence.CascadeType.MERGE;
+import static javax.persistence.CascadeType.PERSIST;
+import static javax.persistence.CascadeType.REMOVE;
+import static javax.persistence.FetchType.EAGER;
+import static javax.persistence.TemporalType.TIMESTAMP;
+
 import java.io.Serializable;
-import java.util.Date;
-
-import org.jboss.logging.Logger;
-
 import java.lang.invoke.MethodHandles;
 import java.net.URI;
+import java.util.Date;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -16,13 +22,13 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.PostPersist;
 import javax.persistence.PostUpdate;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
-import javax.persistence.NamedQuery;
 import javax.persistence.Temporal;
 import javax.persistence.Transient;
 import javax.persistence.Version;
@@ -32,19 +38,11 @@ import javax.validation.constraints.Size;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
+import org.jboss.logging.Logger;
 
 import de.shop.util.File;
 import de.shop.util.IdGroup;
 import de.shop.util.PreExistingGroup;
-import static de.shop.util.Konstante.KEINE_ID;
-import static de.shop.util.Konstante.MIN_ID;
-import static de.shop.util.Konstante.ERSTE_VERSION;
-import static javax.persistence.TemporalType.TIMESTAMP;
-import static javax.persistence.CascadeType.MERGE;
-import static javax.persistence.CascadeType.PERSIST;
-import static javax.persistence.CascadeType.REMOVE;
-import static javax.persistence.FetchType.EAGER;
-import static javax.persistence.FetchType.LAZY;
 
 @Entity
 @Table(name = "artikel")
@@ -86,7 +84,7 @@ public class Artikel implements Serializable, Cloneable {
 	public static final String FINDE_ARTIKEL_NACH_ARTIKELGRUPPE = PREFIX + "findeArtikelNachArtikelgruppe";
 	public static final String FINDE_ARTIKEL_SORTIERT_NACH_ID = PREFIX + "findeArtikelSortiertNachId";
 	public static final String FINDE_ARTIKEL_NACH_ARTIKELGRUPPE_ID = PREFIX + "findeArtikelNachArtikelgruppeId";
-	public static final String FINDE_LADENHUETER = PREFIX +"findeLadenhueter";
+	public static final String FINDE_LADENHUETER = PREFIX + "findeLadenhueter";
 	
 	public static final String PARAM_BEZ = "bezeichnung";
 	public static final String PARAM_BEZEICHNUNG_PREFIX = "bezeichnungPrefix";

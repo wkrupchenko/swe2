@@ -1,15 +1,11 @@
 package de.shop.artikelverwaltung.controller;
 
+import static de.shop.util.Konstante.JSF_INDEX;
+import static de.shop.util.Konstante.JSF_REDIRECT_SUFFIX;
+import static de.shop.util.Messages.MessagesType.ARTIKELVERWALTUNG;
 import static javax.ejb.TransactionAttributeType.REQUIRED;
 import static javax.ejb.TransactionAttributeType.SUPPORTS;
 import static javax.persistence.PersistenceContextType.EXTENDED;
-import static org.jboss.security.auth.spi.Util.createPasswordHash;
-import static de.shop.util.Messages.MessagesType.ARTIKELVERWALTUNG;
-import static de.shop.util.Konstante.HASH_ALGORITHM;
-import static de.shop.util.Konstante.HASH_CHARSET;
-import static de.shop.util.Konstante.HASH_ENCODING;
-import static de.shop.util.Konstante.JSF_REDIRECT_SUFFIX;
-import static de.shop.util.Konstante.JSF_INDEX;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -49,7 +45,6 @@ import de.shop.util.FileHelper;
 import de.shop.util.Messages;
 import de.shop.util.Transactional;
 
-
 /**
  * Dialogsteuerung fuer die Artikelverwaltung
  */
@@ -87,7 +82,8 @@ public class ArtikelController implements Serializable {
 	private static final String CLIENT_ID_ARTIKEL_BEZEICHNUNG = "form:bezeichnung";
 	private static final String CLIENT_ID_ARTIKELGRUPPE_BEZEICHNUNG = "form:bezeichnung";
 	
-	private static final Class<?>[] DEFAULT_GROUP = { Default.class };
+	private static final Class<?>[] DEFAULT_GROUP = { 
+		Default.class };
 	
 	@PersistenceContext(type = EXTENDED)
 	private transient EntityManager em;
@@ -200,10 +196,10 @@ public class ArtikelController implements Serializable {
 	}
 	
 	public Artikel getArtikelListRow(int row) {
-		if(artikelList == null) {
+		if (artikelList == null) {
 			return null;
 		}
-		if(artikelList.size() == 0) {
+		if (artikelList.size() == 0) {
 			return null;
 		}
 		return artikelList.get(row);
@@ -266,10 +262,10 @@ public class ArtikelController implements Serializable {
 		artikel = as.findeArtikelNachId(artikelId);
 		
 		// In Liste hinzufügen, um einheitlich für alle Views eine Liste zu haben
-		if(artikelList != null) {
+		if (artikelList != null) {
 			artikelList.clear();
 		}
-		if(artikelList == null) {
+		if (artikelList == null) {
 			artikelList = new ArrayList<Artikel>();
 		}
 		artikelList.add(artikel);
@@ -301,7 +297,7 @@ public class ArtikelController implements Serializable {
 	@Transactional
 	public String findeArtikelNachBezeichnung() {
 		artikelList = as.findeArtikelNachBezeichnung(artikelBezeichnung);
-		if(artikelList.isEmpty()) {
+		if (artikelList.isEmpty()) {
 			return null;
 		}
 		
@@ -316,7 +312,8 @@ public class ArtikelController implements Serializable {
 	public List<String> findeBezeichnungenNachPrefix(String artikelBezeichnungPrefix) {
 		final List<String> bezeichnungen = as.findeBezeichnungenNachPrefix(artikelBezeichnungPrefix);
 		if (bezeichnungen.isEmpty()) {
-			messages.error(ARTIKELVERWALTUNG, MSG_KEY_ARTIKEL_NOT_FOUND_BY_BEZEICHNUNG, CLIENT_ID_ARTIKEL_BEZEICHNUNG, artikelId);
+			messages.error(ARTIKELVERWALTUNG, MSG_KEY_ARTIKEL_NOT_FOUND_BY_BEZEICHNUNG, 
+						   CLIENT_ID_ARTIKEL_BEZEICHNUNG, artikelId);
 			return bezeichnungen;
 		}
 
@@ -333,7 +330,7 @@ public class ArtikelController implements Serializable {
 	 */
 	@Transactional
 	public String findeArtikelNachVerfuegbarkeit() {
-		if(artikelErhaeltlich) {
+		if (artikelErhaeltlich) {
 			artikelList = as.findeVerfuegbareArtikel();
 			if (artikelList.isEmpty()) {
 				return null;
@@ -396,7 +393,7 @@ public class ArtikelController implements Serializable {
 	@TransactionAttribute(REQUIRED)
 	public String createArtikel() {
 		// Artikelgruppe anhand der vorgegebenen ID suchen und anschließend dem Artikel und umgekehrt zuweisen
-		Artikelgruppe ag = as.findeArtikelgruppeNachId(neuerArtikelArtikelgruppeId);
+		final Artikelgruppe ag = as.findeArtikelgruppeNachId(neuerArtikelArtikelgruppeId);
 		neuerArtikel.setArtikelgruppe(ag);
 		ag.addArtikel(neuerArtikel);
 		try {
@@ -520,15 +517,15 @@ public class ArtikelController implements Serializable {
 		}
 		// Falls sich Artikelgruppe geändert hat
 		boolean artikelgruppeGeaendert = false;
-		if((as.findeArtikelgruppeNachId(updateArtikelArtikelgruppeId) != null) && 
-			(!artikel.getArtikelgruppe().getId().equals(updateArtikelArtikelgruppeId))) {	
+		if ((as.findeArtikelgruppeNachId(updateArtikelArtikelgruppeId) != null) 
+			 && (!artikel.getArtikelgruppe().getId().equals(updateArtikelArtikelgruppeId))) {	
 				artikelgruppeGeaendert = true;
 		}
 		
 		try {
-			if(artikelgruppeGeaendert) {
+			if (artikelgruppeGeaendert) {
 				// Artikelgruppe anhand der vorgegebenen ID suchen und anschließend dem Artikel und umgekehrt zuweisen
-				Artikelgruppe ag = as.findeArtikelgruppeNachId(updateArtikelArtikelgruppeId);
+				final Artikelgruppe ag = as.findeArtikelgruppeNachId(updateArtikelArtikelgruppeId);
 				artikel.setArtikelgruppe(ag);
 				ag.addArtikel(artikel);
 				artikel = as.updateArtikel(artikel, locale);
@@ -651,7 +648,8 @@ public class ArtikelController implements Serializable {
 	public List<String> findeArtikelgruppeBezeichnungenNachPrefix(String artikelgruppeBezeichnungPrefix) {
 		final List<String> bezeichnungen = as.findeArtikelgruppeBezeichnungenNachPrefix(artikelgruppeBezeichnungPrefix);
 		if (bezeichnungen.isEmpty()) {
-			messages.error(ARTIKELVERWALTUNG, MSG_KEY_ARTIKELGRUPPE_NOT_FOUND_BY_BEZEICHNUNG, CLIENT_ID_ARTIKELGRUPPE_BEZEICHNUNG, artikelgruppeId);
+			messages.error(ARTIKELVERWALTUNG, MSG_KEY_ARTIKELGRUPPE_NOT_FOUND_BY_BEZEICHNUNG, 
+						   CLIENT_ID_ARTIKELGRUPPE_BEZEICHNUNG, artikelgruppeId);
 			return bezeichnungen;
 		}
 
@@ -705,7 +703,7 @@ public class ArtikelController implements Serializable {
 	 * Methode um Artikel zu laden, damit richtiges Bild angezeigt werden kann
 	 */
 	public void loadArtikel(Artikel ausgewaehlterArtikel) {
-		if(ausgewaehlterArtikel == null) {
+		if (ausgewaehlterArtikel == null) {
 			return;
 		}
 		artikel = as.findeArtikelNachId(ausgewaehlterArtikel.getId());

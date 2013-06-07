@@ -1,17 +1,16 @@
 package de.shop.bestellverwaltung.controller;
 
+import static de.shop.util.Konstante.JSF_DEFAULT_ERROR;
+import static java.text.DateFormat.MEDIUM;
+import static java.text.DateFormat.SHORT;
+
 import java.io.Serializable;
 import java.lang.invoke.MethodHandles;
 import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale; 
-import java.util.Random; 
-import java.util.*;
-import static java.text.DateFormat.*;
+import java.util.Locale;
 
 import javax.enterprise.context.RequestScoped;
 import javax.faces.context.Flash;
@@ -20,7 +19,8 @@ import javax.inject.Named;
 
 import org.jboss.logging.Logger;
 
-import static de.shop.util.Konstante.JSF_DEFAULT_ERROR;
+import de.shop.auth.controller.AuthController;
+import de.shop.auth.controller.KundeLoggedIn;
 import de.shop.bestellverwaltung.domain.Bestellposition;
 import de.shop.bestellverwaltung.domain.Bestellung;
 import de.shop.bestellverwaltung.domain.Lieferung;
@@ -33,12 +33,6 @@ import de.shop.kundenverwaltung.service.KundeService.FetchType;
 import de.shop.util.Client;
 import de.shop.util.Log;
 import de.shop.util.Transactional;
-import de.shop.auth.controller.AuthController;
-import de.shop.auth.controller.KundeLoggedIn;
-import static javax.ejb.TransactionAttributeType.REQUIRED;
-
-import javax.ejb.TransactionAttribute;
-
 
 /**
  * Dialogsteuerung fuer die Bestellverwaltung
@@ -57,7 +51,6 @@ public class BestellungController implements Serializable {
 	private static final String JSF_VIEW_BESTELLUNG = "/bestellverwaltung/viewBestellung";
 	private static final String JSF_BESTELLUNG_STATUS = "/bestellverwaltung/viewBestellungenStatus";
 	private static final String JSF_VIEW_LIEFERUNG = "/bestellverwaltung/viewLieferung";
-	private static final String JSF_VIEW_LIEFERUNGEN = "/bestellverwaltung/viewLieferungenBestId";
 	private static final String JSF_VIEW_KUNDE = "/bestellverwaltung/viewKundeBestId";
 	private Boolean bestellungStatus;
 	
@@ -90,15 +83,16 @@ public class BestellungController implements Serializable {
 	
 	private String liefernummer;
 	
-	final static String inlandOderAusland = "I";
+	private String inlandOderAusland = "I";
 	
-	final static String liefernr = "500123-728";
+	private String liefernr = "500123-728";
 	
 	private TransportTyp transportArt = TransportTyp.STRASSE;
 	
 	@Override
 	public String toString() {
-		return "BestellungController [bestellungId=" + bestellungId + " lieferungId=" + lieferungId + " liefernummer=" + liefernummer + "]";
+		return "BestellungController [bestellungId=" + bestellungId 
+				+ " lieferungId=" + lieferungId + " liefernummer=" + liefernummer + "]";
 	}
 
 	public void setBestellungId(Long bestellungId) {
@@ -133,12 +127,11 @@ public class BestellungController implements Serializable {
 		return bestellungStatus;
 	}
 			
-	public static String generateString()
-	{
-		Calendar cal = Calendar.getInstance();
+	public static String generateString() {
+		final Calendar cal = Calendar.getInstance();
 		final String result;
 	    DateFormat df;
-	    df = DateFormat.getDateTimeInstance( SHORT, MEDIUM );
+	    df = DateFormat.getDateTimeInstance(SHORT, MEDIUM);
 	    result = df.format(cal.getTime()).toString();
 	    return result;	    
 	}
@@ -176,7 +169,7 @@ public class BestellungController implements Serializable {
 		 
 	@Transactional
 	public String findeBestellungNachStatus() {
-		if(bestellungStatus) {
+		if (bestellungStatus) {
 			flash.remove(FLASH_BESTELLUNG);
 			final List<Bestellung> bestellung = bs.findeBestellungenOffen();
 			 if (bestellung.isEmpty()) {
@@ -204,13 +197,13 @@ public class BestellungController implements Serializable {
 				 	
 	@Transactional
 	public String findeKundeNachBestellungId() {
-		final Kunde kunde = ks.findeKundeNachBestellung(bestellungId);
-		if (kunde == null) {
+		final Kunde kundeBestellungen = ks.findeKundeNachBestellung(bestellungId);
+		if (kundeBestellungen == null) {
 			flash.remove(FLASH_KUNDE);
 			return null;
 		}
 						
-		flash.put(FLASH_KUNDE, kunde);
+		flash.put(FLASH_KUNDE, kundeBestellungen);
 		return JSF_VIEW_KUNDE;
 	}
 	
@@ -225,8 +218,6 @@ public class BestellungController implements Serializable {
 			
 			// Den eingeloggten Kunden mit seinen Bestellungen ermitteln, und dann die neue Bestellung zu ergaenzen
 			kunde = ks.findeKundeNachId(kunde.getId(), FetchType.MIT_BESTELLUNGEN, locale);
-			
-			
 			
 			// Aus dem Warenkorb nur Positionen mit Anzahl > 0
 			final List<Bestellposition> positionen = warenkorb.getPositionen();

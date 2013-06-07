@@ -1,16 +1,16 @@
 package de.shop.artikelverwaltung.domain;
 
+import static de.shop.util.Konstante.ERSTE_VERSION;
+import static de.shop.util.Konstante.KEINE_ID;
+import static de.shop.util.Konstante.MIN_ID;
+import static javax.persistence.FetchType.EAGER;
+
 import java.io.Serializable;
+import java.lang.invoke.MethodHandles;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import org.jboss.logging.Logger;
-
-import de.shop.util.IdGroup;
-
-import java.lang.invoke.MethodHandles;
-import java.net.URI;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -18,8 +18,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.NamedQuery;
 import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.PostPersist;
 import javax.persistence.PostUpdate;
@@ -32,12 +32,9 @@ import javax.validation.constraints.Size;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
+import org.jboss.logging.Logger;
 
-import static de.shop.util.Konstante.ERSTE_VERSION;
-import static de.shop.util.Konstante.KEINE_ID;
-import static de.shop.util.Konstante.MIN_ID;
-import static javax.persistence.FetchType.EAGER;
-import static javax.persistence.FetchType.LAZY;
+import de.shop.util.IdGroup;
 
 @Entity
 @Table(name = "artikelgruppe")
@@ -49,9 +46,11 @@ import static javax.persistence.FetchType.LAZY;
 	@NamedQuery(name = Artikelgruppe.FINDE_ARTIKELGRUPPE_NACH_BEZEICHNUNG,
 				query = "From Artikelgruppe ag Where ag.bezeichnung = :" + Artikelgruppe.PARAM_BEZEICHNUNG),
 	@NamedQuery(name  = Artikelgruppe.FINDE_BEZEICHNUNGEN_NACH_PREFIX,
-		        query = "SELECT DISTINCT ag.bezeichnung FROM  Artikelgruppe ag WHERE UPPER(ag.bezeichnung) LIKE UPPER(:"	
+		        query = "SELECT DISTINCT ag.bezeichnung FROM  Artikelgruppe ag "
+		        		+ "WHERE UPPER(ag.bezeichnung) LIKE UPPER(:"	
 		        		+   Artikelgruppe.PARAM_BEZEICHNUNG_PREFIX + ")")
 })
+
 public class Artikelgruppe implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass());

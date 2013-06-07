@@ -29,7 +29,8 @@ public class InvalidArtikelgruppeException extends ArtikelgruppeValidationExcept
 		this.id = id;
 	}
 	
-	public InvalidArtikelgruppeException(String bezeichnung, Collection<ConstraintViolation<Artikelgruppe>> violations) {
+	public InvalidArtikelgruppeException(String bezeichnung, 
+			Collection<ConstraintViolation<Artikelgruppe>> violations) {
 		super(violations);
 		this.bezeichnung = bezeichnung;
 	}
