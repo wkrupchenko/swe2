@@ -25,7 +25,7 @@
 			</rich:panelMenuGroup>
 			<rich:panelMenuGroup id="kundenverwaltung"
 			                     label="#{msg['nav.kundenverwaltung']}"
-			                     expanded="true"
+			                     expanded="false"
 			                     rendered="#{rich:isUserInRole('admin')}">
 				<rich:panelMenuGroup id="sucheKunde"
 			                     label="#{msg['nav.suche']}"
@@ -94,7 +94,7 @@
 			  
 			  <rich:panelMenuGroup id="createKunde"
 			                       label="#{msg['nav.anlegen']}"
-			                       expanded="true">
+			                       expanded="false">
 				<rich:panelMenuItem id="kundenverwaltungCreateKundeItem">
 					<h:outputLink id="kundenverwaltungCreateKunde"
 					              value="#{request.contextPath}/kundenverwaltung/createKunde.jsf">
@@ -221,12 +221,13 @@
 					</rich:panelMenuItem>
 			</rich:panelMenuGroup>
 		</rich:panelMenuGroup>
+		
 		<rich:panelMenuGroup id="bestellverwaltung"
 			                     label="#{msg['nav.bestellverwaltung']}"
 			                     expanded="true" rendered="#{rich:isUserInRole('mitarbeiter') or rich:isUserInRole('admin')}">
 				<rich:panelMenuGroup id="sucheBestellung"
 			                     label="#{msg['nav.suche']}"
-			                     expanded="true">
+			                     expanded="false">
 				<rich:panelMenuItem id="bestellverwaltungViewBestellungItem">
 					<h:outputLink id="bestellverwaltungViewBestellung"
 					              value="#{request.contextPath}/bestellverwaltung/viewBestellung.jsf">
