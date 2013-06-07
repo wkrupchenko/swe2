@@ -13,12 +13,6 @@ Es fehlt:
 mvn site (Checkstyle: 6 Fehler, pmd, findbugs: 8 bugs)
 Web-Projekt auf beschrifteter CD oder DVD
 
-Bugs:
-
-Leere Tabelle bei falschen Daten Artikelsuche
-Updatefunktion Kunde und Artikel
-Konkurrierende Updates (UpdateUpdate) EVENTUELL ABBRUCH ANSTATT NUR MELDUNG (UpdateDelete funktioniert)
-
 Eventuell:
 
 Ergebnisse löschen bei neuer Suche bei Bestellungen
