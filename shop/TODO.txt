@@ -10,16 +10,20 @@ MEILENSTEIN 2 	Web-Oberfläche:
 
 Es fehlt:
 
-Autorisierung und Authentifizierung bei Bestellung
-Paar Sachen Bestellung (Wladik Textdatei)
-mvn site (Fehler beheben)
+mvn site (Checkstyle: 6 Fehler, pmd, findbugs: 8 bugs)
 Web-Projekt auf beschrifteter CD oder DVD
 
 Bugs:
 
-Ergebnisse löschen bei neuer Suche bei Bestellungen
+Bei Kunde und Artikel Update
 Konkurrierende Updates (UpdateUpdate) EVENTUELL ABBRUCH ANSTATT NUR MELDUNG (UpdateDelete funktionier)
 Seitentitel passend bennnen
+
+Eventuell:
+
+Ergebnisse löschen bei neuer Suche bei Bestellungen
+passwortWdh prüfen
+Messages nach doppelbelegung durchschauen
 
 
 MEILSTEIN 3 	Android:

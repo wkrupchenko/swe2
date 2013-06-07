@@ -181,10 +181,9 @@ public class KundeResource {
 			throw new NotFoundException(msg);
 		}
 		
-		final int anzahl = bestellungen.size();
-		final Collection<Long> bestellungenIds = new ArrayList<>(anzahl);
+		final Collection<Long> bestellungenIds = new ArrayList<>(bestellungen.size());
 		for (Bestellung bestellung : bestellungen) {
-			bestellungenIds.add(Long.valueOf(bestellung.getId()));
+			bestellungenIds.add(bestellung.getId());
 		}
 		
 		return bestellungenIds;
