@@ -12,7 +12,8 @@ MEILENSTEIN 2 ERLEDIGT
 MEILSTEIN 3 Android:
 
 Kunde mit Bestellungen anzeigen
-Artikel anzeigen und erfassen
+Artikel anzeigen und erfassen und ändern
+Artikelgruppe anzeigen und erfassen
 Kunde anlegen und ändern
 
 KOMPLETT OFFEN
