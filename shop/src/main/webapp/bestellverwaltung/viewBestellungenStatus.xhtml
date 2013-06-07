@@ -10,11 +10,11 @@
 	  xmlns:a4j="http://richfaces.org/a4j">
 
 	<ui:composition template="/WEB-INF/templates/desktop/main.xml">
-		<ui:param name="pageTitle" value="#{msgBv['viewBestellung.title']}"/>
+		<ui:param name="pageTitle" value="#{msgBv['viewBestellungStatus.title']}"/>
 
 		<ui:define name="article">
 			<h:form id="sucheForm">
-				<rich:panel id="suchePanel" header="#{msgBv['viewBestellung.sucheNeu']}">
+				<rich:panel id="suchePanel" header="#{msgBv['viewBestellungStatus.sucheNeu']}">
 					<h:panelGrid id="suchePanelGrid" columns="3">
 						<h:outputLabel id="bestellungStatusLabel"
 									   value="#{msgBv['viewBestellung.status']}"

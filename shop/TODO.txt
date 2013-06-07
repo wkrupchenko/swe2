@@ -16,8 +16,7 @@ Web-Projekt auf beschrifteter CD oder DVD
 Bugs:
 
 Bei Kunde und Artikel Update
-Konkurrierende Updates (UpdateUpdate) EVENTUELL ABBRUCH ANSTATT NUR MELDUNG (UpdateDelete funktionier)
-Seitentitel passend bennnen
+Konkurrierende Updates (UpdateUpdate) EVENTUELL ABBRUCH ANSTATT NUR MELDUNG (UpdateDelete funktioniert)
 
 Eventuell:
 

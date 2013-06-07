@@ -10,12 +10,12 @@
 	  xmlns:a4j="http://richfaces.org/a4j">
 
 	<ui:composition template="/WEB-INF/templates/desktop/main.xml">
-		<ui:param name="pageTitle" value="#{msgAv['viewArtikel.title']}"/>
+		<ui:param name="pageTitle" value="#{msgAv['viewArtikelVerfuegbarkeit.title']}"/>
 
 		<ui:define name="article">
 			<h:form id="sucheForm">
 				<rich:focus id="sucheFocus"/>
-				<rich:panel id="suchePanel" header="#{msgAv['viewArtikel.sucheNeu']}">
+				<rich:panel id="suchePanel" header="#{msgAv['viewArtikelVerfuegbarkeit.sucheNeu']}">
 					<h:panelGrid id="suchePanelGrid" columns="4">
 						<h:outputLabel id="verfuegbarkeitInputLabel"
 									   value="#{msgAv['viewArtikel.erhaeltlich']}"
