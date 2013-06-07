@@ -6,12 +6,7 @@ Bestellverwaltung --> Wladik
 
 MEILENSTEIN 1 ERLEDIGT
 
-MEILENSTEIN 2 	Web-Oberfläche:
-
-Es fehlt:
-
-mvn site (Checkstyle: 6 Fehler, pmd, findbugs: 8 bugs)
-Web-Projekt auf beschrifteter CD oder DVD
+MEILENSTEIN 2 ERLEDIGT
 
 
 MEILSTEIN 3 	Android:
