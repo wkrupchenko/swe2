@@ -94,7 +94,7 @@
 			  
 			  <rich:panelMenuGroup id="createKunde"
 			                       label="#{msg['nav.anlegen']}"
-			                       expanded="false">
+			                       expanded="true">
 				<rich:panelMenuItem id="kundenverwaltungCreateKundeItem">
 					<h:outputLink id="kundenverwaltungCreateKunde"
 					              value="#{request.contextPath}/kundenverwaltung/createKunde.jsf">
@@ -112,7 +112,7 @@
 			                     expanded="true">
 				<rich:panelMenuGroup id="sucheArtikel"
 			                     label="#{msg['nav.suche']}"
-			                     expanded="true">
+			                     expanded="false">
 				<rich:panelMenuItem id="artikelverwaltungViewArtikelItem">
 					<h:outputLink id="artikelverwaltungViewArtikel"
 					              value="#{request.contextPath}/artikelverwaltung/viewArtikel.jsf"
