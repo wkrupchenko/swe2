@@ -237,7 +237,7 @@
 					</h:outputLink>
 				</rich:panelMenuItem>
 								 
-				<rich:panelMenuItem id="bestellverwaltungViewLieferungItem" rendered="#{rich:isUserInRole('admin') or rich:isUserInRole('mitarbeiter')}">
+				<rich:panelMenuItem id="bestellverwaltungViewLieferungItem">
 					<h:outputLink id="bestellverwaltungViewLieferung"
 					              value="#{request.contextPath}/bestellverwaltung/viewLieferung.jsf">
 						#{msg['nav.bestellverwaltung.viewLieferung']}

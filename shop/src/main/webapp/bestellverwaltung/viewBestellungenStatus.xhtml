@@ -21,8 +21,8 @@
 									   for="BestStatusInput"/>
 		
 						<h:selectOneRadio id="BestStatusInput" value="#{bc.bestellungStatus}">
-							<f:selectItem id="offenb" itemLabel="offen" itemValue="true"/>
-							<f:selectItem id="abgeschlossenb" itemLabel="abgeschlossen" itemValue="false"/>
+							<f:selectItem id="offen" itemLabel="offen" itemValue="true"/>
+							<f:selectItem id="abgeschlossen" itemLabel="abgeschlossen" itemValue="false"/>
 						</h:selectOneRadio>
 						
 						 
@@ -57,14 +57,13 @@
 						
 							<rich:dataTable id="bestellungTabelle"
 						                value="#{VARbestellung}"
-						                var="bestl"
+						                var="best"
 						                rows="15"
 						                noDataLabel="#{msgBv['viewBestellung.keineDaten']}"
 						                rowClasses="odd-row, even-row"
 						                styleClass="tabelleMitZebrastil"
 						                cellspacing="10"
 						                rendered="#{not empty VARbestellung or param.init ne 'true'}">
-						   
 						    
 						                						               
 							<rich:column id="idSpalte">
@@ -118,15 +117,7 @@
 								#{best.offenAbgeschlossen}
 							</rich:column>
 							
-							<!--  
-							<rich:column id="kundeSpalte">
-								<f:facet name="header">
-									#{msgBv['viewBestellung.kunde']}
-								</f:facet>																
-								#{best.kunde.nachname}
-							</rich:column>
-							--> 
-							
+							 
 							<rich:column id="nachnameLabel">
 								<f:facet name="header">
 									#{msgKv['viewKunde']}
@@ -162,8 +153,7 @@
 									</h:outputLink>
 								</rich:popupPanel>
 							</rich:column>
-							
-							 							  
+							<!--     							  
 							<rich:column id="lieferungenSpalte">
 								<f:facet name="header">
 									#{msgBv['viewBestellung.lieferungen']}
@@ -181,17 +171,19 @@
 									<br/>
 								</c:forEach>								
 							</rich:column>	
-							 
-							 
-							  
+							  -->
 						</rich:dataTable>
+						
+						<p id="abstandZuMeldungen">
+							<rich:messages id="globaleFehlermeldungen" globalOnly="true"/>
+						</p>
 						
 						<p id="abstand2"/>
 						
 						<rich:dataScroller id="dataScroller"
 						                   for="bestellungTabelle"
 						                   maxPages="10"
-						                   rendered="#{not empty bestellung}"/>
+						                   rendered="#{not empty VARbestellung}"/>
 						
 						<a4j:outputPanel id="outputPanelZebra" ajaxRendered="true">
 							<rich:jQuery id="odd"
