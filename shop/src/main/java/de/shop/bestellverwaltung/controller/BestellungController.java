@@ -161,8 +161,7 @@ public class BestellungController implements Serializable {
 	 
 		return JSF_VIEW_BESTELLUNG;
 	}
-	
-	
+				
 	@Transactional
 	public String findLieferungById() {
 		final Lieferung lieferung = bs.findeLieferungNachId(lieferungId);
@@ -202,8 +201,7 @@ public class BestellungController implements Serializable {
 			return JSF_BESTELLUNG_STATUS;
 		}
 	}
-	
-		 	
+				 	
 	@Transactional
 	public String findeKundeNachBestellungId() {
 		final Kunde kunde = ks.findeKundeNachBestellung(bestellungId);

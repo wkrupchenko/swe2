@@ -244,8 +244,7 @@
 							<f:param id="viewAllBestellungenStatusCid" name="cid" value="#{javax.enterprise.context.conversation.id}"/>
 						</c:if>
 					</h:outputLink>
-				</rich:panelMenuItem>
-								 
+				</rich:panelMenuItem>								 
 				<rich:panelMenuItem id="bestellverwaltungViewLieferungItem">
 					<h:outputLink id="bestellverwaltungViewLieferung"
 					              value="#{request.contextPath}/bestellverwaltung/viewLieferung.jsf">
