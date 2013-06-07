@@ -94,6 +94,7 @@ public class KundeController implements Serializable {
 	private String email;
 	private String plz;
 	private Kunde kunde;
+	private Kunde kundeUpdate;
 	private Kunde neuerKunde;
 	private List<Kunde> alleKunden = Collections.emptyList();
 	private List<Kunde> kunden = Collections.emptyList();
@@ -173,6 +174,10 @@ public class KundeController implements Serializable {
 
 	public Kunde getKunde() {
 		return kunde;
+	}
+	
+	public Kunde getKundeUpdate() {
+		return kundeUpdate;
 	}
 
 	public void setKunde(Kunde kunde) {
@@ -360,18 +365,19 @@ public class KundeController implements Serializable {
 		}
 		
 		kunde = ausgewaehlterKunde;
+		kundeUpdate = ausgewaehlterKunde;
 		
 		return JSF_UPDATE_KUNDE;
 	}
 
 	@TransactionAttribute(REQUIRED)
 	public String update() {
-		if (!geaendertKunde || kunde == null) {
+		if (!geaendertKunde || kundeUpdate == null) {
 			return JSF_INDEX;
 		}
 		
 		try {
-			kunde = ks.updateKunde(kunde, locale);
+			kundeUpdate = ks.updateKunde(kundeUpdate, locale);
 		}
 		catch (EmailExistsException | InvalidKundeIdException
 			  | OptimisticLockException | ConcurrentDeletedException e) {
@@ -380,13 +386,13 @@ public class KundeController implements Serializable {
 		}
 
 		// Push-Event fuer Webbrowser
-		updateKundeEvent.fire(String.valueOf(kunde.getId()));
+		updateKundeEvent.fire(String.valueOf(kundeUpdate.getId()));
 		
 		// ValueChangeListener zuruecksetzen
 		geaendertKunde = false;
 		
 		// Aufbereitung fuer viewKunde.xhtml
-		kundeId = kunde.getId();
+		kundeId = kundeUpdate.getId();
 		
 		return JSF_VIEW_KUNDE + JSF_REDIRECT_SUFFIX;
 	}

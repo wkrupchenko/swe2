@@ -13,23 +13,23 @@
 	
 		<ui:define name="article">
 			<h1>
-				<h:outputFormat id="headingKunde" value="#{msgKv['updateKunde.heading']}" rendered="#{not empty kc.kunde}">
-					<f:param id="idWert" value="#{kc.kunde.id}"/>
+				<h:outputFormat id="headingKunde" value="#{msgKv['updateKunde.heading']}" rendered="#{not empty kc.kundeUpdate}">
+					<f:param id="idWert" value="#{kc.kundeUpdate.id}"/>
 				</h:outputFormat>
 			</h1>
 			
 			<h:outputText id="fehlerKeinKunde"
 			              value="#{msgKv['updateKunde.keinKunde']}"
 			              class="rf-msg-err"
-			              rendered="#{empty kc.kunde}"/>
+			              rendered="#{empty kc.kundeUpdate}"/>
 
 			<a4j:push id="updateEvent" address="updateKunde"
-		              ondataavailable="if (event.rf.data == '#{kc.kunde.id}') { $('#updateMessage').html('&lt;span class=rf-msg-err&gt;#{msgKv['updateKunde.concurrentUpdate']}&lt;/span&gt;') }"/>
+		              ondataavailable="if (event.rf.data == '#{kc.kundeUpdate.id}') { $('#updateMessage').html('&lt;span class=rf-msg-err&gt;#{msgKv['updateKunde.concurrentUpdate']}&lt;/span&gt;') }"/>
 			<span id="updateMessage"></span>
 			
 			<rich:messages id="fehlermeldungGobal" globalOnly="true"/>
 			
-			<h:form id="updateKundeForm" rendered="#{not empty kc.kunde}">
+			<h:form id="updateKundeForm" rendered="#{not empty kc.kundeUpdate}">
 				<rich:jQuery id="nachnameFocus" selector="#nachname" query="focus()"/>
 				
 				<h:panelGrid id="updateKundeTabelle" columns="3">
@@ -37,8 +37,8 @@
 					<h:outputLabel id="familienstandLabel" for="familienstandMenu" value="#{msgKv['updateKunde.familienstand']}"/>
 					<rich:select id="familienstandMenu"
 					             enableManualInput="true"
-					             defaultLabel="#{kc.kunde.familienstand}"
-					             value="#{kc.kunde.familienstand}"
+					             defaultLabel="#{kc.kundeUpdate.familienstand}"
+					             value="#{kc.kundeUpdate.familienstand}"
 					             valueChangeListener="#{kc.geaendert}">
 						<f:selectItem id="ledig" itemValue="LEDIG" itemLabel="#{msgKv['updateKunde.familienstand.ledig']}"/>
 						<f:selectItem id="verheiratet" itemValue="VERHEIRATET" itemLabel="#{msgKv['updateKunde.familienstand.verheiratet']}"/>
@@ -49,7 +49,7 @@
 					
 					<h:outputLabel id="nachnameLabel" for="nachname" value="#{msgKv['updateKunde.nachname']}"/>
 					<h:inputText id="nachname"
-					             value="#{kc.kunde.nachname}"
+					             value="#{kc.kundeUpdate.nachname}"
 					             valueChangeListener="#{kc.geaendert}">
 						<rich:validator oninvalid="$(#{rich:element('nachname')}).addClass('invalid')"
                                         onvalid="$(#{rich:element('nachname')}).removeClass('invalid')"/>
@@ -58,47 +58,47 @@
 					<rich:messages id="fehlermeldungenNachname" for="nachname"/>
 		
 					<h:outputLabel id="vornameLabel" for="vorname" value="#{msgKv['updateKunde.vorname']}"/>
-					<h:inputText id="vorname" value="#{kc.kunde.vorname}" valueChangeListener="#{kc.geaendert}">
+					<h:inputText id="vorname" value="#{kc.kundeUpdate.vorname}" valueChangeListener="#{kc.geaendert}">
 							<rich:validator oninvalid="$(#{rich:element('vorname')}).addClass('invalid')"
                                             onvalid="$(#{rich:element('vorname')}).removeClass('invalid')"/>
 					</h:inputText>
 					<rich:messages id="fehlermeldungenVorname" for="vorname"/>
 	
 					<h:outputLabel id="emailLabel" for="email" value="#{msgKv['updateKunde.email']}"/>
-					<h:inputText id="email" value="#{kc.kunde.email}" valueChangeListener="#{kc.geaendert}">
+					<h:inputText id="email" value="#{kc.kundeUpdate.email}" valueChangeListener="#{kc.geaendert}">
 						<rich:validator oninvalid="$(#{rich:element('email')}).addClass('invalid')"
                                         onvalid="$(#{rich:element('email')}).removeClass('invalid')"/>
 					</h:inputText>
 					<rich:messages id="fehlermeldungenEmail" for="email"/>
 					
 					<h:outputLabel id="plzLabel" for="plz" value="#{msgKv['updateKunde.plz']}"/>
-					<h:inputText id="plz" value="#{kc.kunde.adresse.plz}" valueChangeListener="#{kc.geaendert}">
+					<h:inputText id="plz" value="#{kc.kundeUpdate.adresse.plz}" valueChangeListener="#{kc.geaendert}">
 						<rich:validator oninvalid="$(#{rich:element('plz')}).addClass('invalid')"
                                         onvalid="$(#{rich:element('plz')}).removeClass('invalid')"/>
 					</h:inputText>
 					<rich:messages id="fehlermeldungPlz" for="plz"/>
 						
 					<h:outputLabel id="ortLabel" for="ort" value="#{msgKv['updateKunde.ort']}"/>
-					<h:inputText id="ort" value="#{kc.kunde.adresse.ort}" valueChangeListener="#{kc.geaendert}">
+					<h:inputText id="ort" value="#{kc.kundeUpdate.adresse.ort}" valueChangeListener="#{kc.geaendert}">
 						<rich:validator oninvalid="$(#{rich:element('ort')}).addClass('invalid')"
                                         onvalid="$(#{rich:element('ort')}).removeClass('invalid')"/>
 					</h:inputText>
 					<rich:messages id="fehlermeldungOrt" for="ort"/>
 						
 					<h:outputLabel id="strasseLabel" for="strasse" value="#{msgKv['updateKunde.strasse']}"/>
-					<h:inputText id="strasse" value="#{kc.kunde.adresse.strasse}" valueChangeListener="#{kc.geaendert}">
+					<h:inputText id="strasse" value="#{kc.kundeUpdate.adresse.strasse}" valueChangeListener="#{kc.geaendert}">
 						<rich:validator oninvalid="$(#{rich:element('strasse')}).addClass('invalid')"
                                         onvalid="$(#{rich:element('strasse')}).removeClass('invalid')"/>
 					</h:inputText>
 					<rich:messages id="fehlermeldungStrasse" for="strasse"/>
 						
 					<h:outputLabel id="hausnrLabel" for="hausnr" value="#{msgKv['updateKunde.hausnr']}"/>
-					<h:inputText id="hausnr" value="#{kc.kunde.adresse.hausnr}" valueChangeListener="#{kc.geaendert}"/>
+					<h:inputText id="hausnr" value="#{kc.kundeUpdate.adresse.hausnr}" valueChangeListener="#{kc.geaendert}"/>
 					<f:verbatim/>
 						
 					<h:outputLabel id="umsatzLabel" for="umsatz" value="#{msgKv['updateKunde.umsatz']}"/>
 					<h:inputText id="umsatz"
-					             value="#{kc.kunde.umsatz}"
+					             value="#{kc.kundeUpdate.umsatz}"
 					             converterMessage="#{msgKv['updateKunde.umsatz.convert']}"
 					             valueChangeListener="#{kc.geaendert}">
 						<f:convertNumber type="currency"
@@ -110,7 +110,7 @@
 					
 					<h:outputLabel id="rabattLabel" for="rabatt" value="#{msgKv['updateKunde.rabatt']}"/>
 					<h:inputText id="rabatt"
-					             value="#{kc.kunde.rabatt}"
+					             value="#{kc.kundeUpdate.rabatt}"
 					             converterMessage="#{msgKv['updateKunde.rabatt.convert']}"
 					             valueChangeListener="#{kc.geaendert}">
 						<f:convertNumber type="percent"
@@ -126,7 +126,7 @@
 					               escape="false"/>
 					<rich:calendar id="seit"
 					               datePattern="#{msgKv['updateKunde.calendar.pattern']}"
-					               value="#{kc.kunde.seit}"
+					               value="#{kc.kundeUpdate.seit}"
 					               timezone="CET">
 						<!--
 						<rich:validator/>
@@ -135,7 +135,7 @@
 					<rich:messages id="fehlermeldungSeit" for="seit"/>
 					
 					<h:outputLabel id="newsletterLabel" value="#{msgKv['updateKunde.newsletter']}"/>
-					<h:selectBooleanCheckbox id="newsletter" value="#{kc.kunde.newsletter}" valueChangeListener="#{kc.geaendert}"/>
+					<h:selectBooleanCheckbox id="newsletter" value="#{kc.kundeUpdate.newsletter}" valueChangeListener="#{kc.geaendert}"/>
 					<f:verbatim/>
 					
 				</h:panelGrid>

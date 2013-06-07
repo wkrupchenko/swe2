@@ -117,6 +117,7 @@ public class ArtikelController implements Serializable {
 	private FileHelper fileHelper;
 	
 	private Artikel artikel;
+	private Artikel artikelUpdate;
 	private Long artikelId;
 	private String artikelArtikelgruppe;
 	private String artikelBezeichnung;
@@ -209,6 +210,10 @@ public class ArtikelController implements Serializable {
 		return artikel;
 	}
 	
+	public Artikel getArtikelUpdate() {
+		return artikelUpdate;
+	}
+	
 	public Artikel getNeuerArtikel() {
 		return neuerArtikel;
 	}
@@ -268,10 +273,11 @@ public class ArtikelController implements Serializable {
 		if (artikelList == null) {
 			artikelList = new ArrayList<Artikel>();
 		}
-		artikelList.add(artikel);
 		if (artikel == null) {
 			return null;
 		}
+		
+		artikelList.add(artikel);
 		
 		return JSF_VIEW_ARTIKEL;
 	}
@@ -444,6 +450,7 @@ public class ArtikelController implements Serializable {
 	 */
 	@TransactionAttribute(REQUIRED)
 	public String createArtikelgruppe() {
+		neueArtikelgruppe.setArtikel(new ArrayList<Artikel>());
 		try {
 			neueArtikelgruppe = as.createArtikelgruppe(neueArtikelgruppe, locale);
 		}
@@ -512,13 +519,13 @@ public class ArtikelController implements Serializable {
 	@TransactionAttribute(REQUIRED)
 	public String update() {
 		
-		if (!geaendertArtikel || artikel == null) {
+		if (!geaendertArtikel || artikelUpdate == null) {
 			return JSF_INDEX;
 		}
 		// Falls sich Artikelgruppe geändert hat
 		boolean artikelgruppeGeaendert = false;
 		if ((as.findeArtikelgruppeNachId(updateArtikelArtikelgruppeId) != null) 
-			 && (!artikel.getArtikelgruppe().getId().equals(updateArtikelArtikelgruppeId))) {	
+			 && (!artikelUpdate.getArtikelgruppe().getId().equals(updateArtikelArtikelgruppeId))) {	
 				artikelgruppeGeaendert = true;
 		}
 		
@@ -526,12 +533,12 @@ public class ArtikelController implements Serializable {
 			if (artikelgruppeGeaendert) {
 				// Artikelgruppe anhand der vorgegebenen ID suchen und anschließend dem Artikel und umgekehrt zuweisen
 				final Artikelgruppe ag = as.findeArtikelgruppeNachId(updateArtikelArtikelgruppeId);
-				artikel.setArtikelgruppe(ag);
-				ag.addArtikel(artikel);
-				artikel = as.updateArtikel(artikel, locale);
+				artikelUpdate.setArtikelgruppe(ag);
+				ag.addArtikel(artikelUpdate);
+				artikelUpdate = as.updateArtikel(artikelUpdate, locale);
 			}
 			else
-				artikel = as.updateArtikel(artikel, locale);
+				artikelUpdate = as.updateArtikel(artikelUpdate, locale);
 		}
 		catch (InvalidArtikelException  | OptimisticLockException | ConcurrentDeletedException e) {
 			final String outcome = updateArtikelErrorMsg(e);
@@ -539,13 +546,13 @@ public class ArtikelController implements Serializable {
 		}
 
 		// Push-Event fuer Webbrowser
-		updateArtikelEvent.fire(String.valueOf(artikel.getId()));
+		updateArtikelEvent.fire(String.valueOf(artikelUpdate.getId()));
 		
 		// ValueChangeListener zuruecksetzen
 		geaendertArtikel = false;
 		
 		// Aufbereitung fuer viewKunde.xhtml
-		artikelId = artikel.getId();
+		artikelId = artikelUpdate.getId();
 		
 		// Zurücksetzen
 		updateArtikelArtikelgruppeId = null;
@@ -576,6 +583,7 @@ public class ArtikelController implements Serializable {
 		}
 		
 		artikel = ausgewaehlterArtikel;
+		artikelUpdate = ausgewaehlterArtikel;
 		
 		return JSF_UPDATE_ARTIKEL;
 	}

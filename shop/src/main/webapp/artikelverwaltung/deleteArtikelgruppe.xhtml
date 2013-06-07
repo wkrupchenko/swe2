@@ -32,20 +32,18 @@
 				<p id="abstand"/>
 			
 				<a4j:outputPanel id="gesuchteArtikelgruppePanel">
-					<c:if test="#{not empty flash.artikelgruppe or param.init ne 'true'}">
-						<c:set var="artikelgruppe" value="#{flash.artikelgruppe}" scope="view"/>
-						<!-- Fuer den naechsten Request puffern, falls z.B. ein Update-Button angeklickt WUERDE -->
-						<c:set target="#{flash}" property="artikelgruppe" value="#{artikelgruppe}"/>
+					<c:if test="#{not empty ac.artikelgruppe or param.init ne 'true'}">
+						<c:set var="artikelgruppe" value="#{ac.artikelgruppe}" scope="view"/>
 						
 							<rich:dataTable id="artikelgruppeTabelle"
-						                value="#{artikelgruppe}"
+						                value="#{ac.artikelgruppe}"
 						                var="artikelgruppe"
 						                rows="6"
 						                noDataLabel="#{msgAv['deleteArtikelgruppe.keineDaten']}"
 						                rowClasses="odd-row, even-row"
 						                styleClass="tabelleMitZebrastil"
 						                cellspacing="10"
-						                rendered="#{not empty artikelgruppe or param.init ne 'true'}">
+						                rendered="#{not empty ac.artikelgruppe or param.init ne 'true'}">
 							<rich:column id="idSpalte">
 								<f:facet name="header">
 									#{msgAv['deleteArtikelgruppe.artikelgruppenr']}
