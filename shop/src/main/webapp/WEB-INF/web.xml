@@ -308,7 +308,7 @@
       <role-name>mitarbeiter</role-name>
       <role-name>abteilungsleiter</role-name>
     </auth-constraint>
-  </security-constraint>
+  </security-constraint>     
   <security-constraint>
     <web-resource-collection>
       <web-resource-name>shopAdminTaetigkeiten</web-resource-name>
