@@ -5,6 +5,7 @@
 	  xmlns:ui="http://java.sun.com/jsf/facelets"
 	  xmlns:h="http://java.sun.com/jsf/html"
 	  xmlns:f="http://java.sun.com/jsf/core"
+	  xmlns:c="http://java.sun.com/jsp/jstl/core"
 	  xmlns:rich="http://richfaces.org/rich"
 	  xmlns:a4j="http://richfaces.org/a4j">
 
@@ -93,8 +94,12 @@
 					             query="jQuery(this).removeClass('active-row')"
 					             timing="domready"/>
 				</a4j:outputPanel>
+				<c:if test="#{not auth.loggedIn}">
+		    		<p id="hinweisLogIn">
+		     			#{msgBv['viewWarenkorb.bestellungAufgeben']}
+		    		</p>
+  				</c:if>
 			</h:form>
-			
 		</ui:define>
 	</ui:composition>
 </html>
