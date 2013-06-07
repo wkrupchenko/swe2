@@ -214,7 +214,7 @@
 		</rich:panelMenuGroup>
 		<rich:panelMenuGroup id="bestellverwaltung"
 			                     label="#{msg['nav.bestellverwaltung']}"
-			                     expanded="true">
+			                     expanded="true" rendered="#{rich:isUserInRole('mitarbeiter') or rich:isUserInRole('admin')}">
 				<rich:panelMenuGroup id="sucheBestellung"
 			                     label="#{msg['nav.suche']}"
 			                     expanded="true">
