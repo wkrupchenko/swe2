@@ -29,6 +29,8 @@ import javax.validation.groups.Default;
 import org.richfaces.cdi.push.Push;
 
 import de.shop.kundenverwaltung.domain.Adresse;
+import de.shop.kundenverwaltung.domain.FamilienstandTyp;
+import de.shop.kundenverwaltung.domain.GeschlechtTyp;
 import de.shop.kundenverwaltung.domain.Kunde;
 import de.shop.kundenverwaltung.service.EmailExistsException;
 import de.shop.kundenverwaltung.service.InvalidEmailException;
@@ -58,7 +60,7 @@ public class KundeController implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private static final int MAX_AUTOCOMPLETE = 10;
-	private static final String FLASH_KUNDE = "kunde";
+	private static final String JSF_VIEW_ALLE_KUNDEN = "/kundenverwaltung/viewAlleKunden";
 	private static final String JSF_VIEW_KUNDE = "/kundenverwaltung/viewKunde";
 	private static final String JSF_VIEW_KUNDE_NACHNAME = "/kundenverwaltung/viewKundeNachname";
 	private static final String JSF_VIEW_KUNDE_EMAIL = "/kundenverwaltung/viewKundeEmail";
@@ -66,7 +68,6 @@ public class KundeController implements Serializable {
 	private static final String JSF_VIEW_KUNDE_PLZ = "/kundenverwaltung/viewKundePlz";
 
 	private static final String JSF_UPDATE_KUNDE = "/kundenverwaltung/updateKunde";
-	private static final String JSF_DELETE_KUNDE_FEHLER = "/kundenverwaltung/deleteKundeError";
 	private static final String JSF_DELETE_OK = "/kundenverwaltung/okDeleteKunde";
 
 	private static final String MSG_KEY_UPDATE_KUNDE_CONCURRENT_UPDATE = "updateKunde.concurrentUpdate";
@@ -91,6 +92,7 @@ public class KundeController implements Serializable {
 	private String plz;
 	private Kunde kunde;
 	private Kunde neuerKunde;
+	private List<Kunde> alleKunden = Collections.emptyList();
 	private List<Kunde> kunden = Collections.emptyList();
 	private boolean geaendertKunde;
 
@@ -190,6 +192,14 @@ public class KundeController implements Serializable {
 		this.kunden = kunden;
 	}
 
+	public List<Kunde> getAlleKunden() {
+		return alleKunden;
+	}
+
+	public void setAlleKunden(List<Kunde> alleKunden) {
+		this.alleKunden = alleKunden;
+	}
+
 	public Class<?>[] getPasswortGroup() {
 		return PASSWORT_GROUP.clone();
 	}
@@ -201,6 +211,11 @@ public class KundeController implements Serializable {
 		return datum;
 	}
 
+	public String findAlleKunden() {
+		alleKunden = ks.findeAlleKunden(FetchType.MIT_BESTELLUNGEN, OrderType.ID);
+		return JSF_VIEW_ALLE_KUNDEN;
+	}
+	
 	/**
 	 * Action Methode, um einen Kunden zu gegebener ID zu suchen
 	 * @return URL fuer Anzeige des gefundenen Kunden; sonst null
@@ -216,7 +231,6 @@ public class KundeController implements Serializable {
 			return null;
 		}
 		
-		flash.put(FLASH_KUNDE, kunde);
 		return JSF_VIEW_KUNDE;
 	}
 	
@@ -227,9 +241,7 @@ public class KundeController implements Serializable {
 	@TransactionAttribute(REQUIRED)
 	public String findKundenNachNachname() {
 		if (nachname == null || nachname.isEmpty()) {
-			kunden = ks.findeAlleKunden(FetchType.MIT_BESTELLUNGEN, OrderType.ID);
-			flash.put(FLASH_KUNDE, kunden);
-			return JSF_VIEW_KUNDE_NACHNAME;
+			return null;
 		}
 
 		try {
@@ -241,7 +253,6 @@ public class KundeController implements Serializable {
 			return null;
 		}
 		
-		flash.put(FLASH_KUNDE, kunden);
 		return JSF_VIEW_KUNDE_NACHNAME;
 	}
 	
@@ -267,19 +278,15 @@ public class KundeController implements Serializable {
 	@TransactionAttribute(REQUIRED)
 	public String findKundenNachUsername() {
 		if (username == null || username.isEmpty()) {
-			kunden = ks.findeAlleKunden(FetchType.MIT_BESTELLUNGEN, OrderType.ID);
-			flash.put(FLASH_KUNDE, kunden);
-			return JSF_VIEW_KUNDE_USERNAME;
-		}
-
-		kunde = ks.findeKundeNachUserName(username);
-		
-		if (kunde == null) {
-			flash.remove(kunde);
 			return null;
 		}
 		
-		flash.put(FLASH_KUNDE, kunde);
+		kunde = ks.findeKundeNachUserName(username);
+		
+		if (kunde == null) {
+			return null;
+		}
+		
 		return JSF_VIEW_KUNDE_USERNAME;
 	}
 
@@ -290,11 +297,9 @@ public class KundeController implements Serializable {
 	@TransactionAttribute(REQUIRED)
 	public String findKundenNachEmail() {
 		if (email == null || email.isEmpty()) {
-			kunden = ks.findeAlleKunden(FetchType.MIT_BESTELLUNGEN, OrderType.ID);
-			flash.put(FLASH_KUNDE, kunden);
-			return JSF_VIEW_KUNDE_EMAIL;
+			return null;
 		}
-
+		
 		try {
 			kunde = ks.findeKundeNachEmail(email, locale);
 		}
@@ -304,7 +309,6 @@ public class KundeController implements Serializable {
 			return null;
 		}
 		
-		flash.put(FLASH_KUNDE, kunde);
 		return JSF_VIEW_KUNDE_EMAIL;
 	}
 
@@ -315,19 +319,15 @@ public class KundeController implements Serializable {
 	@TransactionAttribute(REQUIRED)
 	public String findKundenNachPlz() {
 		if (plz == null || plz.isEmpty()) {
-			kunden = ks.findeAlleKunden(FetchType.MIT_BESTELLUNGEN, OrderType.ID);
-			flash.put(FLASH_KUNDE, kunden);
-			return JSF_VIEW_KUNDE_PLZ;
-		}
-
-		kunden = ks.findeKundeNachPlz(plz);
-		
-		if (kunden.isEmpty()) {
-			flash.remove(kunden);
 			return null;
 		}
 		
-		flash.put(FLASH_KUNDE, kunden);
+		kunden = ks.findeKundeNachPlz(plz);
+		
+		if (kunden.isEmpty()) {
+			return null;
+		}
+		
 		return JSF_VIEW_KUNDE_PLZ;
 	}
 
@@ -363,8 +363,6 @@ public class KundeController implements Serializable {
 
 	@TransactionAttribute(REQUIRED)
 	public String update() {
-		// auth.preserveLogin();
-		
 		if (!geaendertKunde || kunde == null) {
 			return JSF_INDEX;
 		}
@@ -442,6 +440,9 @@ public class KundeController implements Serializable {
 		final Adresse adresse = new Adresse();
 		adresse.setKunde(neuerKunde);
 		neuerKunde.setAdresse(adresse);
+		neuerKunde.setGeschlecht(GeschlechtTyp.MAENNLICH);
+		neuerKunde.setArt("P");
+		neuerKunde.setFamilienstand(FamilienstandTyp.LEDIG);
 	}
 
 	@TransactionAttribute(REQUIRED)
@@ -484,7 +485,6 @@ public class KundeController implements Serializable {
 	public void clearKunde() {
 		kunde = null;
 		kunden = null;
-		flash.clear();
 	}
 
 }

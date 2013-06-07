@@ -11,38 +11,20 @@
 	  
 
 	<ui:composition template="/WEB-INF/templates/desktop/main.xml">
-		<ui:param name="pageTitle" value="#{msgKv['viewKundeEmail.title']}"/>
+		<ui:param name="pageTitle" value="#{msgKv['viewKAlleKunden.title']}"/>
 
 		<ui:define name="article">
-			<h:form id="sucheForm">
-				<rich:panel id="suchePanel" header="#{msgKv['viewKundeEmail.sucheNeu']}">
-					<h:panelGrid id="suchePanelGrid" columns="3">
-						<h:outputLabel id="kundeEmailInputLabel"
-									   value="#{msgKv['viewKunde.email']}"
-									   for="kundeEmailInput"/>
-		
-						<h:inputText id="kundeEmailInput" value="#{kc.email}"/>
-						
-						<a4j:commandButton id="sucheButton"
-										   action="#{kc.findKundenNachEmail()}"
-										   value="#{msgKv['viewKunde.submit']}"
-										   render="gesuchterKundeEmailPanel"/>
-					</h:panelGrid>
-				</rich:panel>
-			
-				<p id="abstand"/>
-			
-				<a4j:outputPanel id="gesuchterKundeEmailPanel">
-					
-						<rich:dataTable id="kundeEmailTabelle"
-										value="#{kc.kunde}"
+			<h:form id="alleKundenForm">
+				<a4j:outputPanel id="gesuchterKundeNachnamePanel">
+						<rich:dataTable id="alleKundenTabelle"
+										value="#{kc.alleKunden}"
 						                var="kunde"
 						                rows="10"
 						                noDataLabel="#{msgKv['viewKunde.keineDaten']}"
 						                rowClasses="odd-row, even-row"
 						                styleClass="tabelleMitZebrastil"
 						                cellspacing="10"
-						                rendered="#{not empty kc.kunde or param.init ne 'true'}">					
+						                rendered="#{not empty kc.kunden or param.init ne 'true'}">					
 						 
 							 <rich:column id="kundeIdLabel">							
 								<f:facet name="header">
@@ -128,6 +110,10 @@
 		
 						<p id="abstand2"/>
 						
+						<rich:dataScroller id="dataScroller"
+							                   for="alleKundenTabelle"
+							                   maxPages="10"/>
+							
 						<a4j:outputPanel id="outputPanelZebra" ajaxRendered="true">
 							<rich:jQuery id="odd"
 							             selector=".tabelleMitZebrastil tr:odd"
@@ -148,7 +134,7 @@
 							             query="jQuery(this).removeClass('active-row')"
 							             timing="domready"/>
 						</a4j:outputPanel>
-				</a4j:outputPanel>
+					</a4j:outputPanel>
 			</h:form>
 		</ui:define>
 	</ui:composition>

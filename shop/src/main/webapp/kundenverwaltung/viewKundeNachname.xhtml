@@ -52,14 +52,9 @@
 				<rich:messages id="globaleFehlermeldungen" globalOnly="true"/>
 			</p>
 		
-			<a4j:outputPanel id="gesuchterKundeNachnamePanel">
-				<c:if test="#{not empty kc.kunde or param.init ne 'true'}">
-					<c:set var="kunde" value="#{flash.kunde}" scope="view"/>
-					<!-- Fuer den naechsten Request puffern, falls z.B. ein Update-Button angeklickt WUERDE -->
-					<c:set target="#{flash}" property="kunde" value="#{kunde}"/>
-						
+			<a4j:outputPanel id="gesuchterKundeNachnamePanel">						
 					<rich:dataTable id="kundeNachnameTabelle"
-				                value="#{kunde}"
+				                value="#{kc.kunden}"
 				                var="kunde"
 				                rows="10"
 				                noDataLabel="#{msgKv['viewKunde.keineDaten']}"
@@ -128,13 +123,13 @@
 						</h:outputLink>																
 					</rich:column>
 							
-					<rich:column id="editSpalte" rendered="#{not empty kunde and rich:isUserInRole('mitarbeiter') and rich:isUserInRole('abteilungsleiter')}">
+					<rich:column id="editSpalte" rendered="#{not empty kunde and rich:isUserInRole('admin')}">
 						<h:commandButton id="editButton"
 										 image="#{resource['images:edit.gif']}"
-								         action="#{kc.selectForUpdate(kunde)}"
-								         alt="#{msgKv['viewKunde.editButton']}"/>
+										 action="#{kc.selectForUpdate(kunde)}"
+										 alt="#{msgKv['viewKunde.editButton']}"/>
 					</rich:column>
-					  		 
+							 
 					<rich:column id="deleteSpalte" rendered="#{not empty kunde and rich:isUserInRole('abteilungsleiter')}">
 						<h:commandButton id="deleteButton"
 										   image="#{resource['images:delete.gif']}"
@@ -173,7 +168,6 @@
 							</a4j:outputPanel>
 						</h:panelGroup>
 					</p>
-				</c:if>
 			</a4j:outputPanel>
 		</h:form>
 	</ui:define>

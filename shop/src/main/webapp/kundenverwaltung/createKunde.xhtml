@@ -30,29 +30,25 @@
 					
 					<h:panelGrid id="createKundeTabelle" columns="3">
 			
-						<h:outputText id="geschlechtLabel" value="#{msgKv['createKunde.geschlecht']}"/>
-						<h:selectOneRadio id="geschlecht" value="#{kc.neuerKunde.geschlecht}">
-							<f:selectItem id="weiblich" itemValue="WEIBLICH" itemLabel="#{msgKv['createKunde.geschlecht.weiblich']}"/>
-							<f:selectItem id="maennlich" itemValue="MAENNLICH" itemLabel="#{msgKv['createKunde.geschlecht.maennlich']}"/>
-						</h:selectOneRadio>
-						<f:verbatim/>
-						
-						<h:outputLabel id="artLabel" value="#{msgKv['createKunde.art']}" for="art"/>
-						<rich:select id="art"
-						             enableManualInput="true"
-						             defaultLabel="#{msgKv['createKunde.art.privatkunde']}"
-						             value="#{kc.neuerKunde.art}">
+						<h:outputText id="artLabel" value="#{msgKv['createKunde.art']}"/>
+						<h:selectOneRadio id="art" value="#{kc.neuerKunde.art}">
 							<f:selectItem id="P" itemValue="P" itemLabel="#{msgKv['createKunde.art.privatkunde']}"/>
 							<f:selectItem id="F" itemValue="F" itemLabel="#{msgKv['createKunde.art.firmenkunde']}"/>
 							<rich:validator oninvalid="$(#{rich:element('art')}).addClass('invalid')"
                                             onvalid="$(#{rich:element('art')}).removeClass('invalid')"/>
-						</rich:select>
+						</h:selectOneRadio>
 						<rich:messages id="fehlermeldungenArt" for="art"/>
+						
+						<h:outputText id="geschlechtLabel" value="#{msgKv['createKunde.geschlecht']}"/>
+						<h:selectOneRadio id="geschlecht" value="#{kc.neuerKunde.geschlecht}">
+							<f:selectItem id="maennlich" itemValue="MAENNLICH" itemLabel="#{msgKv['createKunde.geschlecht.maennlich']}"/>
+							<f:selectItem id="weiblich" itemValue="WEIBLICH" itemLabel="#{msgKv['createKunde.geschlecht.weiblich']}"/>
+						</h:selectOneRadio>
+						<f:verbatim/>
 						
 						<h:outputLabel id="familienstandLabel" for="familienstand" value="#{msgKv['createKunde.familienstand']}"/>
 						<rich:select id="familienstand"
 						             enableManualInput="true"
-						             defaultLabel="#{msgKv['createKunde.familienstand.ledig']}"
 						             value="#{kc.neuerKunde.familienstand}">
 							<f:selectItem id="ledig" itemValue="LEDIG" itemLabel="#{msgKv['createKunde.familienstand.ledig']}"/>
 							<f:selectItem id="verheiratet" itemValue="VERHEIRATET" itemLabel="#{msgKv['createKunde.familienstand.verheiratet']}"/>
@@ -131,28 +127,6 @@
 						<h:inputText id="hausnr" value="#{kc.neuerKunde.adresse.hausnr}"/>
 						<f:verbatim/>
 						
-						<h:outputLabel id="umsatzLabel" for="umsatz" value="#{msgKv['createKunde.umsatz']}"/>
-						<h:inputText id="umsatz"
-						             value="#{kc.neuerKunde.umsatz}"
-						             converterMessage="#{msgKv['createKunde.umsatz.convert']}">
-						    <f:convertNumber type="currency"
-							                 currencyCode="EUR"
-							                 maxFractionDigits="2"/>
-							<f:ajax event="blur" render="fehlermeldungenUmsatz"/>
-						</h:inputText>
-						<rich:messages id="fehlermeldungenUmsatz" for="umsatz"/>
-			
-						<h:outputLabel id="rabattLabel" for="rabatt" value="#{msgKv['createKunde.rabatt']}"/>
-						<h:inputText id="rabatt"
-					             	 value="#{kc.neuerKunde.rabatt}"
-					             	 converterMessage="#{msgKv['createKunde.rabatt.convert']}">	
-							<f:convertNumber type="percent"
-	                                     	 maxFractionDigits="2"
-	                                     	 maxIntegerDigits="2"/>
-								<f:ajax event="blur" render="fehlermeldungenRabatt"/>
-						</h:inputText>
-						<rich:messages id="fehlermeldungenRabatt" for="rabatt"/>
-		
 						<h:outputLabel id="seitLabel"
 						               for="seit"
 						               value="#{msgKv['createKunde.seit']}"/>

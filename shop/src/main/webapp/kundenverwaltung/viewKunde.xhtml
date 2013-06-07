@@ -33,13 +33,8 @@
 				<p id="abstand"/>
 			
 				<a4j:outputPanel id="gesuchterKundePanel">
-					<c:if test="#{not empty flash.kunde or param.init ne 'true'}">
-						<c:set var="kunde" value="#{flash.kunde}" scope="view"/>
-						<!-- Fuer den naechsten Request puffern, falls z.B. ein Update-Button angeklickt WUERDE -->
-						<c:set target="#{flash}" property="kunde" value="#{kunde}"/>
-						
 							<rich:dataTable id="KundeTabelle"
-						                value="#{kunde}"
+						                value="#{kc.kunde}"
 						                var="kunde"
 						                rows="10"
 						                noDataLabel="#{msgKv['viewKunde.keineDaten']}"
@@ -108,7 +103,7 @@
 								</h:outputLink>	
 							</rich:column>
 									
-							<rich:column id="editSpalte" rendered="#{not empty kunde and rich:isUserInRole('mitarbeiter') and rich:isUserInRole('abteilungsleiter')}">
+							<rich:column id="editSpalte" rendered="#{not empty kunde and rich:isUserInRole('admin')}">
 								<h:commandButton id="editButton"
 												 image="#{resource['images:edit.gif']}"
 										         action="#{kc.selectForUpdate(kunde)}"
@@ -150,7 +145,6 @@
 							             query="jQuery(this).removeClass('active-row')"
 							             timing="domready"/>
 						</a4j:outputPanel>
-					</c:if>
 				</a4j:outputPanel>
 			</h:form>
 		</ui:define>

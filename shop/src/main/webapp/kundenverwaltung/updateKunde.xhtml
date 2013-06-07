@@ -37,7 +37,7 @@
 					<h:outputLabel id="familienstandLabel" for="familienstandMenu" value="#{msgKv['updateKunde.familienstand']}"/>
 					<rich:select id="familienstandMenu"
 					             enableManualInput="true"
-					             defaultLabel="#{msgKv['updateKunde.familienstand']}"
+					             defaultLabel="#{kc.kunde.familienstand}"
 					             value="#{kc.kunde.familienstand}"
 					             valueChangeListener="#{kc.geaendert}">
 						<f:selectItem id="ledig" itemValue="LEDIG" itemLabel="#{msgKv['updateKunde.familienstand.ledig']}"/>

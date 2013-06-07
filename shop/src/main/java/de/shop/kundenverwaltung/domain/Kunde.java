@@ -307,23 +307,6 @@ public class Kunde implements Serializable {
 		passwortWdh = passwort;
 	}
 
-	public Kunde() {
-		super();
-	}
-	
-	public Kunde(String art, FamilienstandTyp familienstand,
-			GeschlechtTyp geschlecht, String nachname, String vorname,
-			BigDecimal rabatt, BigDecimal umsatz) {
-		super();
-		this.art = art;
-		this.familienstand = familienstand;
-		this.geschlecht = geschlecht;
-		this.nachname = nachname;
-		this.vorname = vorname;
-		this.rabatt = rabatt;
-		this.umsatz = umsatz;
-	}
-
 	public void setWerte(Kunde k) {
 		version = k.version;
 		art = k.art;

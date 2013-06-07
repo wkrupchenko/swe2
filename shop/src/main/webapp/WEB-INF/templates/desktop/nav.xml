@@ -26,10 +26,20 @@
 			<rich:panelMenuGroup id="kundenverwaltung"
 			                     label="#{msg['nav.kundenverwaltung']}"
 			                     expanded="true"
-			                     rendered="#{rich:isUserInRole('mitarbeiter') and rich:isUserInRole('admin')}">
+			                     rendered="#{rich:isUserInRole('admin')}">
 				<rich:panelMenuGroup id="sucheKunde"
 			                     label="#{msg['nav.suche']}"
 			                     expanded="true">
+					<rich:panelMenuItem id="kundenverwaltungViewAlleKundenItem">
+					<h:outputLink id="kundenverwaltungViewAlleKunden"
+					              value="#{request.contextPath}/kundenverwaltung/viewAlleKunden.jsf"
+					               onclick="#{kc.findAlleKunden()}">
+						#{msg['nav.kundenverwaltung.viewAlleKunden']}
+						<c:if test="#{not empty javax.enterprise.context.conversation.id}">
+							<f:param id="viewAlleKundenCid" name="cid" value="#{javax.enterprise.context.conversation.id}"/>
+						</c:if>
+					</h:outputLink>
+				</rich:panelMenuItem>
 				<rich:panelMenuItem id="kundenverwaltungViewKundeItem">
 					<h:outputLink id="kundenverwaltungViewKunde"
 					              value="#{request.contextPath}/kundenverwaltung/viewKunde.jsf"
@@ -84,8 +94,7 @@
 			  
 			  <rich:panelMenuGroup id="createKunde"
 			                       label="#{msg['nav.anlegen']}"
-			                       expanded="true"
-			                       rendered="#{rich:isUserInRole('admin')}">
+			                       expanded="true">
 				<rich:panelMenuItem id="kundenverwaltungCreateKundeItem">
 					<h:outputLink id="kundenverwaltungCreateKunde"
 					              value="#{request.contextPath}/kundenverwaltung/createKunde.jsf">

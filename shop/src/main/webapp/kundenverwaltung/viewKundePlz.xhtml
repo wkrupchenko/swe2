@@ -32,14 +32,9 @@
 			
 				<p id="abstand"/>
 			
-				<a4j:outputPanel id="gesuchterKundePlzPanel">
-					<c:if test="#{not empty kc.kunde or param.init ne 'true'}">
-						<c:set var="kunde" value="#{flash.kunde}" scope="view"/>
-						<!-- Fuer den naechsten Request puffern, falls z.B. ein Update-Button angeklickt WUERDE -->
-						<c:set target="#{flash}" property="kunde" value="#{kunde}"/>
-						
+				<a4j:outputPanel id="gesuchterKundePlzPanel">						
 							<rich:dataTable id="kundePlzTabelle"
-						                value="#{kunde}"
+						                value="#{kc.kunden}"
 						                var="kunde"
 						                rows="10"
 						                noDataLabel="#{msgKv['viewKunde.keineDaten']}"
@@ -107,14 +102,14 @@
 									<h:outputText value="#{kunde.email}" />
 								</h:outputLink>																
 							</rich:column>
-									
-							<rich:column id="editSpalte" rendered="#{not empty kunde and rich:isUserInRole('mitarbeiter') and rich:isUserInRole('abteilungsleiter')}">
+											
+							<rich:column id="editSpalte" rendered="#{not empty kunde and rich:isUserInRole('admin')}">
 								<h:commandButton id="editButton"
 												 image="#{resource['images:edit.gif']}"
-										         action="#{kc.selectForUpdate(kunde)}"
-										         alt="#{msgKv['viewKunde.editButton']}"/>
+												 action="#{kc.selectForUpdate(kunde)}"
+												 alt="#{msgKv['viewKunde.editButton']}"/>
 							</rich:column>
-							
+								
 							<rich:column id="deleteSpalte" rendered="#{not empty kunde and rich:isUserInRole('abteilungsleiter')}">
 								<h:commandButton id="deleteButton"
 												   image="#{resource['images:delete.gif']}"
@@ -132,34 +127,33 @@
 		
 						<p id="abstand2"/>
 						
-						<rich:dataScroller id="dataScroller"
+						<h:panelGroup id="scrollerGroup" rendered="#{not empty kunde}">
+							<rich:dataScroller id="dataScroller"
 						                   for="kundePlzTabelle"
 						                   maxPages="10"
 						                   rendered="#{not empty kunde}"/>
 						
-						<a4j:outputPanel id="outputPanelZebra" ajaxRendered="true">
-							<rich:jQuery id="odd"
-							             selector=".tabelleMitZebrastil tr:odd"
-							             query="addClass('odd-row')"
-							             timing="domready"/>
-							<rich:jQuery id="even"
-							             selector=".tabelleMitZebrastil tr:even"
-							             query="addClass('even-row')"
-							             timing="domready"/>
-							<rich:jQuery id="mouseover"
-							             selector=".tabelleMitZebrastil tr"
-							             event="mouseover"
-							             query="jQuery(this).addClass('active-row')"
-							             timing="domready"/>
-							<rich:jQuery id="mouseout"
-							             selector=".tabelleMitZebrastil tr"
-							             event="mouseout"
-							             query="jQuery(this).removeClass('active-row')"
-							             timing="domready"/>
-						</a4j:outputPanel>
-					</c:if>
-					
-					<!-- TODO Button zum Aendern und/oder Loeschen -->
+							<a4j:outputPanel id="outputPanelZebra" ajaxRendered="true">
+								<rich:jQuery id="odd"
+								             selector=".tabelleMitZebrastil tr:odd"
+								             query="addClass('odd-row')"
+								             timing="domready"/>
+								<rich:jQuery id="even"
+								             selector=".tabelleMitZebrastil tr:even"
+								             query="addClass('even-row')"
+								             timing="domready"/>
+								<rich:jQuery id="mouseover"
+								             selector=".tabelleMitZebrastil tr"
+								             event="mouseover"
+								             query="jQuery(this).addClass('active-row')"
+								             timing="domready"/>
+								<rich:jQuery id="mouseout"
+								             selector=".tabelleMitZebrastil tr"
+								             event="mouseout"
+								             query="jQuery(this).removeClass('active-row')"
+								             timing="domready"/>
+							</a4j:outputPanel>
+						</h:panelGroup>
 				</a4j:outputPanel>
 			</h:form>
 		</ui:define>
