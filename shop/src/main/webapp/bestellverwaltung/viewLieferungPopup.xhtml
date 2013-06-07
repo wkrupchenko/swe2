@@ -46,36 +46,7 @@
 			</rich:panel>
 				 
 		</rich:tab>
-		<!--  
-		<rich:tab id="bestellungenTabL">
-			<f:facet name="header">
-				<h:panelGroup id="bestellungenLabelL">
-					<h:graphicImage id="bestellungenGifL"
-					                name="bestellungen.gif"
-					                library="images"/>
-					#{' '}
-					#{msgKv['viewKundePopup.kunde.bestellungen']}
-				</h:panelGroup>
-			</f:facet>
-			<rich:dataTable id="bestellungLTabelle"
-						                value="#{VARbestellung.lieferungen.toArray().array[0].bestellungen}"
-						                var="BL"
-						                rows="2"
-						                noDataLabel="#{msgBv['viewBestellung.keineDaten']}"
-						                rowClasses="odd-row, even-row"
-						                styleClass="tabelleMitZebrastil"
-						                cellspacing="10">
-						                 
-							<rich:column id="idSpalte">
-								<f:facet name="header">
-									#{msgBv['viewBestellung.bestellnr']}
-								</f:facet>
-								#{BL.id}
-							</rich:column>
-			</rich:dataTable>
-				 
-		</rich:tab>
-		-->	
+		
 		<a4j:outputPanel id="outputPanelZebra" ajaxRendered="true">
 					<rich:jQuery id="odd"
 					             selector=".tabelleMitZebrastil tr:odd"

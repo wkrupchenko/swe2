@@ -200,7 +200,7 @@ public class ArtikelController implements Serializable {
 		if (artikelList == null) {
 			return null;
 		}
-		if (artikelList.size() == 0) {
+		if (artikelList.isEmpty()) {
 			return null;
 		}
 		return artikelList.get(row);
@@ -243,7 +243,8 @@ public class ArtikelController implements Serializable {
 	}
 	
 	public List<Artikelgruppe> getAlleArtikelgruppen() {
-		return alleArtikelgruppen = as.findeAlleArtikelgruppen();
+		alleArtikelgruppen = as.findeAlleArtikelgruppen();
+		return alleArtikelgruppen;
 	}
 	
 	public void setArtikelgruppeId(Long artikelgruppeId) {

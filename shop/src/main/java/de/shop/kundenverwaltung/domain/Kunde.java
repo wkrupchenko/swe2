@@ -378,7 +378,7 @@ public class Kunde implements Serializable {
 		this.nachname = nachname;
 	}
 
-	public boolean getNewsletter() {
+	public boolean isNewsletter() {
 		return this.newsletter;
 	}
 

@@ -83,9 +83,9 @@ public class BestellungController implements Serializable {
 	
 	private String liefernummer;
 	
-	private String inlandOderAusland = "I";
+	final private String inlandOderAusland = "I";
 	
-	private TransportTyp transportArt = TransportTyp.STRASSE;
+	final private TransportTyp transportArt = TransportTyp.STRASSE;
 	
 	@Override
 	public String toString() {
