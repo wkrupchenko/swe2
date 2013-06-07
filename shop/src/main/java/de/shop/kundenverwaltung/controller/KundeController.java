@@ -452,6 +452,10 @@ public class KundeController implements Serializable {
 	@TransactionAttribute(REQUIRED)
 	public String createKunde() {
 		try {
+			if (!neuerKunde.isPasswortEqual()) {
+				throw new PwdNotEqualException();
+			}
+			
 			neuerKunde = ks.createKunde(neuerKunde, locale);
 		}
 		catch (PwdNotEqualException | InvalidKundeException | EmailExistsException  e) {
