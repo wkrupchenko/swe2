@@ -11,4 +11,8 @@ MEILENSTEIN 2 ERLEDIGT
 
 MEILSTEIN 3 Android:
 
+Kunde mit Bestellungen anzeigen
+Artikel anzeigen und erfassen
+Kunde anlegen und ändern
+
 KOMPLETT OFFEN
