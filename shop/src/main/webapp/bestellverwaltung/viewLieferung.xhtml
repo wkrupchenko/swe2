@@ -41,7 +41,7 @@
 							<rich:dataTable id="LieferungTabelle"
 						                value="#{lieferung}"
 						                var="lieferung"
-						                rows="5"
+						                rows="4"
 						                noDataLabel="#{msgBv['viewBestellung.keineDaten']}"
 						                rowClasses="odd-row, even-row"
 						                styleClass="tabelleMitZebrastil"
@@ -53,13 +53,7 @@
 								</f:facet>
 								#{lieferung.id}
 							</rich:column>							
-							 							 
-							 <rich:column id="lieferungVersionSpalte">							
-								<f:facet name="header">
-									#{msgBv['viewLieferung.version']}
-								</f:facet>							 
-								 #{lieferung.version}								 				
-							</rich:column>											
+							 							 											
 														
 							<rich:column id="inlandAuslandSpalte">
 								<f:facet name="header">

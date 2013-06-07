@@ -231,6 +231,7 @@ public class BestellungController implements Serializable {
 			
 			// Neue Bestellung mit neuen Bestellpositionen erstellen
 			Bestellung bestellung = new Bestellung();
+			bestellung.setOffenAbgeschlossen(true);
 			bestellung.setBestellpositionen(neuePositionen);
 			Lieferung lieferung = new Lieferung();
 			lieferung.setInlandOderAusland(inlandOderAusland);
