@@ -256,6 +256,10 @@ public class KundeService implements Serializable {
 			return kunde;
 		}
 
+		if (!kunde.isPasswortEqual()) {
+			throw new PwdNotEqualException();
+		}
+		
 		validateKunde(kunde, locale, Default.class, PasswordGroup.class);
 		
 		try {

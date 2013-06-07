@@ -7,6 +7,7 @@ import static de.shop.util.Konstante.JSF_INDEX;
 import static de.shop.util.Messages.MessagesType.KUNDENVERWALTUNG;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
@@ -29,7 +30,6 @@ import javax.validation.groups.Default;
 import org.richfaces.cdi.push.Push;
 
 import de.shop.kundenverwaltung.domain.Adresse;
-import de.shop.kundenverwaltung.domain.FamilienstandTyp;
 import de.shop.kundenverwaltung.domain.GeschlechtTyp;
 import de.shop.kundenverwaltung.domain.Kunde;
 import de.shop.kundenverwaltung.service.EmailExistsException;
@@ -41,6 +41,7 @@ import de.shop.kundenverwaltung.service.KundeDeleteBestellungException;
 import de.shop.kundenverwaltung.service.KundeService;
 import de.shop.kundenverwaltung.service.KundeService.FetchType;
 import de.shop.kundenverwaltung.service.KundeService.OrderType;
+import de.shop.kundenverwaltung.service.PwdNotEqualException;
 import de.shop.util.AbstractShopException;
 import de.shop.util.Client;
 import de.shop.util.ConcurrentDeletedException;
@@ -75,6 +76,7 @@ public class KundeController implements Serializable {
 	private static final String MSG_KEY_UPDATE_KUNDE_DUPLIKAT = "updateKunde.duplikat";
 	private static final String MSG_KEY_DELETE_KUNDE_BESTELLUNG = "viewKunde.deleteKundeBestellung";
 	private static final String MSG_KEY_CREATE_KUNDE_EMAIL_EXISTS = "createKunde.emailExists";
+	private static final String MSG_KEY_CREATE_KUNDE_PWD_NOT_EQUAL = "createKunde.passwortNotEqual";
 
 	private static final String CLIENT_ID_KUNDEN_NACHNAME = "form:nachname";
 	private static final String CLIENT_ID_KUNDEN_EMAIL = "form:email";
@@ -82,6 +84,7 @@ public class KundeController implements Serializable {
 	private static final String CLIENT_ID_UPDATE_PASSWORT = "updateKundeForm:passwort";
 	private static final String CLIENT_ID_UPDATE_EMAIL = "updateKundeForm:email";
 	private static final String CLIENT_ID_CREATE_EMAIL = "createKundeForm:email";
+	private static final String CLIENT_ID_CREATE_PWD = "createKundeForm:passwort";
 
 	private static final String REQUEST_KUNDE_ID = "kundeId";
 
@@ -442,7 +445,8 @@ public class KundeController implements Serializable {
 		neuerKunde.setAdresse(adresse);
 		neuerKunde.setGeschlecht(GeschlechtTyp.MAENNLICH);
 		neuerKunde.setArt("P");
-		neuerKunde.setFamilienstand(FamilienstandTyp.LEDIG);
+		neuerKunde.setUmsatz(new BigDecimal(0));
+		neuerKunde.setRabatt(new BigDecimal(0));
 	}
 
 	@TransactionAttribute(REQUIRED)
@@ -450,7 +454,7 @@ public class KundeController implements Serializable {
 		try {
 			neuerKunde = ks.createKunde(neuerKunde, locale);
 		}
-		catch (InvalidKundeException | EmailExistsException e) {
+		catch (PwdNotEqualException | InvalidKundeException | EmailExistsException  e) {
 			final String outcome = createKundeErrorMsg(e);
 			return outcome;
 		}
@@ -470,6 +474,9 @@ public class KundeController implements Serializable {
 		final Class<? extends AbstractShopException> exceptionClass = e.getClass();
 		if (exceptionClass.equals(EmailExistsException.class)) {
 			messages.error(KUNDENVERWALTUNG, MSG_KEY_CREATE_KUNDE_EMAIL_EXISTS, CLIENT_ID_CREATE_EMAIL);
+		}
+		else if (exceptionClass.equals(PwdNotEqualException.class)) {
+			messages.error(KUNDENVERWALTUNG, MSG_KEY_CREATE_KUNDE_PWD_NOT_EQUAL, CLIENT_ID_CREATE_PWD);
 		}
 		else if (exceptionClass.equals(InvalidKundeException.class)) {
 			final InvalidKundeException orig = (InvalidKundeException) e;

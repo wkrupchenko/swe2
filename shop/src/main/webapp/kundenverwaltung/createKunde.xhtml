@@ -95,10 +95,8 @@
 						<h:inputSecret id="passwortWdh"
 						               value="#{kc.neuerKunde.passwortWdh}"
 						               redisplay="true">
-							<rich:validator oninvalid="$(#{rich:element('passwortWdh')}).addClass('invalid')"
-                                            onvalid="$(#{rich:element('passwortWdh')}).removeClass('invalid')"/>
 						</h:inputSecret>
-						<rich:messages id="fehlermeldungPasswortWdh" for="passwortWdh"/>
+						<f:verbatim/>
 		
 						<h:outputLabel id="plzLabel" for="plz" value="#{msgKv['createKunde.plz']}"/>
 						<h:inputText id="plz"
@@ -126,6 +124,28 @@
 						<h:outputLabel id="hausnrLabel" for="hausnr" value="#{msgKv['createKunde.hausnr']}"/>
 						<h:inputText id="hausnr" value="#{kc.neuerKunde.adresse.hausnr}"/>
 						<f:verbatim/>
+						
+						<h:outputLabel id="umsatzLabel" for="umsatz" value="#{msgKv['createKunde.umsatz']}"/>
+						<h:inputText id="umsatz"
+						             value="#{kc.neuerKunde.umsatz}"
+						             converterMessage="#{msgKv['createKunde.umsatz.convert']}">
+						    <f:convertNumber type="currency"
+							                 currencyCode="EUR"
+							                 maxFractionDigits="2"/>
+							<f:ajax event="blur" render="fehlermeldungenUmsatz"/>
+						</h:inputText>
+						<rich:messages id="fehlermeldungenUmsatz" for="umsatz"/>
+			
+						<h:outputLabel id="rabattLabel" for="rabatt" value="#{msgKv['createKunde.rabatt']}"/>
+						<h:inputText id="rabatt"
+					             	 value="#{kc.neuerKunde.rabatt}"
+					             	 converterMessage="#{msgKv['createKunde.rabatt.convert']}">	
+							<f:convertNumber type="percent"
+	                                     	 maxFractionDigits="2"
+	                                     	 maxIntegerDigits="2"/>
+								<f:ajax event="blur" render="fehlermeldungenRabatt"/>
+						</h:inputText>
+						<rich:messages id="fehlermeldungenRabatt" for="rabatt"/>
 						
 						<h:outputLabel id="seitLabel"
 						               for="seit"
