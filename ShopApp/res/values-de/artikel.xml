@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<resources>
+
+    <string name="a_bezeichnung_details_title">Gesuchter Artikel</string>
+    <string name="a_bezeichnung_id">Artikelnummer</string>
+    <string name="a_bezeichnung">Bezeichnung</string>
+
+</resources>

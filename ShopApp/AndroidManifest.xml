@@ -30,6 +30,10 @@
 			android:name="de.shop.ui.artikel.ArtikelSuchenId"
 			android:label="@string/s_suchen_artikel_id" >
 		</activity>
+		<activity
+			android:name="de.shop.ui.artikel.ArtikelDetails"
+			android:label="@string/a_artikel_details_title" >
+		</activity>
 	</application>
 
 </manifest>
