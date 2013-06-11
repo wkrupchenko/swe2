@@ -41,7 +41,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import javax.inject.Inject;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
@@ -58,7 +57,6 @@ import org.jboss.logging.Logger;
 
 import com.jayway.restassured.response.Response;
 
-import de.shop.artikelverwaltung.service.ArtikelService;
 import de.shop.util.AbstractResourceTest;
 import de.shop.util.NoMimeTypeException;
 
@@ -99,9 +97,6 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 	private static final String FILENAME_INVALID_MIMETYPE = "image.bmp";
 	private static final String FILENAME_UPLOAD_INVALID_MIMETYPE = "src/test/resources/rest/" 
 								+ FILENAME_INVALID_MIMETYPE;
-	
-	@Inject
-	private ArtikelService as;
 	
 	@Rule
 	public ExpectedException thrown = ExpectedException.none();

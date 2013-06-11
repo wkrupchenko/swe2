@@ -18,7 +18,6 @@ import javax.ejb.Stateful;
 import javax.ejb.TransactionAttribute;
 import javax.enterprise.context.SessionScoped;
 import javax.enterprise.event.Event;
-import javax.faces.context.Flash;
 import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -109,9 +108,6 @@ public class KundeController implements Serializable {
 	
 	@Inject
 	private KundeService ks;
-	
-	@Inject
-	private Flash flash;
 	
 	@Inject
 	private Messages messages;
