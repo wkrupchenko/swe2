@@ -26,6 +26,10 @@
 			android:name="de.shop.ui.kunde.KundeSuchenId"
 			android:label="@string/s_suchen_kunde_id" >
 		</activity>
+		<activity
+			android:name="de.shop.ui.artikel.ArtikelSuchenId"
+			android:label="@string/s_suchen_artikel_id" >
+		</activity>
 	</application>
 
 </manifest>

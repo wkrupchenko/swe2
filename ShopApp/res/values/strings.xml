@@ -8,6 +8,7 @@
 	<string name="s_suchen_artikel_id">Search article by ID</string>	
 	<string name ="s_btn_suchen">Search</string>
 	<string name="s_kunde_id_hinweis">Enter customer no.</string>
+	<string name="s_artikel_id_hinweis">Enter article no.</string>
 	
 
 </resources>
