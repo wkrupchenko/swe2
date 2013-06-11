@@ -1,0 +1,6 @@
+MEILSTEIN 3 Android:
+
+Kunde mit Bestellungen anzeigen (Sebastian)
+Artikel anzeigen und erfassen und ändern (Ingo)
+Artikelgruppe anzeigen und erfassen (Wer will)
+Kunde anlegen und ändern (Wladik)
