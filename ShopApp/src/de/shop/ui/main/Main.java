@@ -7,7 +7,7 @@ import android.view.View.OnClickListener;
 import android.content.Intent;
 import android.view.Menu;
 import android.view.View;
-import de.shop.ui.kunde.Kunden;
+import de.shop.ui.kunde.KundeSuchenId;
 
 public class Main extends Activity implements OnClickListener {
 
@@ -15,6 +15,7 @@ public class Main extends Activity implements OnClickListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
+		findViewById(R.id.btn_suchen_kunde_id).setOnClickListener(this);
 	}
 
 	@Override
@@ -25,7 +26,7 @@ public class Main extends Activity implements OnClickListener {
 	
 	@Override
 	public void onClick(View view) {
-		Intent intent = new Intent(this, Kunden.class);
+		Intent intent = new Intent(this, KundeSuchenId.class);
 		startActivity(intent);
 	}
 
