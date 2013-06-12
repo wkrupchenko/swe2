@@ -1,6 +1,20 @@
 MEILSTEIN 3 Android:
 
+
+Ungefährer Aufbau:
+
+-Fragment mit links einer Auswahlleiste und in der Mitte den eigentlichen Informationen
+-Links die Punkte Kunde, Bestellung, Artikel
+-Bei Klick erscheint ein Popup mit Auswahl wie Kunde nach Id, Nachname etc.
+-Nach Auswahl erscheint in der Mitte das Suchfenster
+-Nach Suche erscheint in der Mitte die Detailansicht, oben in der ActionBar Reiter wie damals beim Popup mit JSF, z.b. Stammdaten, Bestellungen
+
 Kunde mit Bestellungen anzeigen (Sebastian)
 Artikel anzeigen und erfassen und ändern (Ingo)
-Artikelgruppe anzeigen und erfassen (Wer will)
+Artikelgruppe anzeigen und erfassen (Ingo)
+Bestellungen anzeigen(Wladik)
 Kunde anlegen und ändern (Wladik)
+
+ACHTUNG PACKAGESTRUKTUR:
+-Nicht genau wie in Beispielen
+-z.B. de.shop.data.artikel.Artikel oder de.shop.service.kunde.KundeService

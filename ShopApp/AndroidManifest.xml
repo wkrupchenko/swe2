@@ -34,6 +34,8 @@
 			android:name="de.shop.ui.artikel.ArtikelDetails"
 			android:label="@string/a_artikel_details_title" >
 		</activity>
+		<service
+			android:name=".service.artikel.ArtikelService" />
 	</application>
 
 </manifest>
