@@ -6,7 +6,7 @@ Ungefährer Aufbau:
 -Fragment mit links einer Auswahlleiste und in der Mitte den eigentlichen Informationen
 -Links die Punkte Kunde, Bestellung, Artikel
 -Bei Klick erscheint ein Popup mit Auswahl wie Kunde nach Id, Nachname etc.
--Nach Auswahl erscheint in der Mitte das Suchfenster
+-Nach Auswahl erscheint in der Mitte das Suchfenster und in der Liste links die gefundenen Artikel bzw Kunden etc
 -Nach Suche erscheint in der Mitte die Detailansicht, oben in der ActionBar Reiter wie damals beim Popup mit JSF, z.b. Stammdaten, Bestellungen
 
 Kunde mit Bestellungen anzeigen (Sebastian)
