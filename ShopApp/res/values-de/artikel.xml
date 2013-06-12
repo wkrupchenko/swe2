@@ -4,5 +4,6 @@
     <string name="a_bezeichnung_details_title">Gesuchter Artikel</string>
     <string name="a_bezeichnung_id">Artikelnummer</string>
     <string name="a_bezeichnung">Bezeichnung</string>
+    <string name="a_stammdaten">Stammdaten</string>
 
 </resources>

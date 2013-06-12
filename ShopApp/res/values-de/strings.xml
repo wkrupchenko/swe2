@@ -6,8 +6,27 @@
     <string name="s_startseite">Bitte Tätigkeit auswählen</string>
 	<string name="s_suchen_kunde_id">Suche Kunde nach Kundennummer</string>
 	<string name="s_suchen_artikel_id">Suche Artikel nach Artikelnummer</string>    
+	<string name="s_suchen_kunde_nachname">Suche Kunde nach Nachname</string>
+	<string name="s_suchen_artikel_bezeichnung">Suche Artikel nach Bezeichnung</string>    
     <string name="s_btn_suchen">Suchen</string>
 	<string name="s_kunde_id_hinweis">Kundennummer eingeben</string>
 	<string name="s_artikel_id_hinweis">Artikelnummer eingeben</string>
+	<string name="s_nav_kunden">Kunden</string>
+	<string name="s_nav_bestellungen">Bestellungen</string>
+	<string name="s_nav_artikel">Artikel</string>
+	<string name="s_desc_icon">Icon für den Navigationseintrag</string>
+	<string name="s_verbindungsdaten_pref">Konfiguration der Verbindungsdaten für den Web Service</string>
+    <string name="s_mock_pref">Konfiguration für Mock-Objekte</string>
+    <string name="s_protocol_title">Http(s) Protokoll</string>
+    <string name="s_protocol_summary">Http oder https als Protokoll für den Web Service</string>
+    <string name="s_host_title">Rechnername</string>
+    <string name="s_host_summary">Rechnername oder IP-Adresse für den Web Service, z.B. 10.0.2.2</string>
+    <string name="s_port_title">Portnummer</string>
+    <string name="s_port_summary">Portnummer für den Web Service, z.B. 80 oder 8080</string>
+    <string name="s_path_title">Pfad</string>
+    <string name="s_path_summary">Pfad für den Web Service, z.B. /shop/rest</string>
+    <string name="s_mock_title">Testmodus im Offline-Betrieb</string>
+    <string name="s_mock_summary">Anstatt RESTful Web Service</string>
+    <string name="s_option_suchen">Suchen</string>
     
 </resources>

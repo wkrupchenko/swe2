@@ -1,0 +1,10 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+    	android:id="@+id/artikel_suche_id"
+        android:title="@string/s_suchen_artikel_id"/>
+    
+    <item
+    	android:id="@+id/artikel_suche_bezeichnung"
+        android:title="@string/s_suchen_artikel_bezeichnung" />
+    
+</menu>

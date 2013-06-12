@@ -7,7 +7,7 @@
 	tools:context=".ui.main.Main" >
 
 	<EditText
-	    android:id="@+id/artikel_id"
+	    android:id="@+id/artikel_id_edt"
 	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content"
 	    android:hint="@string/s_artikel_id_hinweis"

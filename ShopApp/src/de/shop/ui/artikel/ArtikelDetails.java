@@ -1,43 +1,52 @@
 package de.shop.ui.artikel;
 
 import static de.shop.util.Konstanten.ARTIKEL_KEY;
+import static android.app.ActionBar.NAVIGATION_MODE_TABS;
+import android.app.ActionBar;
+import android.app.ActionBar.Tab;
 import android.app.Activity;
+import android.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 import de.shop.R;
 import de.shop.data.artikel.Artikel;
+import de.shop.util.TabListener;
 
-public class ArtikelDetails extends Activity {
+public class ArtikelDetails extends Fragment {
 	private static final String LOG_TAG = ArtikelSuchenId.class.getSimpleName();
 	
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.artikel_details);
-        
-        final Bundle extras = getIntent().getExtras();
-        if (extras == null) {
-        	return;
-        }
-
-        final Artikel artikel = (Artikel) extras.getSerializable(ARTIKEL_KEY);
+	private Artikel artikel;
+	
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        artikel = (Artikel) getArguments().get(ARTIKEL_KEY);
         Log.d(LOG_TAG, artikel.toString());
-        fillValues(artikel);
-    }
-    
-    private void fillValues(Artikel artikel) {
-        final TextView txtId = (TextView) findViewById(R.id.artikel_id);
-    	txtId.setText(artikel.id.toString());
-    	
-    	final TextView txtBezeichnung = (TextView) findViewById(R.id.bezeichnung);
-    	txtBezeichnung.setText(artikel.bezeichnung);
-    }
+        
+		// attachToRoot = false, weil die Verwaltung des Fragments durch die Activity erfolgt
+		return inflater.inflate(R.layout.details_tabs, container, false);
+	}
+	
+	@Override
+	public void onViewCreated(View view, Bundle savedInstanceState) {
+		final Activity activity = getActivity();
+		final ActionBar actionBar = activity.getActionBar();
+		
+		actionBar.setNavigationMode(NAVIGATION_MODE_TABS);
+	    actionBar.setDisplayShowTitleEnabled(false); 
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
+	    final Bundle args = new Bundle(1);
+    	args.putSerializable(ARTIKEL_KEY, artikel);
+    	
+	    Tab tab = actionBar.newTab()
+	                       .setText(getString(R.string.a_stammdaten))
+	                       .setTabListener(new TabListener<ArtikelStammdaten>(activity,
+	                    		                                            ArtikelStammdaten.class,
+	                    		                                            args));
+	    actionBar.addTab(tab);
+	}
 }
