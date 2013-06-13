@@ -28,5 +28,10 @@
     <string name="s_mock_title">Testmodus im Offline-Betrieb</string>
     <string name="s_mock_summary">Anstatt RESTful Web Service</string>
     <string name="s_option_suchen">Suchen</string>
+    <string name="s_bitte_warten">Bitte warten &#8230;</string>
+    <string name="s_wifi">Netzwerkverbindung durch WiFi</string>
+    <string name="s_mobile">Mobile Netzwerkverbindung</string>
+    <string name="s_not_connected">Keine Netzwerkverbindung</string>
+    <string name="s_mock">ACHTUNG: Testmodus im Offline-Betrieb</string>    
     
 </resources>

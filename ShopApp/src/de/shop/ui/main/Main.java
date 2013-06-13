@@ -1,7 +1,6 @@
 	package de.shop.ui.main;
 
 import static de.shop.util.Konstanten.ARTIKEL_KEY;
-
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.ComponentName;
@@ -11,11 +10,10 @@ import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
-
 import de.shop.R;
 import de.shop.data.artikel.Artikel;
-import de.shop.service.artikel.ArtikelService;
-import de.shop.service.artikel.ArtikelService.ArtikelServiceBinder;
+import de.shop.service.ArtikelService;
+import de.shop.service.ArtikelService.ArtikelServiceBinder;
 import de.shop.ui.artikel.ArtikelDetails;
 
 public class Main extends Activity {

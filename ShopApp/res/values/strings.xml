@@ -27,7 +27,12 @@
     <string name="s_path_summary">Path for the web service, e.g. /shop/rest</string>
     <string name="s_mock_title">Offline test mode</string>
     <string name="s_mock_summary">Instead of RESTful Web Service</string>
-     <string name="s_option_suchen">Search</string>
-	
+    <string name="s_option_suchen">Search</string>
+    <string name="s_bitte_warten">Please wait &#8230;</string>
+	<string name="s_wifi">WiFi Connection available</string>
+    <string name="s_mobile">Mobile Connection available</string>
+    <string name="s_not_connected">No Network available</string>    
+    <string name="s_mock">ATTENTION: offline test mode</string>
+    
 
 </resources>
