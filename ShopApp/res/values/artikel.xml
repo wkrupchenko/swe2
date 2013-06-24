@@ -3,6 +3,9 @@
     <string name="a_artikel_details_title">Article</string>
     <string name="a_artikel_id">Article No.</string>
     <string name="a_bezeichnung">Discription</string>
+    <string name="a_verfuegbarkeit">Availability</string>
+	<string name="a_preis">Price</string>
+	<string name="a_artikelgruppe">Article group</string>
     <string name="a_stammdaten">Master data</string>
     <string name="a_artikelnr_fehlt">The article no. is missing.</string>
     <string name="a_artikel_not_found">No article found with id %s.</string>

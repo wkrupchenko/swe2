@@ -52,6 +52,15 @@ public class ArtikelStammdaten extends Fragment implements OnTouchListener {
     	final TextView txtName = (TextView) view.findViewById(R.id.bezeichnung_txt);
     	txtName.setText(artikel.bezeichnung);
     	
+    	final TextView txtErhaeltlich = (TextView) view.findViewById(R.id.erhaeltlich_txt);
+    	txtErhaeltlich.setText(String.valueOf(artikel.erhaeltlich));
+    	
+    	final TextView txtPreis = (TextView) view.findViewById(R.id.preis_txt);
+    	txtPreis.setText(String.valueOf(artikel.preis));
+    	
+    	final TextView txtArtikelgruppe = (TextView) view.findViewById(R.id.artikelgruppe_txt);
+    	txtArtikelgruppe.setText(artikel.artikelgruppeUri);
+    	
     	final Activity activity = getActivity();
 	    final OnGestureListener onGestureListener = new WischenListener(activity);
 	    gestureDetector = new GestureDetector(activity, onGestureListener);  // Context und OnGestureListener als Argumente

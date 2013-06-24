@@ -4,6 +4,9 @@
     <string name="a_bezeichnung_details_title">Gesuchter Artikel</string>
     <string name="a_bezeichnung_id">Artikelnummer</string>
     <string name="a_bezeichnung">Bezeichnung</string>
+    <string name="a_verfuegbarkeit">Verfügbarkeit</string>
+	<string name="a_preis">Preis</string>
+	<string name="a_artikelgruppe">Artikelgruppe</string>
     <string name="a_stammdaten">Stammdaten</string>
     <string name="a_artikelnr_fehlt">Die Artikelnummer fehlt.</string>
     <string name="a_artikel_not_found">Keinen Artikel mit Nr. %s gefunden.</string>
