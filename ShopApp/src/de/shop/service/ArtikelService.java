@@ -31,15 +31,9 @@ import de.shop.util.InternalShopError;
 
 public class ArtikelService extends Service {
 	private static final String LOG_TAG = ArtikelService.class.getSimpleName();
-	private static final String TYPE = "type";
-	private static final Map<String, Class<? extends Artikel>> CLASS_MAP;
 	
 	private final ArtikelServiceBinder binder = new ArtikelServiceBinder();
 	
-	static {
-		CLASS_MAP = new HashMap<String, Class<? extends Artikel>>(1, 1);
-		CLASS_MAP.put("A", Artikel.class);
-	}
 
 	@Override
 	public IBinder onBind(Intent intent) {
@@ -79,7 +73,7 @@ public class ArtikelService extends Service {
 		    		Log.v(LOG_TAG, "path = " + path);
 		    		final HttpResponse<Artikel> result = mock
 		    				                                   ? Mock.sucheArtikelNachId(id)
-		    				                                   : WebServiceClient.getJsonSingle(path, TYPE, CLASS_MAP);
+		    				                                   : WebServiceClient.getJsonSingle(path, Artikel.class);
 
 					Log.d(LOG_TAG + ".AsyncTask", "doInBackground: " + result);
 					return result;

@@ -12,8 +12,8 @@ public final class Konstanten {
 	public static final String HOST_DEFAULT = "10.0.2.2";
 	public static final String PORT_DEFAULT = "8080";
 	public static final String PATH_DEFAULT = "/shop/rest";
-	public static final String TIMEOUT_DEFAULT = "3";
-	public static final boolean MOCK_DEFAULT = true;
+	public static final String TIMEOUT_DEFAULT = "10";
+	public static final boolean MOCK_DEFAULT = false;
 	
 	public static final String LOCALHOST = "localhost";	
 	

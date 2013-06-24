@@ -25,6 +25,12 @@
     <string name="s_port_summary">Portnummer für den Web Service, z.B. 80 oder 8080</string>
     <string name="s_path_title">Pfad</string>
     <string name="s_path_summary">Pfad für den Web Service, z.B. /shop/rest</string>
+    <string name="s_timeout_title">Timeout für Serverzugriffe</string>
+    <string name="s_timeout_summary">Timeout in Sekunden</string>
+    <string name="s_username_title">Benutzername</string>
+    <string name="s_username_summary">Benutzername für den RESTful Web Service</string>
+    <string name="s_password_title">Kennwort</string>
+    <string name="s_password_summary">Kennwort für den RESTful Web Service</string>
     <string name="s_mock_title">Testmodus im Offline-Betrieb</string>
     <string name="s_mock_summary">Anstatt RESTful Web Service</string>
     <string name="s_option_suchen">Suchen</string>

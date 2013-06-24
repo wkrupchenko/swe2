@@ -1,1 +1,8 @@
-[{}]
+{
+	"id": 500,
+	"version": 0,
+	"bezeichnung": "Mock-Artikel",
+	"erhaeltlich": true,
+	"preis": 10.99,
+	"artikelgruppe": "http://localhost:8080/shop/rest/artikel/400/artikelgruppe"
+}

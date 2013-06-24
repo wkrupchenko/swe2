@@ -33,7 +33,7 @@ public class Artikel implements JsonMappable, Serializable {
 			                     .add("bezeichnung", bezeichnung)
 			                     .add("preis", preis)
 			                     .add("erhaeltlich", erhaeltlich)
-			                     .add("artikelgruppeUri", artikelgruppeUri);
+			                     .add("artikelgruppe", artikelgruppeUri);
 	}
 	
 	@Override
@@ -47,7 +47,7 @@ public class Artikel implements JsonMappable, Serializable {
 		bezeichnung = jsonObject.getString("bezeichnung");
 		preis = jsonObject.getJsonNumber("preis").doubleValue();
 		erhaeltlich= jsonObject.getBoolean("erhaeltlich");
-		artikelgruppeUri = jsonObject.getString("artikelgruppeUri");
+		artikelgruppeUri = jsonObject.getString("artikelgruppe");
 	}
 	
 	@Override

@@ -108,33 +108,4 @@ public class ArtikelSuchenId extends Fragment implements OnClickListener {
 		                    .addToBackStack(null)
 		                    .commit();
 	}
-	
-	/*
-	@Override
-	public void onClick(View view) {
-		final Context ctx = view.getContext();
-		switch (view.getId()) {
-			case R.id.btn_suchen:
-				final String artikelIdStr = artikelIdTxt.getText().toString();
-				final Long artikelId = Long.valueOf(artikelIdStr);
-				final Main mainActivity = (Main) getActivity();
-				final Artikel artikel = mainActivity.getArtikelServiceBinder().sucheArtikelNachId(artikelId, ctx);
-				
-				final Bundle args = new Bundle(1);
-				args.putSerializable(ARTIKEL_KEY, artikel);
-				
-				final Fragment neuesFragment = new ArtikelDetails();
-				neuesFragment.setArguments(args);
-				
-				// Kein Name (null) fuer die Transaktion, da die Klasse BackStageEntry nicht verwendet wird
-				getFragmentManager().beginTransaction()
-				                    .replace(R.id.details, neuesFragment)
-				                    .addToBackStack(null)
-				                    .commit();
-				break;
-				
-			default:
-				break;
-		}
-    }*/
 }
