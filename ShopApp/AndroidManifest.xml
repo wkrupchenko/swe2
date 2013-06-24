@@ -36,8 +36,22 @@
 			android:label="@string/s_suchen_artikel_id" >
 		</activity>
 		<activity
+			android:name="de.shop.ui.artikel.ArtikelSuchenBezeichnung"
+			android:label="@string/s_suchen_artikel_bezeichnung" >
+		</activity>
+		<activity
 			android:name="de.shop.ui.artikel.ArtikelDetails"
 			android:label="@string/a_artikel_details_title" >
+		</activity>
+		<activity
+			android:name=".ui.artikel.ArtikelListe"
+			android:label="@string/a_artikel_liste_title"
+			android:parentActivityName=".ui.main.Main"
+			android:exported="false" > <!-- false ist der Defaultwert, da es keinen intent-filter gibt -->
+			
+			<meta-data
+            	android:name="android.app.default_searchable"
+            	android:value=".ui.kunde.SucheBezeichnungActivity" />
 		</activity>
 		<service
 			android:name="de.shop.service.ArtikelService" />

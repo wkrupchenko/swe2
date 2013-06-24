@@ -11,6 +11,7 @@
     <string name="s_btn_suchen">Suchen</string>
 	<string name="s_kunde_id_hinweis">Kundennummer eingeben</string>
 	<string name="s_artikel_id_hinweis">Artikelnummer eingeben</string>
+	<string name="s_artikel_bezeichnung_hinweis">Artikelname eingeben</string>	
 	<string name="s_nav_kunden">Kunden</string>
 	<string name="s_nav_bestellungen">Bestellungen</string>
 	<string name="s_nav_artikel">Artikel</string>

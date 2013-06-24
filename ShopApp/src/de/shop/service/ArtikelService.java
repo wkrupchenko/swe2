@@ -102,6 +102,55 @@ public class ArtikelService extends Service {
 		    return result;
 		}
 		
+public HttpResponse<Artikel> sucheArtikelNachBezeichnung(String bezeichnung, final Context ctx) {
+			
+			final AsyncTask<String, Void, HttpResponse<Artikel>> sucheArtikelNachBezeichnungTask = new AsyncTask<String, Void, HttpResponse<Artikel>>() {
+				@Override
+	    		protected void onPreExecute() {
+					progressDialog = showProgressDialog(ctx);
+				}
+				
+				@Override
+				// Neuer Thread, damit der UI-Thread nicht blockiert wird
+				protected HttpResponse<Artikel> doInBackground(String... bzs) {
+					final String bezeichnung = bzs[0];
+		    		final String path = ARTIKEL_PATH + "?bezeichnung=" + bezeichnung;
+		    		Log.v(LOG_TAG, "path = " + path);
+		    		final HttpResponse<Artikel> result = mock
+		    				                                   ? Mock.sucheArtikelNachBezeichnung(bezeichnung)
+		    				                                   : WebServiceClient.getJsonList(path, Artikel.class);
+
+					Log.d(LOG_TAG + ".AsyncTask", "doInBackground: " + result);
+					return result;
+				}
+				
+				@Override
+	    		protected void onPostExecute(HttpResponse<Artikel> unused) {
+					progressDialog.dismiss();
+	    		}
+			};
+
+    		sucheArtikelNachBezeichnungTask.execute(bezeichnung);
+    		HttpResponse<Artikel> result = null;
+	    	try {
+	    		result = sucheArtikelNachBezeichnungTask.get(timeout, SECONDS);
+			}
+	    	catch (Exception e) {
+	    		throw new InternalShopError(e.getMessage(), e);
+			}
+	    	
+    		if (result.responseCode != HTTP_OK) {
+	    		return result;
+		    }
+    		
+    		final ArrayList<Artikel> artikel = result.resultList;
+	    	// URLs fuer Emulator anpassen
+	    	for (Artikel a : artikel) {
+	    		setArtikelgruppeUri(a);
+	    	}
+			return result;
+		}
+		
 		private void setArtikelgruppeUri(Artikel artikel) {
 	    	// URL der Artikelgruppe fuer Emulator anpassen
 	    	final String artikelgruppeUri = artikel.artikelgruppeUri;
@@ -109,45 +158,5 @@ public class ArtikelService extends Service {
 			    artikel.artikelgruppeUri = artikelgruppeUri.replace(LOCALHOST, LOCALHOST_EMULATOR);
 	    	}
 		}
-		/*public Artikel sucheArtikelNachId(Long id) {
-			
-			final AsyncTask<Long, Void, Artikel> sucheArtikelNachIdTask = new AsyncTask<Long, Void, Artikel>() {
-				@Override
-	    		protected void onPreExecute() {
-					Log.d(LOG_TAG, "... ProgressDialog im laufenden Thread starten ...");
-				}
-				
-				@Override
-				// Neuer Thread (hier: Emulation des REST-Aufrufs), damit der UI-Thread nicht blockiert wird
-				protected Artikel doInBackground(Long... ids) {
-					final Long artikelId = ids[0];
-			    	Artikel artikel;
-			    	if (mock) {
-			    		artikel = ArtikelMock.sucheArtikelNachId(artikelId);
-			    	}
-			    	else {
-			    		Log.e(LOG_TAG, "Suche nach Artikelnummer ist nicht implementiert");
-			    		return null;
-			    	}
-					Log.d(LOG_TAG + ".AsyncTask", "doInBackground: " + artikel);
-					return artikel;
-				}
-				
-				@Override
-	    		protected void onPostExecute(Artikel artikel) {
-					Log.d(LOG_TAG, "... ProgressDialog im laufenden Thread beenden ...");
-	    		}
-			};
-
-			sucheArtikelNachIdTask.execute(id);
-	    	Artikel artikel = null;
-	    	try {
-	    		artikel = sucheArtikelNachIdTask.get(3L, TimeUnit.SECONDS);
-			}
-	    	catch (Exception e) {
-	    		Log.e(LOG_TAG, e.getMessage(), e);
-			}
-			return artikel;
-		}*/
 	}
 }

@@ -34,5 +34,50 @@
 			android:paddingLeft="5dp" />
 
 	</TableRow>
+	
+	<TableRow>
+
+		<TextView
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:text="@string/a_verfuegbarkeit" />
+		
+		<TextView
+			android:id="@+id/erhaeltlich_txt"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:paddingLeft="5dp" />
+
+	</TableRow>
+	
+	<TableRow>
+
+		<TextView
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:text="@string/a_preis" />
+		
+		<TextView
+			android:id="@+id/preis_txt"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:paddingLeft="5dp" />
+
+	</TableRow>
+	
+	<TableRow>
+
+		<TextView
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:text="@string/a_artikelgruppe" />
+		
+		<TextView
+			android:id="@+id/artikelgruppe_txt"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:paddingLeft="5dp" />
+
+	</TableRow>
 
 </TableLayout>

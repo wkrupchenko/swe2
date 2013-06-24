@@ -11,6 +11,7 @@
 	<string name ="s_btn_suchen">Search</string>
 	<string name="s_kunde_id_hinweis">Enter customer no.</string>
 	<string name="s_artikel_id_hinweis">Enter article no.</string>
+	<string name="s_artikel_bezeichnung_hinweis">Enter article discription</string>
 	<string name="s_nav_kunden">Customers</string>
 	<string name="s_nav_bestellungen">Orders</string>
 	<string name="s_nav_artikel">Articles</string>

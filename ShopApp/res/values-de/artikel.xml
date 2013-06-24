@@ -9,6 +9,8 @@
 	<string name="a_artikelgruppe">Artikelgruppe</string>
     <string name="a_stammdaten">Stammdaten</string>
     <string name="a_artikelnr_fehlt">Die Artikelnummer fehlt.</string>
+    <string name="a_bezeichnung_fehlt">Die Bezeichnung fehlt.</string>
     <string name="a_artikel_not_found">Keinen Artikel mit Nr. %s gefunden.</string>
+    <string name="a_artikel_liste_title">Artikel</string>
     
 </resources>

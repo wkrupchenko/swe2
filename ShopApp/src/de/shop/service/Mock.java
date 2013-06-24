@@ -79,5 +79,33 @@ private static final String LOG_TAG = Mock.class.getSimpleName();
          return result;
 	}
 	
+	static HttpResponse<Artikel> sucheArtikelNachBezeichnung(String bezeichnung) {
+    	if (bezeichnung.equals("Nix")) {
+    		return new HttpResponse<Artikel>(HTTP_NOT_FOUND, "Kein Artikel gefunden mit Bezeichnung " + bezeichnung);
+    	}
+    	
+    	int dateinameId = R.raw.mock_artikel;
+    	
+    	final String jsonStr = read(dateinameId);
+    	JsonReader jsonReader = null;
+    	JsonObject jsonObject;
+    	try {
+    		jsonReader = jsonReaderFactory.createReader(new StringReader(jsonStr));
+    		jsonObject = jsonReader.readObject();
+    	}
+    	finally {
+    		if (jsonReader != null) {
+    			jsonReader.close();
+    		}
+    	}
+    	final Artikel artikel = new Artikel();
+
+         artikel.fromJsonObject(jsonObject);
+         artikel.bezeichnung = bezeichnung;
+
+         final HttpResponse<Artikel> result = new HttpResponse<Artikel>(HTTP_OK, jsonObject.toString(), artikel);
+         return result;
+	}
+	
 	private Mock() {}
 }
