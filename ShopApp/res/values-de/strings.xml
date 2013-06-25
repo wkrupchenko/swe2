@@ -7,11 +7,13 @@
 	<string name="s_suchen_kunde_id">Suche Kunde nach Kundennummer</string>
 	<string name="s_suchen_artikel_id">Suche Artikel nach Artikelnummer</string>    
 	<string name="s_suchen_kunde_nachname">Suche Kunde nach Nachname</string>
-	<string name="s_suchen_artikel_bezeichnung">Suche Artikel nach Bezeichnung</string>    
+	<string name="s_suchen_artikel_bezeichnung">Suche Artikel nach Bezeichnung</string>
+	<string name="s_suchen_artikel_artikelgruppe">Suche Artikel nach Artikelgruppe</string>    
     <string name="s_btn_suchen">Suchen</string>
 	<string name="s_kunde_id_hinweis">Kundennummer eingeben</string>
 	<string name="s_artikel_id_hinweis">Artikelnummer eingeben</string>
 	<string name="s_artikel_bezeichnung_hinweis">Artikelname eingeben</string>	
+	<string name="s_artikel_artikelgruppe_hinweis">Artikelgruppennummer eingeben</string>	
 	<string name="s_nav_kunden">Kunden</string>
 	<string name="s_nav_bestellungen">Bestellungen</string>
 	<string name="s_nav_artikel">Artikel</string>

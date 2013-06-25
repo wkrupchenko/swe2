@@ -14,6 +14,7 @@ import javax.json.JsonReader;
 
 import android.util.Log;
 import de.shop.data.artikel.Artikel;
+import de.shop.data.artikel.Artikelgruppe;
 import de.shop.util.InternalShopError;
 import de.shop.R;
 import de.shop.ShopApp;
@@ -102,6 +103,62 @@ private static final String LOG_TAG = Mock.class.getSimpleName();
 
          artikel.fromJsonObject(jsonObject);
          artikel.bezeichnung = bezeichnung;
+
+         final HttpResponse<Artikel> result = new HttpResponse<Artikel>(HTTP_OK, jsonObject.toString(), artikel);
+         return result;
+	}
+	
+	static HttpResponse<Artikelgruppe> sucheArtikelgruppeNachArtikel(Long id) {
+    	if (id <= 0 || id >= 1000) {
+    		return new HttpResponse<Artikelgruppe>(HTTP_NOT_FOUND, "Keine Artikelgruppe gefunden mit Artikel ID " + id);
+    	}
+    	
+    	int dateinameId = R.raw.mock_artikelgruppe;
+    	
+    	final String jsonStr = read(dateinameId);
+    	JsonReader jsonReader = null;
+    	JsonObject jsonObject;
+    	try {
+    		jsonReader = jsonReaderFactory.createReader(new StringReader(jsonStr));
+    		jsonObject = jsonReader.readObject();
+    	}
+    	finally {
+    		if (jsonReader != null) {
+    			jsonReader.close();
+    		}
+    	}
+    	final Artikelgruppe artikelgruppe = new Artikelgruppe();
+
+         artikelgruppe.fromJsonObject(jsonObject);
+         artikelgruppe.id = id;
+
+         final HttpResponse<Artikelgruppe> result = new HttpResponse<Artikelgruppe>(HTTP_OK, jsonObject.toString(), artikelgruppe);
+         return result;
+	}
+	
+	static HttpResponse<Artikel> sucheArtikelNachArtikelgruppe(Long id) {
+    	if (id < 0 || id > 10000) {
+    		return new HttpResponse<Artikel>(HTTP_NOT_FOUND, "Kein Artikel gefunden zur Artikelgruppe " + id);
+    	}
+    	
+    	int dateinameId = R.raw.mock_artikel;
+    	
+    	final String jsonStr = read(dateinameId);
+    	JsonReader jsonReader = null;
+    	JsonObject jsonObject;
+    	try {
+    		jsonReader = jsonReaderFactory.createReader(new StringReader(jsonStr));
+    		jsonObject = jsonReader.readObject();
+    	}
+    	finally {
+    		if (jsonReader != null) {
+    			jsonReader.close();
+    		}
+    	}
+    	final Artikel artikel = new Artikel();
+
+         artikel.fromJsonObject(jsonObject);
+         artikel.id = id;
 
          final HttpResponse<Artikel> result = new HttpResponse<Artikel>(HTTP_OK, jsonObject.toString(), artikel);
          return result;

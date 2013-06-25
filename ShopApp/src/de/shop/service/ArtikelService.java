@@ -27,6 +27,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import de.shop.R;
 import de.shop.data.artikel.Artikel;
+import de.shop.data.artikel.Artikelgruppe;
 import de.shop.util.InternalShopError;
 
 public class ArtikelService extends Service {
@@ -102,7 +103,7 @@ public class ArtikelService extends Service {
 		    return result;
 		}
 		
-public HttpResponse<Artikel> sucheArtikelNachBezeichnung(String bezeichnung, final Context ctx) {
+		public HttpResponse<Artikel> sucheArtikelNachBezeichnung(String bezeichnung, final Context ctx) {
 			
 			final AsyncTask<String, Void, HttpResponse<Artikel>> sucheArtikelNachBezeichnungTask = new AsyncTask<String, Void, HttpResponse<Artikel>>() {
 				@Override
@@ -158,5 +159,108 @@ public HttpResponse<Artikel> sucheArtikelNachBezeichnung(String bezeichnung, fin
 			    artikel.artikelgruppeUri = artikelgruppeUri.replace(LOCALHOST, LOCALHOST_EMULATOR);
 	    	}
 		}
+		
+		public HttpResponse<Artikelgruppe> sucheArtikelgruppeNachArtikel(Long id, final Context ctx) {
+			
+			final AsyncTask<Long, Void, HttpResponse<Artikelgruppe>> sucheArtikelgruppeNachArtikelTask = new AsyncTask<Long, Void, HttpResponse<Artikelgruppe>>() {
+				@Override
+	    		protected void onPreExecute() {
+					progressDialog = showProgressDialog(ctx);
+				}
+				
+				@Override
+				// Neuer Thread, damit der UI-Thread nicht blockiert wird
+				protected HttpResponse<Artikelgruppe> doInBackground(Long... ids) {
+					final Long id = ids[0];
+		    		final String path = ARTIKEL_PATH + "/" + id + "/artikelgruppe";
+		    		Log.v(LOG_TAG, "path = " + path);
+		    		final HttpResponse<Artikelgruppe> result = mock
+		    				                                   ? Mock.sucheArtikelgruppeNachArtikel(id)
+		    				                                   : WebServiceClient.getJsonSingle(path, Artikelgruppe.class);
+
+					Log.d(LOG_TAG + ".AsyncTask", "doInBackground: " + result);
+					return result;
+				}
+				
+				@Override
+	    		protected void onPostExecute(HttpResponse<Artikelgruppe> unused) {
+					progressDialog.dismiss();
+	    		}
+			};
+
+    		sucheArtikelgruppeNachArtikelTask.execute(id);
+    		HttpResponse<Artikelgruppe> result = null;
+	    	try {
+	    		result = sucheArtikelgruppeNachArtikelTask.get(timeout, SECONDS);
+			}
+	    	catch (Exception e) {
+	    		throw new InternalShopError(e.getMessage(), e);
+			}
+	    	
+    		if (result.responseCode != HTTP_OK) {
+	    		return result;
+		    }
+    		
+    		setArtikelUri(result.resultObject);
+		    return result;
+		}
+		
+		private void setArtikelUri(Artikelgruppe artikelgruppe) {
+	    	// URL der Artikel fuer Emulator anpassen
+	    	final String artikelUri = artikelgruppe.artikelUri;
+	    	if (!TextUtils.isEmpty(artikelUri)) {
+			    artikelgruppe.artikelUri = artikelUri.replace(LOCALHOST, LOCALHOST_EMULATOR);
+	    	}
+		}
+		
+		public HttpResponse<Artikel> sucheArtikelNachArtikelgruppe(Long id, final Context ctx) {
+			
+			final AsyncTask<Long, Void, HttpResponse<Artikel>> sucheArtikelNachArtikelgruppeTask = new AsyncTask<Long, Void, HttpResponse<Artikel>>() {
+				@Override
+	    		protected void onPreExecute() {
+					progressDialog = showProgressDialog(ctx);
+				}
+				
+				@Override
+				// Neuer Thread, damit der UI-Thread nicht blockiert wird
+				protected HttpResponse<Artikel> doInBackground(Long... ids) {
+					final Long id = ids[0];
+		    		final String path = ARTIKEL_PATH + "/artikelgruppe/" + id + "/artikel";
+		    		Log.v(LOG_TAG, "path = " + path);
+		    		final HttpResponse<Artikel> result = mock
+		    				                                   ? Mock.sucheArtikelNachArtikelgruppe(id)
+		    				                                   : WebServiceClient.getJsonList(path, Artikel.class);
+
+					Log.d(LOG_TAG + ".AsyncTask", "doInBackground: " + result);
+					return result;
+				}
+				
+				@Override
+	    		protected void onPostExecute(HttpResponse<Artikel> unused) {
+					progressDialog.dismiss();
+	    		}
+			};
+
+    		sucheArtikelNachArtikelgruppeTask.execute(id);
+    		HttpResponse<Artikel> result = null;
+	    	try {
+	    		result = sucheArtikelNachArtikelgruppeTask.get(timeout, SECONDS);
+			}
+	    	catch (Exception e) {
+	    		throw new InternalShopError(e.getMessage(), e);
+			}
+	    	
+    		if (result.responseCode != HTTP_OK) {
+	    		return result;
+		    }
+    		
+    		final ArrayList<Artikel> artikel = result.resultList;
+	    	// URLs fuer Emulator anpassen
+	    	for (Artikel a : artikel) {
+	    		setArtikelgruppeUri(a);
+	    	}
+			return result;
+		}
 	}
+	
 }

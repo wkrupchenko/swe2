@@ -10,6 +10,8 @@
     <string name="a_artikelnr_fehlt">The article no. is missing.</string>
     <string name="a_bezeichnung_fehlt">The article discription is missing.</string>
     <string name="a_artikel_not_found">No article found with id %s.</string>
+    <string name="a_artikelgruppe_not_found">No article group found with article id %s.</string>
     <string name="a_artikel_liste_title">Articles</string>
+    <string name="a_artikelgruppe_id">Article group No.</string>
 	
 </resources>

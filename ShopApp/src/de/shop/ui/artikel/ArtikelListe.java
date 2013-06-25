@@ -70,7 +70,7 @@ public class ArtikelListe extends Activity {
 		unbindService(artikelServiceConnection);
 	}
 
-	public ArtikelServiceBinder getKundeServiceBinder() {
+	public ArtikelServiceBinder getArtikelServiceBinder() {
 		return artikelServiceBinder;
 	}
 }

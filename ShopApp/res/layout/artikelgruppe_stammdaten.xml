@@ -1,0 +1,64 @@
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:id="@+id/artikelgruppe_details_stammdaten"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	tools:context=".ui.main.Main" >
+
+	<TableRow>
+
+		<TextView
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:text="@string/a_artikelgruppe_id" />
+		
+		<TextView
+			android:id="@+id/artikelgruppe_id"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:paddingLeft="5dp" />
+
+	</TableRow>
+	
+	<TableRow>
+
+		<TextView
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:text="@string/a_bezeichnung" />
+		
+		<TextView
+			android:id="@+id/artikelgruppe_bezeichnung_txt"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:paddingLeft="5dp" />
+
+	</TableRow>
+
+	<TableLayout 
+		android:id="@+id/artikelgruppe_details_artikel"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content" >
+
+		<TableRow>
+			
+			<TextView
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:text="@string/a_artikel_id" />
+			
+			<TextView
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:text="@string/a_bezeichnung" />
+			
+			<TextView
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:text="@string/a_preis" />
+			
+		</TableRow>
+		
+	</TableLayout>
+	
+</TableLayout>

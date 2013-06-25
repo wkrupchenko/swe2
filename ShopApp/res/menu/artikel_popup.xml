@@ -7,4 +7,8 @@
     	android:id="@+id/artikel_suche_bezeichnung"
         android:title="@string/s_suchen_artikel_bezeichnung" />
     
+    <item
+    	android:id="@+id/artikel_suche_artikelgruppe"
+    	android:title="@string/s_suchen_artikel_artikelgruppe" />
+    
 </menu>
