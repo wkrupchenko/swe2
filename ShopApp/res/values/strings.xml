@@ -6,12 +6,14 @@
 	<string name="s_startseite">Please choose an activity</string>
 	<string name="s_suchen_kunde_id">Search customer by ID</string>
 	<string name="s_suchen_artikel_bezeichnung">Search article by discription</string>
+	<string name="s_suchen_artikel_artikelgruppe">Search article by group</string>
 	<string name="s_suchen_kunde_nachname">Search customer by name</string>
 	<string name="s_suchen_artikel_id">Search article by ID</string>	
 	<string name ="s_btn_suchen">Search</string>
 	<string name="s_kunde_id_hinweis">Enter customer no.</string>
 	<string name="s_artikel_id_hinweis">Enter article no.</string>
 	<string name="s_artikel_bezeichnung_hinweis">Enter article discription</string>
+	<string name="s_artikel_artikelgruppe_hinweis">Enter articlegroup id</string>
 	<string name="s_nav_kunden">Customers</string>
 	<string name="s_nav_bestellungen">Orders</string>
 	<string name="s_nav_artikel">Articles</string>

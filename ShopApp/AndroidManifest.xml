@@ -40,6 +40,10 @@
 			android:label="@string/s_suchen_artikel_bezeichnung" >
 		</activity>
 		<activity
+			android:name="de.shop.ui.artikel.ArtikelSuchenArtikelgruppe"
+			android:label="@string/s_suchen_artikel_artikelgruppe" >
+		</activity>
+		<activity
 			android:name="de.shop.ui.artikel.ArtikelDetails"
 			android:label="@string/a_artikel_details_title" >
 		</activity>
