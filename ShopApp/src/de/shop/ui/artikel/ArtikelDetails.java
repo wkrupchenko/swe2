@@ -48,5 +48,13 @@ public class ArtikelDetails extends Fragment {
 	                    		                                            ArtikelStammdaten.class,
 	                    		                                            args));
 	    actionBar.addTab(tab);
+	    
+	    tab = actionBar.newTab()
+                .setText(getString(R.string.a_artikelgruppe))
+                .setTabListener(new TabListener<ArtikelgruppeStammdaten>(activity,
+             		                                            ArtikelgruppeStammdaten.class,
+             		                                            args));
+	    
+	    actionBar.addTab(tab);
 	}
 }
