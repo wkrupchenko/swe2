@@ -4,8 +4,8 @@ MEILSTEIN 3 Android:
 Aufbau und Ablauf siehe Artikel (dort fehlen nur die Tabs für z.B. Artikelgruppe oder Bilder)
 
 Kunde mit Bestellungen anzeigen (Sebastian)
-Artikel anzeigen und erfassen und ändern (Ingo)
-Artikelgruppe anzeigen und erfassen (Ingo)
+Artikel mit Artikelgruppe anzeigen FERTIG
+Artikel erfassen (Ingo)
 Bestellungen anzeigen(Wladik)
 Kunde anlegen und ändern (Wladik)
 
