@@ -3,6 +3,7 @@ package de.shop.data.kunde;
 import static de.shop.ShopApp.jsonBuilderFactory;
 
 import java.io.Serializable; 
+import java.net.URI;
 import java.util.Date;
 import java.util.List;
 
@@ -25,6 +26,7 @@ public class Kunde implements JsonMappable, Serializable {
 	public Double umsatz;
 	public String seit;
 	public int version;
+	public String bestellungenUri;
 	/*public Adresse adresse;
 	 * private List<Bestellung> bestellungen;*/
 		
@@ -41,7 +43,8 @@ public class Kunde implements JsonMappable, Serializable {
 		                         .add("vorname", vorname)
 		                         .add("rabatt", rabatt)
 		                         .add("umsatz", umsatz)
-		                         .add("seit", seit);	                         
+		                         .add("seit", seit)
+		                         .add("bestellungenUri", bestellungenUri);
 	}
 	
 	@Override
@@ -60,7 +63,8 @@ public class Kunde implements JsonMappable, Serializable {
 		vorname = jsonObject.getString("vorname");
 		rabatt = jsonObject.getJsonNumber("rabatt").doubleValue();
 		umsatz = jsonObject.getJsonNumber("umsatz").doubleValue();
-		seit = jsonObject.getString("seit");		
+		seit = jsonObject.getString("seit");
+		bestellungenUri = jsonObject.getString("bestellungenUri");
 	}
 	
 	@Override

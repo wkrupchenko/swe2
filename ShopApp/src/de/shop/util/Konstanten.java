@@ -18,6 +18,8 @@ public final class Konstanten {
 	public static final String LOCALHOST = "localhost";	
 	
 	public static final String ARTIKEL_PATH = "/artikel";
+	public static final String KUNDEN_PATH = "/kunden";
+	
 	
 	private Konstanten() {}
 }
