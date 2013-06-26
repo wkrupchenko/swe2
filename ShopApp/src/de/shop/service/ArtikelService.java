@@ -261,6 +261,42 @@ public class ArtikelService extends Service {
 	    	}
 			return result;
 		}
+		
+		public HttpResponse<Void> deleteArtikel(Long id, final Context ctx) {
+			// (evtl. mehrere) Parameter vom Typ "Long", Resultat vom Typ "Artikel"
+			final AsyncTask<Long, Void, HttpResponse<Void>> deleteArtikelTask = new AsyncTask<Long, Void, HttpResponse<Void>>() {
+				@Override
+	    		protected void onPreExecute() {
+					progressDialog = showProgressDialog(ctx);
+				}
+				
+				@Override
+				// Neuer Thread, damit der UI-Thread nicht blockiert wird
+				protected HttpResponse<Void> doInBackground(Long... ids) {
+					final Long artikelId = ids[0];
+		    		final String path = ARTIKEL_PATH + "/" + artikelId;
+		    		Log.v(LOG_TAG, "path = " + path);
+
+		    		final HttpResponse<Void> result = mock ? Mock.deleteArtikel(artikelId) : WebServiceClient.delete(path);
+			    	return result;
+				}
+				
+				@Override
+	    		protected void onPostExecute(HttpResponse<Void> unused) {
+					progressDialog.dismiss();
+	    		}
+			};
+			
+			deleteArtikelTask.execute(id);
+			final HttpResponse<Void> result;
+	    	try {
+	    		result = deleteArtikelTask.get(timeout, SECONDS);
+			}
+	    	catch (Exception e) {
+	    		throw new InternalShopError(e.getMessage(), e);
+			}
+			
+			return result;
+		}
 	}
-	
 }

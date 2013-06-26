@@ -1,6 +1,7 @@
 package de.shop.service;
 
 import static java.net.HttpURLConnection.HTTP_NOT_FOUND;
+import static java.net.HttpURLConnection.HTTP_NO_CONTENT;
 import static java.net.HttpURLConnection.HTTP_OK;
 import static de.shop.ShopApp.jsonReaderFactory;
 
@@ -163,6 +164,11 @@ private static final String LOG_TAG = Mock.class.getSimpleName();
          final HttpResponse<Artikel> result = new HttpResponse<Artikel>(HTTP_OK, jsonObject.toString(), artikel);
          return result;
 	}
+	
+	static HttpResponse<Void> deleteArtikel(Long artikelId) {
+    	Log.d(LOG_TAG, "deleteArtikel: " + artikelId);
+    	return new HttpResponse<Void>(HTTP_NO_CONTENT, null);
+    }
 	
 	private Mock() {}
 }

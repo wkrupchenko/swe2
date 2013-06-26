@@ -41,6 +41,12 @@
     <string name="s_wifi">Netzwerkverbindung durch WiFi</string>
     <string name="s_mobile">Mobile Netzwerkverbindung</string>
     <string name="s_not_connected">Keine Netzwerkverbindung</string>
-    <string name="s_mock">ACHTUNG: Testmodus im Offline-Betrieb</string>    
+    <string name="s_mock">ACHTUNG: Testmodus im Offline-Betrieb</string> 
+    <string name="s_ok">OK</string>
+	<string name="s_error_prefs_login">Fehlende oder falsche Login-Daten in den Einstellungen.</string>
+    <string name="s_error_forbidden">Sie sind nicht berechtigt diese Operation auszuführen.</string>
+    <string name="s_btn_delete">Löschen</string>   
+    <string name="s_artikel_delete">Artikel löschen</string>
+    <string name="s_artikel_delete_ok">Artikel mit ID %s wurde erfolgreich gelöscht.</string>
     
 </resources>

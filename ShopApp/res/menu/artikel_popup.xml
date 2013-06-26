@@ -11,4 +11,8 @@
     	android:id="@+id/artikel_suche_artikelgruppe"
     	android:title="@string/s_suchen_artikel_artikelgruppe" />
     
+     <item
+    	android:id="@+id/artikel_delete"
+    	android:title="@string/s_artikel_delete" />
+    
 </menu>
