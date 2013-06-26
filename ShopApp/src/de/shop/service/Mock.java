@@ -3,7 +3,10 @@ package de.shop.service;
 import static java.net.HttpURLConnection.HTTP_NOT_FOUND;
 import static java.net.HttpURLConnection.HTTP_NO_CONTENT;
 import static java.net.HttpURLConnection.HTTP_OK;
+import static java.net.HttpURLConnection.HTTP_UNAUTHORIZED;
+import static java.net.HttpURLConnection.HTTP_FORBIDDEN;
 import static de.shop.ShopApp.jsonReaderFactory;
+import static de.shop.ui.main.Prefs.username;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -13,6 +16,7 @@ import java.io.StringReader;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
 
+import android.text.TextUtils;
 import android.util.Log;
 import de.shop.data.kunde.Kunde;
 import de.shop.data.artikel.Artikel;
@@ -197,6 +201,21 @@ private static final String LOG_TAG = Mock.class.getSimpleName();
     	final HttpResponse<Kunde> result = new HttpResponse<Kunde>(HTTP_OK, jsonObject.toString(), kunde);
     	return result;
 	}
+	
+	 static HttpResponse<Artikel> updateArtikel(Artikel artikel) {
+	    	Log.d(LOG_TAG, "updateArtikel: " + artikel);
+	    	
+	    	if (TextUtils.isEmpty(username)) {
+	    		return new HttpResponse<Artikel>(HTTP_UNAUTHORIZED, null);
+	    	}
+	    	
+	    	if ("x".equals(username)) {
+	    		return new HttpResponse<Artikel>(HTTP_FORBIDDEN, null);
+	    	}
+	    	
+	    	Log.d(LOG_TAG, "updateArtikel: " + artikel.toJsonObject());
+	    	return new HttpResponse<Artikel>(HTTP_NO_CONTENT, null, artikel);
+	    }
 	
 	private Mock() {}
 }

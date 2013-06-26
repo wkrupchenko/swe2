@@ -142,10 +142,10 @@ public class ArtikelgruppeStammdaten extends Fragment implements OnTouchListener
 		inflater.inflate(R.menu.artikelgruppe_stammdaten_options, menu);
 		
 		// "Searchable Configuration" in res\xml\searchable.xml wird der SearchView zugeordnet
-		final Activity activity = getActivity();
+		/*final Activity activity = getActivity();
 	    final SearchManager searchManager = (SearchManager) activity.getSystemService(Context.SEARCH_SERVICE);
 	    final SearchView searchView = (SearchView) menu.findItem(R.id.suchen).getActionView();
-	    searchView.setSearchableInfo(searchManager.getSearchableInfo(activity.getComponentName()));
+	    searchView.setSearchableInfo(searchManager.getSearchableInfo(activity.getComponentName()));*/
 	}
 
 	@Override

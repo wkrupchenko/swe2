@@ -92,6 +92,23 @@ public class ArtikelStammdaten extends Fragment implements OnTouchListener {
                                     .addToBackStack(null)
                                     .commit();
 				return true;
+				
+			case R.id.edit:
+				// Evtl. vorhandene Tabs der ACTIVITY loeschen
+		    	getActivity().getActionBar().removeAllTabs();
+		    	
+				final Bundle args = new Bundle(1);
+				args.putSerializable(ARTIKEL_KEY, artikel);
+				
+				final Fragment neuesFragment = new ArtikelEdit();
+				neuesFragment.setArguments(args);
+				
+				// Kein Name (null) fuer die Transaktion, da die Klasse BackStageEntry nicht verwendet wird
+				getFragmentManager().beginTransaction()
+				                    .replace(R.id.details, neuesFragment)
+				                    .addToBackStack(null)  
+				                    .commit();
+				return true;
 
 			default:
 				return super.onOptionsItemSelected(item);

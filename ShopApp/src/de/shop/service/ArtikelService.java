@@ -298,5 +298,50 @@ public class ArtikelService extends Service {
 			
 			return result;
 		}
+		
+		public HttpResponse<Artikel> updateArtikel(Artikel artikel, final Context ctx) {
+			// (evtl. mehrere) Parameter vom Typ "Artikel", Resultat vom Typ "void"
+			final AsyncTask<Artikel, Void, HttpResponse<Artikel>> updateArtikelTask = new AsyncTask<Artikel, Void, HttpResponse<Artikel>>() {
+				@Override
+	    		protected void onPreExecute() {
+					progressDialog = showProgressDialog(ctx);
+				}
+				
+				@Override
+				// Neuer Thread, damit der UI-Thread nicht blockiert wird
+				protected HttpResponse<Artikel> doInBackground(Artikel... artikels) {
+					final Artikel artikel = artikels[0];
+		    		final String path = ARTIKEL_PATH;
+		    		Log.v(LOG_TAG, "path = " + path);
+
+		    		final HttpResponse<Artikel> result = mock
+		    				                          ? Mock.updateArtikel(artikel)
+		    		                                  : WebServiceClient.putJson(artikel, path);
+					Log.d(LOG_TAG + ".AsyncTask", "doInBackground: " + result);
+					return result;
+				}
+				
+				@Override
+	    		protected void onPostExecute(HttpResponse<Artikel> unused) {
+					progressDialog.dismiss();
+	    		}
+			};
+			
+			updateArtikelTask.execute(artikel);
+			final HttpResponse<Artikel> result;
+			try {
+				result = updateArtikelTask.get(timeout, SECONDS);
+			}
+	    	catch (Exception e) {
+	    		throw new InternalShopError(e.getMessage(), e);
+			}
+			
+			if (result.responseCode == HTTP_NO_CONTENT || result.responseCode == HTTP_OK) {
+				artikel.updateVersion();  // kein konkurrierendes Update auf Serverseite
+				result.resultObject = artikel;
+			}
+			
+			return result;
+	    }
 	}
 }

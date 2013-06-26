@@ -37,6 +37,8 @@
     <string name="s_mock_title">Offline test mode</string>
     <string name="s_mock_summary">Instead of RESTful Web Service</string>
     <string name="s_option_suchen">Search</string>
+    <string name="s_option_edit">Update</string>
+    <string name="s_option_speichern">Save</string>
     <string name="s_bitte_warten">Please wait &#8230;</string>
 	<string name="s_wifi">WiFi Connection available</string>
     <string name="s_mobile">Mobile Connection available</string>
@@ -48,6 +50,7 @@
     <string name="s_btn_delete">Delete</string>
     <string name="s_artikel_delete">Delete article</string>
     <string name="s_artikel_delete_ok">Article with id %s deleted successful.</string>
-    
+    <string name="s_ja">Yes</string>
+    <string name="s_nein">No</string>
 
 </resources>
