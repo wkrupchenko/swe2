@@ -9,7 +9,7 @@
 	<string name="s_suchen_artikel_artikelgruppe">Search article by group</string>
 	<string name="s_suchen_kunde_nachname">Search customer by name</string>
 	<string name="s_suchen_artikel_id">Search article by ID</string>	
-	<string name ="s_btn_suchen">Search</string>
+	<string name="s_btn_suchen">Search</string>
 	<string name="s_kunde_id_hinweis">Enter customer no.</string>
 	<string name="s_artikel_id_hinweis">Enter article no.</string>
 	<string name="s_artikel_bezeichnung_hinweis">Enter article discription</string>
@@ -42,6 +42,12 @@
     <string name="s_mobile">Mobile Connection available</string>
     <string name="s_not_connected">No Network available</string>    
     <string name="s_mock">ATTENTION: offline test mode</string>
+    <string name="s_ok">OK</string>
+    <string name="s_error_prefs_login">Missing or wrong login data in the settings.</string>
+    <string name="s_error_forbidden">You are not allowed to invoke this operation.</string>
+    <string name="s_btn_delete">Delete</string>
+    <string name="s_artikel_delete">Delete article</string>
+    <string name="s_artikel_delete_ok">Article with id %s deleted successful.</string>
     
 
 </resources>

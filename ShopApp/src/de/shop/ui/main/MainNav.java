@@ -22,6 +22,7 @@ import android.widget.PopupMenu.OnMenuItemClickListener;
 import android.widget.SimpleAdapter;
 import de.shop.R;
 import de.shop.ui.artikel.Artikel;
+import de.shop.ui.artikel.ArtikelDelete;
 import de.shop.ui.artikel.ArtikelSuchenArtikelgruppe;
 import de.shop.ui.artikel.ArtikelSuchenBezeichnung;
 import de.shop.ui.artikel.ArtikelSuchenId;
@@ -147,10 +148,6 @@ public class MainNav extends ListFragment implements OnItemClickListener, OnMenu
 			case R.id.kunden_suche_id:
 				neuesFragment = new KundeSuchenId();
 				break;
-				
-			/*case R.id.kunden_suche_nachname:
-				neuesFragment = new KundenSucheNachname();
-				break;*/
 
 			case R.id.artikel_suche_id:
 				neuesFragment = new ArtikelSuchenId();
@@ -162,6 +159,10 @@ public class MainNav extends ListFragment implements OnItemClickListener, OnMenu
 				
 			case R.id.artikel_suche_artikelgruppe:
 				neuesFragment = new ArtikelSuchenArtikelgruppe();
+				break;
+				
+			case R.id.artikel_delete:
+				neuesFragment = new ArtikelDelete();
 				break;
 
 			default:
