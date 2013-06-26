@@ -4,6 +4,7 @@
     <string name="a_artikel_id">Article No.</string>
     <string name="a_bezeichnung">Discription</string>
     <string name="a_verfuegbarkeit">Availability</string>
+    <string name="a_erhaeltlich">Availability</string>
 	<string name="a_preis">Price</string>
 	<string name="a_artikelgruppe">Article group</string>
     <string name="a_stammdaten">Master data</string>
