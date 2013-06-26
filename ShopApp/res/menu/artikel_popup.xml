@@ -14,5 +14,9 @@
      <item
     	android:id="@+id/artikel_delete"
     	android:title="@string/s_artikel_delete" />
+     
+     <item
+    	android:id="@+id/artikel_create"
+    	android:title="@string/s_artikel_create" />
     
 </menu>
