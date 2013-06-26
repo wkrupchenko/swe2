@@ -14,6 +14,7 @@ import javax.json.JsonObject;
 import javax.json.JsonReader;
 
 import android.util.Log;
+import de.shop.data.kunde.Kunde;
 import de.shop.data.artikel.Artikel;
 import de.shop.data.artikel.Artikelgruppe;
 import de.shop.util.InternalShopError;
@@ -169,6 +170,33 @@ private static final String LOG_TAG = Mock.class.getSimpleName();
     	Log.d(LOG_TAG, "deleteArtikel: " + artikelId);
     	return new HttpResponse<Void>(HTTP_NO_CONTENT, null);
     }
+	
+	static HttpResponse<Kunde> sucheKundeById(Long id) {
+    	if (id <= 0 || id >= 1000) {
+    		return new HttpResponse<Kunde>(HTTP_NOT_FOUND, "Kein Kunde gefunden mit ID " + id);
+    	}
+    	
+    	int dateinameId = 0;    	    	
+    	final String jsonStr = read(dateinameId);
+    	JsonReader jsonReader = null;
+    	JsonObject jsonObject;
+    	try {
+    		jsonReader = jsonReaderFactory.createReader(new StringReader(jsonStr));
+    		jsonObject = jsonReader.readObject();
+    	}
+    	finally {
+    		if (jsonReader != null) {
+    			jsonReader.close();
+    		}
+    	}
+    	
+    	final Kunde kunde = new Kunde();
+    	kunde.fromJsonObject(jsonObject);
+    	kunde.id = id;
+		
+    	final HttpResponse<Kunde> result = new HttpResponse<Kunde>(HTTP_OK, jsonObject.toString(), kunde);
+    	return result;
+	}
 	
 	private Mock() {}
 }
