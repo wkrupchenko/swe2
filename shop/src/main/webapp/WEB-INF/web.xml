@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" version="3.0">
   <display-name>shop</display-name>
+  <login-config> 
+  	<auth-method>BASIC</auth-method>
+  	<realm-name>Webshop</realm-name>
+  </login-config>
   <context-param>
     <description>In Produktion: Javascript komprimieren, d.h. auf true setzen</description>
     <param-name>com.sun.faces.compressJavaScript</param-name>
@@ -185,10 +189,6 @@
     <env-entry-type>java.lang.String</env-entry-type>
     <env-entry-value>de,en</env-entry-value>
   </env-entry>
-  <login-config> 
-  	<auth-method>BASIC</auth-method>
-  	<realm-name>Webshop</realm-name>
-  </login-config>
   <!--<login-config> 
     <auth-method>FORM</auth-method>
     <form-login-config>
