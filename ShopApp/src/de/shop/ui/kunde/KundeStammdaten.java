@@ -61,6 +61,9 @@ public class KundeStammdaten extends Fragment implements OnTouchListener {
 		final TextView txtId = (TextView) view.findViewById(R.id.kunde_id);
     	txtId.setText(kunde.id.toString());
     	
+    	final TextView txtArt = (TextView) view.findViewById(R.id.art);
+    	txtArt.setText(kunde.art);
+    	
     	final TextView txtNachname = (TextView) view.findViewById(R.id.nachname);
     	txtNachname.setText(kunde.nachname);
     	
@@ -69,11 +72,19 @@ public class KundeStammdaten extends Fragment implements OnTouchListener {
     	
     	final TextView txtEmail = (TextView) view.findViewById(R.id.email);
     	txtEmail.setText(kunde.email);
-    	    	    	
+    	
+    	final TextView txtUmsatz = (TextView) view.findViewById(R.id.umsatz);
+    	txtUmsatz.setText(String.valueOf(kunde.umsatz));
+    	
+    	final TextView txtRabatt = (TextView) view.findViewById(R.id.rabatt);
+    	txtRabatt.setText(String.valueOf(kunde.rabatt));
+    	
     	final TextView txtSeit = (TextView) view.findViewById(R.id.seit);
 		final String seitStr = DateFormat.getDateFormat(view.getContext()).format(kunde.seit);
     	txtSeit.setText(seitStr);
     	
+    	final RadioButton rbMaennlich = (RadioButton) view.findViewById(R.id.maennlich);
+    	final RadioButton rbWeiblich = (RadioButton) view.findViewById(R.id.weiblich);
     	     	
     	 
 	}
