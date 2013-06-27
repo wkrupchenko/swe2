@@ -52,5 +52,6 @@
     <string name="s_artikel_delete_ok">Article with id %s deleted successful.</string>
     <string name="s_ja">Yes</string>
     <string name="s_nein">No</string>
+    <string name="s_artikel_create">Create article</string>
 
 </resources>

@@ -3,11 +3,11 @@ MEILSTEIN 3 Android:
 
 Aufbau und Ablauf siehe Artikel (dort fehlen nur die Tabs für z.B. Artikelgruppe oder Bilder)
 
-ARTIKEL:
+ARTIKEL: (FERTIG) 
 - Anzeigen ERLEDIGT
 - Löschen ERLEDIGT
-- Anlegen OFFEN (Ingo)
-- Ändern OFFEN (Ingo)
+- Anlegen ERLEDIGT
+- Ändern ERLEDIGT
 
 BESTELLUNG:
 - Anzeigen OFFEN

@@ -5,8 +5,10 @@ import static java.net.HttpURLConnection.HTTP_NO_CONTENT;
 import static java.net.HttpURLConnection.HTTP_OK;
 import static java.net.HttpURLConnection.HTTP_UNAUTHORIZED;
 import static java.net.HttpURLConnection.HTTP_FORBIDDEN;
+import static java.net.HttpURLConnection.HTTP_CREATED;
 import static de.shop.ShopApp.jsonReaderFactory;
 import static de.shop.ui.main.Prefs.username;
+import static de.shop.util.Konstanten.ARTIKEL_PATH;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -215,6 +217,14 @@ private static final String LOG_TAG = Mock.class.getSimpleName();
 	    	
 	    	Log.d(LOG_TAG, "updateArtikel: " + artikel.toJsonObject());
 	    	return new HttpResponse<Artikel>(HTTP_NO_CONTENT, null, artikel);
+	    }
+	 
+	 static HttpResponse<Artikel> createArtikel(Artikel artikel) {
+	    	artikel.id = Long.valueOf(artikel.bezeichnung.length());  // Anzahl der Buchstaben der Bezeichnung als emulierte neue ID
+	    	Log.d(LOG_TAG, "createArtikel: " + artikel);
+	    	Log.d(LOG_TAG, "createArtikel: " + artikel.toJsonObject());
+	    	final HttpResponse<Artikel> result = new HttpResponse<Artikel>(HTTP_CREATED, ARTIKEL_PATH + "/1", artikel);
+	    	return result;
 	    }
 	
 	private Mock() {}
