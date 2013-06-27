@@ -53,5 +53,6 @@
     <string name="s_ja">Yes</string>
     <string name="s_nein">No</string>
     <string name="s_artikel_create">Create article</string>
+    <string name="s_action_suchen_short">Search</string>
 
 </resources>

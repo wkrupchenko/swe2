@@ -165,3 +165,4 @@ public class ArtikelCreate extends Fragment {
 		Log.d(LOG_TAG, artikel.toString());
 	}
 }
+ 

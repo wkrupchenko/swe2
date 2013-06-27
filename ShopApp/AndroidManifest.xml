@@ -60,6 +60,8 @@
 		<service
 			android:name="de.shop.service.ArtikelService" />
 		<service
+			android:name="de.shop.service.KundeService" />
+		<service
 			android:name=".service.NetworkService" />
 	</application>
 

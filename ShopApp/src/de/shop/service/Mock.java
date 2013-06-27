@@ -14,7 +14,12 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StringReader;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
+import javax.json.JsonNumber;
+import javax.json.JsonArray;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
 
@@ -88,6 +93,53 @@ private static final String LOG_TAG = Mock.class.getSimpleName();
          return result;
 	}
 	
+    static List<Long> sucheKundeIdsByPrefix(String kundeIdPrefix) {
+		int dateinameId = -1;
+		/*
+    	if ("1".equals(kundeIdPrefix)) {
+    		dateinameId = R.raw.mock_ids_1;
+    	}
+    	else if ("10".equals(kundeIdPrefix)) {
+    		dateinameId = R.raw.mock_ids_10;
+    	}
+    	else if ("11".equals(kundeIdPrefix)) {
+    		dateinameId = R.raw.mock_ids_11;
+    	}
+    	else if ("2".equals(kundeIdPrefix)) {
+    		dateinameId = R.raw.mock_ids_2;
+    	}
+    	else if ("20".equals(kundeIdPrefix)) {
+    		dateinameId = R.raw.mock_ids_20;
+    	}
+    	else {
+    		return Collections.emptyList();
+    	}
+    	*/
+    	final String jsonStr = read(dateinameId);
+		JsonReader jsonReader = null;
+    	JsonArray jsonArray;
+    	try {
+    		jsonReader = jsonReaderFactory.createReader(new StringReader(jsonStr));
+    		jsonArray = jsonReader.readArray();
+    	}
+    	finally {
+    		if (jsonReader != null) {
+    			jsonReader.close();
+    		}
+    	}
+    	
+    	final List<Long> result = new ArrayList<Long>(jsonArray.size());
+    	final List<JsonNumber> jsonNumberList = jsonArray.getValuesAs(JsonNumber.class);
+	    for (JsonNumber jsonNumber : jsonNumberList) {
+	    	final Long id = Long.valueOf(jsonNumber.longValue());
+	    	result.add(id);
+    	}
+    	
+    	Log.d(LOG_TAG, "ids= " + result.toString());
+    	
+    	return result;
+    }
+    
 	static HttpResponse<Artikel> sucheArtikelNachBezeichnung(String bezeichnung) {
     	if (bezeichnung.equals("Nix")) {
     		return new HttpResponse<Artikel>(HTTP_NOT_FOUND, "Kein Artikel gefunden mit Bezeichnung " + bezeichnung);

@@ -15,11 +15,40 @@ import de.shop.data.artikel.Artikel;
 import de.shop.service.ArtikelService;
 import de.shop.service.ArtikelService.ArtikelServiceBinder;
 import de.shop.ui.artikel.ArtikelDetails;
-
+import de.shop.ui.kunde.KundeDetails;
+import android.widget.Toast;
+import static android.widget.Toast.LENGTH_LONG;
+import static de.shop.ui.main.Prefs.mock;
+import static de.shop.util.Konstanten.KUNDE_KEY;
+import de.shop.data.kunde.Kunde;
+/*import de.shop.service.BestellungService;
+ * import de.shop.service.BestellungService.BestellungServiceBinder;
+ * 
+ */
+import de.shop.service.KundeService;
+import de.shop.service.KundeService.KundeServiceBinder;
+/*
+import de.shop.ui.kunde.KundeDetails;
+*/
 public class Main extends Activity {
 	private static final String LOG_TAG = Main.class.getSimpleName();
 	
 	private ArtikelServiceBinder artikelServiceBinder;
+	private KundeServiceBinder kundeServiceBinder;
+	
+	// ServiceConnection ist ein Interface: anonyme Klasse verwenden, um ein Objekt davon zu erzeugen
+	private ServiceConnection kundeServiceConnection = new ServiceConnection() {
+		@Override
+		public void onServiceConnected(ComponentName name, IBinder serviceBinder) {
+			Log.v(LOG_TAG, "onServiceConnected() fuer KundeServiceBinder");
+			kundeServiceBinder = (KundeServiceBinder) serviceBinder;
+		}
+
+		@Override
+		public void onServiceDisconnected(ComponentName name) {
+			kundeServiceBinder = null;
+		}
+	};
 	
 	private ServiceConnection artikelServiceConnection = new ServiceConnection() {
 		@Override
@@ -29,7 +58,7 @@ public class Main extends Activity {
 
 		@Override
 		public void onServiceDisconnected(ComponentName name) {
-			artikelServiceBinder = null;
+			artikelServiceBinder = null;			 
 		}
 	};
 	
@@ -49,6 +78,7 @@ public class Main extends Activity {
         }
         else {
 	        final Artikel artikel = (Artikel) extras.get(ARTIKEL_KEY);
+	        final Kunde kunde = (Kunde) extras.get(KUNDE_KEY);
 	        if (artikel != null) {
 	        	Log.d(LOG_TAG, artikel.toString());
 	        	
@@ -58,11 +88,25 @@ public class Main extends Activity {
 	        	detailsFragment = new ArtikelDetails();
 	        	detailsFragment.setArguments(args);
 	        }
-        }
+	        
+	        if (kunde != null) {
+	        	Log.d(LOG_TAG, kunde.toString());
+	        	
+	    		final Bundle args = new Bundle(1);
+	    		args.putSerializable(KUNDE_KEY, kunde);
+	    		
+	        	detailsFragment = new KundeDetails();
+	        	detailsFragment.setArguments(args);
+	        }
+	        
+        }         
         
         getFragmentManager().beginTransaction()
                             .add(R.id.details, detailsFragment)
                             .commit();
+        if (mock) {
+    		Toast.makeText(this, R.string.s_mock, LENGTH_LONG).show();
+    	}
     }
     
     @Override
@@ -71,6 +115,9 @@ public class Main extends Activity {
 
 		Intent intent = new Intent(this, ArtikelService.class);
 		bindService(intent, artikelServiceConnection, Context.BIND_AUTO_CREATE);
+		
+		intent = new Intent(this, KundeService.class);
+		bindService(intent, kundeServiceConnection, Context.BIND_AUTO_CREATE);
     }
     
 	@Override
@@ -78,9 +125,18 @@ public class Main extends Activity {
 		super.onStop();
 		
 		unbindService(artikelServiceConnection);
+		unbindService(kundeServiceConnection);
 	}
 
 	public ArtikelServiceBinder getArtikelServiceBinder() {
 		return artikelServiceBinder;
 	}
+	
+	public KundeServiceBinder getKundeServiceBinder() {
+		return kundeServiceBinder;
+	}
+	
 }
+			
+
+		

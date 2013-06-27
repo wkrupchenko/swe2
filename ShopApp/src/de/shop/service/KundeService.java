@@ -4,6 +4,7 @@ import static android.app.ProgressDialog.STYLE_SPINNER;
 import static de.shop.ui.main.Prefs.mock;
 import static de.shop.ui.main.Prefs.timeout; 
 import static de.shop.util.Konstanten.KUNDEN_PATH;
+import static de.shop.util.Konstanten.KUNDEN_ID_PREFIX_PATH;
 import static de.shop.util.Konstanten.LOCALHOST;
 import static de.shop.util.Konstanten.LOCALHOST_EMULATOR; 
 import static java.net.HttpURLConnection.HTTP_NO_CONTENT;
@@ -197,7 +198,7 @@ public class KundeService extends Service {
 		 * performFiltering() schon einen neuen Worker-Thread startet, so dass AsyncTask hier
 		 * ueberfluessig ist.
 		 */
-		/*		
+				
 		public List<Long> sucheIds(String prefix) {
 			final String path = KUNDEN_ID_PREFIX_PATH + "/" + prefix;
 		    Log.v(LOG_TAG, "sucheIds: path = " + path);

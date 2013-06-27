@@ -6,14 +6,20 @@ import java.io.Serializable;
 import java.net.URI;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
+import javax.json.JsonValue;
 
 import de.shop.data.JsonMappable;
+import de.shop.util.InternalShopError;
 
 public class Kunde implements JsonMappable, Serializable {
 	private static final long serialVersionUID = 1293068472891525321L;
+	private static final String DATE_FORMAT = "yyyy-MM-dd";
 	
 	public Long id;
 	public String art;
@@ -24,11 +30,11 @@ public class Kunde implements JsonMappable, Serializable {
 	public String vorname;
 	public Double rabatt;
 	public Double umsatz;
-	public String seit;
+	public Date seit;
 	public int version;
 	public String bestellungenUri;
-	/*public Adresse adresse;
-	 * private List<Bestellung> bestellungen;*/
+	public Adresse adresse;	 
+	 
 		
 
 	protected JsonObjectBuilder getJsonObjectBuilder() {
@@ -37,13 +43,13 @@ public class Kunde implements JsonMappable, Serializable {
 			                     .add("version", version)
 			                     .add("art", art)
 			                     .add("email", email)
-			                     .add("familienstand", familienstand)
-			                     .add("geschlecht", geschlecht)
+			                     .add("familienstand", familienstand)			                      
 		                         .add("nachname", nachname)
 		                         .add("vorname", vorname)
 		                         .add("rabatt", rabatt)
 		                         .add("umsatz", umsatz)
-		                         .add("seit", seit)
+		                         .add("seit", new SimpleDateFormat(DATE_FORMAT, Locale.getDefault()).format(seit))
+		                         .add("geschlecht", geschlecht)
 		                         .add("bestellungenUri", bestellungenUri);
 	}
 	
@@ -58,13 +64,20 @@ public class Kunde implements JsonMappable, Serializable {
 		art = jsonObject.getString("art");
 		email = jsonObject.getString("email");
 		familienstand= jsonObject.getString("familienstand");
-		geschlecht = jsonObject.getString("artikelgruppe");
+		 
 		nachname = jsonObject.getString("nachname");
 		vorname = jsonObject.getString("vorname");
+		geschlecht = jsonObject.getString("geschlecht");
 		rabatt = jsonObject.getJsonNumber("rabatt").doubleValue();
 		umsatz = jsonObject.getJsonNumber("umsatz").doubleValue();
-		seit = jsonObject.getString("seit");
-		bestellungenUri = jsonObject.getString("bestellungenUri");
+		try {
+			seit = new SimpleDateFormat(DATE_FORMAT, Locale.getDefault()).parse(jsonObject.getString("seit"));
+		}
+		catch (ParseException e) {
+			throw new InternalShopError(e.getMessage(), e);
+		};
+		 
+		bestellungenUri = jsonObject.getString("bestellungen");
 	}
 	
 	@Override

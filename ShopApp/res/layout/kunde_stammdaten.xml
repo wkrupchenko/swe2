@@ -1,0 +1,232 @@
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:id="@+id/kunden_details"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	tools:context=".ui.kunde.KundeDetails" >
+
+	<TableRow>
+
+		<TextView
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:text="@string/k_kunde_id" />
+		
+		<TextView
+			android:id="@+id/kunde_id"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:paddingLeft="5dp" />
+
+	</TableRow>
+	
+	<TableRow>
+
+		<TextView
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:text="@string/k_art" />
+		
+		<TextView
+			android:id="@+id/art"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:paddingLeft="5dp" />
+
+	</TableRow>
+	
+	<TableRow>
+	    
+	    <TextView
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:text="@string/k_familienstand" />
+	    	
+		<Spinner
+		    android:id="@+id/familienstand"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:clickable="false"
+		    android:entries="@array/k_familienstand_entries"
+		    android:entryValues="@array/a_familienstand_enum" />
+		    
+	</TableRow>
+	
+	<TableRow>
+	    
+	    <TextView
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:text="@string/k_geschlecht" />
+	    	
+		<RadioGroup
+		    android:id="@+id/geschlecht"
+		    android:orientation="vertical">
+		
+		    <RadioButton
+		        android:id="@+id/maennlich"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:clickable="false"
+		        android:text="@string/k_maennlich" />
+		    	
+		</RadioGroup>
+
+		<RadioButton
+		    android:id="@+id/weiblich"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:clickable="false"
+		    android:text="@string/k_weiblich" />
+	    
+	</TableRow>
+	
+	<TableRow>
+	
+	    <TextView
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:text="@string/k_name" />
+	        
+	    <RelativeLayout
+	        android:layout_width="match_parent"
+	    	android:layout_height="wrap_content">
+	    		
+		    <TextView
+		        android:id="@+id/vorname"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:textIsSelectable="false" />
+		        
+		    <TextView
+		        android:id="@+id/nachname"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_toRightOf="@+id/vorname"
+		        android:textIsSelectable="false" />
+			        
+	    </RelativeLayout>
+	
+	</TableRow>
+	    
+	<TableRow>
+
+		<TextView
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:text="@string/k_email" />
+		
+		<TextView
+			android:id="@+id/email"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:paddingLeft="5dp" />
+
+	</TableRow>
+	
+	<TableRow>
+
+		<TextView
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:text="@string/k_rabatt" />
+		
+		<TextView
+			android:id="@+id/rabatt"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:paddingLeft="5dp" />
+
+	</TableRow>
+
+	<TableRow>
+
+		<TextView
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:text="@string/k_umsatz" />
+		
+		<TextView
+			android:id="@+id/umsatz"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:paddingLeft="5dp" />
+
+	</TableRow>
+
+    <TableRow>
+    
+    	<TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/k_newsletter" />
+
+    	<ToggleButton
+		    android:id="@+id/newsletter"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:textOn="@string/s_ja"
+		    android:textOff="@string/s_nein"
+		    android:clickable="false" />
+    	
+    </TableRow>
+    
+	<TableRow>
+
+		<TextView
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:text="@string/k_seit" />
+		
+		<TextView
+			android:id="@+id/seit"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:paddingLeft="5dp" />
+
+	</TableRow>
+	
+	<TableRow>
+	
+	    <TextView
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:text="@string/k_adresse" />
+	        
+	    <RelativeLayout
+	        android:layout_width="match_parent"
+	    	android:layout_height="wrap_content">
+	    		
+		    <TextView
+		        android:id="@+id/plz"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:textIsSelectable="false" />
+		        
+		    <TextView
+		        android:id="@+id/ort"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_toRightOf="@+id/plz"
+		        android:textIsSelectable="false" />
+		        
+		    <TextView
+		        android:id="@+id/strasse"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_below="@+id/plz"
+		        android:textIsSelectable="false" />
+		        
+		    <TextView
+		        android:id="@+id/hausnr"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_below="@+id/plz"
+		        android:layout_toRightOf="@+id/strasse"
+		        android:textIsSelectable="false" />
+			        
+	    </RelativeLayout>
+	
+	</TableRow>
+	
+</TableLayout>
