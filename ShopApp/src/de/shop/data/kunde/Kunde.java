@@ -14,6 +14,7 @@ import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import javax.json.JsonValue;
 
+import de.shop.data.kunde.FamilienstandTyp;
 import de.shop.data.JsonMappable;
 import de.shop.util.InternalShopError;
 
@@ -23,9 +24,9 @@ public class Kunde implements JsonMappable, Serializable {
 	
 	public Long id;
 	public String art;
-	public String email;
-	public String familienstand;
-	public String geschlecht;
+	public String email;	 
+	public GeschlechtTyp geschlecht;
+	public FamilienstandTyp familienstand;
 	public String nachname;
 	public String vorname;
 	public Double rabatt;
@@ -42,14 +43,15 @@ public class Kunde implements JsonMappable, Serializable {
 				                 .add("id", id)
 			                     .add("version", version)
 			                     .add("art", art)
-			                     .add("email", email)
-			                     .add("familienstand", familienstand)			                      
+			                     .add("email", email)			                      			                      
 		                         .add("nachname", nachname)
 		                         .add("vorname", vorname)
 		                         .add("rabatt", rabatt)
 		                         .add("umsatz", umsatz)
+		                         .add("adresse", adresse.getJsonBuilderFactory())
 		                         .add("seit", new SimpleDateFormat(DATE_FORMAT, Locale.getDefault()).format(seit))
-		                         .add("geschlecht", geschlecht)
+		                         .add("geschlecht", geschlecht.toString())
+			                     .add("familienstand", familienstand.toString())
 		                         .add("bestellungenUri", bestellungenUri);
 	}
 	
@@ -63,13 +65,14 @@ public class Kunde implements JsonMappable, Serializable {
 	    version = jsonObject.getInt("version");
 		art = jsonObject.getString("art");
 		email = jsonObject.getString("email");
-		familienstand= jsonObject.getString("familienstand");
-		 
+		geschlecht = GeschlechtTyp.valueOf(jsonObject.getString("geschlecht"));
+		familienstand = FamilienstandTyp.valueOf(jsonObject.getString("familienstand"));		 
 		nachname = jsonObject.getString("nachname");
-		vorname = jsonObject.getString("vorname");
-		geschlecht = jsonObject.getString("geschlecht");
+		vorname = jsonObject.getString("vorname");		 
 		rabatt = jsonObject.getJsonNumber("rabatt").doubleValue();
 		umsatz = jsonObject.getJsonNumber("umsatz").doubleValue();
+		adresse = new Adresse();
+		adresse.fromJsonObject(jsonObject.getJsonObject("adresse")); 
 		try {
 			seit = new SimpleDateFormat(DATE_FORMAT, Locale.getDefault()).parse(jsonObject.getString("seit"));
 		}
@@ -180,7 +183,7 @@ public class Kunde implements JsonMappable, Serializable {
 
 	@Override
 	public String toString() {
-		return "Kunde [id=" + id + ", art=" + art + ", email=" + email + ", familienstand=" + familienstand + ", geschlecht=" + geschlecht + ", vorname=" + vorname + ", nachname=" + nachname + ", rabatt=" + rabatt + ", umsatz=" + umsatz + ", seit=" + seit + " ]";
+		return "Kunde [id=" + id + ", art=" + art + ", email=" + email + ", familienstand=" + familienstand + ", geschlecht=" + geschlecht + ", familienstand=" + familienstand + ", vorname=" + vorname + ", nachname=" + nachname + ", rabatt=" + rabatt + ", umsatz=" + umsatz + ", seit=" + seit + " ]";
 	}
 }
 
