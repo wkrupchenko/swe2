@@ -109,6 +109,9 @@ public class ArtikelCreate extends Fragment {
 						case HTTP_FORBIDDEN:
 							msg = getString(R.string.s_error_forbidden, artikel.id);
 							break;
+						default:
+							msg = getString(R.string.s_error_forbidden, artikel.id);
+							break;
 					}
 					
 		    		final AlertDialog.Builder builder = new AlertDialog.Builder(main);

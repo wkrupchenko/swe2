@@ -28,18 +28,21 @@ public class BestellungService extends Service {
 		return binder;
 	}
 	
-	private ProgressDialog progressDialog;
-	private ProgressDialog showProgressDialog(Context ctx) {
-		progressDialog = new ProgressDialog(ctx);  // Objekt this der umschliessenden Klasse Startseite
-		progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);  // Kreis (oder horizontale Linie)
-		progressDialog.setMessage(getString(R.string.s_bitte_warten));
-		progressDialog.setCancelable(true);      // Abbruch durch Zuruecktaste 
-		progressDialog.setIndeterminate(true);   // Unbekannte Anzahl an Bytes werden vom Web Service geliefert
-		progressDialog.show();
-		return progressDialog;
-	}
-	
 	public class BestellungServiceBinder extends Binder {
+		public BestellungService getService() {
+			return BestellungService.this;
+		}
+		
+		private ProgressDialog progressDialog;
+		private ProgressDialog showProgressDialog(Context ctx) {
+			progressDialog = new ProgressDialog(ctx);  // Objekt this der umschliessenden Klasse Startseite
+			progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);  // Kreis (oder horizontale Linie)
+			progressDialog.setMessage(getString(R.string.s_bitte_warten));
+			progressDialog.setCancelable(true);      // Abbruch durch Zuruecktaste 
+			progressDialog.setIndeterminate(true);   // Unbekannte Anzahl an Bytes werden vom Web Service geliefert
+			progressDialog.show();
+			return progressDialog;
+		}
 		
 		// Aufruf in einem eigenen Thread
 		public HttpResponse<Bestellung> getBestellungById(Long id, final Context ctx) {
