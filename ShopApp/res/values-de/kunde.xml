@@ -40,6 +40,8 @@
     <string name="k_art">Art</string>
     <string name="k_rabatt">Rabatt</string>
     <string name="k_umsatz">Umsatz</string>
+    <string name="k_privatkunde">Privatkunde</string>
+    <string name="k_firmenkunde">Firmenkunde</string>
     
     <string-array name="k_familienstand_entries">
        	<item>Ledig</item>

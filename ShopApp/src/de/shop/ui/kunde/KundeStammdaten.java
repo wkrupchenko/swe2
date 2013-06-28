@@ -128,7 +128,7 @@ public class KundeStammdaten extends Fragment implements OnTouchListener {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-		/*
+		
 			case R.id.edit:
 				// Evtl. vorhandene Tabs der ACTIVITY loeschen
 		    	getActivity().getActionBar().removeAllTabs();
@@ -145,7 +145,7 @@ public class KundeStammdaten extends Fragment implements OnTouchListener {
 				                    .addToBackStack(null)  
 				                    .commit();
 				return true;
-				*/
+			
 			case R.id.menu_settings:
 				getFragmentManager().beginTransaction()
                                     .replace(R.id.details, new Prefs())

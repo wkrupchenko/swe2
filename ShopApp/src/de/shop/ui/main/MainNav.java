@@ -36,8 +36,8 @@ import de.shop.ui.kunde.KundenSucheNachname;
 public class MainNav extends ListFragment implements OnItemClickListener, OnMenuItemClickListener {
 	public enum NavType {
 		KUNDEN(0),
-		BESTELLUNGEN(1),
-		ARTIKEL(2);
+		//BESTELLUNGEN(1),
+		ARTIKEL(1);
 		
 		private int value;
 		
@@ -52,8 +52,8 @@ public class MainNav extends ListFragment implements OnItemClickListener, OnMenu
 		public static NavType valueOf(int value) {
 			switch (value) {
 				case 0:	return KUNDEN;
-				case 1:	return BESTELLUNGEN;
-				case 2: return ARTIKEL;
+//				case 2:	return BESTELLUNGEN;
+				case 1: return ARTIKEL;
 				default: return KUNDEN;
 			}
 		}

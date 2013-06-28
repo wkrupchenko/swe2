@@ -1,5 +1,6 @@
 package de.shop.service;
 
+import static java.net.HttpURLConnection.HTTP_CONFLICT;
 import static java.net.HttpURLConnection.HTTP_NOT_FOUND;
 import static java.net.HttpURLConnection.HTTP_NO_CONTENT;
 import static java.net.HttpURLConnection.HTTP_OK;
@@ -367,6 +368,25 @@ private static final String LOG_TAG = Mock.class.getSimpleName();
 		
     	Log.d(LOG_TAG, "nachnamen= " + result.toString());
     	return result;
+    }
+
+    static HttpResponse<Kunde> updateKunde(Kunde kunde) {
+    	Log.d(LOG_TAG, "updateKunde: " + kunde);
+    	
+    	if (TextUtils.isEmpty(username)) {
+    		return new HttpResponse<Kunde>(HTTP_UNAUTHORIZED, null);
+    	}
+    	
+    	if ("x".equals(username)) {
+    		return new HttpResponse<Kunde>(HTTP_FORBIDDEN, null);
+    	}
+    	
+    	if ("y".equals(username)) {
+    		return new HttpResponse<Kunde>(HTTP_CONFLICT, "Die Email-Adresse existiert bereits");
+    	}
+    	
+    	Log.d(LOG_TAG, "updateKunde: " + kunde.toJsonObject());
+    	return new HttpResponse<Kunde>(HTTP_NO_CONTENT, null, kunde);
     }
 
     static HttpResponse<Void> deleteKunde(Long kundeId) {

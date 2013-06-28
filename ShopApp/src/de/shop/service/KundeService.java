@@ -9,6 +9,7 @@ import static de.shop.util.Konstanten.LOCALHOST;
 import static de.shop.util.Konstanten.LOCALHOST_EMULATOR;
 import static de.shop.util.Konstanten.NACHNAME_PATH;
 import static de.shop.util.Konstanten.NACHNAME_PREFIX_PATH;
+import static java.net.HttpURLConnection.HTTP_NO_CONTENT;
 import static java.net.HttpURLConnection.HTTP_OK;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
@@ -268,7 +269,7 @@ public class KundeService extends Service {
 			final HttpResponse<Kunde> result = new HttpResponse<Kunde>(response.responseCode, response.content, kunde);
 			return result;
 	    }
-		
+		*/
 		 
 		public HttpResponse<Kunde> updateKunde(Kunde kunde, final Context ctx) {
 			// (evtl. mehrere) Parameter vom Typ "Kunde", Resultat vom Typ "void"
@@ -314,7 +315,6 @@ public class KundeService extends Service {
 			
 			return result;
 	    }
-		*/
 		 
 		public HttpResponse<Void> deleteKunde(Long id, final Context ctx) {
 			

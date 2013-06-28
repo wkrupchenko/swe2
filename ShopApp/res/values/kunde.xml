@@ -38,6 +38,8 @@
     <string name="k_art">Type</string>
     <string name="k_rabatt">Discount</string>
     <string name="k_umsatz">Turnover</string>
+    <string name="k_privatkunde">Private customer</string>
+    <string name="k_firmenkunde">Corporate customer</string>
     
     <string-array name="k_familienstand_entries">
        	<item>Single</item>
