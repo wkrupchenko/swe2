@@ -46,10 +46,9 @@ public class KundeBestellungen extends Fragment implements OnItemClickListener, 
 	private int bestellungenListePos;
 	
 	private TextView txtBestellungId;
-	private TextView txtBestellungDatum;
+	private TextView txtBestellungOffenAbgeschlossen;
 	
 	private KundeServiceBinder kundeServiceBinder;
-	private BestellungServiceBinder bestellungServiceBinder;
 	
 	private GestureDetector gestureDetector;
 	
@@ -69,18 +68,16 @@ public class KundeBestellungen extends Fragment implements OnItemClickListener, 
 		final TextView kundeTxt = (TextView) view.findViewById(R.id.bestellungen_kunde_id);
 		kundeTxt.setText(getString(R.string.k_bestellungen_kunde_id, kunde.id));
 		txtBestellungId = (TextView) view.findViewById(R.id.bestellung_id);
-		txtBestellungDatum = (TextView) view.findViewById(R.id.datum);
+		txtBestellungOffenAbgeschlossen = (TextView) view.findViewById(R.id.offenAbgeschlossen);
 		
 		final Activity activity = getActivity();
 		if (Main.class.equals(activity.getClass())) {
 			Main main = (Main) activity;
 			kundeServiceBinder = main.getKundeServiceBinder();
-			bestellungServiceBinder = main.getBestellungServiceBinder();
 		}
 		else if (KundenListe.class.equals(activity.getClass())) {
 			KundenListe kundenListe = (KundenListe) activity;
 			kundeServiceBinder = kundenListe.getKundeServiceBinder();
-			bestellungServiceBinder = kundenListe.getBestellungServiceBinder();
 		}
 		else {
 			Log.e(LOG_TAG, "Activity " + activity.getClass().getSimpleName() + " nicht beruecksichtigt.");
@@ -176,6 +173,7 @@ public class KundeBestellungen extends Fragment implements OnItemClickListener, 
 		}
 		
 		txtBestellungId.setText(String.valueOf(bestellung.id));
+		txtBestellungOffenAbgeschlossen.setText(String.valueOf(bestellung.offenAbgeschlossen));
 		 
     	 
 	}
