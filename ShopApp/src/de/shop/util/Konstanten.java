@@ -2,7 +2,8 @@ package de.shop.util;
 
 public final class Konstanten {
 	public static final String ARTIKEL_KEY = "artikel";
-	public static final String KUNDE_KEY = "kunde";
+	public static final String KUNDE_KEY = "kunde";	 
+	public static final String KUNDEN_KEY = "kunden";
 	
 	public static final int WISCHEN_MIN_DISTANCE = 30;      
 	public static final int WISCHEN_MAX_OFFSET_PATH = 30;  
@@ -22,6 +23,7 @@ public final class Konstanten {
 	public static final String KUNDEN_PATH = "/kunden";
 	public static final String KUNDEN_PREFIX_PATH = KUNDEN_PATH + "/prefix";
 	public static final String KUNDEN_ID_PREFIX_PATH = KUNDEN_PREFIX_PATH + "/id";
+	public static final String BESTELLUNGEN_PATH = "/bestellungen";
 	
 	
 	private Konstanten() {}

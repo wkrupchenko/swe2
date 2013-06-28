@@ -163,7 +163,7 @@ public class KundeService extends Service {
 	    }
 	
 
-		 
+		*/ 
 		public List<Long> sucheBestellungenIdsByKundeId(Long id, final Context ctx) {
 			// (evtl. mehrere) Parameter vom Typ "Long", Resultat vom Typ "List<Long>"
 			final AsyncTask<Long, Void, List<Long>> sucheBestellungenIdsByKundeIdTask = new AsyncTask<Long, Void, List<Long>>() {
@@ -173,9 +173,7 @@ public class KundeService extends Service {
 					final Long id = ids[0];
 		    		final String path = KUNDEN_PATH + "/" + id + "/bestellungenIds";
 		    		Log.v(LOG_TAG, "path = " + path);
-		    		final List<Long> result = mock
-		    				                  ? Mock.sucheBestellungenIdsByKundeId(id)
-		    				                  : WebServiceClient.getJsonLongList(path);
+		    		final List<Long> result =  WebServiceClient.getJsonLongList(path);
 			    	Log.d(LOG_TAG + ".AsyncTask", "doInBackground: " + result);
 					return result;
 				}
@@ -198,7 +196,7 @@ public class KundeService extends Service {
 		 * performFiltering() schon einen neuen Worker-Thread startet, so dass AsyncTask hier
 		 * ueberfluessig ist.
 		 */
-				
+			
 		public List<Long> sucheIds(String prefix) {
 			final String path = KUNDEN_ID_PREFIX_PATH + "/" + prefix;
 		    Log.v(LOG_TAG, "sucheIds: path = " + path);
@@ -216,7 +214,7 @@ public class KundeService extends Service {
 		 * performFiltering() schon einen neuen Worker-Thread startet, so dass AsyncTask hier
 		 * ueberfluessig ist.
 		 */
-		/*
+		/*	
 		public List<String> sucheNachnamen(String prefix) {
 			final String path = NACHNAME_PREFIX_PATH +  "/" + prefix;
 		    Log.v(LOG_TAG, "sucheNachnamen: path = " + path);
