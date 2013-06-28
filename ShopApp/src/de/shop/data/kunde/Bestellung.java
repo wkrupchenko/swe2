@@ -15,7 +15,7 @@ public class Bestellung implements JsonMappable, Serializable {
 	
 	public Long id;
 	public int version;
-	public Date datum;
+	 
 
 	public Bestellung() {
 		super();
@@ -24,15 +24,14 @@ public class Bestellung implements JsonMappable, Serializable {
 	public Bestellung(long id, Date datum) {
 		super();
 		this.id = id;
-		this.datum = datum;
+		 
 	}
 
 	@Override
 	public JsonObject toJsonObject() {
 		return jsonBuilderFactory.createObjectBuilder()
 		                         .add("id", id)
-		                         .add("version", version)
-		                         .add("datum", datum.getTime())
+		                         .add("version", version)		                          
 		                         .build();
 	}
 	
@@ -40,7 +39,7 @@ public class Bestellung implements JsonMappable, Serializable {
 	public void fromJsonObject(JsonObject jsonObject) {
 		id = Long.valueOf(jsonObject.getJsonNumber("id").longValue());
 		version = jsonObject.getInt("version");
-		datum = new Date(jsonObject.getJsonNumber("datum").longValue());
+		 
 	}
 	
 	@Override
@@ -50,6 +49,6 @@ public class Bestellung implements JsonMappable, Serializable {
 
 	@Override
 	public String toString() {
-		return "Bestellung [id=" + id + ", datum=" + datum + "]";
+		return "Bestellung [id=" + id + " ]";
 	}
 }

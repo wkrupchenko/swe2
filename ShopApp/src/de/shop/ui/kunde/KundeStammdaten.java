@@ -100,6 +100,9 @@ public class KundeStammdaten extends Fragment implements OnTouchListener {
 
     	final TextView txtfamilienstand = (TextView) view.findViewById(R.id.familienstand);
     	txtfamilienstand.setText(String.valueOf(kunde.familienstand));
+    	
+    	final TextView txtGeschlecht = (TextView) view.findViewById(R.id.geschlecht);
+    	txtGeschlecht.setText(String.valueOf(kunde.geschlecht));
 
     	final TextView txtnewsletter = (TextView) view.findViewById(R.id.newsletter);
     	txtnewsletter.setText(String.valueOf(kunde.newsletter));
