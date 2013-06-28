@@ -1,4 +1,4 @@
-MEILSTEIN 3 Android:
+MEILSTEIN 3 Android FERTIG
 
 
 Aufbau und Ablauf siehe Artikel (dort fehlen nur die Tabs für z.B. Artikelgruppe oder Bilder)
