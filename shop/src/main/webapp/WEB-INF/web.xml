@@ -305,15 +305,7 @@
       <url-pattern>/kundenverwaltung/okDeleteKunde.jsf</url-pattern>
       <url-pattern>/kundenverwaltung/okDeleteKunde.faces</url-pattern>
       <url-pattern>/faces/kundenverwaltung/okDeleteKunde.xhtml</url-pattern>
-      <url-pattern>/bestellverwaltung/viewBestellung.jsf</url-pattern>
-      <url-pattern>/bestellverwaltung/viewBestellung.faces</url-pattern>
-      <url-pattern>/faces/bestellverwaltung/viewBestellung.xhtml</url-pattern>
-	  <url-pattern>/bestellverwaltung/viewBestellungStatus.jsf</url-pattern>
-      <url-pattern>/bestellverwaltung/viewBestellungStatus.faces</url-pattern>
-      <url-pattern>/faces/bestellverwaltung/viewBestellungStatus.xhtml</url-pattern>     
-      <url-pattern>/bestellverwaltung/viewLieferung.jsf</url-pattern>
-      <url-pattern>/bestellverwaltung/viewLieferung.faces</url-pattern>
-      <url-pattern>/faces/bestellverwaltung/viewLieferung.xhtml</url-pattern>
+      
       <http-method>POST</http-method>
       <http-method>GET</http-method>
     </web-resource-collection>

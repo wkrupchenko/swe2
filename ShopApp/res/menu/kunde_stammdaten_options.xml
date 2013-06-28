@@ -8,6 +8,11 @@
           android:showAsAction="ifRoom"
           android:actionViewClass="android.widget.SearchView" />
     
+	<item android:id="@+id/edit"
+          android:title="@string/s_option_edit"
+          android:icon="@drawable/ic_option_edit"
+          android:showAsAction="ifRoom|withText" />
+    
 	<item
 		android:id="@+id/einstellungen"
 		android:title="@string/s_menu_settings"
