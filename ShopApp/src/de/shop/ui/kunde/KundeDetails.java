@@ -48,20 +48,21 @@ public class KundeDetails extends Fragment {
 	                    		                                            KundeStammdaten.class,
 	                    		                                            args));
 	    actionBar.addTab(tab);
-	    /*
+	    
 	    tab = actionBar.newTab()
                        .setText(getString(R.string.k_bestellungen))
                        .setTabListener(new TabListener<KundeBestellungen>(activity,
                     		                                              KundeBestellungen.class,
                     		                                              args));
 	    actionBar.addTab(tab);
-
+/*
 	    tab = actionBar.newTab()
                 .setText(getString(R.string.k_karte))
                 .setTabListener(new TabListener<KundeKarte>(activity,
              		                                        KundeKarte.class,
              		                                        args));
 	    actionBar.addTab(tab);
-	    */
+*/	    
+	    
 	}
 }
