@@ -97,37 +97,10 @@ public class KundeStammdaten extends Fragment implements OnTouchListener {
 	    	final TextView txtHausnr = (TextView) view.findViewById(R.id.hausnr);
 	    	txtHausnr.setText(kunde.adresse.hausnr);
     	}
-    	 
+
+    	final TextView familTextView = (TextView) view.findViewById(R.id.familienstand);
+    	familTextView.setText(String.valueOf(kunde.familienstand));
     	
-    	final RadioButton rbMaennlich = (RadioButton) view.findViewById(R.id.maennlich);
-    	final RadioButton rbWeiblich = (RadioButton) view.findViewById(R.id.weiblich);
-    	final Spinner spFamilienstand = (Spinner) view.findViewById(R.id.familienstand); 
-    	
-    	 
-    		final Kunde kunde =  new Kunde();
-    		
-	    	if (kunde.geschlecht != null) {
-		    	switch (kunde.geschlecht) {
-			    	case MAENNLICH:
-			        	rbMaennlich.setChecked(true);
-				    	break;
-				    	
-			    	case WEIBLICH:
-			        	rbWeiblich.setChecked(true);
-				    	break;
-				    	
-				    default:
-		    	}
-	    	}
-	    	
-	    	if (kunde.familienstand != null) {
-	    		spFamilienstand.setSelection(kunde.familienstand.value());
-	    	}   	 
-    	 
-    		rbMaennlich.setEnabled(true);
-    		rbWeiblich.setEnabled(true);
-    		spFamilienstand.setEnabled(true);
-    		    	 
 	}
 
 	@Override

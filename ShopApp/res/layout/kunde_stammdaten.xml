@@ -36,49 +36,33 @@
 	</TableRow>
 	
 	<TableRow>
-	    
-	    <TextView
-	        android:layout_width="match_parent"
-	        android:layout_height="wrap_content"
-	        android:text="@string/k_familienstand" />
-	    	
-		<Spinner
-		    android:id="@+id/familienstand"
-		    android:layout_width="wrap_content"
-		    android:layout_height="wrap_content"
-		    android:clickable="false"
-		    android:entries="@array/k_familienstand_entries"
-		    android:entryValues="@array/a_familienstand_enum" />
-		    
+
+		<TextView
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:text="@string/k_familienstand" />
+		
+		<TextView
+			android:id="@+id/familienstand"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:paddingLeft="5dp" />
+
 	</TableRow>
 	
 	<TableRow>
-	    
-	    <TextView
-	        android:layout_width="match_parent"
-	        android:layout_height="wrap_content"
-	        android:text="@string/k_geschlecht" />
-	    	
-		<RadioGroup
-		    android:id="@+id/geschlecht"
-		    android:orientation="vertical">
-		
-		    <RadioButton
-		        android:id="@+id/maennlich"
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:clickable="false"
-		        android:text="@string/k_maennlich" />
-		    	
-		</RadioGroup>
 
-		<RadioButton
-		    android:id="@+id/weiblich"
-		    android:layout_width="wrap_content"
-		    android:layout_height="wrap_content"
-		    android:clickable="false"
-		    android:text="@string/k_weiblich" />
-	    
+		<TextView
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:text="@string/k_geschlecht" />
+		
+		<TextView
+			android:id="@+id/geschlecht"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:paddingLeft="5dp" />
+
 	</TableRow>
 	
 	<TableRow>
@@ -162,13 +146,11 @@
             android:layout_height="wrap_content"
             android:text="@string/k_newsletter" />
 
-    	<ToggleButton
-		    android:id="@+id/newsletter"
-		    android:layout_width="wrap_content"
-		    android:layout_height="wrap_content"
-		    android:textOn="@string/s_ja"
-		    android:textOff="@string/s_nein"
-		    android:clickable="false" />
+		<TextView
+			android:id="@+id/newsletter"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:paddingLeft="5dp" />
     	
     </TableRow>
     

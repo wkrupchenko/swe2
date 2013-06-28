@@ -66,35 +66,34 @@
 	</TableRow>
 	
 	<TableRow>
-
-		<TextView
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:text="@string/k_nachname" />
-		
-		<TextView
-			android:id="@+id/nachname"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:paddingLeft="5dp" />
-
-	</TableRow>
 	
-	<TableRow>
-
-		<TextView
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:text="@string/k_vorname" />
-		
-		<TextView
-			android:id="@+id/vorname"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:paddingLeft="5dp" />
-
-	</TableRow>
+	    <TextView
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:text="@string/k_name" />
+	        
+	    <RelativeLayout
+	        android:layout_width="match_parent"
+	    	android:layout_height="wrap_content">
+	    		
+		    <TextView
+		        android:id="@+id/vorname"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"		         
+		        android:textIsSelectable="false"/>
+		        
+		    <TextView
+		        android:id="@+id/nachname"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_toRightOf="@+id/vorname"
+		        android:textIsSelectable="false"
+		        android:paddingLeft="5dp" />
+			        
+	    </RelativeLayout>
 	
+	</TableRow>
+	    
 	<TableRow>
 
 		<TextView
@@ -139,16 +138,31 @@
 			android:paddingLeft="5dp" />
 
 	</TableRow>
-	
+
+    <TableRow>
+    
+    	<TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/k_newsletter" />
+
+		<TextView
+			android:id="@+id/newsletter"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:paddingLeft="5dp" />
+    	
+    </TableRow>
+    
 	<TableRow>
 
 		<TextView
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:text="@string/k_strasse" />
+			android:text="@string/k_seit" />
 		
 		<TextView
-			android:id="@+id/strasse"
+			android:id="@+id/seit"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:paddingLeft="5dp" />
@@ -156,50 +170,48 @@
 	</TableRow>
 	
 	<TableRow>
-
-		<TextView
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:text="@string/k_hausnr" />
-		
-		<TextView
-			android:id="@+id/hausnr"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:paddingLeft="5dp" />
-
-	</TableRow>
 	
-	<TableRow
-		android:layout_width="match_parent"
-		android:layout_height="match_parent" >
-
-		<TextView
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:text="@string/k_plz" />
-		
-		<TextView
-			android:id="@+id/plz"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:paddingLeft="5dp" />
-
-	</TableRow>
+	    <TextView
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:text="@string/k_adresse" />
+	        
+	    <RelativeLayout
+	        android:layout_width="match_parent"
+	    	android:layout_height="wrap_content">
+	    		
+		    <TextView
+		        android:id="@+id/plz"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:textIsSelectable="false" />
+		        
+		    <TextView
+		        android:id="@+id/ort"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_toRightOf="@+id/plz"
+		        android:textIsSelectable="false"
+		        android:paddingLeft="5dp" />
+		        
+		    <TextView
+		        android:id="@+id/strasse"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_below="@+id/plz"
+		        android:textIsSelectable="false" />
+		        
+		    <TextView
+		        android:id="@+id/hausnr"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_below="@+id/plz"
+		        android:layout_toRightOf="@+id/strasse"
+		        android:textIsSelectable="false"
+		        android:paddingLeft="5dp" />
+			        
+	    </RelativeLayout>
 	
-	<TableRow>
-
-		<TextView
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:text="@string/k_ort" />
-		
-		<TextView
-			android:id="@+id/ort"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:paddingLeft="5dp" />
-
 	</TableRow>
 	
 </TableLayout>
