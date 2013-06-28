@@ -27,7 +27,7 @@ import de.shop.ui.artikel.ArtikelDelete;
 import de.shop.ui.artikel.ArtikelSuchenArtikelgruppe;
 import de.shop.ui.artikel.ArtikelSuchenBezeichnung;
 import de.shop.ui.artikel.ArtikelSuchenId;
-import de.shop.ui.kunde.KundeCreate;
+//import de.shop.ui.kunde.KundeCreate;
 import de.shop.ui.kunde.KundeDelete;
 import de.shop.ui.kunde.KundeSuchenId;
 import de.shop.ui.kunde.Kunden;
