@@ -39,7 +39,7 @@ public class Bestellung implements JsonMappable, Serializable {
 	@Override
 	public void fromJsonObject(JsonObject jsonObject) {
 		id = Long.valueOf(jsonObject.getJsonNumber("id").longValue());
-		offenAbgeschlossen = Boolean.valueOf(jsonObject.getJsonString("offenAbgeschlossen").toString());	 
+		offenAbgeschlossen = jsonObject.getBoolean("offenAbgeschlossen");	 
 	}
 	
 	@Override
