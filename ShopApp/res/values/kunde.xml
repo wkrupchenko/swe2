@@ -1,6 +1,7 @@
 <resources>
 
     <string name="k_kunde_details_title">Customer</string>
+    <string name="k_offenAbgeschlossen">The order is currently open</string>    
 	<string name="k_kunde_id_auswahl_hint">Select a customer no.</string>
 	<string name="k_kunde_id_hint">Enter customer no.</string>
 	<string name="k_kundennr_fehlt">The customer no. is missing.</string>
