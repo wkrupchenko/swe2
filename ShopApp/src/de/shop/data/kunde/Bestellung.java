@@ -38,7 +38,7 @@ public class Bestellung implements JsonMappable, Serializable {
 	@Override
 	public void fromJsonObject(JsonObject jsonObject) {
 		id = Long.valueOf(jsonObject.getJsonNumber("id").longValue());
-		version = jsonObject.getInt("version");
+		
 		 
 	}
 	
