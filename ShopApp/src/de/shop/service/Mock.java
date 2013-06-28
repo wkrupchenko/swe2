@@ -16,15 +16,18 @@ import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import javax.json.JsonNumber;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
+import javax.json.JsonString;
 
 import android.text.TextUtils;
 import android.util.Log;
+import de.shop.data.kunde.Bestellung;
 import de.shop.data.kunde.Kunde;
 import de.shop.data.artikel.Artikel;
 import de.shop.data.artikel.Artikelgruppe;
@@ -272,12 +275,108 @@ private static final String LOG_TAG = Mock.class.getSimpleName();
 	    }
 	 
 	 static HttpResponse<Artikel> createArtikel(Artikel artikel) {
-	    	artikel.id = Long.valueOf(artikel.bezeichnung.length());  // Anzahl der Buchstaben der Bezeichnung als emulierte neue ID
-	    	Log.d(LOG_TAG, "createArtikel: " + artikel);
-	    	Log.d(LOG_TAG, "createArtikel: " + artikel.toJsonObject());
-	    	final HttpResponse<Artikel> result = new HttpResponse<Artikel>(HTTP_CREATED, ARTIKEL_PATH + "/1", artikel);
-	    	return result;
+    	artikel.id = Long.valueOf(artikel.bezeichnung.length());  // Anzahl der Buchstaben der Bezeichnung als emulierte neue ID
+    	Log.d(LOG_TAG, "createArtikel: " + artikel);
+    	Log.d(LOG_TAG, "createArtikel: " + artikel.toJsonObject());
+    	final HttpResponse<Artikel> result = new HttpResponse<Artikel>(HTTP_CREATED, ARTIKEL_PATH + "/1", artikel);
+    	return result;
+    }
+
+	static List<Long> sucheBestellungenIdsByKundeId(Long id) {
+		if (id % 2 == 0) {
+			return Collections.emptyList();
+		}
+		
+		final int anzahl = (int) ((id % 3) + 3);  // 3 - 5 Bestellungen
+		final List<Long> ids = new ArrayList<Long>(anzahl);
+		
+		// Bestellung IDs sind letzte Dezimalstelle, da 3-5 Bestellungen (s.o.)
+		// Kunde-ID wird vorangestellt und deshalb mit 10 multipliziert
+		for (int i = 0; i < anzahl; i++) {
+			ids.add((long) (id * 10 + 2 * i + 1));
+		}
+		return ids;
+	}
+
+	static HttpResponse<Kunde> sucheKundenByNachname(String nachname) {
+		if (nachname.startsWith("X")) {
+			return new HttpResponse<Kunde>(HTTP_NOT_FOUND, "Keine Kunde gefunden mit Nachname " + nachname);
+		}
+		
+		final ArrayList<Kunde> kunden = new ArrayList<Kunde>();
+		final String jsonStr = read(R.raw.mock_kunden);
+		JsonReader jsonReader = null;
+    	JsonArray jsonArray;
+    	try {
+    		jsonReader = jsonReaderFactory.createReader(new StringReader(jsonStr));
+    		jsonArray = jsonReader.readArray();
+    	}
+    	finally {
+    		if (jsonReader != null) {
+    			jsonReader.close();
+    		}
+    	}
+		
+    	final List<JsonObject> jsonObjectList = jsonArray.getValuesAs(JsonObject.class);
+   		for (JsonObject jsonObject : jsonObjectList) {
+           	final Kunde kunde = new Kunde();
+			kunde.fromJsonObject(jsonObject);
+			kunde.nachname = nachname;
+   			kunden.add(kunde);
+   		}
+    	
+    	final HttpResponse<Kunde> result = new HttpResponse<Kunde>(HTTP_OK, jsonArray.toString(), kunden);
+		return result;
+    }
+
+    static List<String> sucheNachnamenByPrefix(String nachnamePrefix) {
+    	if (TextUtils.isEmpty(nachnamePrefix)) {
+    		return Collections.emptyList();
+    	}
+    	
+		int dateinameNachnamen = -1;
+		if (nachnamePrefix.startsWith("A")) {
+    		dateinameNachnamen = R.raw.mock_nachnamen_a;
+    	}
+    	else if (nachnamePrefix.startsWith("D")) {
+    		dateinameNachnamen = R.raw.mock_nachnamen_d;
+    	}
+    	else {
+    		return Collections.emptyList();
+    	}
+    	
+    	final String jsonStr = read(dateinameNachnamen);
+		JsonReader jsonReader = null;
+    	JsonArray jsonArray;
+    	try {
+    		jsonReader = jsonReaderFactory.createReader(new StringReader(jsonStr));
+    		jsonArray = jsonReader.readArray();
+    	}
+    	finally {
+    		if (jsonReader != null) {
+    			jsonReader.close();
+    		}
+    	}
+    	
+    	final List<JsonString> jsonStringList = jsonArray.getValuesAs(JsonString.class);
+    	final List<String> result = new ArrayList<String>(jsonArray.size());
+	    for (JsonString jsonString : jsonStringList) {
+	    	final String nachname = jsonString.getString();
+	    	result.add(nachname);
 	    }
-	
+		
+    	Log.d(LOG_TAG, "nachnamen= " + result.toString());
+    	return result;
+    }
+
+    static HttpResponse<Bestellung> sucheBestellungById(Long id) {
+		final Bestellung bestellung = new Bestellung(id, new Date());
+		
+		final JsonObject jsonObject = bestellung.toJsonObject();
+		final HttpResponse<Bestellung> result = new HttpResponse<Bestellung>(HTTP_OK, jsonObject.toString(), bestellung);
+		Log.d(LOG_TAG, result.resultObject.toString());
+		return result;
+	}
+    
 	private Mock() {}
 }

@@ -29,6 +29,7 @@ import de.shop.ui.artikel.ArtikelSuchenBezeichnung;
 import de.shop.ui.artikel.ArtikelSuchenId;
 import de.shop.ui.kunde.KundeSuchenId;
 import de.shop.ui.kunde.Kunden;
+import de.shop.ui.kunde.KundenSucheNachname;
 
 public class MainNav extends ListFragment implements OnItemClickListener, OnMenuItemClickListener {
 	public enum NavType {
@@ -150,6 +151,10 @@ public class MainNav extends ListFragment implements OnItemClickListener, OnMenu
 				neuesFragment = new KundeSuchenId();
 				break;
 
+			case R.id.kunden_suche_nachname:
+				neuesFragment = new KundenSucheNachname();
+				break;
+				
 			case R.id.artikel_suche_id:
 				neuesFragment = new ArtikelSuchenId();
 				break;

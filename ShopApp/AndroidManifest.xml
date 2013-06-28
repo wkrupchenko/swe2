@@ -32,6 +32,16 @@
 			android:label="@string/s_suchen_kunde_id" >
 		</activity>
 		<activity
+			android:name=".ui.kunde.KundenListe"
+			android:label="@string/k_kunden_liste_title"
+			android:parentActivityName=".ui.main.Main"
+			android:exported="false" > <!-- false ist der Defaultwert, da es keinen intent-filter gibt -->
+			
+			<meta-data
+            	android:name="android.app.default_searchable"
+            	android:value=".ui.kunde.SucheNachnameActivity" />
+		</activity>
+		<activity
 			android:name="de.shop.ui.artikel.ArtikelSuchenId"
 			android:label="@string/s_suchen_artikel_id" >
 		</activity>

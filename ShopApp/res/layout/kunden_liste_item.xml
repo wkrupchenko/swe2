@@ -17,7 +17,7 @@
 	    android:minHeight="?android:attr/listPreferredItemHeight" />
 	
 	<TextView
-		android:id="@+id/nachname_txt"
+		android:id="@+id/nachname"
 		android:layout_height="match_parent"
 		android:layout_width="wrap_content"
 		android:textIsSelectable="false"

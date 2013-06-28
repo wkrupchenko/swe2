@@ -2,19 +2,18 @@ package de.shop.service;
 
 import static android.app.ProgressDialog.STYLE_SPINNER;
 import static de.shop.ui.main.Prefs.mock;
-import static de.shop.ui.main.Prefs.timeout; 
-import static de.shop.util.Konstanten.KUNDEN_PATH;
+import static de.shop.ui.main.Prefs.timeout;
 import static de.shop.util.Konstanten.KUNDEN_ID_PREFIX_PATH;
+import static de.shop.util.Konstanten.KUNDEN_PATH;
 import static de.shop.util.Konstanten.LOCALHOST;
-import static de.shop.util.Konstanten.LOCALHOST_EMULATOR; 
-import static java.net.HttpURLConnection.HTTP_NO_CONTENT;
+import static de.shop.util.Konstanten.LOCALHOST_EMULATOR;
+import static de.shop.util.Konstanten.NACHNAME_PATH;
+import static de.shop.util.Konstanten.NACHNAME_PREFIX_PATH;
 import static java.net.HttpURLConnection.HTTP_OK;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import android.app.ProgressDialog;
 import android.app.Service;
@@ -26,7 +25,7 @@ import android.os.IBinder;
 import android.text.TextUtils;
 import android.util.Log;
 import de.shop.R;
-import de.shop.data.kunde.Kunde; 
+import de.shop.data.kunde.Kunde;
 import de.shop.util.InternalShopError;
 
 public class KundeService extends Service {
@@ -112,8 +111,7 @@ public class KundeService extends Service {
 			    kunde.bestellungenUri = bestellungenUri.replace(LOCALHOST, LOCALHOST_EMULATOR);
 	    	}
 		}
-		
-		/*
+
 		public HttpResponse<Kunde> sucheKundenByNachname(String nachname, final Context ctx) {
 			// (evtl. mehrere) Parameter vom Typ "String", Resultat vom Typ "List<Kunde>"
 			final AsyncTask<String, Void, HttpResponse<Kunde>> sucheKundenByNameTask = new AsyncTask<String, Void, HttpResponse<Kunde>>() {
@@ -130,7 +128,7 @@ public class KundeService extends Service {
 					Log.v(LOG_TAG, "path = " + path);
 		    		final HttpResponse<Kunde> result = mock
 		    				                                   ? Mock.sucheKundenByNachname(nachname)
-		    				                                   : WebServiceClient.getJsonList(path, TYPE, CLASS_MAP);
+		    				                                   : WebServiceClient.getJsonList(path, Kunde.class);
 					Log.d(LOG_TAG + ".AsyncTask", "doInBackground: " + result);
 					return result;
 				}
@@ -163,7 +161,6 @@ public class KundeService extends Service {
 	    }
 	
 
-		*/ 
 		public List<Long> sucheBestellungenIdsByKundeId(Long id, final Context ctx) {
 			// (evtl. mehrere) Parameter vom Typ "Long", Resultat vom Typ "List<Long>"
 			final AsyncTask<Long, Void, List<Long>> sucheBestellungenIdsByKundeIdTask = new AsyncTask<Long, Void, List<Long>>() {
@@ -214,7 +211,6 @@ public class KundeService extends Service {
 		 * performFiltering() schon einen neuen Worker-Thread startet, so dass AsyncTask hier
 		 * ueberfluessig ist.
 		 */
-		/*	
 		public List<String> sucheNachnamen(String prefix) {
 			final String path = NACHNAME_PREFIX_PATH +  "/" + prefix;
 		    Log.v(LOG_TAG, "sucheNachnamen: path = " + path);

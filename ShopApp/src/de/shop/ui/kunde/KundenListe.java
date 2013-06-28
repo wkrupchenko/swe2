@@ -1,7 +1,7 @@
 package de.shop.ui.kunde;
 
-import static de.shop.util.Konstanten.KUNDEN_KEY;
 import static de.shop.util.Konstanten.KUNDE_KEY;
+import static de.shop.util.Konstanten.KUNDEN_KEY;
 
 import java.util.List;
 
@@ -53,7 +53,7 @@ public class KundenListe extends Activity {
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.kunden_liste_item);
+        setContentView(R.layout.kunden_liste);
         
         final Fragment details = new KundeDetails();
 		final Bundle extras = getIntent().getExtras();
@@ -70,30 +70,8 @@ public class KundenListe extends Activity {
         getFragmentManager().beginTransaction()
                             .add(R.id.details, details)
                             .commit();
-        
-//      Entfaellt seit API 16 durch <activity android:parentActivityName="..."> in AndroidManifest.xml
-//		final ActionBar actionBar = getActionBar();
-//		actionBar.setHomeButtonEnabled(true);
-//		actionBar.setDisplayHomeAsUpEnabled(true);
     }
 
-  
-//    Entfaellt seit API 16 durch <activity android:parentActivityName="..."> in AndroidManifest.xml
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        switch (item.getItemId()) {
-//            case android.R.id.home:
-//                // App Icon in der Actionbar wurde angeklickt: Main aufrufen
-//                final Intent intent = new Intent(this, Main.class);
-//                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                startActivity(intent);
-//                return true;  // Ereignis ist verbraucht: nicht weiterreichen
-//                
-//            default:
-//                return super.onOptionsItemSelected(item);
-//        }
-//    }
-	
     @Override
 	public void onStart() {
 		super.onStart();
