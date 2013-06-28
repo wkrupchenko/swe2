@@ -3,6 +3,7 @@ package de.shop.service;
 import static android.app.ProgressDialog.STYLE_SPINNER;
 import static de.shop.ui.main.Prefs.mock;
 import static de.shop.ui.main.Prefs.timeout;
+import static de.shop.util.Konstanten.BESTELLUNGEN_PATH;
 import static de.shop.util.Konstanten.KUNDEN_ID_PREFIX_PATH;
 import static de.shop.util.Konstanten.KUNDEN_PATH;
 import static de.shop.util.Konstanten.LOCALHOST;
@@ -26,6 +27,7 @@ import android.os.IBinder;
 import android.text.TextUtils;
 import android.util.Log;
 import de.shop.R;
+import de.shop.data.kunde.Bestellung;
 import de.shop.data.kunde.Kunde;
 import de.shop.util.InternalShopError;
 
@@ -188,6 +190,51 @@ public class KundeService extends Service {
 	
 			return bestellungIds;
 	    }
+		
+		public HttpResponse<Bestellung> getBestellungById(Long id, final Context ctx) {
+
+			Log.v(LOG_TAG, "getBestellungById");
+			
+			// (evtl. mehrere) Parameter vom Typ "Long", Resultat vom Typ "Bestellung"
+			final AsyncTask<Long, Void, HttpResponse<Bestellung>> getBestellungByIdTask = new AsyncTask<Long, Void, HttpResponse<Bestellung>>() {
+
+				@Override
+	    		protected void onPreExecute() {
+					progressDialog = showProgressDialog(ctx);
+				}
+				
+				@Override
+				// Neuer Thread, damit der UI-Thread nicht blockiert wird
+				protected HttpResponse<Bestellung> doInBackground(Long... ids) {
+					final Long bestellungId = ids[0];
+		    		final String path = BESTELLUNGEN_PATH + "/" + bestellungId;
+		    		Log.v(LOG_TAG, "path = " + path);
+
+		    		final HttpResponse<Bestellung> result = mock
+                            									? Mock.sucheBestellungById(bestellungId)
+                            									: WebServiceClient.getJsonSingle(path, Bestellung.class);
+                            									
+					Log.d(LOG_TAG + ".AsyncTask", "doInBackground: " + result);
+					return result;
+				}
+
+				@Override
+	    		protected void onPostExecute(HttpResponse<Bestellung> unused) {
+					progressDialog.dismiss();
+	    		}
+			};
+
+			getBestellungByIdTask.execute(Long.valueOf(id));
+			HttpResponse<Bestellung> result = null;
+	    	try {
+	    		result = getBestellungByIdTask.get(timeout, SECONDS);
+			}
+	    	catch (Exception e) {
+	    		throw new InternalShopError(e.getMessage(), e);
+			}
+	    	
+	    	return result;
+		}
 		
 		/**
 		 * Annahme: wird ueber AutoCompleteTextView aufgerufen, wobei die dortige Methode

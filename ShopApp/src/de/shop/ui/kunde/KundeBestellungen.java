@@ -167,7 +167,7 @@ public class KundeBestellungen extends Fragment implements OnItemClickListener, 
 			final Long bestellungId = bestellungenIds.get(bestellungenListePos);
 			Log.v(LOG_TAG, "Bestellung nachladen: " + bestellungId);
 			
-			bestellung = bestellungServiceBinder.getBestellungById(bestellungId, view.getContext()).resultObject;
+			bestellung = kundeServiceBinder.getBestellungById(bestellungId, view.getContext()).resultObject;
 		}
 		else {
 			Log.v(LOG_TAG, "Bereits geladene Bestellung: " + bestellung);
