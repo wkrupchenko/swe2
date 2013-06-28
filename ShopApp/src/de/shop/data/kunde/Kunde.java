@@ -32,6 +32,7 @@ public class Kunde implements JsonMappable, Serializable {
 	public Double rabatt;
 	public Double umsatz;
 	public Date seit;
+	public boolean newsletter;
 	public int version;
 	public String bestellungenUri;
 	public Adresse adresse;	 
@@ -52,6 +53,7 @@ public class Kunde implements JsonMappable, Serializable {
 		                         .add("seit", new SimpleDateFormat(DATE_FORMAT, Locale.getDefault()).format(seit))
 		                         .add("geschlecht", geschlecht.toString())
 			                     .add("familienstand", familienstand.toString())
+			                     .add("newsletter", newsletter)
 		                         .add("bestellungenUri", bestellungenUri);
 	}
 	
@@ -71,6 +73,7 @@ public class Kunde implements JsonMappable, Serializable {
 		vorname = jsonObject.getString("vorname");		 
 		rabatt = jsonObject.getJsonNumber("rabatt").doubleValue();
 		umsatz = jsonObject.getJsonNumber("umsatz").doubleValue();
+		newsletter = jsonObject.getBoolean("newsletter");
 		adresse = new Adresse();
 		adresse.fromJsonObject(jsonObject.getJsonObject("adresse")); 
 		try {

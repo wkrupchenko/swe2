@@ -98,9 +98,11 @@ public class KundeStammdaten extends Fragment implements OnTouchListener {
 	    	txtHausnr.setText(kunde.adresse.hausnr);
     	}
 
-    	final TextView familTextView = (TextView) view.findViewById(R.id.familienstand);
-    	familTextView.setText(String.valueOf(kunde.familienstand));
-    	
+    	final TextView txtfamilienstand = (TextView) view.findViewById(R.id.familienstand);
+    	txtfamilienstand.setText(String.valueOf(kunde.familienstand));
+
+    	final TextView txtnewsletter = (TextView) view.findViewById(R.id.newsletter);
+    	txtnewsletter.setText(String.valueOf(kunde.newsletter));
 	}
 
 	@Override
