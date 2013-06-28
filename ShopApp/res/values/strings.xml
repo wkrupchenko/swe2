@@ -11,6 +11,7 @@
 	<string name="s_suchen_artikel_id">Search article by ID</string>	
 	<string name="s_btn_suchen">Search</string>
 	<string name="s_kunde_id_hinweis">Enter customer no.</string>
+	<string name="s_kunde_id_auswahl_hint">Select a customer no.</string>
 	<string name="s_artikel_id_hinweis">Enter article no.</string>
 	<string name="s_artikel_bezeichnung_hinweis">Enter article discription</string>
 	<string name="s_artikel_artikelgruppe_hinweis">Enter articlegroup id</string>
@@ -50,9 +51,12 @@
     <string name="s_btn_delete">Delete</string>
     <string name="s_artikel_delete">Delete article</string>
     <string name="s_artikel_delete_ok">Article with id %s deleted successful.</string>
+    <string name="s_kunde_delete">Delete customer</string>
+    <string name="s_kunde_delete_ok">Customer with id %s deleted successful.</string>
     <string name="s_ja">Yes</string>
     <string name="s_nein">No</string>
     <string name="s_artikel_create">Create article</string>
+    <string name="s_kunden_create">Create customer</string>
     <string name="s_action_suchen_short">Search</string>
 
 </resources>

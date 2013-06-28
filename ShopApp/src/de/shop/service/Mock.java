@@ -369,6 +369,11 @@ private static final String LOG_TAG = Mock.class.getSimpleName();
     	return result;
     }
 
+    static HttpResponse<Void> deleteKunde(Long kundeId) {
+    	Log.d(LOG_TAG, "deleteKunde: " + kundeId);
+    	return new HttpResponse<Void>(HTTP_NO_CONTENT, null);
+    }
+
     static HttpResponse<Bestellung> sucheBestellungById(Long id) {
 		final Bestellung bestellung = new Bestellung(id, new Date());
 		

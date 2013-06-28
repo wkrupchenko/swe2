@@ -3,8 +3,8 @@ package de.shop.service;
 import static de.shop.ui.main.Prefs.mock;
 import static de.shop.ui.main.Prefs.timeout;
 import static de.shop.util.Konstanten.BESTELLUNGEN_PATH;
+import static java.net.HttpURLConnection.HTTP_OK;
 import static java.util.concurrent.TimeUnit.SECONDS;
-
 import android.app.ProgressDialog;
 import android.app.Service;
 import android.content.Context;
@@ -14,6 +14,7 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
 import de.shop.R;
+import de.shop.data.artikel.Artikel;
 import de.shop.data.kunde.Bestellung;
 import de.shop.util.InternalShopError;
 
@@ -42,6 +43,8 @@ public class BestellungService extends Service {
 		
 		// Aufruf in einem eigenen Thread
 		public HttpResponse<Bestellung> getBestellungById(Long id, final Context ctx) {
+
+			Log.v(LOG_TAG, "getBestellungById");
 			
 			// (evtl. mehrere) Parameter vom Typ "Long", Resultat vom Typ "Bestellung"
 			final AsyncTask<Long, Void, HttpResponse<Bestellung>> getBestellungByIdTask = new AsyncTask<Long, Void, HttpResponse<Bestellung>>() {
@@ -58,17 +61,20 @@ public class BestellungService extends Service {
 		    		final String path = BESTELLUNGEN_PATH + "/" + bestellungId;
 		    		Log.v(LOG_TAG, "path = " + path);
 
-		    		final HttpResponse<Bestellung> result =  WebServiceClient.getJsonSingle(path, Bestellung.class);
+		    		final HttpResponse<Bestellung> result = mock
+                            									? Mock.sucheBestellungById(bestellungId)
+                            									: WebServiceClient.getJsonSingle(path, Bestellung.class);
+                            									
 					Log.d(LOG_TAG + ".AsyncTask", "doInBackground: " + result);
 					return result;
 				}
-				
+
 				@Override
 	    		protected void onPostExecute(HttpResponse<Bestellung> unused) {
 					progressDialog.dismiss();
 	    		}
 			};
-			
+
 			getBestellungByIdTask.execute(Long.valueOf(id));
 			HttpResponse<Bestellung> result = null;
 	    	try {

@@ -314,7 +314,7 @@ public class KundeService extends Service {
 			
 			return result;
 	    }
-		
+		*/
 		 
 		public HttpResponse<Void> deleteKunde(Long id, final Context ctx) {
 			
@@ -353,6 +353,5 @@ public class KundeService extends Service {
 			
 			return result;
 		}
-		*/
 	}
 }

@@ -27,6 +27,8 @@ import de.shop.ui.artikel.ArtikelDelete;
 import de.shop.ui.artikel.ArtikelSuchenArtikelgruppe;
 import de.shop.ui.artikel.ArtikelSuchenBezeichnung;
 import de.shop.ui.artikel.ArtikelSuchenId;
+import de.shop.ui.kunde.KundeCreate;
+import de.shop.ui.kunde.KundeDelete;
 import de.shop.ui.kunde.KundeSuchenId;
 import de.shop.ui.kunde.Kunden;
 import de.shop.ui.kunde.KundenSucheNachname;
@@ -86,12 +88,12 @@ public class MainNav extends ListFragment implements OnItemClickListener, OnMenu
 					navItem.put(ICON, R.drawable.ic_kunden);
 					navItem.put(TEXT, getString(R.string.s_nav_kunden));
 					break;
-				
-				case BESTELLUNGEN:
-					navItem.put(ICON, R.drawable.ic_bestellungen);
-					navItem.put(TEXT, getString(R.string.s_nav_bestellungen));
-					break;
-					
+//				
+//				case BESTELLUNGEN:
+//					navItem.put(ICON, R.drawable.ic_bestellungen);
+//					navItem.put(TEXT, getString(R.string.s_nav_bestellungen));
+//					break;
+//					
 				case ARTIKEL:
 					navItem.put(ICON, R.drawable.ic_artikel);
 					navItem.put(TEXT, getString(R.string.s_nav_artikel));
@@ -154,7 +156,15 @@ public class MainNav extends ListFragment implements OnItemClickListener, OnMenu
 			case R.id.kunden_suche_nachname:
 				neuesFragment = new KundenSucheNachname();
 				break;
-				
+
+			case R.id.kunde_delete:
+				neuesFragment = new KundeDelete();
+				break;
+//
+//			case R.id.kunde_create:
+//				neuesFragment = new KundeCreate();
+//				break;
+//			
 			case R.id.artikel_suche_id:
 				neuesFragment = new ArtikelSuchenId();
 				break;

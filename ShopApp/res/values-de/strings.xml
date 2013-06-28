@@ -11,6 +11,7 @@
 	<string name="s_suchen_artikel_artikelgruppe">Suche Artikel nach Artikelgruppe</string>    
     <string name="s_btn_suchen">Suchen</string>
 	<string name="s_kunde_id_hinweis">Kundennummer eingeben</string>
+	<string name="s_kunde_id_auswahl_hint">Wählen Sie eine Nummer aus</string>
 	<string name="s_artikel_id_hinweis">Artikelnummer eingeben</string>
 	<string name="s_artikel_bezeichnung_hinweis">Artikelname eingeben</string>	
 	<string name="s_artikel_artikelgruppe_hinweis">Artikelgruppennummer eingeben</string>	
@@ -50,9 +51,12 @@
     <string name="s_btn_delete">Löschen</string>   
     <string name="s_artikel_delete">Artikel löschen</string>
     <string name="s_artikel_delete_ok">Artikel mit ID %s wurde erfolgreich gelöscht.</string>
+    <string name="s_kunde_delete">Kunde löschen</string>
+    <string name="s_kunde_delete_ok">Kunde mit ID %s wurde erfolgreich gelöscht.</string>
     <string name="s_ja">Ja</string>
     <string name="s_nein">Nein</string>
     <string name="s_artikel_create">Artikel anlegen</string>
+    <string name="s_kunde_create">Kunden anlegen</string>
     <string name="s_action_suchen_short">Suchen</string>
     
 </resources>
