@@ -96,14 +96,15 @@
 		        android:id="@+id/vorname"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"		         
-		        android:textIsSelectable="false" />
+		        android:textIsSelectable="false"/>
 		        
 		    <TextView
 		        android:id="@+id/nachname"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
 		        android:layout_toRightOf="@+id/vorname"
-		        android:textIsSelectable="false" />
+		        android:textIsSelectable="false"
+		        android:paddingLeft="5dp" />
 			        
 	    </RelativeLayout>
 	
@@ -208,7 +209,8 @@
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
 		        android:layout_toRightOf="@+id/plz"
-		        android:textIsSelectable="false" />
+		        android:textIsSelectable="false"
+		        android:paddingLeft="5dp" />
 		        
 		    <TextView
 		        android:id="@+id/strasse"
@@ -223,7 +225,8 @@
 		        android:layout_height="wrap_content"
 		        android:layout_below="@+id/plz"
 		        android:layout_toRightOf="@+id/strasse"
-		        android:textIsSelectable="false" />
+		        android:textIsSelectable="false"
+		        android:paddingLeft="5dp" />
 			        
 	    </RelativeLayout>
 	
